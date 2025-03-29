@@ -70,4 +70,42 @@
   .hero-canvas {
     @apply absolute top-0 left-0 w-full h-full z-0;
   }
+  
+  /* Code Animation Loader Styles */
+  .typing-animation {
+    display: inline-block;
+    white-space: pre-wrap;
+    word-break: break-word;
+    animation: blink 1s step-end infinite;
+  }
+  
+  @keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  /* Syntax highlighting for the code animation */
+  .typing-animation {
+    color: #e6e6e6;
+  }
+  
+  .typing-animation .keyword {
+    color: #ff79c6;
+  }
+  
+  .typing-animation .string {
+    color: #f1fa8c;
+  }
+  
+  .typing-animation .comment {
+    color: #6272a4;
+  }
+  
+  .typing-animation .function {
+    color: #50fa7b;
+  }
+  
+  .typing-animation .variable {
+    color: #8be9fd;
+  }
 }
