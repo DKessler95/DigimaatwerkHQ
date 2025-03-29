@@ -22,11 +22,17 @@ function Router() {
 }
 
 function App() {
-  const [showLoader, setShowLoader] = useState(true);
-  const [contentLoaded, setContentLoaded] = useState(false);
+  // Check if user has previously seen the animation or opted to skip it
+  const [showLoader, setShowLoader] = useState(() => {
+    const hasSeenAnimation = localStorage.getItem('hasSeenAnimation');
+    return hasSeenAnimation !== 'true';
+  });
+  const [contentLoaded, setContentLoaded] = useState(!showLoader);
   
   // Handle animation completion
   const handleLoaderComplete = () => {
+    // Save preference to skip animation in future visits
+    localStorage.setItem('hasSeenAnimation', 'true');
     setShowLoader(false);
     setContentLoaded(true);
   };
