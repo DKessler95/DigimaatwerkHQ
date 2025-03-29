@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base colors */
+    --primary: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --accent: 198.6 93.2% 59.6%;
+    
+    /* Core UI colors */
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 210 40% 98%;
+    --card: 217.2 32.6% 17.5%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217.2 32.6% 17.5%;
+    --popover-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 198.6 93.2% 59.6%;
+
+    /* Component colors */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Chart colors */
+    --chart-1: 198.6 93.2% 59.6%;
+    --chart-2: 180 100% 50%;
+    --chart-3: 262 83.3% 57.8%;
+    --chart-4: 110 100% 50%;
+    --chart-5: 198.6 93.2% 59.6%;
+
+    /* Radius */
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    font-family: 'Space Grotesk', monospace;
+    @apply bg-primary text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.05em;
+  }
+}
+
+@layer components {
+  .card-hover-effect {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .card-hover-effect:hover {
+    @apply transform -translate-y-2 shadow-xl;
+  }
+
+  .asymmetric-grid {
+    @apply grid grid-cols-12 gap-6;
+  }
+
+  .hero-canvas {
+    @apply absolute top-0 left-0 w-full h-full z-0;
+  }
+}

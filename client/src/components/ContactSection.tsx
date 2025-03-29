@@ -1,0 +1,269 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { apiRequest } from '@/lib/queryClient';
+import { useToast } from '@/hooks/use-toast';
+
+interface FormData {
+  name: string;
+  email: string;
+  company: string;
+  projectType: string;
+  message: string;
+  consent: boolean;
+}
+
+const initialFormData: FormData = {
+  name: '',
+  email: '',
+  company: '',
+  projectType: '',
+  message: '',
+  consent: false
+};
+
+const ContactSection = () => {
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setFormData(prev => ({ ...prev, [name]: checked }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.consent) {
+      toast({
+        title: "Consent required",
+        description: "Please accept the privacy policy to submit the form.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    try {
+      setIsSubmitting(true);
+      
+      // Submit the form data to the API
+      await apiRequest('POST', '/api/contact', formData);
+      
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out. We'll get back to you soon."
+      });
+      
+      // Reset the form
+      setFormData(initialFormData);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section id="contact" className="py-24 bg-primary relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full opacity-10">
+        <div className="w-full h-full bg-gradient-to-br from-accent to-primary"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">Get in Touch</h2>
+          <p className="text-foreground/70 max-w-2xl mx-auto">Ready to start your digital transformation journey? Contact us today.</p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <motion.div 
+            className="lg:col-span-2 bg-secondary/80 backdrop-blur-md rounded-2xl p-8 shadow-lg"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className="block text-foreground/80 mb-2">Name</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name"
+                    className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent" 
+                    placeholder="Your name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-foreground/80 mb-2">Email</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent" 
+                    placeholder="your@email.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label htmlFor="company" className="block text-foreground/80 mb-2">Company</label>
+                <input 
+                  type="text" 
+                  id="company" 
+                  name="company"
+                  className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent" 
+                  placeholder="Your company name"
+                  value={formData.company}
+                  onChange={handleChange}
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="projectType" className="block text-foreground/80 mb-2">Project Type</label>
+                <select 
+                  id="projectType" 
+                  name="projectType"
+                  className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent"
+                  value={formData.projectType}
+                  onChange={handleChange}
+                >
+                  <option value="">Select project type</option>
+                  <option value="chatbot">AI Chatbot</option>
+                  <option value="automation">Workflow Automation</option>
+                  <option value="web">Web Development</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              <div>
+                <label htmlFor="message" className="block text-foreground/80 mb-2">Message</label>
+                <textarea 
+                  id="message" 
+                  name="message"
+                  rows={4} 
+                  className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent" 
+                  placeholder="Tell us about your project"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                ></textarea>
+              </div>
+              
+              <div className="flex items-start">
+                <input 
+                  type="checkbox" 
+                  id="consent" 
+                  name="consent"
+                  className="mt-1 mr-3"
+                  checked={formData.consent}
+                  onChange={handleCheckboxChange}
+                  required
+                />
+                <label htmlFor="consent" className="text-sm text-foreground/70">
+                  I consent to Digimaatwerk processing my data in accordance with the <a href="#" className="text-accent hover:underline">Privacy Policy</a>. This site is protected by reCAPTCHA and the Google <a href="#" className="text-accent hover:underline">Privacy Policy</a> and <a href="#" className="text-accent hover:underline">Terms of Service</a> apply.
+                </label>
+              </div>
+              
+              <div>
+                <button 
+                  type="submit" 
+                  className="w-full py-3 bg-accent text-primary font-header font-medium rounded-lg transition hover:bg-accent/90 disabled:opacity-70"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+          
+          <motion.div 
+            className="bg-secondary/80 backdrop-blur-md rounded-2xl p-8 shadow-lg"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-xl font-header font-semibold mb-6">Contact Information</h3>
+            
+            <div className="space-y-6">
+              <div className="flex items-start">
+                <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center mr-4">
+                  <i className="ri-map-pin-line text-accent"></i>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-1">Address</h4>
+                  <p className="text-foreground/70">Herengracht 420<br />1017 BZ Amsterdam<br />The Netherlands</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center mr-4">
+                  <i className="ri-mail-line text-accent"></i>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-1">Email</h4>
+                  <a href="mailto:info@digimaatwerk.nl" className="text-foreground/70 hover:text-accent">info@digimaatwerk.nl</a>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center mr-4">
+                  <i className="ri-phone-line text-accent"></i>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-1">Phone</h4>
+                  <a href="tel:+31201234567" className="text-foreground/70 hover:text-accent">+31 20 123 4567</a>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center mr-4">
+                  <i className="ri-whatsapp-line text-accent"></i>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-1">WhatsApp</h4>
+                  <a href="https://wa.me/31201234567" className="text-foreground/70 hover:text-accent">Send a message</a>
+                </div>
+              </div>
+            </div>
+            
+            <h3 className="text-xl font-header font-semibold mt-10 mb-6">Follow Us</h3>
+            <div className="flex space-x-4">
+              <a href="#" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+                <i className="ri-linkedin-fill text-accent"></i>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+                <i className="ri-twitter-x-fill text-accent"></i>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+                <i className="ri-facebook-fill text-accent"></i>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+                <i className="ri-instagram-fill text-accent"></i>
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ContactSection;
