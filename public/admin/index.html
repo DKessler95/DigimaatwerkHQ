@@ -29,6 +29,7 @@
             local_backend: true,
             media_folder: 'public/uploads',
             public_folder: '/uploads',
+            publish_mode: 'editorial_workflow',
             collections: [
               {
                 name: 'case-studies',
@@ -87,7 +88,7 @@
                   { label: 'Featured Image', name: 'featured_image', widget: 'image', i18n: 'duplicate' },
                   { label: 'Author', name: 'author', widget: 'string', i18n: 'duplicate' },
                   { label: 'Date', name: 'date', widget: 'datetime', i18n: 'duplicate' },
-                  { label: 'Categories', name: 'categories', widget: 'list', i18n: 'duplicate' },
+                  { label: 'Categories', name: 'categories', widget: 'list', i18n: true },
                   { label: 'Tags', name: 'tags', widget: 'list', i18n: true },
                   { label: 'Excerpt', name: 'excerpt', widget: 'text', i18n: true },
                   { label: 'Content', name: 'body', widget: 'markdown', i18n: true }
