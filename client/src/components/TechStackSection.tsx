@@ -19,7 +19,7 @@ const techStack: TechItem[] = [
     descriptionKey: "tech.nextjs"
   },
   {
-    icon: "ri-cube-line",
+    icon: "ri-3d-cube-line",
     name: "Three.js",
     descriptionKey: "tech.threejs"
   },
