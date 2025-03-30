@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/lib/languageContext';
 
 type ProjectType = 'chatbot' | 'automation' | 'web' | 'combined';
 type ProjectScale = 'small' | 'medium' | 'large';
@@ -7,22 +8,49 @@ type TimelinePriority = 1 | 2 | 3;
 
 interface Feature {
   id: string;
-  name: string;
+  nameNl: string;
+  nameEn: string;
   priceImpact: number;
 }
 
 const ProjectCalculator = () => {
+  const { t, language } = useLanguage();
   const [projectType, setProjectType] = useState<ProjectType>('chatbot');
   const [projectScale, setProjectScale] = useState<ProjectScale>('small');
   const [timelinePriority, setTimelinePriority] = useState<TimelinePriority>(1);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   
   const features: Feature[] = [
-    { id: 'feature1', name: 'User Authentication', priceImpact: 1500 },
-    { id: 'feature2', name: 'CRM Integration', priceImpact: 2000 },
-    { id: 'feature3', name: 'Payment Processing', priceImpact: 2500 },
-    { id: 'feature4', name: 'Analytics Dashboard', priceImpact: 3000 },
-    { id: 'feature5', name: '3D Visualizations', priceImpact: 4000 },
+    { 
+      id: 'feature1', 
+      nameNl: 'Gebruikersauthenticatie', 
+      nameEn: 'User Authentication', 
+      priceImpact: 1500 
+    },
+    { 
+      id: 'feature2', 
+      nameNl: 'CRM Integratie', 
+      nameEn: 'CRM Integration', 
+      priceImpact: 2000 
+    },
+    { 
+      id: 'feature3', 
+      nameNl: 'Betalingsverwerking', 
+      nameEn: 'Payment Processing', 
+      priceImpact: 2500 
+    },
+    { 
+      id: 'feature4', 
+      nameNl: 'Analytics Dashboard', 
+      nameEn: 'Analytics Dashboard', 
+      priceImpact: 3000 
+    },
+    { 
+      id: 'feature5', 
+      nameNl: '3D Visualisaties', 
+      nameEn: '3D Visualizations', 
+      priceImpact: 4000 
+    },
   ];
   
   // Calculate base price based on project type and scale
@@ -119,8 +147,8 @@ const ProjectCalculator = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">Project Cost Calculator</h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto">Estimate the cost and timeline for your digital transformation project</p>
+          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">{t('calculator.title')}</h2>
+          <p className="text-foreground/70 max-w-2xl mx-auto">{t('calculator.subtitle')}</p>
         </div>
         
         <motion.div 
@@ -132,25 +160,27 @@ const ProjectCalculator = () => {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <h3 className="text-xl font-header font-semibold mb-6">Configure Your Project</h3>
+              <h3 className="text-xl font-header font-semibold mb-6">
+                {language === 'nl' ? 'Configureer Uw Project' : 'Configure Your Project'}
+              </h3>
               
               <div className="space-y-6">
                 <div>
-                  <label className="block text-foreground/80 mb-2">Project Type</label>
+                  <label className="block text-foreground/80 mb-2">{t('calculator.type')}</label>
                   <select 
                     className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent"
                     value={projectType}
                     onChange={(e) => setProjectType(e.target.value as ProjectType)}
                   >
-                    <option value="chatbot">AI Chatbot</option>
-                    <option value="automation">Workflow Automation</option>
-                    <option value="web">Web Development</option>
-                    <option value="combined">Combined Solution</option>
+                    <option value="chatbot">{t('calculator.type.chatbot')}</option>
+                    <option value="automation">{t('calculator.type.automation')}</option>
+                    <option value="web">{t('calculator.type.web')}</option>
+                    <option value="combined">{t('calculator.type.combined')}</option>
                   </select>
                 </div>
                 
                 <div>
-                  <label className="block text-foreground/80 mb-2">Project Scale</label>
+                  <label className="block text-foreground/80 mb-2">{t('calculator.scale')}</label>
                   <div className="grid grid-cols-3 gap-4">
                     <button 
                       className={`${projectScale === 'small' 
@@ -158,7 +188,7 @@ const ProjectCalculator = () => {
                         : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
                       onClick={() => setProjectScale('small')}
                     >
-                      Small
+                      {t('calculator.scale.small')}
                     </button>
                     <button 
                       className={`${projectScale === 'medium' 
@@ -166,7 +196,7 @@ const ProjectCalculator = () => {
                         : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
                       onClick={() => setProjectScale('medium')}
                     >
-                      Medium
+                      {t('calculator.scale.medium')}
                     </button>
                     <button 
                       className={`${projectScale === 'large' 
@@ -174,13 +204,13 @@ const ProjectCalculator = () => {
                         : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
                       onClick={() => setProjectScale('large')}
                     >
-                      Large
+                      {t('calculator.scale.large')}
                     </button>
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-foreground/80 mb-2">Features Needed</label>
+                  <label className="block text-foreground/80 mb-2">{t('calculator.features')}</label>
                   <div className="space-y-2">
                     {features.map((feature) => (
                       <div className="flex items-center" key={feature.id}>
@@ -191,14 +221,14 @@ const ProjectCalculator = () => {
                           checked={selectedFeatures.includes(feature.id)}
                           onChange={() => handleFeatureToggle(feature.id)}
                         />
-                        <label htmlFor={feature.id}>{feature.name}</label>
+                        <label htmlFor={feature.id}>{language === 'nl' ? feature.nameNl : feature.nameEn}</label>
                       </div>
                     ))}
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-foreground/80 mb-2">Timeline Priority</label>
+                  <label className="block text-foreground/80 mb-2">{t('calculator.timeline')}</label>
                   <div className="relative pt-1">
                     <input 
                       type="range" 
@@ -210,9 +240,9 @@ const ProjectCalculator = () => {
                       onChange={(e) => setTimelinePriority(parseInt(e.target.value) as TimelinePriority)}
                     />
                     <div className="flex justify-between text-xs text-foreground/60 pt-2">
-                      <span>Standard</span>
-                      <span>Expedited</span>
-                      <span>Rush</span>
+                      <span>{t('calculator.timeline.standard')}</span>
+                      <span>{t('calculator.timeline.expedited')}</span>
+                      <span>{t('calculator.timeline.rush')}</span>
                     </div>
                   </div>
                 </div>
@@ -220,48 +250,64 @@ const ProjectCalculator = () => {
             </div>
             
             <div>
-              <h3 className="text-xl font-header font-semibold mb-6">Estimated Results</h3>
+              <h3 className="text-xl font-header font-semibold mb-6">
+                {language === 'nl' ? 'Geschatte Resultaten' : 'Estimated Results'}
+              </h3>
               
               <div className="bg-primary/80 rounded-xl p-6 mb-6">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-foreground/80">Estimated Budget Range</span>
+                  <span className="text-foreground/80">{t('calculator.result.budget')}</span>
                   <span className="text-2xl font-medium text-accent">€{priceRange.min.toLocaleString()} - €{priceRange.max.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-foreground/80">Timeline</span>
-                  <span className="text-xl font-medium">{timelineRange.min}-{timelineRange.max} weeks</span>
+                  <span className="text-foreground/80">{t('calculator.result.timeline')}</span>
+                  <span className="text-xl font-medium">
+                    {timelineRange.min}-{timelineRange.max} {language === 'nl' ? 'weken' : 'weeks'}
+                  </span>
                 </div>
               </div>
               
               <div className="bg-primary/80 rounded-xl p-6 mb-8">
-                <h4 className="text-lg font-medium mb-4">Included in Estimate:</h4>
+                <h4 className="text-lg font-medium mb-4">
+                  {language === 'nl' ? 'Inbegrepen in Schatting:' : 'Included in Estimate:'}
+                </h4>
                 <ul className="space-y-2">
                   <li className="flex items-start">
                     <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
-                    <span>Complete project planning and design</span>
+                    <span>
+                      {language === 'nl' ? 'Volledige projectplanning en ontwerp' : 'Complete project planning and design'}
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
-                    <span>Development and implementation</span>
+                    <span>
+                      {language === 'nl' ? 'Ontwikkeling en implementatie' : 'Development and implementation'}
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
-                    <span>Testing and quality assurance</span>
+                    <span>
+                      {language === 'nl' ? 'Testen en kwaliteitsbewaking' : 'Testing and quality assurance'}
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
-                    <span>Deployment and post-launch support</span>
+                    <span>
+                      {language === 'nl' ? 'Implementatie en ondersteuning na lancering' : 'Deployment and post-launch support'}
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
-                    <span>3 months of maintenance and updates</span>
+                    <span>
+                      {language === 'nl' ? '3 maanden onderhoud en updates' : '3 months of maintenance and updates'}
+                    </span>
                   </li>
                 </ul>
               </div>
               
               <div className="text-center">
                 <a href="#contact" className="inline-block w-full py-3 bg-accent text-primary font-header font-medium rounded-lg transition hover:bg-accent/90">
-                  Get Detailed Quote
+                  {language === 'nl' ? 'Gedetailleerde Offerte Aanvragen' : 'Get Detailed Quote'}
                 </a>
               </div>
             </div>

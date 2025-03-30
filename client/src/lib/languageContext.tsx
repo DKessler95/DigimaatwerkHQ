@@ -106,6 +106,29 @@ const translations: Record<Language, Record<string, string>> = {
     'calculator.result.budget': 'Geschatte budget',
     'calculator.result.timeline': 'Geschatte tijdlijn',
     
+    // Tech Stack
+    'tech.title': 'Onze Technologie Stack',
+    'tech.subtitle': 'We gebruiken geavanceerde technologieën om hoogwaardige, schaalbare oplossingen te leveren',
+    'tech.react': 'Front-end UI bibliotheek',
+    'tech.nextjs': 'React framework',
+    'tech.threejs': '3D visualisaties',
+    'tech.gpt4': 'AI taalmodel',
+    'tech.compare.title': 'Vergelijk onze technologische mogelijkheden',
+    'tech.compare.feature': 'Functie',
+    'tech.compare.traditional': 'Traditionele Stack',
+    'tech.compare.digimaatwerk': 'Digimaatwerk Stack',
+    'tech.compare.performance': 'Prestatie Score',
+    'tech.compare.3d': '3D Mogelijkheden',
+    'tech.compare.ai': 'AI Integratie',
+    'tech.compare.scalability': 'Schaalbaarheid',
+    'tech.compare.timetomarket': 'Time to Market',
+
+    // Testimonials
+    'testimonials.title': 'Klantgetuigenissen',
+    'testimonials.subtitle': 'Zie wat onze klanten zeggen over samenwerken met Digimaatwerk',
+    'testimonials.reviews': 'uit 28 beoordelingen',
+    'testimonials.read': 'Bekijk alle Google reviews',
+    
     // Footer
     'footer.company': 'Bedrijf',
     'footer.services': 'Diensten',
@@ -207,6 +230,29 @@ const translations: Record<Language, Record<string, string>> = {
     'calculator.calculate': 'Calculate',
     'calculator.result.budget': 'Estimated budget',
     'calculator.result.timeline': 'Estimated timeline',
+    
+    // Tech Stack
+    'tech.title': 'Our Technology Stack',
+    'tech.subtitle': 'We use cutting-edge technologies to deliver high-performance, scalable solutions',
+    'tech.react': 'Front-end UI library',
+    'tech.nextjs': 'React framework',
+    'tech.threejs': '3D visualizations',
+    'tech.gpt4': 'AI language model',
+    'tech.compare.title': 'Compare Our Technology Capabilities',
+    'tech.compare.feature': 'Feature',
+    'tech.compare.traditional': 'Traditional Stack',
+    'tech.compare.digimaatwerk': 'Digimaatwerk Stack',
+    'tech.compare.performance': 'Performance Score',
+    'tech.compare.3d': '3D Capabilities',
+    'tech.compare.ai': 'AI Integration',
+    'tech.compare.scalability': 'Scalability',
+    'tech.compare.timetomarket': 'Time to Market',
+    
+    // Testimonials
+    'testimonials.title': 'Client Testimonials',
+    'testimonials.subtitle': 'See what our clients say about working with Digimaatwerk',
+    'testimonials.reviews': 'from 28 reviews',
+    'testimonials.read': 'Read all Google reviews',
     
     // Footer
     'footer.company': 'Company',
