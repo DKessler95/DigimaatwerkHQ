@@ -666,6 +666,253 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Webhook management endpoints
+  // Get all webhooks
+  app.get("/api/webhooks", async (req, res) => {
+    try {
+      const webhooks = await storage.getAllWebhooks();
+      res.json({
+        success: true,
+        message: "Webhooks retrieved successfully",
+        data: webhooks
+      });
+    } catch (error) {
+      console.error("Error fetching webhooks:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve webhooks"
+      });
+    }
+  });
+
+  // Get webhook by ID
+  app.get("/api/webhooks/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid webhook ID"
+        });
+      }
+
+      const webhook = await storage.getWebhook(id);
+      if (!webhook) {
+        return res.status(404).json({
+          success: false,
+          message: "Webhook not found"
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Webhook retrieved successfully",
+        data: webhook
+      });
+    } catch (error) {
+      console.error("Error fetching webhook:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve webhook"
+      });
+    }
+  });
+
+  // Create webhook
+  app.post("/api/webhooks", async (req, res) => {
+    try {
+      const webhookData = {
+        name: req.body.name,
+        url: req.body.url,
+        eventType: req.body.event_type, // Convert from request field to schema field
+        secretToken: req.body.secret_token || null,
+        isActive: req.body.is_active === "true" || req.body.is_active === true
+      };
+
+      const webhook = await storage.createWebhook(webhookData);
+      res.status(201).json({
+        success: true,
+        message: "Webhook created successfully",
+        data: webhook
+      });
+    } catch (error) {
+      console.error("Error creating webhook:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create webhook"
+      });
+    }
+  });
+
+  // Update webhook
+  app.put("/api/webhooks/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid webhook ID"
+        });
+      }
+
+      const webhookData = {
+        name: req.body.name,
+        url: req.body.url,
+        eventType: req.body.event_type, // Convert from request field to schema field
+        secretToken: req.body.secret_token || null,
+        isActive: req.body.is_active === "true" || req.body.is_active === true
+      };
+
+      const webhook = await storage.updateWebhook(id, webhookData);
+      res.json({
+        success: true,
+        message: "Webhook updated successfully",
+        data: webhook
+      });
+    } catch (error) {
+      console.error("Error updating webhook:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update webhook"
+      });
+    }
+  });
+
+  // Delete webhook
+  app.delete("/api/webhooks/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid webhook ID"
+        });
+      }
+
+      await storage.deleteWebhook(id);
+      res.json({
+        success: true,
+        message: "Webhook deleted successfully"
+      });
+    } catch (error) {
+      console.error("Error deleting webhook:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete webhook"
+      });
+    }
+  });
+
+  // API Token endpoints
+  // Get all API tokens
+  app.get("/api/tokens", requireAuth, async (req, res) => {
+    try {
+      if (!req.session.user) {
+        return res.status(401).json({
+          success: false,
+          message: "Authentication required"
+        });
+      }
+      
+      // In a real app, we would use the user's ID from the session
+      // For now, use a placeholder user ID
+      const userId = 1;
+      
+      const tokens = await storage.getAllApiTokens(userId);
+      res.json({
+        success: true,
+        message: "API tokens retrieved successfully",
+        data: tokens
+      });
+    } catch (error) {
+      console.error("Error fetching API tokens:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve API tokens"
+      });
+    }
+  });
+
+  // Create API token
+  app.post("/api/tokens", requireAuth, async (req, res) => {
+    try {
+      if (!req.session.user) {
+        return res.status(401).json({
+          success: false,
+          message: "Authentication required"
+        });
+      }
+      
+      // In a real app, we would use the user's ID from the session
+      // For now, use a placeholder user ID
+      const userId = 1;
+      
+      const tokenValue = generateTokenValue();
+      const tokenData = {
+        userId: userId,
+        name: req.body.name,
+        token: tokenValue,
+        scopes: req.body.scopes || ["read"],
+        expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 year
+      };
+
+      const token = await storage.createApiToken(tokenData);
+      res.status(201).json({
+        success: true,
+        message: "API token created successfully",
+        data: {
+          ...token,
+          plainToken: tokenValue // Only send the token value once!
+        }
+      });
+    } catch (error) {
+      console.error("Error creating API token:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create API token"
+      });
+    }
+  });
+
+  // Delete API token
+  app.delete("/api/tokens/:id", requireAuth, async (req, res) => {
+    try {
+      if (!req.session.user) {
+        return res.status(401).json({
+          success: false,
+          message: "Authentication required"
+        });
+      }
+      
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid token ID"
+        });
+      }
+
+      await storage.deleteApiToken(id);
+      res.json({
+        success: true,
+        message: "API token deleted successfully"
+      });
+    } catch (error) {
+      console.error("Error deleting API token:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete API token"
+      });
+    }
+  });
+
+  // Helper function to generate a random token value
+  function generateTokenValue() {
+    return 'tk_' + [...Array(32)]
+      .map(() => Math.floor(Math.random() * 16).toString(16))
+      .join('');
+  }
+
   const httpServer = createServer(app);
   return httpServer;
 }

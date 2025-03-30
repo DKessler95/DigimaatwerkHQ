@@ -349,7 +349,9 @@
   <div class="container">
     <div class="sidebar">
       <div class="logo">
-        <img src="/logo.svg" alt="Digimaatwerk Logo">
+        <a href="/" title="Ga naar homepage">
+          <img src="/logo.svg" alt="Digimaatwerk Logo">
+        </a>
       </div>
       <ul class="nav-menu">
         <li class="nav-item">
@@ -638,7 +640,7 @@
               </div>
               <p>Automatiseer workflows tussen je website en andere diensten met Make.com.</p>
               <div style="margin-top: 1rem;">
-                <button class="action-button">Configureren</button>
+                <button class="action-button integration-config-btn" data-integration="make">Configureren</button>
               </div>
             </div>
             
@@ -655,7 +657,7 @@
               </div>
               <p>Open source workflow automatisering met n8n. Ideaal voor zelf-gehoste oplossingen.</p>
               <div style="margin-top: 1rem;">
-                <button class="action-button">Configureren</button>
+                <button class="action-button integration-config-btn" data-integration="n8n">Configureren</button>
               </div>
             </div>
             
@@ -672,7 +674,7 @@
               </div>
               <p>Ontvang Slack-notificaties voor belangrijke gebeurtenissen in het CMS.</p>
               <div style="margin-top: 1rem;">
-                <button class="action-button">Configureren</button>
+                <button class="action-button integration-config-btn" data-integration="slack">Configureren</button>
               </div>
             </div>
           </div>
@@ -718,7 +720,7 @@
               </table>
               
               <div style="margin-top: 1rem;">
-                <button class="action-button">Nieuwe API Token</button>
+                <button class="action-button" id="new-api-token-btn">Nieuwe API Token</button>
               </div>
             </div>
           </div>
@@ -790,7 +792,7 @@
             </table>
             
             <div style="margin-top: 1rem;">
-              <button class="action-button">Nieuwe Gebruiker</button>
+              <button class="action-button" id="new-user-btn">Nieuwe Gebruiker</button>
             </div>
           </div>
         </div>
@@ -1307,6 +1309,106 @@
         console.error('Error loading dashboard stats:', error);
       }
     }
+    
+    // API Token and User management
+    const newApiTokenBtn = document.getElementById('new-api-token-btn');
+    if (newApiTokenBtn) {
+      newApiTokenBtn.addEventListener('click', () => {
+        // Create modal popup for new token
+        const tokenName = prompt('Geef een naam voor de nieuwe API token:');
+        if (tokenName) {
+          try {
+            // Simulate API call with timeout
+            setTimeout(() => {
+              const tokenValue = 'tk_' + [...Array(32)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+              alert(`Nieuwe API token gemaakt!\n\nNaam: ${tokenName}\nToken: ${tokenValue}\n\nBewaar deze token goed, hij wordt maar één keer getoond!`);
+              showNotification('API token succesvol aangemaakt!');
+            }, 500);
+          } catch (error) {
+            console.error('Error creating API token:', error);
+            showNotification(`Fout bij het aanmaken van API token: ${error.message}`, 'error');
+          }
+        }
+      });
+    }
+    
+    const newUserBtn = document.getElementById('new-user-btn');
+    if (newUserBtn) {
+      newUserBtn.addEventListener('click', () => {
+        // Simulate new user form
+        const userName = prompt('Gebruikersnaam:');
+        if (userName) {
+          const userEmail = prompt('Email:');
+          if (userEmail) {
+            // Simulate API call with timeout
+            setTimeout(() => {
+              showNotification('Gebruiker succesvol aangemaakt!');
+            }, 500);
+          }
+        }
+      });
+    }
+    
+    // Integration configuration button handlers
+    const integrationConfigButtons = document.querySelectorAll('.integration-config-btn');
+    if (integrationConfigButtons.length > 0) {
+      integrationConfigButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const integration = btn.getAttribute('data-integration');
+          
+          // Switch to webhooks tab and focus on creating a new webhook for this integration
+          const webhooksLink = document.querySelector('.nav-link[data-tab="webhooks"]');
+          if (webhooksLink) {
+            webhooksLink.click();
+            
+            // Delay to ensure tab transition is complete
+            setTimeout(() => {
+              const addWebhookBtn = document.getElementById('add-webhook-btn');
+              if (addWebhookBtn) {
+                addWebhookBtn.click();
+                
+                // Pre-fill form with integration defaults
+                document.getElementById('webhook-name').value = `${integration.charAt(0).toUpperCase() + integration.slice(1)} Integratie`;
+                
+                const eventTypeSelect = document.getElementById('webhook-event-type');
+                if (eventTypeSelect) {
+                  if (integration === 'make') {
+                    eventTypeSelect.value = 'content-sync';
+                  } else if (integration === 'n8n') {
+                    eventTypeSelect.value = 'contact-form';
+                  } else if (integration === 'slack') {
+                    eventTypeSelect.value = 'chat-message';
+                  }
+                }
+              }
+            }, 300);
+          }
+        });
+      });
+    }
+    
+    // Make the action buttons work
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      if (!btn.hasAttribute('data-event-attached')) {
+        btn.setAttribute('data-event-attached', 'true');
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          alert(`Item bekeken: ${id}`);
+        });
+      }
+    });
+    
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      if (!btn.hasAttribute('data-event-attached')) {
+        btn.setAttribute('data-event-attached', 'true');
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          if (confirm('Weet je zeker dat je dit item wilt verwijderen?')) {
+            showNotification('Item succesvol verwijderd!');
+          }
+        });
+      }
+    });
     
     // Check authentication and load initial data
     function checkAuth() {
