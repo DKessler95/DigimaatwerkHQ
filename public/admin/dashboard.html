@@ -343,6 +343,196 @@
     .tab-content.active {
       display: block;
     }
+    
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .modal-overlay.show {
+      display: flex;
+    }
+    
+    .modal-container {
+      background-color: var(--dark-gray);
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--teal);
+    }
+    
+    .modal-header {
+      padding: 1rem;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-header h3 {
+      color: var(--white);
+      font-size: 1.25rem;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--light-gray);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    
+    .modal-close:hover {
+      color: var(--white);
+    }
+    
+    .modal-content {
+      padding: 1.5rem;
+      color: var(--light-gray);
+    }
+    
+    .modal-footer {
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      border-top: 1px solid #334155;
+    }
+    
+    .modal-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .modal-btn-primary {
+      background-color: var(--teal);
+      color: white;
+      border: none;
+    }
+    
+    .modal-btn-primary:hover {
+      background-color: var(--teal-light);
+    }
+    
+    .modal-btn-secondary {
+      background-color: transparent;
+      color: var(--light-gray);
+      border: 1px solid #475569;
+    }
+    
+    .modal-btn-secondary:hover {
+      background-color: #334155;
+      color: var(--white);
+    }
+    
+    .modal-btn-danger {
+      background-color: var(--danger);
+      color: white;
+      border: none;
+    }
+    
+    .modal-btn-danger:hover {
+      background-color: #B91C1C;
+    }
+    
+    /* Form styles in modal */
+    .modal-form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .modal-form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--white);
+      font-weight: 500;
+    }
+    
+    .modal-form-group input,
+    .modal-form-group select,
+    .modal-form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--midnight-blue);
+      border: 1px solid #334155;
+      border-radius: 4px;
+      color: var(--white);
+      font-size: 1rem;
+    }
+    
+    .modal-form-group input:focus,
+    .modal-form-group select:focus,
+    .modal-form-group textarea:focus {
+      outline: none;
+      border-color: var(--teal);
+    }
+    
+    /* Select dropdown for better readability */
+    .modal-form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23CBD5E1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.5rem center;
+      padding-right: 2.5rem;
+    }
+    
+    /* Fix for select dropdowns */
+    select {
+      color: var(--white);
+      background-color: var(--midnight-blue);
+      border: 1px solid #334155;
+    }
+    
+    select option {
+      color: var(--white);
+      background-color: var(--midnight-blue);
+    }
+    
+    /* Token display box */
+    .token-display {
+      background-color: var(--midnight-blue);
+      border: 1px solid #334155;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-top: 1rem;
+      color: var(--success);
+      font-family: monospace;
+      word-break: break-all;
+    }
+    
+    /* Image upload preview */
+    .image-upload-preview {
+      width: 100%;
+      margin-top: 0.5rem;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      max-height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .image-upload-preview img {
+      max-width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+    }
   </style>
 </head>
 <body>
@@ -460,8 +650,11 @@
                 <input type="text" id="service-slug" name="slug" required>
               </div>
               <div class="form-group">
-                <label for="service-icon">Icon</label>
-                <input type="text" id="service-icon" name="icon" placeholder="material-icon-name">
+                <label for="service-image">Afbeelding</label>
+                <input type="file" id="service-image" name="image" accept="image/*">
+                <div id="image-preview" class="image-upload-preview" style="display: none;">
+                  <img id="preview-img" src="#" alt="Preview">
+                </div>
               </div>
               <div class="form-group">
                 <label for="service-order">Volgorde</label>
@@ -802,6 +995,22 @@
   
   <div class="notification" id="notification"></div>
   
+  <!-- Modal window for confirmations and forms -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-title">Title</h3>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-content" id="modal-content">
+        <!-- Content will be inserted here -->
+      </div>
+      <div class="modal-footer" id="modal-actions">
+        <!-- Buttons will be inserted here -->
+      </div>
+    </div>
+  </div>
+  
   <script>
     // Globals
     let currentTab = 'dashboard';
@@ -822,6 +1031,29 @@
     const serviceFormContainer = document.getElementById('service-form-container');
     const serviceForm = document.getElementById('service-form');
     const cancelServiceBtn = document.getElementById('cancel-service-btn');
+    const serviceImage = document.getElementById('service-image');
+    
+    // Setup image preview for service image upload
+    if (serviceImage) {
+      serviceImage.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        
+        if (file) {
+          const reader = new FileReader();
+          
+          reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            preview.style.display = 'flex';
+          }
+          
+          reader.readAsDataURL(file);
+        } else {
+          preview.style.display = 'none';
+        }
+      });
+    }
     
     // Notification function
     function showNotification(message, type = 'success') {
@@ -903,14 +1135,32 @@
       // API call would be made here
       
       const formData = new FormData(serviceForm);
-      const serviceData = Object.fromEntries(formData.entries());
       
+      // Handle image upload - get the file from the input
+      const imageFile = document.getElementById('service-image').files[0];
+      if (imageFile) {
+        formData.append('image', imageFile);
+        
+        // In a real implementation, this would upload the image to a server or storage
+        // and get a URL back to store in the database
+        
+        // For demo purposes, we're simulating this process
+        // The icon field would then contain the URL to the uploaded image
+        const fakeUploadedUrl = URL.createObjectURL(imageFile);
+        formData.set('icon', fakeUploadedUrl);
+      }
+      
+      const serviceData = Object.fromEntries(formData.entries());
       console.log('Service data to submit:', serviceData);
       
       // Simulating API call with setTimeout
       setTimeout(() => {
         showNotification('Service succesvol opgeslagen!');
         serviceFormContainer.style.display = 'none';
+        
+        // Reset image preview
+        document.getElementById('image-preview').style.display = 'none';
+        
         loadServices(); // Reload services
       }, 800);
     });
@@ -1310,42 +1560,213 @@
       }
     }
     
+    // Modal functions
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    const modalActions = document.getElementById('modal-actions');
+    const modalCloseBtn = document.getElementById('modal-close');
+    
+    // Function to open modal
+    function openModal(title, content, actions) {
+      modalTitle.textContent = title;
+      modalContent.innerHTML = content;
+      modalActions.innerHTML = actions;
+      modalOverlay.classList.add('show');
+      
+      // Add event listener to close button
+      modalCloseBtn.addEventListener('click', closeModal);
+      
+      // Add event listeners to action buttons
+      const actionButtons = modalActions.querySelectorAll('button');
+      actionButtons.forEach(button => {
+        if (button.dataset.action === 'close') {
+          button.addEventListener('click', closeModal);
+        }
+      });
+    }
+    
+    // Function to close modal
+    function closeModal() {
+      modalOverlay.classList.remove('show');
+      // Clear content after animation
+      setTimeout(() => {
+        modalContent.innerHTML = '';
+        modalActions.innerHTML = '';
+      }, 300);
+    }
+    
     // API Token and User management
     const newApiTokenBtn = document.getElementById('new-api-token-btn');
     if (newApiTokenBtn) {
       newApiTokenBtn.addEventListener('click', () => {
-        // Create modal popup for new token
-        const tokenName = prompt('Geef een naam voor de nieuwe API token:');
-        if (tokenName) {
+        // Create modal popup for new token with form
+        const modalContent = `
+          <div class="modal-form-group">
+            <label for="token-name">Naam</label>
+            <input type="text" id="token-name" placeholder="Geef een naam voor de token">
+          </div>
+          <div class="modal-form-group">
+            <label for="token-description">Omschrijving (optioneel)</label>
+            <input type="text" id="token-description" placeholder="Waar wordt deze token voor gebruikt?">
+          </div>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-primary" id="create-token-btn">Token aanmaken</button>
+        `;
+        
+        openModal('Nieuwe API Token', modalContent, modalActions);
+        
+        // Add event listener to create token button
+        document.getElementById('create-token-btn').addEventListener('click', () => {
+          const tokenName = document.getElementById('token-name').value.trim();
+          const tokenDescription = document.getElementById('token-description').value.trim();
+          
+          if (!tokenName) {
+            showNotification('Geef een naam voor de token', 'error');
+            return;
+          }
+          
           try {
             // Simulate API call with timeout
             setTimeout(() => {
               const tokenValue = 'tk_' + [...Array(32)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-              alert(`Nieuwe API token gemaakt!\n\nNaam: ${tokenName}\nToken: ${tokenValue}\n\nBewaar deze token goed, hij wordt maar één keer getoond!`);
+              
+              // Update modal with token information
+              modalTitle.textContent = 'API Token Aangemaakt';
+              modalContent.innerHTML = `
+                <p>Je nieuwe API token is aangemaakt. Bewaar deze goed, hij wordt maar één keer getoond!</p>
+                <div class="modal-form-group">
+                  <label>Naam</label>
+                  <p>${tokenName}</p>
+                </div>
+                ${tokenDescription ? `
+                <div class="modal-form-group">
+                  <label>Omschrijving</label>
+                  <p>${tokenDescription}</p>
+                </div>` : ''}
+                <div class="modal-form-group">
+                  <label>Token</label>
+                  <div class="token-display">${tokenValue}</div>
+                </div>
+              `;
+              
+              modalActions.innerHTML = `
+                <button class="modal-btn modal-btn-primary" data-action="close">Sluiten</button>
+              `;
+              
+              // Re-attach close event listener
+              document.querySelector('[data-action="close"]').addEventListener('click', closeModal);
+              
               showNotification('API token succesvol aangemaakt!');
             }, 500);
           } catch (error) {
             console.error('Error creating API token:', error);
             showNotification(`Fout bij het aanmaken van API token: ${error.message}`, 'error');
+            closeModal();
           }
-        }
+        });
       });
     }
     
     const newUserBtn = document.getElementById('new-user-btn');
     if (newUserBtn) {
       newUserBtn.addEventListener('click', () => {
-        // Simulate new user form
-        const userName = prompt('Gebruikersnaam:');
-        if (userName) {
-          const userEmail = prompt('Email:');
-          if (userEmail) {
+        // Create modal popup for new user with form
+        const modalContent = `
+          <div class="modal-form-group">
+            <label for="user-name">Naam</label>
+            <input type="text" id="user-name" placeholder="Volledige naam">
+          </div>
+          <div class="modal-form-group">
+            <label for="user-email">Email</label>
+            <input type="email" id="user-email" placeholder="email@example.com">
+          </div>
+          <div class="modal-form-group">
+            <label for="user-role">Rol</label>
+            <select id="user-role">
+              <option value="admin">Administrator</option>
+              <option value="editor">Editor</option>
+              <option value="author">Auteur</option>
+            </select>
+          </div>
+          <div class="modal-form-group">
+            <label for="user-password">Wachtwoord</label>
+            <input type="password" id="user-password">
+          </div>
+          <div class="modal-form-group">
+            <label for="user-password-confirm">Bevestig wachtwoord</label>
+            <input type="password" id="user-password-confirm">
+          </div>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-primary" id="create-user-btn">Gebruiker aanmaken</button>
+        `;
+        
+        openModal('Nieuwe Gebruiker', modalContent, modalActions);
+        
+        // Add event listener to create user button
+        document.getElementById('create-user-btn').addEventListener('click', () => {
+          const userName = document.getElementById('user-name').value.trim();
+          const userEmail = document.getElementById('user-email').value.trim();
+          const userRole = document.getElementById('user-role').value;
+          const userPassword = document.getElementById('user-password').value;
+          const userPasswordConfirm = document.getElementById('user-password-confirm').value;
+          
+          // Validate inputs
+          if (!userName) {
+            showNotification('Naam is verplicht', 'error');
+            return;
+          }
+          
+          if (!userEmail) {
+            showNotification('Email is verplicht', 'error');
+            return;
+          }
+          
+          if (!userPassword) {
+            showNotification('Wachtwoord is verplicht', 'error');
+            return;
+          }
+          
+          if (userPassword !== userPasswordConfirm) {
+            showNotification('Wachtwoorden komen niet overeen', 'error');
+            return;
+          }
+          
+          try {
             // Simulate API call with timeout
             setTimeout(() => {
+              closeModal();
               showNotification('Gebruiker succesvol aangemaakt!');
+              
+              // Add the new user to the table
+              const usersTableBody = document.querySelector('.cms-table tbody');
+              if (usersTableBody) {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                  <td>${userName}</td>
+                  <td>${userEmail}</td>
+                  <td>${userRole === 'admin' ? 'Administrator' : userRole === 'editor' ? 'Editor' : 'Auteur'}</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="edit-btn">Bewerken</button>
+                    </div>
+                  </td>
+                `;
+                usersTableBody.appendChild(newRow);
+              }
             }, 500);
+          } catch (error) {
+            console.error('Error creating user:', error);
+            showNotification(`Fout bij het aanmaken van gebruiker: ${error.message}`, 'error');
+            closeModal();
           }
-        }
+        });
       });
     }
     
@@ -1393,7 +1814,83 @@
         btn.setAttribute('data-event-attached', 'true');
         btn.addEventListener('click', () => {
           const id = btn.getAttribute('data-id');
-          alert(`Item bekeken: ${id}`);
+          
+          // Show item details in a modal
+          let itemType = '';
+          let itemData = null;
+          
+          if (currentTab === 'services') {
+            itemType = 'Service';
+            itemData = servicesData.find(service => service.slug === id);
+          } else if (currentTab === 'case-studies') {
+            itemType = 'Case Study';
+            itemData = caseStudiesData.find(caseStudy => caseStudy.slug === id);
+          } else if (currentTab === 'blog') {
+            itemType = 'Blog Post';
+            itemData = blogData.find(post => post.slug === id);
+          } else if (currentTab === 'webhooks') {
+            itemType = 'Webhook';
+            itemData = webhooksData.find(webhook => webhook.id === parseInt(id));
+          }
+          
+          if (itemData) {
+            let content = '<div class="modal-content-scroll">';
+            
+            // Generate content based on item type
+            if (itemType === 'Webhook') {
+              content += `
+                <div class="modal-form-group">
+                  <label>Naam</label>
+                  <p>${itemData.name}</p>
+                </div>
+                <div class="modal-form-group">
+                  <label>URL</label>
+                  <p>${itemData.url}</p>
+                </div>
+                <div class="modal-form-group">
+                  <label>Event Type</label>
+                  <p>${itemData.event_type || itemData.eventType}</p>
+                </div>
+                <div class="modal-form-group">
+                  <label>Actief</label>
+                  <p>${(itemData.is_active || itemData.isActive) ? 'Ja' : 'Nee'}</p>
+                </div>
+              `;
+            } else {
+              // For content items (services, case studies, blog posts)
+              Object.entries(itemData).forEach(([key, value]) => {
+                if (key !== 'content' && key !== 'features' && key !== 'tech_stack' && key !== 'metrics') {
+                  content += `
+                    <div class="modal-form-group">
+                      <label>${key.charAt(0).toUpperCase() + key.slice(1).replace('_', ' ')}</label>
+                      <p>${value}</p>
+                    </div>
+                  `;
+                }
+              });
+              
+              if (itemData.content) {
+                content += `
+                  <div class="modal-form-group">
+                    <label>Content</label>
+                    <div style="max-height: 200px; overflow-y: auto; background: var(--midnight-blue); padding: 0.75rem; border-radius: 4px;">
+                      <pre style="margin: 0; white-space: pre-wrap;">${itemData.content}</pre>
+                    </div>
+                  </div>
+                `;
+              }
+            }
+            
+            content += '</div>';
+            
+            const actions = `
+              <button class="modal-btn modal-btn-primary" data-action="close">Sluiten</button>
+            `;
+            
+            openModal(`${itemType} bekijken`, content, actions);
+          } else {
+            showNotification(`${itemType} niet gevonden.`, 'error');
+          }
         });
       }
     });
@@ -1403,9 +1900,78 @@
         btn.setAttribute('data-event-attached', 'true');
         btn.addEventListener('click', () => {
           const id = btn.getAttribute('data-id');
-          if (confirm('Weet je zeker dat je dit item wilt verwijderen?')) {
-            showNotification('Item succesvol verwijderd!');
+          
+          // Show confirmation dialog in a modal
+          let itemType = '';
+          let deleteEndpoint = '';
+          
+          if (currentTab === 'services') {
+            itemType = 'service';
+            deleteEndpoint = `/api/services/${id}`;
+          } else if (currentTab === 'case-studies') {
+            itemType = 'case study';
+            deleteEndpoint = `/api/case-studies/${id}`;
+          } else if (currentTab === 'blog') {
+            itemType = 'blog post';
+            deleteEndpoint = `/api/blog/${id}`;
+          } else if (currentTab === 'webhooks') {
+            itemType = 'webhook';
+            deleteEndpoint = `/api/webhooks/${id}`;
           }
+          
+          const content = `
+            <p>Weet je zeker dat je deze ${itemType} wilt verwijderen?</p>
+            <p>Deze actie kan niet ongedaan worden gemaakt.</p>
+          `;
+          
+          const actions = `
+            <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+            <button class="modal-btn modal-btn-danger" id="confirm-delete-btn">Verwijderen</button>
+          `;
+          
+          openModal(`${itemType.charAt(0).toUpperCase() + itemType.slice(1)} Verwijderen`, content, actions);
+          
+          // Add event listener to confirm delete button
+          document.getElementById('confirm-delete-btn').addEventListener('click', async () => {
+            try {
+              // Perform the delete operation
+              // For webhooks, we'll actually call the API
+              if (currentTab === 'webhooks') {
+                const response = await fetch(deleteEndpoint, {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                });
+                
+                if (!response.ok) {
+                  throw new Error(`API error: ${response.status}`);
+                }
+              }
+              
+              // For other items, we'll simulate the delete
+              closeModal();
+              showNotification(`${itemType.charAt(0).toUpperCase() + itemType.slice(1)} succesvol verwijderd!`);
+              
+              // Remove the item from the table
+              btn.closest('tr').remove();
+              
+              // Refresh the data
+              if (currentTab === 'services') {
+                loadServices();
+              } else if (currentTab === 'case-studies') {
+                loadCaseStudies();
+              } else if (currentTab === 'blog') {
+                loadBlogPosts();
+              } else if (currentTab === 'webhooks') {
+                loadWebhooks();
+              }
+            } catch (error) {
+              console.error(`Error deleting ${itemType}:`, error);
+              showNotification(`Fout bij het verwijderen van ${itemType}: ${error.message}`, 'error');
+              closeModal();
+            }
+          });
         });
       }
     });
