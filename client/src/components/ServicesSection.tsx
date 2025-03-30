@@ -1,51 +1,65 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLanguage } from '@/lib/languageContext';
 
 interface Service {
   icon: string;
-  title: string;
-  description: string;
-  tech: string;
+  titleKey: string;
+  descriptionKey: string;
+  techKey: string;
+}
+
+interface ChatMessage {
+  sender: 'bot' | 'user';
+  messageKey: string;
+  message?: string;
 }
 
 const services: Service[] = [
   {
     icon: "ri-robot-line",
-    title: "AI Chatbots",
-    description: "Intelligent conversational agents powered by GPT-4 with RAG technology for enhanced context understanding",
-    tech: "NLP · GPT-4 · RAG"
+    titleKey: "services.ai.title",
+    descriptionKey: "services.ai.description",
+    techKey: "services.ai.tech"
   },
   {
     icon: "ri-settings-line",
-    title: "Workflow Automation",
-    description: "Streamlined process automation solutions that reduce manual tasks and optimize operations",
-    tech: "AWS · Azure · GCP"
+    titleKey: "services.automation.title",
+    descriptionKey: "services.automation.description",
+    techKey: "services.automation.tech"
   },
   {
     icon: "ri-code-s-slash-line",
-    title: "Web Development",
-    description: "Modern, high-performance web applications built with cutting-edge technologies and frameworks",
-    tech: "React · Next.js · Three.js"
+    titleKey: "services.web.title",
+    descriptionKey: "services.web.description",
+    techKey: "services.web.tech"
   }
 ];
 
 const ServicesSection = () => {
-  const [chatMessages, setChatMessages] = useState([
+  const { t, language } = useLanguage();
+  
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       sender: 'bot',
-      message: "Hello! I'm Digimaatwerk's AI assistant. How can I help you today?"
+      messageKey: "services.chatbot.greeting"
     },
     {
       sender: 'user',
-      message: "I'm interested in creating a chatbot for my business."
+      messageKey: "services.chatbot.user1"
     },
     {
       sender: 'bot',
-      message: "Great! We specialize in custom AI chatbots that can help with customer service, lead generation, and internal processes. What's your main goal for this chatbot?"
+      messageKey: "services.chatbot.bot1"
     }
   ]);
   
   const [userInput, setUserInput] = useState('');
+
+  // Update messages when language changes
+  useEffect(() => {
+    // This effect will run when the language changes
+  }, [language]);
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);
@@ -55,7 +69,7 @@ const ServicesSection = () => {
     if (userInput.trim() === '') return;
     
     // Add user message
-    setChatMessages([...chatMessages, { sender: 'user', message: userInput }]);
+    setChatMessages([...chatMessages, { sender: 'user', messageKey: '', message: userInput }]);
     setUserInput('');
     
     // Simulate bot response after a delay
@@ -64,7 +78,7 @@ const ServicesSection = () => {
         ...prev, 
         { 
           sender: 'bot', 
-          message: "That's a great question! Our team would be happy to discuss this in more detail. Would you like us to contact you for a personalized demo?" 
+          messageKey: "services.chatbot.bot2"
         }
       ]);
     }, 1000);
@@ -80,8 +94,8 @@ const ServicesSection = () => {
     <section id="services" className="py-24 bg-gradient-to-b from-primary to-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">Our Digital Services</h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto">Tailored solutions designed to transform your business operations and customer experiences</p>
+          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">{t('services.title')}</h2>
+          <p className="text-foreground/70 max-w-2xl mx-auto">{t('services.subtitle')}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -99,9 +113,9 @@ const ServicesSection = () => {
                 <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-6">
                   <i className={`${service.icon} text-2xl text-accent`}></i>
                 </div>
-                <h3 className="text-xl font-header font-semibold mb-3">{service.title}</h3>
-                <p className="text-foreground/70 mb-4">{service.description}</p>
-                <p className="text-accent font-mono text-sm">{service.tech}</p>
+                <h3 className="text-xl font-header font-semibold mb-3">{t(service.titleKey)}</h3>
+                <p className="text-foreground/70 mb-4">{t(service.descriptionKey)}</p>
+                <p className="text-accent font-mono text-sm">{t(service.techKey)}</p>
               </div>
             </motion.div>
           ))}
@@ -111,24 +125,24 @@ const ServicesSection = () => {
         <div className="mt-24 bg-secondary/50 backdrop-blur-md rounded-2xl p-8 lg:p-12 overflow-hidden">
           <div className="asymmetric-grid">
             <div className="col-span-12 lg:col-span-5 flex flex-col justify-center">
-              <h3 className="text-2xl md:text-3xl font-header font-bold mb-6">Experience our AI Chatbot</h3>
-              <p className="text-foreground/70 mb-8">Try our interactive chatbot to see how we can implement intelligent conversational interfaces for your business</p>
+              <h3 className="text-2xl md:text-3xl font-header font-bold mb-6">{t('services.chatbot.title')}</h3>
+              <p className="text-foreground/70 mb-8">{t('services.chatbot.subtitle')}</p>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start">
                   <i className="ri-check-line text-accent text-xl mr-2"></i>
-                  <span>Customized to your brand voice and guidelines</span>
+                  <span>{t('services.chatbot.feature1')}</span>
                 </li>
                 <li className="flex items-start">
                   <i className="ri-check-line text-accent text-xl mr-2"></i>
-                  <span>Integrates with your knowledge base and CRM</span>
+                  <span>{t('services.chatbot.feature2')}</span>
                 </li>
                 <li className="flex items-start">
                   <i className="ri-check-line text-accent text-xl mr-2"></i>
-                  <span>24/7 support for your customers</span>
+                  <span>{t('services.chatbot.feature3')}</span>
                 </li>
               </ul>
               <a href="#contact" className="inline-flex items-center text-accent group">
-                <span className="group-hover:underline">Learn how we can implement this for your business</span>
+                <span className="group-hover:underline">{t('services.chatbot.cta')}</span>
                 <i className="ri-arrow-right-line ml-2 transition-transform group-hover:translate-x-1"></i>
               </a>
             </div>
@@ -141,7 +155,7 @@ const ServicesSection = () => {
                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   </div>
-                  <div className="text-sm text-center flex-grow">Digimaatwerk AI Assistant</div>
+                  <div className="text-sm text-center flex-grow">Digimaatwerk {language === 'nl' ? 'AI Assistent' : 'AI Assistant'}</div>
                 </div>
                 <div className="flex-grow p-4 overflow-y-auto space-y-4" id="chat-messages">
                   {chatMessages.map((msg, index) => (
@@ -152,7 +166,7 @@ const ServicesSection = () => {
                       <div className={`${msg.sender === 'bot' 
                         ? 'bg-secondary rounded-lg rounded-tl-none' 
                         : 'bg-accent/20 rounded-lg rounded-tr-none'} p-3 max-w-[80%]`}>
-                        <p>{msg.message}</p>
+                        <p>{msg.messageKey ? t(msg.messageKey) : msg.message}</p>
                       </div>
                       {msg.sender === 'user' && (
                         <div className="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center text-foreground">U</div>
@@ -164,7 +178,7 @@ const ServicesSection = () => {
                   <div className="flex">
                     <input 
                       type="text" 
-                      placeholder="Type your message here..." 
+                      placeholder={t('services.chatbot.placeholder')}
                       className="w-full bg-primary border border-secondary/50 rounded-l-lg px-4 py-2 focus:outline-none focus:border-accent text-foreground"
                       value={userInput}
                       onChange={handleUserInput}
