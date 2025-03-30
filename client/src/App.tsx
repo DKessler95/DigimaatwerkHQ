@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import Blogs from "@/pages/Blogs";
 import Services from "@/pages/Services";
 import CaseStudy from "@/pages/CaseStudy";
+import Dashboard from "@/pages/Dashboard";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import GooglePrivacyPolicy from "@/pages/legal/GooglePrivacyPolicy";
 import TermsOfService from "@/pages/legal/TermsOfService";
@@ -29,6 +30,7 @@ function Router() {
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/google-privacy-policy" component={GooglePrivacyPolicy} />
       <Route path="/terms-of-service" component={TermsOfService} />
+      <Route path="/admin" component={Dashboard} />
       <Route component={NotFound} />
     </Switch>
   );

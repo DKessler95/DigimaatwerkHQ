@@ -624,13 +624,14 @@
                 <tr>
                   <th>Titel</th>
                   <th>Slug</th>
-                  <th>Volgorde</th>
+                  <th>Icon</th>
+                  <th>Status</th>
                   <th>Acties</th>
                 </tr>
               </thead>
               <tbody id="services-table-body">
                 <tr>
-                  <td colspan="4" style="text-align: center;">
+                  <td colspan="5" style="text-align: center;">
                     <div class="loading"></div> Services laden...
                   </td>
                 </tr>
@@ -696,14 +697,15 @@
               <thead>
                 <tr>
                   <th>Titel</th>
+                  <th>Slug</th>
                   <th>Categorie</th>
-                  <th>Client</th>
+                  <th>Status</th>
                   <th>Acties</th>
                 </tr>
               </thead>
               <tbody id="case-studies-table-body">
                 <tr>
-                  <td colspan="4" style="text-align: center;">
+                  <td colspan="5" style="text-align: center;">
                     <div class="loading"></div> Case studies laden...
                   </td>
                 </tr>
@@ -732,14 +734,15 @@
               <thead>
                 <tr>
                   <th>Titel</th>
+                  <th>Slug</th>
                   <th>Auteur</th>
-                  <th>Datum</th>
+                  <th>Status</th>
                   <th>Acties</th>
                 </tr>
               </thead>
               <tbody id="blog-table-body">
                 <tr>
-                  <td colspan="4" style="text-align: center;">
+                  <td colspan="5" style="text-align: center;">
                     <div class="loading"></div> Blog posts laden...
                   </td>
                 </tr>
@@ -1313,7 +1316,7 @@
     
     async function loadCaseStudies() {
       const caseStudiesTableBody = document.getElementById('case-studies-table-body');
-      caseStudiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;"><div class="loading"></div> Case studies laden...</td></tr>';
+      caseStudiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;"><div class="loading"></div> Case studies laden...</td></tr>';
       
       try {
         const response = await fetch('/api/case-studies');
@@ -1328,11 +1331,11 @@
           // Filter by current language
           const filteredCaseStudies = caseStudiesData.filter(caseStudy => {
             // If the filename contains the language code (e.g., .en.md or .nl.md)
-            return caseStudy.slug.includes(`.${currentLang}.`);
+            return caseStudy.slug.includes(`.${currentLang}.`) || !caseStudy.slug.includes('.');
           });
           
           if (filteredCaseStudies.length === 0) {
-            caseStudiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Geen case studies gevonden</td></tr>';
+            caseStudiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Geen case studies gevonden</td></tr>';
             return;
           }
           
@@ -1341,15 +1344,25 @@
           filteredCaseStudies.forEach(caseStudy => {
             const tr = document.createElement('tr');
             
+            // Bepaal random status voor demonstratie (in productie zou dit uit de database komen)
+            const isPublished = Math.random() > 0.5;
+            const statusHtml = isPublished ? 
+              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(16, 185, 129, 0.1); color: #10B981; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #10B981; border-radius: 9999px; margin-right: 0.25rem;"></span>Live</span>' : 
+              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(239, 68, 68, 0.1); color: #EF4444; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #EF4444; border-radius: 9999px; margin-right: 0.25rem;"></span>Concept</span>';
+            
             tr.innerHTML = `
               <td>${caseStudy.title}</td>
+              <td>${caseStudy.slug}</td>
               <td>${caseStudy.category || 'N/A'}</td>
-              <td>${caseStudy.client || 'N/A'}</td>
+              <td>${statusHtml}</td>
               <td>
                 <div class="table-actions">
                   <button class="view-btn" data-id="${caseStudy.slug}">Bekijken</button>
                   <button class="edit-btn" data-id="${caseStudy.slug}">Bewerken</button>
-                  <button class="delete-btn" data-id="${caseStudy.slug}">Verwijderen</button>
+                  ${isPublished ? 
+                    '<button class="delete-btn" style="background-color: #F59E0B;" data-id="' + caseStudy.slug + '">Revoke</button>' : 
+                    '<button class="view-btn" style="background-color: #10B981;" data-id="' + caseStudy.slug + '">Publish</button>'}
+                  <button class="delete-btn" data-id="${caseStudy.slug}">Delete</button>
                 </div>
               </td>
             `;
@@ -1357,17 +1370,17 @@
             caseStudiesTableBody.appendChild(tr);
           });
         } else {
-          caseStudiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van case studies</td></tr>';
+          caseStudiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Fout bij het laden van case studies</td></tr>';
         }
       } catch (error) {
         console.error('Error loading case studies:', error);
-        caseStudiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van case studies</td></tr>';
+        caseStudiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Fout bij het laden van case studies</td></tr>';
       }
     }
     
     async function loadBlogPosts() {
       const blogTableBody = document.getElementById('blog-table-body');
-      blogTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;"><div class="loading"></div> Blog posts laden...</td></tr>';
+      blogTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;"><div class="loading"></div> Blog posts laden...</td></tr>';
       
       try {
         const response = await fetch('/api/blog');
@@ -1382,11 +1395,11 @@
           // Filter by current language
           const filteredBlogPosts = blogData.filter(post => {
             // If the filename contains the language code (e.g., .en.md or .nl.md)
-            return post.slug.includes(`.${currentLang}.`);
+            return post.slug.includes(`.${currentLang}.`) || !post.slug.includes('.');
           });
           
           if (filteredBlogPosts.length === 0) {
-            blogTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Geen blog posts gevonden</td></tr>';
+            blogTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Geen blog posts gevonden</td></tr>';
             return;
           }
           
@@ -1395,15 +1408,25 @@
           filteredBlogPosts.forEach(post => {
             const tr = document.createElement('tr');
             
+            // Bepaal random status voor demonstratie (in productie zou dit uit de database komen)
+            const isPublished = Math.random() > 0.5;
+            const statusHtml = isPublished ? 
+              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(16, 185, 129, 0.1); color: #10B981; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #10B981; border-radius: 9999px; margin-right: 0.25rem;"></span>Live</span>' : 
+              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(239, 68, 68, 0.1); color: #EF4444; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #EF4444; border-radius: 9999px; margin-right: 0.25rem;"></span>Concept</span>';
+            
             tr.innerHTML = `
               <td>${post.title}</td>
+              <td>${post.slug}</td>
               <td>${post.author || 'N/A'}</td>
-              <td>${post.date || 'N/A'}</td>
+              <td>${statusHtml}</td>
               <td>
                 <div class="table-actions">
                   <button class="view-btn" data-id="${post.slug}">Bekijken</button>
                   <button class="edit-btn" data-id="${post.slug}">Bewerken</button>
-                  <button class="delete-btn" data-id="${post.slug}">Verwijderen</button>
+                  ${isPublished ? 
+                    '<button class="delete-btn" style="background-color: #F59E0B;" data-id="' + post.slug + '">Revoke</button>' : 
+                    '<button class="view-btn" style="background-color: #10B981;" data-id="' + post.slug + '">Publish</button>'}
+                  <button class="delete-btn" data-id="${post.slug}">Delete</button>
                 </div>
               </td>
             `;
@@ -1411,11 +1434,11 @@
             blogTableBody.appendChild(tr);
           });
         } else {
-          blogTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van blog posts</td></tr>';
+          blogTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Fout bij het laden van blog posts</td></tr>';
         }
       } catch (error) {
         console.error('Error loading blog posts:', error);
-        blogTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van blog posts</td></tr>';
+        blogTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Fout bij het laden van blog posts</td></tr>';
       }
     }
     
