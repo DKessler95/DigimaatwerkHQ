@@ -1,15 +1,12 @@
 backend:
-  name: test-repo # Local backend for testing
-  # name: git-gateway 
-  # branch: main # Branch to update
-  # repo: digimaatwerk/website-content
+  name: test-repo # For local testing only
+  local_backend: true
 
 # These lines should match your folder structure
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
-# Allow local development
-local_backend: true
+# No need for this line since we already have it in the backend section
 
 # Editorial workflow
 publish_mode: editorial_workflow
@@ -22,6 +19,9 @@ collections:
     folder: "public/content/case-studies"
     create: true
     slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    filter: {field: "extension", value: ""}
     preview_path: "case-studies/{{slug}}"
     editor:
       preview: true
@@ -57,6 +57,9 @@ collections:
     folder: "public/content/blog"
     create: true
     slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    filter: {field: "extension", value: ""}
     preview_path: "blog/{{slug}}"
     editor:
       preview: true
@@ -86,6 +89,9 @@ collections:
     folder: "public/content/services"
     create: true
     slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    filter: {field: "extension", value: ""}
     preview_path: "services/{{slug}}"
     editor:
       preview: true

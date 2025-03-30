@@ -1,94 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digimaatwerk CMS</title>
-  <link rel="icon" href="/favicon.ico" />
-  <style>
-    :root {
-      --midnight-blue: #0F172A;
-      --dark-gray: #1E293B;
-      --teal: #0D9488;
-      --teal-light: #14B8A6;
-      --white: #FFFFFF;
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--midnight-blue);
-      color: var(--white);
-    }
-    
-    .loading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
-    
-    .loading-spinner {
-      border: 5px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top: 5px solid var(--teal);
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    /* Custom CMS styling */
-    .nc-appHeader-content {
-      background-color: var(--midnight-blue) !important;
-    }
-    
-    .nc-appHeader-button {
-      color: white !important;
-    }
-  </style>
-</head>
-<body>
-  <div class="loading">
-    <div class="loading-spinner"></div>
-    <h2>Digimaatwerk CMS laden...</h2>
-    <p>Een moment geduld a.u.b.</p>
-  </div>
-
-  <!-- Include Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-
-  <script>
-    // Doorsturen naar de aangepaste login- of dashboard-pagina
-    window.addEventListener('load', function() {
-      // Controleren of de gebruiker is ingelogd
-      const isAuthenticated = localStorage.getItem('cms_authenticated');
-      
-      if (isAuthenticated) {
-        // Als gebruiker ingelogd is, naar het dashboard sturen
-        window.location.href = '/admin/dashboard.html';
-      } else {
-        // Als gebruiker niet ingelogd is, naar login sturen
-        window.location.href = '/admin/login.html';
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digimaatwerk CMS</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  </head>
+  <body>
+    <!-- Include the script that builds the page and powers Netlify CMS -->
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <script>
+      // Enable local backend in development
+      if (window.location.hostname === 'localhost' || window.location.hostname.includes('replit')) {
+        window.CMS_MANUAL_INIT = true;
       }
-    });
-    
-    // Configureer backend specifiek voor Replit (voorkomt problemen met backend configuratie)
-    if (window.CMS) {
-      window.CMS.registerBackend('test-repo', {
-        init: function() {
-          // Auto-inloggen functionaliteit zou hier kunnen komen
-        }
+
+      // Initialize the CMS
+      window.addEventListener('load', function() {
+        // Initialize the CMS manually
+        const CMS = window.CMS;
+        
+        CMS.init({
+          config: {
+            backend: {
+              name: 'test-repo'
+            },
+            local_backend: true,
+            media_folder: 'public/uploads',
+            public_folder: '/uploads',
+            collections: [
+              {
+                name: 'case-studies',
+                label: 'Case Studies',
+                folder: 'public/content/case-studies',
+                create: true,
+                slug: '{{slug}}',
+                extension: 'md',
+                format: 'frontmatter',
+                i18n: {
+                  structure: 'multiple_files',
+                  locales: ['nl', 'en']
+                },
+                fields: [
+                  { label: 'Slug', name: 'slug', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                  { label: 'Featured Image', name: 'featured_image', widget: 'image', i18n: 'duplicate' },
+                  { label: 'Category', name: 'category', widget: 'select', options: ['AI & Chatbots', 'Automatisering', 'Webontwikkeling'], i18n: true, default: 'Webontwikkeling' },
+                  { label: 'Client', name: 'client', widget: 'string', i18n: true },
+                  { label: 'Industry', name: 'industry', widget: 'string', i18n: true },
+                  { label: 'Date', name: 'date', widget: 'datetime', i18n: 'duplicate' },
+                  { label: 'Description', name: 'description', widget: 'text', i18n: true },
+                  { label: 'Challenge', name: 'challenge', widget: 'text', i18n: true },
+                  { label: 'Solution', name: 'solution', widget: 'text', i18n: true },
+                  { label: 'Result', name: 'result', widget: 'text', i18n: true },
+                  {
+                    label: 'Metrics',
+                    name: 'metrics',
+                    widget: 'list',
+                    i18n: true,
+                    fields: [
+                      { label: 'Label', name: 'label', widget: 'string' },
+                      { label: 'Value', name: 'value', widget: 'string' }
+                    ]
+                  },
+                  { label: 'Live URL', name: 'live_url', widget: 'string', required: false, i18n: 'duplicate' },
+                  { label: 'Featured', name: 'featured', widget: 'boolean', default: false, i18n: 'duplicate' },
+                  { label: 'Content', name: 'body', widget: 'markdown', i18n: true }
+                ]
+              },
+              {
+                name: 'blog',
+                label: 'Blog Posts',
+                folder: 'public/content/blog',
+                create: true,
+                slug: '{{slug}}',
+                extension: 'md',
+                format: 'frontmatter',
+                i18n: {
+                  structure: 'multiple_files',
+                  locales: ['nl', 'en']
+                },
+                fields: [
+                  { label: 'Slug', name: 'slug', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                  { label: 'Featured Image', name: 'featured_image', widget: 'image', i18n: 'duplicate' },
+                  { label: 'Author', name: 'author', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Date', name: 'date', widget: 'datetime', i18n: 'duplicate' },
+                  { label: 'Categories', name: 'categories', widget: 'list', i18n: 'duplicate' },
+                  { label: 'Tags', name: 'tags', widget: 'list', i18n: true },
+                  { label: 'Excerpt', name: 'excerpt', widget: 'text', i18n: true },
+                  { label: 'Content', name: 'body', widget: 'markdown', i18n: true }
+                ]
+              },
+              {
+                name: 'services',
+                label: 'Services',
+                folder: 'public/content/services',
+                create: true,
+                slug: '{{slug}}',
+                extension: 'md',
+                format: 'frontmatter',
+                i18n: {
+                  structure: 'multiple_files',
+                  locales: ['nl', 'en']
+                },
+                fields: [
+                  { label: 'Slug', name: 'slug', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                  { label: 'Icon', name: 'icon', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Short Description', name: 'short_description', widget: 'text', i18n: true },
+                  { label: 'Featured Image', name: 'featured_image', widget: 'image', i18n: 'duplicate' },
+                  { label: 'Order', name: 'order', widget: 'number', i18n: 'duplicate' },
+                  {
+                    label: 'Features',
+                    name: 'features',
+                    widget: 'list',
+                    i18n: true,
+                    fields: [
+                      { label: 'Name', name: 'name', widget: 'string' },
+                      { label: 'Description', name: 'description', widget: 'text' }
+                    ]
+                  },
+                  {
+                    label: 'Tech Stack',
+                    name: 'tech_stack',
+                    widget: 'list',
+                    i18n: true,
+                    fields: [
+                      { label: 'Name', name: 'name', widget: 'string' },
+                      { label: 'Description', name: 'description', widget: 'text' }
+                    ]
+                  },
+                  { label: 'Content', name: 'body', widget: 'markdown', i18n: true }
+                ]
+              }
+            ]
+          }
+        });
       });
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>
