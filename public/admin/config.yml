@@ -1,11 +1,10 @@
 backend:
   name: test-repo
   
-local_backend: true
-
+local_backend:
+  url: http://localhost:8081/api/v1
 media_folder: public/uploads
 public_folder: /uploads
-
 logo_url: /logo.svg
 site_url: /
 display_url: https://digimaatwerk.nl
@@ -19,28 +18,28 @@ collections:
     i18n:
       structure: multiple_files
       locales: [nl, en]
-    slug: "{{slug}}"
+    slug: '{{slug}}'
     fields:
-      - {label: Titel, name: title, widget: string, i18n: true}
-      - {label: Icoon, name: icon, widget: string, hint: 'Icoon code, bijv. "code" voor code-icoon', i18n: true}
-      - {label: Korte Beschrijving, name: short_description, widget: text, i18n: true}
-      - {label: Hoofdafbeelding, name: featured_image, widget: image, i18n: true}
-      - {label: Volgorde, name: order, widget: number, default: 0, value_type: int, min: 0, max: 999}
-      - label: Functies
-        name: features
-        widget: list
+      - { label: 'Titel', name: 'title', widget: 'string', i18n: true }
+      - { label: 'Icoon', name: 'icon', widget: 'string', hint: 'Icoon code, bijv. "code" voor code-icoon', i18n: true }
+      - { label: 'Korte Beschrijving', name: 'short_description', widget: 'text', i18n: true }
+      - { label: 'Hoofdafbeelding', name: 'featured_image', widget: 'image', i18n: true }
+      - { label: 'Volgorde', name: 'order', widget: 'number', default: 0, value_type: 'int', min: 0, max: 999 }
+      - label: 'Functies'
+        name: 'features'
+        widget: 'list'
         i18n: true
         fields:
-          - {label: Naam, name: name, widget: string}
-          - {label: Beschrijving, name: description, widget: text}
-      - label: Tech Stack
-        name: tech_stack
-        widget: list
+          - { label: 'Naam', name: 'name', widget: 'string' }
+          - { label: 'Beschrijving', name: 'description', widget: 'text' }
+      - label: 'Tech Stack'
+        name: 'tech_stack'
+        widget: 'list'
         i18n: true
         fields:
-          - {label: Naam, name: name, widget: string}
-          - {label: Beschrijving, name: description, widget: text}
-      - {label: Inhoud, name: content, widget: markdown, i18n: true}
+          - { label: 'Naam', name: 'name', widget: 'string' }
+          - { label: 'Beschrijving', name: 'description', widget: 'text' }
+      - { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }
 
   - name: case-studies
     label: Case Studies
@@ -49,27 +48,27 @@ collections:
     i18n:
       structure: multiple_files
       locales: [nl, en]
-    slug: "{{slug}}"
+    slug: '{{slug}}'
     fields:
-      - {label: Titel, name: title, widget: string, i18n: true}
-      - {label: Afbeelding, name: featured_image, widget: image, i18n: true}
-      - {label: Categorie, name: category, widget: select, options: [AI & Chatbots, Automatisering, Web Development], i18n: true}
-      - {label: Klant, name: client, widget: string, i18n: true}
-      - {label: Industrie, name: industry, widget: string, i18n: true}
-      - {label: Datum, name: date, widget: datetime, format: YYYY-MM-DD, i18n: true}
-      - {label: Beschrijving, name: description, widget: text, i18n: true}
-      - {label: Uitdaging, name: challenge, widget: text, i18n: true}
-      - {label: Oplossing, name: solution, widget: text, i18n: true}
-      - {label: Resultaat, name: result, widget: text, i18n: true}
-      - label: Metrics
-        name: metrics
-        widget: list
+      - { label: 'Titel', name: 'title', widget: 'string', i18n: true }
+      - { label: 'Afbeelding', name: 'featured_image', widget: 'image', i18n: true }
+      - { label: 'Categorie', name: 'category', widget: 'select', options: ['AI & Chatbots', 'Automatisering', 'Web Development'], i18n: true }
+      - { label: 'Klant', name: 'client', widget: 'string', i18n: true }
+      - { label: 'Industrie', name: 'industry', widget: 'string', i18n: true }
+      - { label: 'Datum', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', i18n: true }
+      - { label: 'Beschrijving', name: 'description', widget: 'text', i18n: true }
+      - { label: 'Uitdaging', name: 'challenge', widget: 'text', i18n: true }
+      - { label: 'Oplossing', name: 'solution', widget: 'text', i18n: true }
+      - { label: 'Resultaat', name: 'result', widget: 'text', i18n: true }
+      - label: 'Metrics'
+        name: 'metrics'
+        widget: 'list'
         i18n: true
         fields:
-          - {label: Label, name: label, widget: string}
-          - {label: Waarde, name: value, widget: string}
-      - {label: Uitgelicht, name: featured, widget: boolean, default: false, i18n: true}
-      - {label: Inhoud, name: content, widget: markdown, i18n: true}
+          - { label: 'Label', name: 'label', widget: 'string' }
+          - { label: 'Waarde', name: 'value', widget: 'string' }
+      - { label: 'Uitgelicht', name: 'featured', widget: 'boolean', default: false, i18n: true }
+      - { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }
 
   - name: blog
     label: Blog
@@ -78,13 +77,13 @@ collections:
     i18n:
       structure: multiple_files
       locales: [nl, en]
-    slug: "{{slug}}"
+    slug: '{{slug}}'
     fields:
-      - {label: Titel, name: title, widget: string, i18n: true}
-      - {label: Afbeelding, name: featured_image, widget: image, i18n: true}
-      - {label: Auteur, name: author, widget: string, i18n: true}
-      - {label: Datum, name: date, widget: datetime, format: YYYY-MM-DD, i18n: true}
-      - {label: Categorieën, name: categories, widget: list, i18n: true}
-      - {label: Tags, name: tags, widget: list, i18n: true}
-      - {label: Samenvatting, name: excerpt, widget: text, i18n: true}
-      - {label: Inhoud, name: content, widget: markdown, i18n: true}
+      - { label: 'Titel', name: 'title', widget: 'string', i18n: true }
+      - { label: 'Afbeelding', name: 'featured_image', widget: 'image', i18n: true }
+      - { label: 'Auteur', name: 'author', widget: 'string', i18n: true }
+      - { label: 'Datum', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', i18n: true }
+      - { label: 'Categorieën', name: 'categories', widget: 'list', i18n: true }
+      - { label: 'Tags', name: 'tags', widget: 'list', i18n: true }
+      - { label: 'Samenvatting', name: 'excerpt', widget: 'text', i18n: true }
+      - { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }

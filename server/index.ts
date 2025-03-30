@@ -4,6 +4,7 @@ import { setupVite, serveStatic, log } from "./vite";
 import session from "express-session";
 import MemoryStore from "memorystore";
 import './types'; // Import session types
+import { startCMSProxy } from "./cms-proxy";
 
 // Create memory store for sessions
 const MemoryStoreSession = MemoryStore(session);
@@ -83,5 +84,15 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+    
+    // Start the CMS proxy server
+    const cmsProxy = startCMSProxy();
+    
+    // Cleanup proxy on server close
+    server.on('close', () => {
+      if (cmsProxy) {
+        cmsProxy.kill();
+      }
+    });
   });
 })();
