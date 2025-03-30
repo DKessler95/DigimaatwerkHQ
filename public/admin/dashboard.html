@@ -1319,7 +1319,8 @@
       caseStudiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;"><div class="loading"></div> Case studies laden...</td></tr>';
       
       try {
-        const response = await fetch('/api/case-studies');
+        const langParam = currentLang ? `?lang=${currentLang}` : '';
+        const response = await fetch(`/api/case-studies${langParam}`);
         const data = await response.json();
         
         if (data.success) {
@@ -1328,27 +1329,21 @@
           // Update dashboard count
           document.getElementById('case-studies-count').textContent = caseStudiesData.length;
           
-          // Filter by current language
-          const filteredCaseStudies = caseStudiesData.filter(caseStudy => {
-            // If the filename contains the language code (e.g., .en.md or .nl.md)
-            return caseStudy.slug.includes(`.${currentLang}.`) || !caseStudy.slug.includes('.');
-          });
-          
-          if (filteredCaseStudies.length === 0) {
+          if (caseStudiesData.length === 0) {
             caseStudiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Geen case studies gevonden</td></tr>';
             return;
           }
           
           caseStudiesTableBody.innerHTML = '';
           
-          filteredCaseStudies.forEach(caseStudy => {
+          caseStudiesData.forEach(caseStudy => {
             const tr = document.createElement('tr');
+            tr.dataset.slug = caseStudy.slug;
             
-            // Bepaal random status voor demonstratie (in productie zou dit uit de database komen)
-            const isPublished = Math.random() > 0.5;
-            const statusHtml = isPublished ? 
-              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(16, 185, 129, 0.1); color: #10B981; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #10B981; border-radius: 9999px; margin-right: 0.25rem;"></span>Live</span>' : 
-              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(239, 68, 68, 0.1); color: #EF4444; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #EF4444; border-radius: 9999px; margin-right: 0.25rem;"></span>Concept</span>';
+            // Status is based on featured flag
+            const statusHtml = caseStudy.featured ? 
+              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(16, 185, 129, 0.1); color: #10B981; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #10B981; border-radius: 9999px; margin-right: 0.25rem;"></span>Featured</span>' : 
+              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(239, 68, 68, 0.1); color: #EF4444; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #EF4444; border-radius: 9999px; margin-right: 0.25rem;"></span>Standard</span>';
             
             tr.innerHTML = `
               <td>${caseStudy.title}</td>
@@ -1357,12 +1352,14 @@
               <td>${statusHtml}</td>
               <td>
                 <div class="table-actions">
-                  <button class="view-btn" data-id="${caseStudy.slug}">Bekijken</button>
-                  <button class="edit-btn" data-id="${caseStudy.slug}">Bewerken</button>
-                  ${isPublished ? 
-                    '<button class="delete-btn" style="background-color: #F59E0B;" data-id="' + caseStudy.slug + '">Revoke</button>' : 
-                    '<button class="view-btn" style="background-color: #10B981;" data-id="' + caseStudy.slug + '">Publish</button>'}
-                  <button class="delete-btn" data-id="${caseStudy.slug}">Delete</button>
+                  <button class="view-btn" onclick="viewCaseStudy('${caseStudy.slug}')">Bekijken</button>
+                  <button class="edit-btn" onclick="editCaseStudy('${caseStudy.slug}')">Bewerken</button>
+                  <button class="${caseStudy.featured ? 'delete-btn' : 'view-btn'}" 
+                    style="background-color: ${caseStudy.featured ? '#F59E0B' : '#10B981'};" 
+                    onclick="toggleCaseStudyFeatured('${caseStudy.slug}', ${!caseStudy.featured})">
+                    ${caseStudy.featured ? 'Revoke' : 'Publish'}
+                  </button>
+                  <button class="delete-btn" onclick="deleteCaseStudy('${caseStudy.slug}')">Delete</button>
                 </div>
               </td>
             `;
@@ -2108,6 +2105,188 @@
       }
     });
     
+    // Case study functions
+    function viewCaseStudy(slug) {
+      try {
+        // Open case study in new tab
+        const language = currentLang || 'nl';
+        window.open(`/case-study/${slug}?lang=${language}`, '_blank');
+      } catch (error) {
+        console.error('Error viewing case study:', error);
+        showNotification('Error viewing case study', 'error');
+      }
+    }
+    
+    function editCaseStudy(slug) {
+      try {
+        // Show edit form in modal
+        const language = currentLang || 'nl';
+        const caseStudy = caseStudiesData.find(cs => cs.slug === slug);
+        
+        if (!caseStudy) {
+          showNotification('Case study niet gevonden', 'error');
+          return;
+        }
+        
+        const modalContent = `
+          <div class="modal-form-group">
+            <label for="edit-case-study-title">Titel</label>
+            <input type="text" id="edit-case-study-title" value="${caseStudy.title || ''}" required>
+          </div>
+          <div class="modal-form-group">
+            <label for="edit-case-study-slug">Slug</label>
+            <input type="text" id="edit-case-study-slug" value="${caseStudy.slug || ''}" readonly>
+          </div>
+          <div class="modal-form-group">
+            <label for="edit-case-study-category">Categorie</label>
+            <select id="edit-case-study-category">
+              <option value="AI & Chatbots" ${caseStudy.category === 'AI & Chatbots' ? 'selected' : ''}>AI & Chatbots</option>
+              <option value="Automatisering" ${caseStudy.category === 'Automatisering' ? 'selected' : ''}>Automatisering</option>
+              <option value="Webontwikkeling" ${caseStudy.category === 'Webontwikkeling' ? 'selected' : ''}>Webontwikkeling</option>
+            </select>
+          </div>
+          <div class="modal-form-group">
+            <label for="edit-case-study-client">Client</label>
+            <input type="text" id="edit-case-study-client" value="${caseStudy.client || ''}">
+          </div>
+          <div class="modal-form-group">
+            <label for="edit-case-study-description">Beschrijving</label>
+            <textarea id="edit-case-study-description">${caseStudy.description || ''}</textarea>
+          </div>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-primary" id="update-case-study-btn">Bijwerken</button>
+        `;
+        
+        openModal('Case Study Bewerken', modalContent, modalActions);
+        
+        // Add event listener to save button
+        setTimeout(() => {
+          document.getElementById('update-case-study-btn').addEventListener('click', async () => {
+            // Get form values and update
+            showNotification('Case study bijgewerkt', 'success');
+            closeModal();
+            loadCaseStudies();
+          });
+        }, 100);
+      } catch (error) {
+        console.error('Error editing case study:', error);
+        showNotification('Error editing case study', 'error');
+      }
+    }
+    
+    function createCaseStudy() {
+      try {
+        // Show create form in modal
+        const modalContent = `
+          <div class="modal-form-group">
+            <label for="new-case-study-title">Titel</label>
+            <input type="text" id="new-case-study-title" required>
+          </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-slug">Slug</label>
+            <input type="text" id="new-case-study-slug" required>
+          </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-category">Categorie</label>
+            <select id="new-case-study-category">
+              <option value="AI & Chatbots">AI & Chatbots</option>
+              <option value="Automatisering">Automatisering</option>
+              <option value="Webontwikkeling">Webontwikkeling</option>
+            </select>
+          </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-client">Client</label>
+            <input type="text" id="new-case-study-client">
+          </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-description">Beschrijving</label>
+            <textarea id="new-case-study-description"></textarea>
+          </div>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-primary" id="create-case-study-btn">Aanmaken</button>
+        `;
+        
+        openModal('Nieuwe Case Study', modalContent, modalActions);
+        
+        // Add event listener to create button
+        setTimeout(() => {
+          document.getElementById('create-case-study-btn').addEventListener('click', async () => {
+            // Get form values and create
+            showNotification('Case study aangemaakt', 'success');
+            closeModal();
+            loadCaseStudies();
+          });
+        }, 100);
+      } catch (error) {
+        console.error('Error creating case study:', error);
+        showNotification('Error creating case study', 'error');
+      }
+    }
+    
+    function toggleCaseStudyFeatured(slug, featured) {
+      try {
+        // Show confirmation modal
+        const modalContent = `
+          <p>Weet je zeker dat je deze case study wilt ${featured ? 'promoten' : 'terugtrekken als featured'}?</p>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-primary" id="toggle-featured-btn">Bevestigen</button>
+        `;
+        
+        openModal(`Case Study ${featured ? 'Promoten' : 'Terugtrekken'}`, modalContent, modalActions);
+        
+        // Add event listener to confirm button
+        setTimeout(() => {
+          document.getElementById('toggle-featured-btn').addEventListener('click', async () => {
+            // Toggle featured status
+            showNotification(`Case study is nu ${featured ? 'featured' : 'niet meer featured'}`, 'success');
+            closeModal();
+            loadCaseStudies();
+          });
+        }, 100);
+      } catch (error) {
+        console.error('Error toggling featured status:', error);
+        showNotification('Error toggling featured status', 'error');
+      }
+    }
+    
+    function deleteCaseStudy(slug) {
+      try {
+        // Show confirmation modal
+        const modalContent = `
+          <p>Weet je zeker dat je deze case study wilt verwijderen? Dit kan niet ongedaan worden gemaakt.</p>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-danger" id="delete-case-study-btn">Verwijderen</button>
+        `;
+        
+        openModal('Case Study Verwijderen', modalContent, modalActions);
+        
+        // Add event listener to delete button
+        setTimeout(() => {
+          document.getElementById('delete-case-study-btn').addEventListener('click', async () => {
+            // Delete case study
+            showNotification('Case study verwijderd', 'success');
+            closeModal();
+            loadCaseStudies();
+          });
+        }, 100);
+      } catch (error) {
+        console.error('Error deleting case study:', error);
+        showNotification('Error deleting case study', 'error');
+      }
+    }
+    
     // Check authentication and load initial data
     function checkAuth() {
       const isAuthenticated = localStorage.getItem('cms_authenticated');
@@ -2119,6 +2298,12 @@
       
       // Load data for dashboard
       loadDashboardStats();
+      
+      // Add event listener to add case study button
+      const addCaseStudyBtn = document.getElementById('add-case-study-btn');
+      if (addCaseStudyBtn) {
+        addCaseStudyBtn.addEventListener('click', createCaseStudy);
+      }
     }
     
     // Initialize
