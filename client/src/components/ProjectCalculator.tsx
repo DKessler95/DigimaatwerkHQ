@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
 
@@ -29,56 +29,194 @@ const ProjectCalculator = () => {
   const [timelinePriority, setTimelinePriority] = useState<TimelinePriority>(1);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   
-  const features: Feature[] = [
+  // Website/App features
+  const webFeatures: Feature[] = [
     { 
-      id: 'feature1', 
+      id: 'web_feature1', 
       nameNl: 'Contactformulier met email service', 
       nameEn: 'Contact form with email service', 
       priceImpact: 100 
     },
     { 
-      id: 'feature2', 
+      id: 'web_feature2', 
       nameNl: 'Extra pagina\'s (per 5)', 
       nameEn: 'Additional pages (per 5)', 
       priceImpact: 150 
     },
     { 
-      id: 'feature3', 
+      id: 'web_feature3', 
       nameNl: 'Blog functionaliteit', 
       nameEn: 'Blog functionality', 
       priceImpact: 350 
     },
     { 
-      id: 'feature4', 
+      id: 'web_feature4', 
       nameNl: 'Gebruikersauthenticatie', 
       nameEn: 'User Authentication', 
       priceImpact: 450 
     },
     { 
-      id: 'feature5', 
+      id: 'web_feature5', 
       nameNl: 'E-commerce functionaliteit', 
       nameEn: 'E-commerce functionality', 
       priceImpact: 850 
     },
     { 
-      id: 'feature6', 
+      id: 'web_feature6', 
       nameNl: 'CMS systeem', 
       nameEn: 'CMS system', 
       priceImpact: 550 
     },
     { 
-      id: 'feature7', 
+      id: 'web_feature7', 
       nameNl: 'Meertalige website', 
       nameEn: 'Multilingual website', 
       priceImpact: 100
     },
     { 
-      id: 'feature8', 
-      nameNl: 'Bespreekbaar start vanaf €100', 
-      nameEn: 'Negotiable starting from €100', 
+      id: 'web_feature8', 
+      nameNl: '3D visualisaties (Start van €100)', 
+      nameEn: '3D visualizations (Starting at €100)', 
       priceImpact: 100 
     },
   ];
+
+  // AI & Chatbot features
+  const chatbotFeatures: Feature[] = [
+    { 
+      id: 'ai_feature1', 
+      nameNl: 'Basis chatbot (FAQ)', 
+      nameEn: 'Basic chatbot (FAQ)', 
+      priceImpact: 500 
+    },
+    { 
+      id: 'ai_feature2', 
+      nameNl: 'Meertalige chatbot', 
+      nameEn: 'Multilingual chatbot', 
+      priceImpact: 200 
+    },
+    { 
+      id: 'ai_feature3', 
+      nameNl: 'CRM-integratie', 
+      nameEn: 'CRM integration', 
+      priceImpact: 300 
+    },
+    { 
+      id: 'ai_feature4', 
+      nameNl: 'Geavanceerde AI-functionaliteit (NLU/NLP)', 
+      nameEn: 'Advanced AI functionality (NLU/NLP)', 
+      priceImpact: 750 
+    },
+    { 
+      id: 'ai_feature5', 
+      nameNl: 'Chatbot met betalingsverwerking', 
+      nameEn: 'Chatbot with payment processing', 
+      priceImpact: 600 
+    },
+    { 
+      id: 'ai_feature6', 
+      nameNl: 'Analytics dashboard', 
+      nameEn: 'Analytics dashboard', 
+      priceImpact: 350 
+    },
+  ];
+
+  // Automatisering features
+  const automationFeatures: Feature[] = [
+    { 
+      id: 'auto_feature1', 
+      nameNl: 'Workflow automatisering', 
+      nameEn: 'Workflow automation', 
+      priceImpact: 400 
+    },
+    { 
+      id: 'auto_feature2', 
+      nameNl: 'Integratie met bestaande tools (bijv. Trello, Zapier)', 
+      nameEn: 'Integration with existing tools (e.g. Trello, Zapier)', 
+      priceImpact: 300 
+    },
+    { 
+      id: 'auto_feature3', 
+      nameNl: 'Automatische e-mailflows', 
+      nameEn: 'Automatic email flows', 
+      priceImpact: 250 
+    },
+    { 
+      id: 'auto_feature4', 
+      nameNl: 'Data-analyse en rapportage', 
+      nameEn: 'Data analysis and reporting', 
+      priceImpact: 500 
+    },
+    { 
+      id: 'auto_feature5', 
+      nameNl: 'Realtime meldingen', 
+      nameEn: 'Real-time notifications', 
+      priceImpact: 200 
+    },
+  ];
+
+  // Gecombineerd Project features
+  const combinedFeatures: Feature[] = [
+    { 
+      id: 'comb_feature1', 
+      nameNl: 'Website met chatbot integratie', 
+      nameEn: 'Website with chatbot integration', 
+      priceImpact: 1000 
+    },
+    { 
+      id: 'comb_feature2', 
+      nameNl: 'Automatisering gekoppeld aan website (bijv. leads naar CRM)', 
+      nameEn: 'Automation linked to website (e.g. leads to CRM)', 
+      priceImpact: 750 
+    },
+    { 
+      id: 'comb_feature3', 
+      nameNl: 'E-commerce met AI-aanbevelingen', 
+      nameEn: 'E-commerce with AI recommendations', 
+      priceImpact: 1200 
+    },
+    { 
+      id: 'comb_feature4', 
+      nameNl: 'Dynamische content op basis van AI', 
+      nameEn: 'Dynamic content based on AI', 
+      priceImpact: 900 
+    },
+    { 
+      id: 'comb_feature5', 
+      nameNl: 'Contactformulier met email service', 
+      nameEn: 'Contact form with email service', 
+      priceImpact: 100 
+    },
+    { 
+      id: 'comb_feature6', 
+      nameNl: 'Meertalige website', 
+      nameEn: 'Multilingual website', 
+      priceImpact: 100
+    },
+  ];
+
+  // Get the current features based on project type
+  const getFeaturesByType = (): Feature[] => {
+    switch(projectType) {
+      case 'chatbot':
+        return chatbotFeatures;
+      case 'automation':
+        return automationFeatures;
+      case 'web':
+        return webFeatures;
+      case 'combined':
+        return combinedFeatures;
+      default:
+        return webFeatures;
+    }
+  };
+
+  // Reset selected features when changing project type
+  useEffect(() => {
+    setSelectedFeatures([]);
+  }, [projectType]);
+
+  const features = getFeaturesByType();
   
   const supportPackages: SupportPackageInfo[] = [
     {
