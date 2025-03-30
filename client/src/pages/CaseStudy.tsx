@@ -60,11 +60,12 @@ const CaseStudyPage = () => {
             ? 'De case study die je zoekt kon niet worden gevonden.' 
             : 'The case study you are looking for could not be found.'}
         </p>
-        <Link href="/#case-studies">
-          <a className="px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition">
-            {language === 'nl' ? 'Terug naar case studies' : 'Back to case studies'}
-          </a>
-        </Link>
+        <a 
+          href="/#case-studies" 
+          className="px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition inline-block"
+        >
+          {language === 'nl' ? 'Terug naar case studies' : 'Back to case studies'}
+        </a>
       </div>
     );
   }
@@ -159,12 +160,13 @@ const CaseStudyPage = () => {
               )}
               
               <div className="mt-4">
-                <Link href="/#case-studies">
-                  <a className="w-full inline-flex items-center justify-center px-4 py-3 border border-foreground/30 rounded-lg hover:bg-secondary transition mt-4">
-                    <i className="ri-arrow-left-line mr-2"></i>
-                    {language === 'nl' ? 'Alle Case Studies' : 'All Case Studies'}
-                  </a>
-                </Link>
+                <a 
+                  href="/#case-studies"
+                  className="w-full inline-flex items-center justify-center px-4 py-3 border border-foreground/30 rounded-lg hover:bg-secondary transition mt-4"
+                >
+                  <i className="ri-arrow-left-line mr-2"></i>
+                  {language === 'nl' ? 'Alle Case Studies' : 'All Case Studies'}
+                </a>
               </div>
             </div>
           </div>

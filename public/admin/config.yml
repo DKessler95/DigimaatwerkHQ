@@ -1,89 +1,115 @@
 backend:
-  name: test-repo
-  
-local_backend:
-  url: http://localhost:8081/api/v1
-media_folder: public/uploads
-public_folder: /uploads
-logo_url: /logo.svg
-site_url: /
-display_url: https://digimaatwerk.nl
-locale: nl
+  name: git-gateway
+  branch: main # Branch to update
+  repo: digimaatwerk/website-content
 
+# These lines should match your folder structure
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# Allow local development
+local_backend: true
+
+# Editorial workflow
+publish_mode: editorial_workflow
+
+# Content collections
 collections:
-  - name: services
-    label: Diensten
-    folder: public/content/services
+  # Case Studies
+  - name: "case-studies"
+    label: "Case Studies"
+    folder: "public/content/case-studies"
     create: true
+    slug: "{{slug}}"
+    preview_path: "case-studies/{{slug}}"
+    editor:
+      preview: true
     i18n:
       structure: multiple_files
       locales: [nl, en]
-    slug: '{{slug}}'
     fields:
-      - { label: 'Titel', name: 'title', widget: 'string', i18n: true }
-      - { label: 'Icoon', name: 'icon', widget: 'string', hint: 'Icoon code, bijv. "code" voor code-icoon', i18n: true }
-      - { label: 'Korte Beschrijving', name: 'short_description', widget: 'text', i18n: true }
-      - { label: 'Hoofdafbeelding', name: 'featured_image', widget: 'image', i18n: true }
-      - { label: 'Volgorde', name: 'order', widget: 'number', default: 0, value_type: 'int', min: 0, max: 999 }
-      - label: 'Functies'
-        name: 'features'
-        widget: 'list'
+      - {label: "Slug", name: "slug", widget: "string", i18n: duplicate}
+      - {label: "Title", name: "title", widget: "string", i18n: true}
+      - {label: "Featured Image", name: "featured_image", widget: "image", i18n: duplicate}
+      - {label: "Category", name: "category", widget: "select", options: ["AI & Chatbots", "Automatisering", "Webontwikkeling"], i18n: true}
+      - {label: "Client", name: "client", widget: "string", i18n: true}
+      - {label: "Industry", name: "industry", widget: "string", i18n: true}
+      - {label: "Date", name: "date", widget: "datetime", i18n: duplicate}
+      - {label: "Description", name: "description", widget: "text", i18n: true}
+      - {label: "Challenge", name: "challenge", widget: "text", i18n: true}
+      - {label: "Solution", name: "solution", widget: "text", i18n: true}
+      - {label: "Result", name: "result", widget: "text", i18n: true}
+      - label: "Metrics"
+        name: "metrics"
+        widget: "list"
         i18n: true
         fields:
-          - { label: 'Naam', name: 'name', widget: 'string' }
-          - { label: 'Beschrijving', name: 'description', widget: 'text' }
-      - label: 'Tech Stack'
-        name: 'tech_stack'
-        widget: 'list'
-        i18n: true
-        fields:
-          - { label: 'Naam', name: 'name', widget: 'string' }
-          - { label: 'Beschrijving', name: 'description', widget: 'text' }
-      - { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }
+          - {label: "Label", name: "label", widget: "string"}
+          - {label: "Value", name: "value", widget: "string"}
+      - {label: "Live URL", name: "live_url", widget: "string", required: false, i18n: duplicate}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false, i18n: duplicate}
+      - {label: "Content", name: "body", widget: "markdown", i18n: true}
 
-  - name: case-studies
-    label: Case Studies
-    folder: public/content/case-studies
+  # Blog Posts
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "public/content/blog"
     create: true
+    slug: "{{slug}}"
+    preview_path: "blog/{{slug}}"
+    editor:
+      preview: true
     i18n:
       structure: multiple_files
       locales: [nl, en]
-    slug: '{{slug}}'
     fields:
-      - { label: 'Titel', name: 'title', widget: 'string', i18n: true }
-      - { label: 'Afbeelding', name: 'featured_image', widget: 'image', i18n: true }
-      - { label: 'Categorie', name: 'category', widget: 'select', options: ['AI & Chatbots', 'Automatisering', 'Web Development'], i18n: true }
-      - { label: 'Klant', name: 'client', widget: 'string', i18n: true }
-      - { label: 'Industrie', name: 'industry', widget: 'string', i18n: true }
-      - { label: 'Datum', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', i18n: true }
-      - { label: 'Beschrijving', name: 'description', widget: 'text', i18n: true }
-      - { label: 'Uitdaging', name: 'challenge', widget: 'text', i18n: true }
-      - { label: 'Oplossing', name: 'solution', widget: 'text', i18n: true }
-      - { label: 'Resultaat', name: 'result', widget: 'text', i18n: true }
-      - label: 'Metrics'
-        name: 'metrics'
-        widget: 'list'
+      - {label: "Slug", name: "slug", widget: "string", i18n: duplicate}
+      - {label: "Title", name: "title", widget: "string", i18n: true}
+      - {label: "Featured Image", name: "featured_image", widget: "image", i18n: duplicate}
+      - {label: "Author", name: "author", widget: "string", i18n: duplicate}
+      - {label: "Date", name: "date", widget: "datetime", i18n: duplicate}
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        i18n: duplicate
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        i18n: true
+      - {label: "Excerpt", name: "excerpt", widget: "text", i18n: true}
+      - {label: "Content", name: "body", widget: "markdown", i18n: true}
+
+  # Services
+  - name: "services"
+    label: "Services"
+    folder: "public/content/services"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "services/{{slug}}"
+    editor:
+      preview: true
+    i18n:
+      structure: multiple_files
+      locales: [nl, en]
+    fields:
+      - {label: "Slug", name: "slug", widget: "string", i18n: duplicate}
+      - {label: "Title", name: "title", widget: "string", i18n: true}
+      - {label: "Icon", name: "icon", widget: "string", i18n: duplicate}
+      - {label: "Short Description", name: "short_description", widget: "text", i18n: true}
+      - {label: "Featured Image", name: "featured_image", widget: "image", i18n: duplicate}
+      - {label: "Order", name: "order", widget: "number", i18n: duplicate}
+      - label: "Features"
+        name: "features"
+        widget: "list"
         i18n: true
         fields:
-          - { label: 'Label', name: 'label', widget: 'string' }
-          - { label: 'Waarde', name: 'value', widget: 'string' }
-      - { label: 'Uitgelicht', name: 'featured', widget: 'boolean', default: false, i18n: true }
-      - { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }
-
-  - name: blog
-    label: Blog
-    folder: public/content/blog
-    create: true
-    i18n:
-      structure: multiple_files
-      locales: [nl, en]
-    slug: '{{slug}}'
-    fields:
-      - { label: 'Titel', name: 'title', widget: 'string', i18n: true }
-      - { label: 'Afbeelding', name: 'featured_image', widget: 'image', i18n: true }
-      - { label: 'Auteur', name: 'author', widget: 'string', i18n: true }
-      - { label: 'Datum', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', i18n: true }
-      - { label: 'Categorieën', name: 'categories', widget: 'list', i18n: true }
-      - { label: 'Tags', name: 'tags', widget: 'list', i18n: true }
-      - { label: 'Samenvatting', name: 'excerpt', widget: 'text', i18n: true }
-      - { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+      - label: "Tech Stack"
+        name: "tech_stack"
+        widget: "list"
+        i18n: true
+        fields:
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+      - {label: "Content", name: "body", widget: "markdown", i18n: true}

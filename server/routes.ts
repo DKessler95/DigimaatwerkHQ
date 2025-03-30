@@ -360,9 +360,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const content = await fs.readFile(filePath, 'utf8');
       const parsed = matter(content);
       
-      // Convert markdown content to HTML
-      const marked = require('marked');
-      const htmlContent = marked(parsed.content);
+      // Convert markdown content to HTML using a simple regex-based approach
+      // Since we can't use require in this context
+      const convertMarkdownToHtml = (markdown: string) => {
+        // Basic markdown to HTML conversion
+        return markdown
+          // Convert headers
+          .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+          .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+          .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+          // Convert bold
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          // Convert italic
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          // Convert blockquotes
+          .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
+          // Convert paragraphs (must be last)
+          .replace(/^([^<].*)/gm, '<p>$1</p>');
+      };
+      
+      const htmlContent = convertMarkdownToHtml(parsed.content);
       
       // Return the case study data
       res.status(200).json({
