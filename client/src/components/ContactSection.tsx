@@ -231,7 +231,7 @@ const ContactSection = () => {
             <div className="flex flex-col items-center mb-8">
               <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-accent">
                 <img 
-                  src="/images/profile.jpg" 
+                  src="/assets/profile.jpg" 
                   alt={language === 'nl' ? "Profielfoto" : "Profile Photo"}
                   className="w-full h-full object-cover"
                 />
