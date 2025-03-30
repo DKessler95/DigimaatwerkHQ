@@ -1473,7 +1473,35 @@
                 
                 const webhook = data.data;
                 
-                alert(`Webhook: ${webhook.name}\n\nURL: ${webhook.url}\nEvent Type: ${webhook.event_type}`);
+                // Show webhook details in a modal
+                const modalContent = `
+                  <div class="modal-form-group">
+                    <label>Naam</label>
+                    <p>${webhook.name}</p>
+                  </div>
+                  <div class="modal-form-group">
+                    <label>URL</label>
+                    <p>${webhook.url}</p>
+                  </div>
+                  <div class="modal-form-group">
+                    <label>Event Type</label>
+                    <p>${webhook.event_type || webhook.eventType}</p>
+                  </div>
+                  <div class="modal-form-group">
+                    <label>Actief</label>
+                    <p>${webhook.is_active || webhook.isActive ? 'Ja' : 'Nee'}</p>
+                  </div>
+                  <div class="modal-form-group">
+                    <label>Aangemaakt op</label>
+                    <p>${new Date(webhook.created_at || webhook.createdAt).toLocaleString('nl-NL')}</p>
+                  </div>
+                `;
+                
+                const modalActions = `
+                  <button class="modal-btn modal-btn-primary" data-action="close">Sluiten</button>
+                `;
+                
+                openModal('Webhook Details', modalContent, modalActions);
               } catch (error) {
                 console.error('Error viewing webhook:', error);
                 showNotification(`Fout bij het bekijken van webhook: ${error.message}`, 'error');
@@ -1658,7 +1686,88 @@
               `;
               
               // Re-attach close event listener
-              document.querySelector('[data-action="close"]').addEventListener('click', closeModal);
+              document.querySelector('[data-action="close"]').addEventListener('click', () => {
+                closeModal();
+                
+                // Add the new token to the API tokens table
+                const apiTokensTable = document.querySelector('#integrations .cms-table tbody');
+                if (apiTokensTable) {
+                  const now = new Date();
+                  const expiryDate = new Date();
+                  expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Token expires in 1 year
+                  
+                  const newRow = document.createElement('tr');
+                  newRow.innerHTML = `
+                    <td>${tokenName}</td>
+                    <td>Zojuist</td>
+                    <td>${expiryDate.toLocaleDateString('nl-NL')}</td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="view-btn" data-id="new-token">Tonen</button>
+                        <button class="delete-btn" data-id="new-token">Verwijderen</button>
+                      </div>
+                    </td>
+                  `;
+                  apiTokensTable.appendChild(newRow);
+                  
+                  // Add event listeners to the new buttons
+                  const viewBtn = newRow.querySelector('.view-btn');
+                  const deleteBtn = newRow.querySelector('.delete-btn');
+                  
+                  viewBtn.addEventListener('click', () => {
+                    // Show token details in a modal
+                    const viewModalContent = `
+                      <p>API Token Details</p>
+                      <div class="modal-form-group">
+                        <label>Naam</label>
+                        <p>${tokenName}</p>
+                      </div>
+                      ${tokenDescription ? `
+                      <div class="modal-form-group">
+                        <label>Omschrijving</label>
+                        <p>${tokenDescription}</p>
+                      </div>` : ''}
+                      <div class="modal-form-group">
+                        <label>Laatste gebruik</label>
+                        <p>Zojuist</p>
+                      </div>
+                      <div class="modal-form-group">
+                        <label>Vervaldatum</label>
+                        <p>${expiryDate.toLocaleDateString('nl-NL')}</p>
+                      </div>
+                    `;
+                    
+                    const viewModalActions = `
+                      <button class="modal-btn modal-btn-primary" data-action="close">Sluiten</button>
+                    `;
+                    
+                    openModal('API Token Details', viewModalContent, viewModalActions);
+                  });
+                  
+                  deleteBtn.addEventListener('click', () => {
+                    // Show confirmation dialog in a modal
+                    const deleteModalContent = `
+                      <p>Weet je zeker dat je deze API token wilt verwijderen?</p>
+                      <p>Deze actie kan niet ongedaan worden gemaakt.</p>
+                    `;
+                    
+                    const deleteModalActions = `
+                      <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+                      <button class="modal-btn modal-btn-danger" id="confirm-delete-token">Verwijderen</button>
+                    `;
+                    
+                    openModal('API Token Verwijderen', deleteModalContent, deleteModalActions);
+                    
+                    // Add event listener to confirm delete button
+                    document.getElementById('confirm-delete-token').addEventListener('click', () => {
+                      // Remove the token from the table
+                      newRow.remove();
+                      closeModal();
+                      showNotification('API token succesvol verwijderd!');
+                    });
+                  });
+                }
+              });
               
               showNotification('API token succesvol aangemaakt!');
             }, 500);
@@ -1745,7 +1854,7 @@
               showNotification('Gebruiker succesvol aangemaakt!');
               
               // Add the new user to the table
-              const usersTableBody = document.querySelector('.cms-table tbody');
+              const usersTableBody = document.querySelector('#settings .cms-table tbody');
               if (usersTableBody) {
                 const newRow = document.createElement('tr');
                 newRow.innerHTML = `
