@@ -335,17 +335,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Get a specific case study
+  // Get individual case study by slug
   app.get("/api/case-studies/:slug", async (req, res) => {
     try {
       const { slug } = req.params;
       const language = req.query.lang || 'nl';
-      const filePath = path.join(process.cwd(), 'public/content/case-studies', `${slug}.${language}.md`);
+      const contentDir = path.join(process.cwd(), 'public/content/case-studies');
+      
+      // Construct the expected filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
       
       // Check if file exists
       try {
         await fs.access(filePath);
-      } catch (error) {
+      } catch (err) {
         return res.status(404).json({
           success: false,
           message: "Case study not found"
@@ -356,14 +360,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const content = await fs.readFile(filePath, 'utf8');
       const parsed = matter(content);
       
+      // Convert markdown content to HTML
+      const marked = require('marked');
+      const htmlContent = marked(parsed.content);
+      
       // Return the case study data
       res.status(200).json({
         success: true,
         data: {
           slug,
           ...parsed.data,
-          content: parsed.content.trim()
-        } as CaseStudy
+          content: htmlContent
+        }
       });
     } catch (error) {
       console.error("Error fetching case study:", error);
@@ -373,6 +381,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+  
+
   
   // Get blog posts
   app.get("/api/blog", async (req, res) => {

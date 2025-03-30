@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Blogs from "@/pages/Blogs";
 import Services from "@/pages/Services";
+import CaseStudy from "@/pages/CaseStudy";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import GooglePrivacyPolicy from "@/pages/legal/GooglePrivacyPolicy";
 import TermsOfService from "@/pages/legal/TermsOfService";
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/blogs" component={Blogs} />
       <Route path="/services" component={Services} />
+      <Route path="/case-studies/:slug" component={CaseStudy} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/google-privacy-policy" component={GooglePrivacyPolicy} />
       <Route path="/terms-of-service" component={TermsOfService} />

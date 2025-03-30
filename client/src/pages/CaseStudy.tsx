@@ -1,0 +1,233 @@
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { useLanguage } from '@/lib/languageContext';
+
+interface CaseStudy {
+  slug: string;
+  title: string;
+  featured_image: string;
+  category: string;
+  client: string;
+  industry: string;
+  date: string;
+  description: string;
+  challenge: string;
+  solution: string;
+  result: string;
+  metrics: Array<{ label: string; value: string }>;
+  live_url?: string;
+  featured: boolean;
+  content: string;
+}
+
+const CaseStudyPage = () => {
+  const { slug } = useParams();
+  const { language } = useLanguage();
+  
+  // Fetch case study data from API
+  const { data: caseStudy, isLoading, error } = useQuery({
+    queryKey: ['/api/case-studies', slug, language],
+    queryFn: async () => {
+      const response = await fetch(`/api/case-studies/${slug}?lang=${language}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch case study');
+      }
+      const data = await response.json();
+      return data.data as CaseStudy;
+    }
+  });
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-primary flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !caseStudy) {
+    return (
+      <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
+        <h1 className="text-2xl font-header mb-4">
+          {language === 'nl' ? 'Case study niet gevonden' : 'Case study not found'}
+        </h1>
+        <p className="text-foreground/70 mb-6">
+          {language === 'nl' 
+            ? 'De case study die je zoekt kon niet worden gevonden.' 
+            : 'The case study you are looking for could not be found.'}
+        </p>
+        <Link href="/#case-studies">
+          <a className="px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition">
+            {language === 'nl' ? 'Terug naar case studies' : 'Back to case studies'}
+          </a>
+        </Link>
+      </div>
+    );
+  }
+
+  // Format date
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat(language === 'nl' ? 'nl-NL' : 'en-US', {
+      year: 'numeric',
+      month: 'long',
+    }).format(date);
+  };
+
+  return (
+    <div className="bg-primary min-h-screen">
+      {/* Hero section */}
+      <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+        <img 
+          src={caseStudy.featured_image} 
+          alt={caseStudy.title}
+          className="absolute w-full h-full object-cover"
+        />
+        <div className="relative z-20 container mx-auto px-4 h-full flex flex-col justify-end pb-12">
+          <div className="inline-block px-3 py-1 bg-accent text-primary text-sm rounded mb-4">
+            {caseStudy.category}
+          </div>
+          <h1 className="text-3xl md:text-5xl font-header font-bold mb-4 text-white">
+            {caseStudy.title}
+          </h1>
+          <p className="text-white/80 max-w-2xl mb-6">
+            {caseStudy.description}
+          </p>
+          <div className="flex flex-wrap gap-4 text-sm text-white/70">
+            <div>
+              <span className="font-medium">{language === 'nl' ? 'Klant: ' : 'Client: '}</span>
+              {caseStudy.client}
+            </div>
+            <div>
+              <span className="font-medium">{language === 'nl' ? 'Industrie: ' : 'Industry: '}</span>
+              {caseStudy.industry}
+            </div>
+            <div>
+              <span className="font-medium">{language === 'nl' ? 'Datum: ' : 'Date: '}</span>
+              {formatDate(caseStudy.date)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Sidebar */}
+          <div className="md:col-span-1">
+            <div className="bg-secondary/50 rounded-xl p-6 sticky top-24">
+              <h3 className="font-header text-xl font-semibold mb-6">
+                {language === 'nl' ? 'Resultaten' : 'Results'}
+              </h3>
+              
+              <div className="space-y-6">
+                {caseStudy.metrics.map((metric, index) => (
+                  <motion.div 
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="bg-secondary/80 rounded-lg p-4"
+                  >
+                    <div className="text-2xl font-header font-bold text-accent">
+                      {metric.value}
+                    </div>
+                    <div className="text-sm text-foreground/70">
+                      {metric.label}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+              
+              {caseStudy.live_url && (
+                <div className="mt-8">
+                  <a 
+                    href={caseStudy.live_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center px-4 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition"
+                  >
+                    <i className="ri-external-link-line mr-2"></i>
+                    {language === 'nl' ? 'Bekijk Live Website' : 'View Live Website'}
+                  </a>
+                </div>
+              )}
+              
+              <div className="mt-4">
+                <Link href="/#case-studies">
+                  <a className="w-full inline-flex items-center justify-center px-4 py-3 border border-foreground/30 rounded-lg hover:bg-secondary transition mt-4">
+                    <i className="ri-arrow-left-line mr-2"></i>
+                    {language === 'nl' ? 'Alle Case Studies' : 'All Case Studies'}
+                  </a>
+                </Link>
+              </div>
+            </div>
+          </div>
+          
+          {/* Main content */}
+          <div className="md:col-span-2">
+            <div className="prose prose-lg dark:prose-invert max-w-none">
+              <div className="mb-8">
+                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4">
+                  {language === 'nl' ? 'De Uitdaging' : 'The Challenge'}
+                </h2>
+                <p className="text-foreground/80">
+                  {caseStudy.challenge}
+                </p>
+              </div>
+              
+              <div className="mb-8">
+                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4">
+                  {language === 'nl' ? 'Onze Oplossing' : 'Our Solution'}
+                </h2>
+                <p className="text-foreground/80">
+                  {caseStudy.solution}
+                </p>
+              </div>
+              
+              <div className="mb-8">
+                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4">
+                  {language === 'nl' ? 'Het Resultaat' : 'The Result'}
+                </h2>
+                <p className="text-foreground/80">
+                  {caseStudy.result}
+                </p>
+              </div>
+              
+              {/* Full content */}
+              <div dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Contact CTA */}
+      <div className="bg-secondary py-12">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-header font-bold mb-4">
+            {language === 'nl' ? 'Klaar om jouw project te bespreken?' : 'Ready to discuss your project?'}
+          </h2>
+          <p className="text-foreground/70 max-w-2xl mx-auto mb-8">
+            {language === 'nl' 
+              ? 'Wij helpen je graag bij het realiseren van jouw digitale ambities. Neem contact met ons op voor een vrijblijvend gesprek.' 
+              : "We're here to help you achieve your digital ambitions. Contact us for a no-obligation conversation."}
+          </p>
+          <a 
+            href="#contact" 
+            className="inline-flex items-center px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition"
+          >
+            {language === 'nl' ? 'Neem Contact Op' : 'Contact Us'}
+            <i className="ri-arrow-right-line ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CaseStudyPage;
