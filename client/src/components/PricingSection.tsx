@@ -59,7 +59,7 @@ const PricingSection: React.FC = () => {
         nl: 'Tot 10 pagina\'s, CMS-integratie, custom design',
         en: 'Up to 10 pages, CMS integration, custom design'
       },
-      price: '€1.200 - €2.000'
+      price: '€1.250'
     },
     {
       title: {
@@ -70,7 +70,7 @@ const PricingSection: React.FC = () => {
         nl: 'Volledig op maat gemaakt, geavanceerde functionaliteit',
         en: 'Fully customized, advanced functionality'
       },
-      price: '€3.000+'
+      price: '€2.500+'
     }
   ];
 
@@ -84,7 +84,7 @@ const PricingSection: React.FC = () => {
         nl: 'Perfecte start voor kleine bedrijven.',
         en: 'Perfect start for small businesses.'
       },
-      price: '€29',
+      price: '€49',
       features: {
         nl: [
           '24/7 ticket support',
@@ -109,7 +109,7 @@ const PricingSection: React.FC = () => {
         nl: 'Ideaal voor groeiende bedrijven.',
         en: 'Ideal for growing businesses.'
       },
-      price: '€69',
+      price: '€99',
       features: {
         nl: [
           'Snelle respons (24 uur)',
@@ -136,7 +136,7 @@ const PricingSection: React.FC = () => {
         nl: 'Complete dienstverlening voor veeleisende bedrijven.',
         en: 'Complete service for demanding businesses.'
       },
-      price: '€129',
+      price: '€149',
       features: {
         nl: [
           'Prioriteit respons (12 uur)',
@@ -292,6 +292,29 @@ const PricingSection: React.FC = () => {
               ? 'Alle maandelijkse pakketten omvatten toegang tot ons klantenportaal waar je eenvoudig hulp kunt krijgen en updates kunt volgen. Voor specifieke wensen of aangepaste oplossingen, neem contact met ons op voor een persoonlijk voorstel.'
               : 'All monthly packages include access to our customer portal where you can easily get help and track updates. For specific requirements or custom solutions, please contact us for a personalized proposal.'}
           </p>
+        </motion.div>
+        
+        {/* Scroll Indicator pointing to calculator section */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+          }}
+          className="mt-16 flex justify-center"
+        >
+          <a href="#calculator" className="flex flex-col items-center justify-center text-foreground/70 hover:text-accent transition group">
+            <span className="text-sm mb-2">
+              {language === 'nl' 
+                ? 'Of bereken de prijs van uw website met onze "Project calculator"' 
+                : 'Or calculate the price of your website with our "Project calculator"'}
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 animate-bounce group-hover:text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
         </motion.div>
       </div>
     </section>

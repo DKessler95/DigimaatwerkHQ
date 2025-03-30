@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
 
 type ProjectType = 'chatbot' | 'automation' | 'web' | 'combined';
-type ProjectScale = 'small' | 'medium' | 'large';
+type ProjectScale = 'basic' | 'advanced' | 'custom';
+type SupportPackage = 'none' | 'basic' | 'standard' | 'premium';
 type TimelinePriority = 1 | 2 | 3;
 
 interface Feature {
@@ -13,62 +14,133 @@ interface Feature {
   priceImpact: number;
 }
 
+interface SupportPackageInfo {
+  id: SupportPackage;
+  nameNl: string;
+  nameEn: string;
+  price: number;
+}
+
 const ProjectCalculator = () => {
   const { t, language } = useLanguage();
-  const [projectType, setProjectType] = useState<ProjectType>('chatbot');
-  const [projectScale, setProjectScale] = useState<ProjectScale>('small');
+  const [projectType, setProjectType] = useState<ProjectType>('web');
+  const [projectScale, setProjectScale] = useState<ProjectScale>('basic');
+  const [supportPackage, setSupportPackage] = useState<SupportPackage>('none');
   const [timelinePriority, setTimelinePriority] = useState<TimelinePriority>(1);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   
   const features: Feature[] = [
     { 
       id: 'feature1', 
-      nameNl: 'Gebruikersauthenticatie', 
-      nameEn: 'User Authentication', 
-      priceImpact: 1500 
+      nameNl: 'Contactformulier', 
+      nameEn: 'Contact Form', 
+      priceImpact: 150 
     },
     { 
       id: 'feature2', 
-      nameNl: 'CRM Integratie', 
-      nameEn: 'CRM Integration', 
-      priceImpact: 2000 
+      nameNl: 'Extra pagina\'s (per 5)', 
+      nameEn: 'Additional pages (per 5)', 
+      priceImpact: 250 
     },
     { 
       id: 'feature3', 
-      nameNl: 'Betalingsverwerking', 
-      nameEn: 'Payment Processing', 
-      priceImpact: 2500 
+      nameNl: 'Blog functionaliteit', 
+      nameEn: 'Blog functionality', 
+      priceImpact: 350 
     },
     { 
       id: 'feature4', 
-      nameNl: 'Analytics Dashboard', 
-      nameEn: 'Analytics Dashboard', 
-      priceImpact: 3000 
+      nameNl: 'Gebruikersauthenticatie', 
+      nameEn: 'User Authentication', 
+      priceImpact: 450 
     },
     { 
       id: 'feature5', 
-      nameNl: '3D Visualisaties', 
-      nameEn: '3D Visualizations', 
-      priceImpact: 4000 
+      nameNl: 'E-commerce functionaliteit', 
+      nameEn: 'E-commerce functionality', 
+      priceImpact: 850 
+    },
+    { 
+      id: 'feature6', 
+      nameNl: 'CMS systeem', 
+      nameEn: 'CMS system', 
+      priceImpact: 550 
+    },
+    { 
+      id: 'feature7', 
+      nameNl: 'Meertalige website', 
+      nameEn: 'Multilingual website', 
+      priceImpact: 450 
+    },
+    { 
+      id: 'feature8', 
+      nameNl: '3D visualisaties', 
+      nameEn: '3D visualizations', 
+      priceImpact: 750 
     },
   ];
   
+  const supportPackages: SupportPackageInfo[] = [
+    {
+      id: 'none',
+      nameNl: 'Geen maandelijks pakket',
+      nameEn: 'No monthly package',
+      price: 0
+    },
+    {
+      id: 'basic',
+      nameNl: 'Basic (€49/maand)',
+      nameEn: 'Basic (€49/month)',
+      price: 49
+    },
+    {
+      id: 'standard',
+      nameNl: 'Standaard (€99/maand)',
+      nameEn: 'Standard (€99/month)',
+      price: 99
+    },
+    {
+      id: 'premium',
+      nameNl: 'Premium (€149/maand)',
+      nameEn: 'Premium (€149/month)',
+      price: 149
+    }
+  ];
+  
+  // Get the support package price
+  const getSupportPackagePrice = (): number => {
+    const packageInfo = supportPackages.find(pkg => pkg.id === supportPackage);
+    return packageInfo ? packageInfo.price : 0;
+  };
+
   // Calculate base price based on project type and scale
   const getBasePrice = (): number => {
+    // Website type prices based on the pricing section
+    if (projectType === 'web') {
+      if (projectScale === 'basic') {
+        return 650; // Basis website: €650
+      } else if (projectScale === 'advanced') {
+        return 1250; // Geavanceerde website: €1250
+      } else if (projectScale === 'custom') {
+        return 2500; // Maatwerk website: €2500
+      }
+    }
+    
+    // For other project types
     const typeMultiplier = {
-      chatbot: 1,
-      automation: 1.2,
-      web: 1.5,
-      combined: 2
+      chatbot: 1.2,
+      automation: 1.3,
+      web: 1,
+      combined: 2.5
     };
     
-    const scaleMultiplier = {
-      small: 10000,
-      medium: 15000,
-      large: 25000
+    const scaleBase = {
+      basic: 650,
+      advanced: 1250,
+      custom: 2500
     };
     
-    return scaleMultiplier[projectScale] * typeMultiplier[projectType];
+    return scaleBase[projectScale] * typeMultiplier[projectType];
   };
   
   // Calculate additional features cost
@@ -90,26 +162,32 @@ const ProjectCalculator = () => {
   };
   
   // Total price calculation
-  const calculatePrice = (): { min: number; max: number } => {
+  const calculatePrice = (): { min: number; max: number; monthlySupport: number } => {
     const basePrice = getBasePrice();
     const featuresCost = getFeaturesCost();
     const rushMultiplier = getRushMultiplier();
+    const supportCost = getSupportPackagePrice();
     
     const total = (basePrice + featuresCost) * rushMultiplier;
     
     return {
-      min: Math.round(total * 0.9),
-      max: Math.round(total * 1.1)
+      min: Math.round(total * 0.95),
+      max: Math.round(total * 1.05),
+      monthlySupport: supportCost
     };
   };
   
   // Timeline calculation in weeks
   const calculateTimeline = (): { min: number; max: number } => {
-    const baseTime = {
-      small: 4,
-      medium: 6,
-      large: 10
-    }[projectScale];
+    let baseTime;
+    
+    if (projectScale === 'basic') {
+      baseTime = 2; // 2 weeks for basic website
+    } else if (projectScale === 'advanced') {
+      baseTime = 4; // 4 weeks for advanced website
+    } else {
+      baseTime = 6; // 6 weeks for custom website
+    }
     
     const featureTime = Math.ceil(selectedFeatures.length / 2);
     
@@ -123,7 +201,7 @@ const ProjectCalculator = () => {
     const totalTime = (baseTime + featureTime) * timeMultiplier;
     
     return {
-      min: Math.max(2, Math.floor(totalTime * 0.9)),
+      min: Math.max(1, Math.floor(totalTime * 0.9)),
       max: Math.ceil(totalTime * 1.1)
     };
   };
@@ -140,7 +218,7 @@ const ProjectCalculator = () => {
   };
 
   return (
-    <section className="py-24 bg-primary relative overflow-hidden">
+    <section id="calculator" className="py-24 bg-primary relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full opacity-5" style={{ 
         backgroundImage: `url('https://images.unsplash.com/photo-1484417894907-623942c8ee29?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')` 
       }}></div>
@@ -183,28 +261,28 @@ const ProjectCalculator = () => {
                   <label className="block text-foreground/80 mb-2">{t('calculator.scale')}</label>
                   <div className="grid grid-cols-3 gap-4">
                     <button 
-                      className={`${projectScale === 'small' 
+                      className={`${projectScale === 'basic' 
                         ? 'bg-primary border border-accent text-accent' 
                         : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
-                      onClick={() => setProjectScale('small')}
+                      onClick={() => setProjectScale('basic')}
                     >
-                      {t('calculator.scale.small')}
+                      {language === 'nl' ? 'Basis' : 'Basic'}
                     </button>
                     <button 
-                      className={`${projectScale === 'medium' 
+                      className={`${projectScale === 'advanced' 
                         ? 'bg-primary border border-accent text-accent' 
                         : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
-                      onClick={() => setProjectScale('medium')}
+                      onClick={() => setProjectScale('advanced')}
                     >
-                      {t('calculator.scale.medium')}
+                      {language === 'nl' ? 'Geavanceerd' : 'Advanced'}
                     </button>
                     <button 
-                      className={`${projectScale === 'large' 
+                      className={`${projectScale === 'custom' 
                         ? 'bg-primary border border-accent text-accent' 
                         : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
-                      onClick={() => setProjectScale('large')}
+                      onClick={() => setProjectScale('custom')}
                     >
-                      {t('calculator.scale.large')}
+                      {language === 'nl' ? 'Maatwerk' : 'Custom'}
                     </button>
                   </div>
                 </div>
@@ -224,6 +302,23 @@ const ProjectCalculator = () => {
                         <label htmlFor={feature.id}>{language === 'nl' ? feature.nameNl : feature.nameEn}</label>
                       </div>
                     ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-foreground/80 mb-2">{language === 'nl' ? 'Support Pakket' : 'Support Package'}</label>
+                  <div className="mb-4">
+                    <select 
+                      className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent"
+                      value={supportPackage}
+                      onChange={(e) => setSupportPackage(e.target.value as SupportPackage)}
+                    >
+                      {supportPackages.map((pkg) => (
+                        <option key={pkg.id} value={pkg.id}>
+                          {language === 'nl' ? pkg.nameNl : pkg.nameEn}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 
@@ -259,6 +354,14 @@ const ProjectCalculator = () => {
                   <span className="text-foreground/80">{t('calculator.result.budget')}</span>
                   <span className="text-2xl font-medium text-accent">€{priceRange.min.toLocaleString()} - €{priceRange.max.toLocaleString()}</span>
                 </div>
+                
+                {priceRange.monthlySupport > 0 && (
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-foreground/80">{language === 'nl' ? 'Maandelijks support' : 'Monthly support'}</span>
+                    <span className="text-xl font-medium text-accent">€{priceRange.monthlySupport.toLocaleString()}/mnd</span>
+                  </div>
+                )}
+                
                 <div className="flex justify-between items-center">
                   <span className="text-foreground/80">{t('calculator.result.timeline')}</span>
                   <span className="text-xl font-medium">
@@ -299,7 +402,7 @@ const ProjectCalculator = () => {
                   <li className="flex items-start">
                     <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
                     <span>
-                      {language === 'nl' ? '3 maanden onderhoud en updates' : '3 months of maintenance and updates'}
+                      {language === 'nl' ? 'Optimalisatie voor zoekmachines (SEO)' : 'Search engine optimization (SEO)'}
                     </span>
                   </li>
                 </ul>
