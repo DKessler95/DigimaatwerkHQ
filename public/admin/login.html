@@ -136,26 +136,17 @@
         const email = emailInput.value;
         const password = passwordInput.value;
         
-        try {
-          const response = await fetch('/admin/api/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-          });
+        // In echte implementatie: API-call voor authenticatie
+        // Voor nu: Eenvoudige authenticatie met standaard gegevens
+        if (email === defaultEmail && password === defaultPassword) {
+          // Succesvolle login status in localStorage opslaan
+          localStorage.setItem('cms_authenticated', 'true');
+          localStorage.setItem('cms_user', email);
           
-          const data = await response.json();
-          
-          if (data.success) {
-            // Succesvol ingelogd, doorsturen naar admin interface
-            window.location.href = '/admin/';
-          } else {
-            // Toon foutmelding
-            errorMessage.style.display = 'block';
-          }
-        } catch (error) {
-          console.error('Login error:', error);
+          // Doorsturen naar dashboard
+          window.location.href = '/admin/dashboard.html';
+        } else {
+          // Toon foutmelding
           errorMessage.style.display = 'block';
         }
       });

@@ -67,33 +67,17 @@
   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
   <script>
-    // Luisteren voor wanneer de Netlify CMS is geladen
+    // Doorsturen naar de aangepaste login- of dashboard-pagina
     window.addEventListener('load', function() {
-      // Controleer of er een hash in de URL staat (#/)
-      if (window.location.hash.includes('#/')) {
-        // Als de CMS niet correct laadt, doorverwijzen naar de login pagina
-        setTimeout(function() {
-          const cmsRoot = document.querySelector('[class*="AppMainUI"]');
-          if (!cmsRoot || cmsRoot.children.length === 0) {
-            console.log('CMS niet correct geladen, doorverwijzen naar login');
-            window.location.href = '/admin/login.html';
-          } else {
-            // CMS correct geladen, verberg de loading screen
-            document.querySelector('.loading').style.display = 'none';
-          }
-        }, 2000); // Controleer na 2 seconden
+      // Controleren of de gebruiker is ingelogd
+      const isAuthenticated = localStorage.getItem('cms_authenticated');
+      
+      if (isAuthenticated) {
+        // Als gebruiker ingelogd is, naar het dashboard sturen
+        window.location.href = '/admin/dashboard.html';
       } else {
-        // Geen hash, dit is waarschijnlijk de eerste pagina - hier zou de CMS login moeten verschijnen
-        setTimeout(function() {
-          const loginForm = document.querySelector('[class*="LoginPage"]');
-          if (!loginForm) {
-            console.log('Login pagina niet gevonden, doorverwijzen naar aangepaste login');
-            window.location.href = '/admin/login.html';
-          } else {
-            // Login pagina correct geladen, verberg de loading screen
-            document.querySelector('.loading').style.display = 'none';
-          }
-        }, 2000); // Controleer na 2 seconden
+        // Als gebruiker niet ingelogd is, naar login sturen
+        window.location.href = '/admin/login.html';
       }
     });
     

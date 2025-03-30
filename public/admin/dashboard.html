@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digimaatwerk CMS Dashboard</title>
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root {
+      --midnight-blue: #0F172A;
+      --dark-gray: #1E293B;
+      --teal: #0D9488;
+      --teal-light: #14B8A6;
+      --white: #FFFFFF;
+      --light-gray: #CBD5E1;
+      --danger: #EF4444;
+      --success: #10B981;
+      --warning: #F59E0B;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--midnight-blue);
+      color: var(--white);
+      line-height: 1.6;
+    }
+    
+    .container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar styles */
+    .sidebar {
+      background-color: var(--dark-gray);
+      padding: 2rem 1rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .logo img {
+      max-width: 180px;
+    }
+    
+    .nav-menu {
+      list-style: none;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-link {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: var(--light-gray);
+      text-decoration: none;
+      border-radius: 0.25rem;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+    }
+    
+    .nav-link.active {
+      background-color: var(--teal);
+    }
+    
+    /* Main content styles */
+    .main {
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .header h1 {
+      font-size: 1.8rem;
+    }
+    
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .user-section span {
+      color: var(--light-gray);
+    }
+    
+    /* Content section styles */
+    .content-section {
+      border-radius: 0.5rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .action-button {
+      background-color: var(--teal);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+    
+    .action-button:hover {
+      background-color: var(--teal-light);
+    }
+    
+    /* Table styles */
+    .cms-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .cms-table th, .cms-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .cms-table th {
+      background-color: rgba(0, 0, 0, 0.2);
+      font-weight: 600;
+      color: var(--light-gray);
+    }
+    
+    .cms-table tr:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+    
+    /* Form styles */
+    .form-container {
+      display: none;
+      background-color: var(--dark-gray);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--light-gray);
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="number"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: rgba(0, 0, 0, 0.2);
+      color: var(--white);
+      border-radius: 0.25rem;
+      font-size: 1rem;
+    }
+    
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .form-actions button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    
+    .cancel-button {
+      background-color: transparent;
+      color: var(--light-gray);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .save-button {
+      background-color: var(--teal);
+      color: white;
+    }
+    
+    /* Notification styles */
+    .notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1rem 1.5rem;
+      border-radius: 0.25rem;
+      color: white;
+      opacity: 0;
+      transform: translateY(1rem);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 1000;
+    }
+    
+    .notification.success {
+      background-color: var(--success);
+    }
+    
+    .notification.error {
+      background-color: var(--danger);
+    }
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Action buttons in table */
+    .table-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .edit-btn, .delete-btn, .view-btn {
+      padding: 0.25rem 0.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: white;
+    }
+    
+    .view-btn {
+      background-color: var(--teal);
+    }
+    
+    .edit-btn {
+      background-color: var(--warning);
+    }
+    
+    .delete-btn {
+      background-color: var(--danger);
+    }
+    
+    /* Loading indicator */
+    .loading {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--teal);
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Mobile responsive styles */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        display: none;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+    }
+    
+    /* Custom styling for tabs */
+    .tab-container {
+      margin-bottom: 1.5rem;
+    }
+    
+    .tab-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tab-button {
+      padding: 0.5rem 1rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--light-gray);
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .tab-button.active {
+      background-color: var(--teal);
+      color: white;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="logo">
+        <img src="/logo.svg" alt="Digimaatwerk Logo">
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#dashboard" class="nav-link active" data-tab="dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a href="#services" class="nav-link" data-tab="services">Services</a>
+        </li>
+        <li class="nav-item">
+          <a href="#case-studies" class="nav-link" data-tab="case-studies">Case Studies</a>
+        </li>
+        <li class="nav-item">
+          <a href="#blog" class="nav-link" data-tab="blog">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a href="#settings" class="nav-link" data-tab="settings">Instellingen</a>
+        </li>
+        <li class="nav-item">
+          <a href="#logout" class="nav-link" id="logout-link">Uitloggen</a>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="main">
+      <div class="header">
+        <h1>Digimaatwerk CMS</h1>
+        <div class="user-section">
+          <span>Ingelogd als: Admin</span>
+        </div>
+      </div>
+      
+      <div id="dashboard" class="tab-content active">
+        <div class="content-section">
+          <div class="section-header">
+            <h2>Dashboard</h2>
+          </div>
+          <p>Welkom bij het Digimaatwerk Content Management Systeem.</p>
+          <p>Gebruik het menu aan de linkerkant om content te beheren.</p>
+          
+          <div class="stats-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem;">
+            <div style="background: rgba(13, 148, 136, 0.2); padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+              <h3>Services</h3>
+              <p style="font-size: 2rem; margin: 0.5rem 0;" id="services-count">...</p>
+            </div>
+            <div style="background: rgba(13, 148, 136, 0.2); padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+              <h3>Case Studies</h3>
+              <p style="font-size: 2rem; margin: 0.5rem 0;" id="case-studies-count">...</p>
+            </div>
+            <div style="background: rgba(13, 148, 136, 0.2); padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+              <h3>Blog Posts</h3>
+              <p style="font-size: 2rem; margin: 0.5rem 0;" id="blog-count">...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="services" class="tab-content">
+        <div class="content-section">
+          <div class="section-header">
+            <h2>Services</h2>
+            <button class="action-button" id="add-service-btn">Nieuwe Service</button>
+          </div>
+          
+          <div class="tab-container">
+            <div class="tab-buttons">
+              <button class="tab-button active" data-lang="nl">Nederlands</button>
+              <button class="tab-button" data-lang="en">Engels</button>
+            </div>
+          </div>
+          
+          <div id="services-table-container">
+            <table class="cms-table" id="services-table">
+              <thead>
+                <tr>
+                  <th>Titel</th>
+                  <th>Slug</th>
+                  <th>Volgorde</th>
+                  <th>Acties</th>
+                </tr>
+              </thead>
+              <tbody id="services-table-body">
+                <tr>
+                  <td colspan="4" style="text-align: center;">
+                    <div class="loading"></div> Services laden...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div id="service-form-container" class="form-container">
+            <h3 id="service-form-title">Service Toevoegen</h3>
+            <form id="service-form">
+              <div class="form-group">
+                <label for="service-title">Titel</label>
+                <input type="text" id="service-title" name="title" required>
+              </div>
+              <div class="form-group">
+                <label for="service-slug">Slug</label>
+                <input type="text" id="service-slug" name="slug" required>
+              </div>
+              <div class="form-group">
+                <label for="service-icon">Icon</label>
+                <input type="text" id="service-icon" name="icon" placeholder="material-icon-name">
+              </div>
+              <div class="form-group">
+                <label for="service-order">Volgorde</label>
+                <input type="number" id="service-order" name="order" min="1" value="1">
+              </div>
+              <div class="form-group">
+                <label for="service-short-description">Korte Beschrijving</label>
+                <textarea id="service-short-description" name="short_description"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="service-content">Content</label>
+                <textarea id="service-content" name="content"></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="cancel-button" id="cancel-service-btn">Annuleren</button>
+                <button type="submit" class="save-button">Opslaan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <div id="case-studies" class="tab-content">
+        <div class="content-section">
+          <div class="section-header">
+            <h2>Case Studies</h2>
+            <button class="action-button" id="add-case-study-btn">Nieuwe Case Study</button>
+          </div>
+          
+          <div class="tab-container">
+            <div class="tab-buttons">
+              <button class="tab-button active" data-lang="nl">Nederlands</button>
+              <button class="tab-button" data-lang="en">Engels</button>
+            </div>
+          </div>
+          
+          <div id="case-studies-table-container">
+            <table class="cms-table" id="case-studies-table">
+              <thead>
+                <tr>
+                  <th>Titel</th>
+                  <th>Categorie</th>
+                  <th>Client</th>
+                  <th>Acties</th>
+                </tr>
+              </thead>
+              <tbody id="case-studies-table-body">
+                <tr>
+                  <td colspan="4" style="text-align: center;">
+                    <div class="loading"></div> Case studies laden...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div id="blog" class="tab-content">
+        <div class="content-section">
+          <div class="section-header">
+            <h2>Blog</h2>
+            <button class="action-button" id="add-blog-btn">Nieuwe Blog Post</button>
+          </div>
+          
+          <div class="tab-container">
+            <div class="tab-buttons">
+              <button class="tab-button active" data-lang="nl">Nederlands</button>
+              <button class="tab-button" data-lang="en">Engels</button>
+            </div>
+          </div>
+          
+          <div id="blog-table-container">
+            <table class="cms-table" id="blog-table">
+              <thead>
+                <tr>
+                  <th>Titel</th>
+                  <th>Auteur</th>
+                  <th>Datum</th>
+                  <th>Acties</th>
+                </tr>
+              </thead>
+              <tbody id="blog-table-body">
+                <tr>
+                  <td colspan="4" style="text-align: center;">
+                    <div class="loading"></div> Blog posts laden...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div id="settings" class="tab-content">
+        <div class="content-section">
+          <h2>Instellingen</h2>
+          <p>Hier komen CMS-instellingen</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="notification" id="notification"></div>
+  
+  <script>
+    // Globals
+    let currentTab = 'dashboard';
+    let currentLang = 'nl'; // default language
+    let servicesData = [];
+    let caseStudiesData = [];
+    let blogData = [];
+    
+    // DOM Elements
+    const navLinks = document.querySelectorAll('.nav-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const langButtons = document.querySelectorAll('.tab-button[data-lang]');
+    
+    const addServiceBtn = document.getElementById('add-service-btn');
+    const serviceFormContainer = document.getElementById('service-form-container');
+    const serviceForm = document.getElementById('service-form');
+    const cancelServiceBtn = document.getElementById('cancel-service-btn');
+    
+    // Notification function
+    function showNotification(message, type = 'success') {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.className = `notification ${type}`;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+    
+    // Tab switching
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.id === 'logout-link') return;
+        
+        e.preventDefault();
+        const tab = link.getAttribute('data-tab');
+        
+        // Remove active class from all links and tabs
+        navLinks.forEach(navLink => navLink.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Add active class to clicked link and corresponding tab
+        link.classList.add('active');
+        document.getElementById(tab).classList.add('active');
+        
+        currentTab = tab;
+        
+        // Load data for the tab if needed
+        if (tab === 'services' && servicesData.length === 0) {
+          loadServices();
+        } else if (tab === 'case-studies' && caseStudiesData.length === 0) {
+          loadCaseStudies();
+        } else if (tab === 'blog' && blogData.length === 0) {
+          loadBlogPosts();
+        }
+      });
+    });
+    
+    // Language switching
+    langButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        langButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        currentLang = button.getAttribute('data-lang');
+        
+        // Reload the current tab data with the new language
+        if (currentTab === 'services') {
+          loadServices();
+        } else if (currentTab === 'case-studies') {
+          loadCaseStudies();
+        } else if (currentTab === 'blog') {
+          loadBlogPosts();
+        }
+      });
+    });
+    
+    // Service Form handling
+    addServiceBtn.addEventListener('click', () => {
+      serviceFormContainer.style.display = 'block';
+      document.getElementById('service-form-title').textContent = 'Service Toevoegen';
+      serviceForm.reset();
+    });
+    
+    cancelServiceBtn.addEventListener('click', () => {
+      serviceFormContainer.style.display = 'none';
+    });
+    
+    serviceForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Here you would handle the form submission to create/update a service
+      // API call would be made here
+      
+      const formData = new FormData(serviceForm);
+      const serviceData = Object.fromEntries(formData.entries());
+      
+      console.log('Service data to submit:', serviceData);
+      
+      // Simulating API call with setTimeout
+      setTimeout(() => {
+        showNotification('Service succesvol opgeslagen!');
+        serviceFormContainer.style.display = 'none';
+        loadServices(); // Reload services
+      }, 800);
+    });
+    
+    // Logout handler
+    document.getElementById('logout-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      // Logout logic here
+      localStorage.removeItem('cms_authenticated');
+      window.location.href = '/admin/login.html';
+    });
+    
+    // Data loading functions
+    async function loadServices() {
+      const servicesTableBody = document.getElementById('services-table-body');
+      servicesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;"><div class="loading"></div> Services laden...</td></tr>';
+      
+      try {
+        const response = await fetch('/api/services');
+        const data = await response.json();
+        
+        if (data.success) {
+          servicesData = data.data;
+          
+          // Update dashboard count
+          document.getElementById('services-count').textContent = servicesData.length;
+          
+          // Filter by current language
+          const filteredServices = servicesData.filter(service => {
+            // If the filename contains the language code (e.g., .en.md or .nl.md)
+            return service.slug.includes(`.${currentLang}.`);
+          });
+          
+          if (filteredServices.length === 0) {
+            servicesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Geen services gevonden</td></tr>';
+            return;
+          }
+          
+          servicesTableBody.innerHTML = '';
+          
+          filteredServices.forEach(service => {
+            const tr = document.createElement('tr');
+            
+            tr.innerHTML = `
+              <td>${service.title}</td>
+              <td>${service.slug}</td>
+              <td>${service.order || 'N/A'}</td>
+              <td>
+                <div class="table-actions">
+                  <button class="view-btn" data-id="${service.slug}">Bekijken</button>
+                  <button class="edit-btn" data-id="${service.slug}">Bewerken</button>
+                  <button class="delete-btn" data-id="${service.slug}">Verwijderen</button>
+                </div>
+              </td>
+            `;
+            
+            servicesTableBody.appendChild(tr);
+          });
+        } else {
+          servicesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van services</td></tr>';
+        }
+      } catch (error) {
+        console.error('Error loading services:', error);
+        servicesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van services</td></tr>';
+      }
+    }
+    
+    async function loadCaseStudies() {
+      const caseStudiesTableBody = document.getElementById('case-studies-table-body');
+      caseStudiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;"><div class="loading"></div> Case studies laden...</td></tr>';
+      
+      try {
+        const response = await fetch('/api/case-studies');
+        const data = await response.json();
+        
+        if (data.success) {
+          caseStudiesData = data.data;
+          
+          // Update dashboard count
+          document.getElementById('case-studies-count').textContent = caseStudiesData.length;
+          
+          // Filter by current language
+          const filteredCaseStudies = caseStudiesData.filter(caseStudy => {
+            // If the filename contains the language code (e.g., .en.md or .nl.md)
+            return caseStudy.slug.includes(`.${currentLang}.`);
+          });
+          
+          if (filteredCaseStudies.length === 0) {
+            caseStudiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Geen case studies gevonden</td></tr>';
+            return;
+          }
+          
+          caseStudiesTableBody.innerHTML = '';
+          
+          filteredCaseStudies.forEach(caseStudy => {
+            const tr = document.createElement('tr');
+            
+            tr.innerHTML = `
+              <td>${caseStudy.title}</td>
+              <td>${caseStudy.category || 'N/A'}</td>
+              <td>${caseStudy.client || 'N/A'}</td>
+              <td>
+                <div class="table-actions">
+                  <button class="view-btn" data-id="${caseStudy.slug}">Bekijken</button>
+                  <button class="edit-btn" data-id="${caseStudy.slug}">Bewerken</button>
+                  <button class="delete-btn" data-id="${caseStudy.slug}">Verwijderen</button>
+                </div>
+              </td>
+            `;
+            
+            caseStudiesTableBody.appendChild(tr);
+          });
+        } else {
+          caseStudiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van case studies</td></tr>';
+        }
+      } catch (error) {
+        console.error('Error loading case studies:', error);
+        caseStudiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van case studies</td></tr>';
+      }
+    }
+    
+    async function loadBlogPosts() {
+      const blogTableBody = document.getElementById('blog-table-body');
+      blogTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;"><div class="loading"></div> Blog posts laden...</td></tr>';
+      
+      try {
+        const response = await fetch('/api/blog');
+        const data = await response.json();
+        
+        if (data.success) {
+          blogData = data.data;
+          
+          // Update dashboard count
+          document.getElementById('blog-count').textContent = blogData.length;
+          
+          // Filter by current language
+          const filteredBlogPosts = blogData.filter(post => {
+            // If the filename contains the language code (e.g., .en.md or .nl.md)
+            return post.slug.includes(`.${currentLang}.`);
+          });
+          
+          if (filteredBlogPosts.length === 0) {
+            blogTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Geen blog posts gevonden</td></tr>';
+            return;
+          }
+          
+          blogTableBody.innerHTML = '';
+          
+          filteredBlogPosts.forEach(post => {
+            const tr = document.createElement('tr');
+            
+            tr.innerHTML = `
+              <td>${post.title}</td>
+              <td>${post.author || 'N/A'}</td>
+              <td>${post.date || 'N/A'}</td>
+              <td>
+                <div class="table-actions">
+                  <button class="view-btn" data-id="${post.slug}">Bekijken</button>
+                  <button class="edit-btn" data-id="${post.slug}">Bewerken</button>
+                  <button class="delete-btn" data-id="${post.slug}">Verwijderen</button>
+                </div>
+              </td>
+            `;
+            
+            blogTableBody.appendChild(tr);
+          });
+        } else {
+          blogTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van blog posts</td></tr>';
+        }
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+        blogTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van blog posts</td></tr>';
+      }
+    }
+    
+    // Check authentication and load initial data
+    function checkAuth() {
+      const isAuthenticated = localStorage.getItem('cms_authenticated');
+      
+      if (!isAuthenticated) {
+        window.location.href = '/admin/login.html';
+        return;
+      }
+      
+      // Load all data for dashboard
+      loadServices();
+      loadCaseStudies();
+      loadBlogPosts();
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
+</body>
+</html>
