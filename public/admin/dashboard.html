@@ -365,6 +365,12 @@
           <a href="#blog" class="nav-link" data-tab="blog">Blog</a>
         </li>
         <li class="nav-item">
+          <a href="#webhooks" class="nav-link" data-tab="webhooks">Webhooks</a>
+        </li>
+        <li class="nav-item">
+          <a href="#integrations" class="nav-link" data-tab="integrations">Integraties</a>
+        </li>
+        <li class="nav-item">
           <a href="#settings" class="nav-link" data-tab="settings">Instellingen</a>
         </li>
         <li class="nav-item">
@@ -548,10 +554,274 @@
         </div>
       </div>
       
+      <div id="webhooks" class="tab-content">
+        <div class="content-section">
+          <div class="section-header">
+            <h2>Webhooks</h2>
+            <button class="action-button" id="add-webhook-btn">Nieuwe Webhook</button>
+          </div>
+          
+          <p class="mb-4">Webhooks bieden integratie met externe systemen zoals Make, n8n, en Zapier. Ze versturen automatisch berichten wanneer acties in het CMS worden uitgevoerd.</p>
+          
+          <div id="webhooks-table-container">
+            <table class="cms-table" id="webhooks-table">
+              <thead>
+                <tr>
+                  <th>Naam</th>
+                  <th>URL</th>
+                  <th>Event Type</th>
+                  <th>Status</th>
+                  <th>Acties</th>
+                </tr>
+              </thead>
+              <tbody id="webhooks-table-body">
+                <tr>
+                  <td>Blog Post Notificatie</td>
+                  <td>https://hook.eu1.make.com/yourwebhook123</td>
+                  <td>blog.created</td>
+                  <td><span style="color: #10B981;">Actief</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="edit-btn" data-id="1">Bewerken</button>
+                      <button class="delete-btn" data-id="1">Verwijderen</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Contact Formulier Verwerking</td>
+                  <td>https://n8n.yourdomain.com/webhook/contact-form</td>
+                  <td>contact.submitted</td>
+                  <td><span style="color: #10B981;">Actief</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="edit-btn" data-id="2">Bewerken</button>
+                      <button class="delete-btn" data-id="2">Verwijderen</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div id="webhook-form-container" class="form-container" style="display: none;">
+            <h3 id="webhook-form-title">Webhook Toevoegen</h3>
+            <form id="webhook-form">
+              <div class="form-group">
+                <label for="webhook-name">Naam</label>
+                <input type="text" id="webhook-name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="webhook-url">Webhook URL</label>
+                <input type="url" id="webhook-url" name="url" required placeholder="https://hook.eu1.make.com/yourwebhook">
+              </div>
+              <div class="form-group">
+                <label for="webhook-event">Event Type</label>
+                <select id="webhook-event" name="event" required>
+                  <option value="">Selecteer een event</option>
+                  <option value="blog.created">Blog Post Aangemaakt</option>
+                  <option value="blog.updated">Blog Post Bijgewerkt</option>
+                  <option value="case-study.created">Case Study Aangemaakt</option>
+                  <option value="case-study.updated">Case Study Bijgewerkt</option>
+                  <option value="service.created">Service Aangemaakt</option>
+                  <option value="service.updated">Service Bijgewerkt</option>
+                  <option value="contact.submitted">Contact Formulier Ingediend</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="webhook-secret">Webhook Secret Token</label>
+                <input type="text" id="webhook-secret" name="secret" placeholder="Optioneel beveiligingstoken">
+                <small style="display: block; margin-top: 0.5rem; color: #CBD5E1;">Dit token wordt gebruikt om de webhook-verzoeken te valideren.</small>
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="webhook-active" name="active" checked>
+                  Webhook actief
+                </label>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="cancel-button" id="cancel-webhook-btn">Annuleren</button>
+                <button type="submit" class="save-button">Opslaan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <div id="integrations" class="tab-content">
+        <div class="content-section">
+          <div class="section-header">
+            <h2>Integraties</h2>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+            <!-- Make.com Integratie -->
+            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem; padding: 1.5rem;">
+              <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                <div style="width: 48px; height: 48px; background: white; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                  <img src="https://make.com/favicon.ico" alt="Make.com Logo" style="width: 32px; height: 32px;">
+                </div>
+                <div>
+                  <h3 style="margin: 0; font-size: 1.25rem;">Make.com Integratie</h3>
+                  <span style="color: #10B981; font-size: 0.875rem;">Ingeschakeld</span>
+                </div>
+              </div>
+              <p>Automatiseer workflows tussen je website en andere diensten met Make.com.</p>
+              <div style="margin-top: 1rem;">
+                <button class="action-button">Configureren</button>
+              </div>
+            </div>
+            
+            <!-- n8n Integratie -->
+            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem; padding: 1.5rem;">
+              <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                <div style="width: 48px; height: 48px; background: #FF6B6B; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                  <span style="color: white; font-weight: bold; font-size: 1.5rem;">n8n</span>
+                </div>
+                <div>
+                  <h3 style="margin: 0; font-size: 1.25rem;">n8n Integratie</h3>
+                  <span style="color: #10B981; font-size: 0.875rem;">Ingeschakeld</span>
+                </div>
+              </div>
+              <p>Open source workflow automatisering met n8n. Ideaal voor zelf-gehoste oplossingen.</p>
+              <div style="margin-top: 1rem;">
+                <button class="action-button">Configureren</button>
+              </div>
+            </div>
+            
+            <!-- Slack Integratie -->
+            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem; padding: 1.5rem;">
+              <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                <div style="width: 48px; height: 48px; background: #4A154B; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                  <span style="color: white; font-size: 1.5rem;">#</span>
+                </div>
+                <div>
+                  <h3 style="margin: 0; font-size: 1.25rem;">Slack Notificaties</h3>
+                  <span style="color: #CBD5E1; font-size: 0.875rem;">Niet geconfigureerd</span>
+                </div>
+              </div>
+              <p>Ontvang Slack-notificaties voor belangrijke gebeurtenissen in het CMS.</p>
+              <div style="margin-top: 1rem;">
+                <button class="action-button">Configureren</button>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin-top: 2rem; background: rgba(13, 148, 136, 0.1); border-radius: 0.5rem; padding: 1.5rem;">
+            <h3>API Tokens</h3>
+            <p>API-tokens worden gebruikt om veilig te communiceren met externe diensten.</p>
+            
+            <div style="margin-top: 1rem;">
+              <table class="cms-table">
+                <thead>
+                  <tr>
+                    <th>Naam</th>
+                    <th>Laatste gebruik</th>
+                    <th>Vervaldatum</th>
+                    <th>Acties</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Make.com API Token</td>
+                    <td>1 uur geleden</td>
+                    <td>Nooit</td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="view-btn">Tonen</button>
+                        <button class="delete-btn">Verwijderen</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>n8n Webhook Token</td>
+                    <td>2 dagen geleden</td>
+                    <td>1 jan 2026</td>
+                    <td>
+                      <div class="table-actions">
+                        <button class="view-btn">Tonen</button>
+                        <button class="delete-btn">Verwijderen</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <div style="margin-top: 1rem;">
+                <button class="action-button">Nieuwe API Token</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div id="settings" class="tab-content">
         <div class="content-section">
-          <h2>Instellingen</h2>
-          <p>Hier komen CMS-instellingen</p>
+          <div class="section-header">
+            <h2>Instellingen</h2>
+          </div>
+          
+          <div style="background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <h3>Algemene Instellingen</h3>
+            
+            <form id="settings-form">
+              <div class="form-group">
+                <label for="site-name">Website Naam</label>
+                <input type="text" id="site-name" name="site_name" value="Digimaatwerk">
+              </div>
+              
+              <div class="form-group">
+                <label for="default-language">Standaard Taal</label>
+                <select id="default-language" name="default_language">
+                  <option value="nl" selected>Nederlands</option>
+                  <option value="en">Engels</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="cms-timezone">Tijdzone</label>
+                <select id="cms-timezone" name="timezone">
+                  <option value="Europe/Amsterdam" selected>Europe/Amsterdam</option>
+                  <option value="Europe/London">Europe/London</option>
+                  <option value="America/New_York">America/New_York</option>
+                </select>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="save-button">Instellingen Opslaan</button>
+              </div>
+            </form>
+          </div>
+          
+          <div style="background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem; padding: 1.5rem;">
+            <h3>Admin Gebruikers</h3>
+            
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Naam</th>
+                  <th>Email</th>
+                  <th>Rol</th>
+                  <th>Acties</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Admin</td>
+                  <td>admin@digimaatwerk.nl</td>
+                  <td>Administrator</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="edit-btn">Bewerken</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div style="margin-top: 1rem;">
+              <button class="action-button">Nieuwe Gebruiker</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -672,6 +942,49 @@
       localStorage.removeItem('cms_authenticated');
       window.location.href = '/admin/login.html';
     });
+    
+    // Webhook Form handling
+    const addWebhookBtn = document.getElementById('add-webhook-btn');
+    if (addWebhookBtn) {
+      addWebhookBtn.addEventListener('click', () => {
+        const webhookFormContainer = document.getElementById('webhook-form-container');
+        webhookFormContainer.style.display = 'block';
+        document.getElementById('webhook-form-title').textContent = 'Webhook Toevoegen';
+        document.getElementById('webhook-form').reset();
+      });
+    }
+    
+    const cancelWebhookBtn = document.getElementById('cancel-webhook-btn');
+    if (cancelWebhookBtn) {
+      cancelWebhookBtn.addEventListener('click', () => {
+        document.getElementById('webhook-form-container').style.display = 'none';
+      });
+    }
+    
+    const webhookForm = document.getElementById('webhook-form');
+    if (webhookForm) {
+      webhookForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(webhookForm);
+        const webhookData = Object.fromEntries(formData.entries());
+        
+        console.log('Webhook data to submit:', webhookData);
+        
+        // Toon bevestigingsbericht
+        showNotification('Webhook succesvol opgeslagen!');
+        document.getElementById('webhook-form-container').style.display = 'none';
+      });
+    }
+    
+    // Settings form handler
+    const settingsForm = document.getElementById('settings-form');
+    if (settingsForm) {
+      settingsForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        showNotification('Instellingen succesvol opgeslagen!');
+      });
+    }
     
     // Data loading functions
     async function loadServices() {

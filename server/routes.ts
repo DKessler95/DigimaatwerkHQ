@@ -7,6 +7,7 @@ import path from "path";
 import matter from "gray-matter";
 import express from "express";
 import './types'; // Import session types
+import { setupWebhookRoutes } from "./webhooks";
 
 // Define interfaces for CMS content
 interface CaseStudy {
@@ -88,6 +89,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Create a route to serve uploaded media
   app.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads')));
+  
+  // Register API webhooks for Make and n8n integrations
+  setupWebhookRoutes(app);
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
     try {

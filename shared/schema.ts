@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, jsonb, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -87,3 +87,77 @@ export type ChatMessage = typeof chatMessages.$inferSelect;
 
 export type InsertProjectEstimate = z.infer<typeof insertProjectEstimateSchema>;
 export type ProjectEstimate = typeof projectEstimates.$inferSelect;
+
+// Webhooks table
+export const webhooks = pgTable("webhooks", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  url: text("url").notNull(),
+  eventType: text("event_type").notNull(), // blog.created, contact.submitted, etc.
+  secretToken: text("secret_token"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  lastTriggeredAt: timestamp("last_triggered_at"),
+  failureCount: integer("failure_count").default(0),
+  headers: jsonb("headers").default({}), // Additional headers to send
+});
+
+export const insertWebhookSchema = createInsertSchema(webhooks).pick({
+  name: true,
+  url: true,
+  eventType: true,
+  secretToken: true,
+  isActive: true,
+});
+
+// API Tokens table
+export const apiTokens = pgTable("api_tokens", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  token: varchar("token", { length: 64 }).notNull().unique(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  expiresAt: timestamp("expires_at"),
+  lastUsedAt: timestamp("last_used_at"),
+  userId: integer("user_id").notNull().references(() => users.id), // Which user created this token
+  scopes: jsonb("scopes").notNull().default(['read']), // Array of permission scopes
+});
+
+export const insertApiTokenSchema = createInsertSchema(apiTokens).pick({
+  name: true,
+  token: true,
+  expiresAt: true,
+  userId: true,
+  scopes: true,
+});
+
+// Webhook logs to track delivery history
+export const webhookLogs = pgTable("webhook_logs", {
+  id: serial("id").primaryKey(),
+  webhookId: integer("webhook_id").notNull().references(() => webhooks.id),
+  eventType: text("event_type").notNull(),
+  payload: jsonb("payload").notNull(),
+  responseStatus: integer("response_status"),
+  responseBody: text("response_body"),
+  error: text("error"),
+  duration: integer("duration"), // in milliseconds
+  triggeredAt: timestamp("triggered_at").notNull().defaultNow(),
+});
+
+export const insertWebhookLogSchema = createInsertSchema(webhookLogs).pick({
+  webhookId: true,
+  eventType: true,
+  payload: true,
+  responseStatus: true,
+  responseBody: true,
+  error: true,
+  duration: true,
+});
+
+export type InsertWebhook = z.infer<typeof insertWebhookSchema>;
+export type Webhook = typeof webhooks.$inferSelect;
+
+export type InsertApiToken = z.infer<typeof insertApiTokenSchema>;
+export type ApiToken = typeof apiTokens.$inferSelect;
+
+export type InsertWebhookLog = z.infer<typeof insertWebhookLogSchema>;
+export type WebhookLog = typeof webhookLogs.$inferSelect;
