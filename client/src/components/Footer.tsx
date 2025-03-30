@@ -67,10 +67,10 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-header font-medium mb-4">{t('footer.legal')}</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-foreground/70 hover:text-accent">{t('footer.privacy')}</a></li>
-              <li><a href="#" className="text-foreground/70 hover:text-accent">{t('footer.cookies')}</a></li>
-              <li><a href="#" className="text-foreground/70 hover:text-accent">{t('footer.terms')}</a></li>
-              <li><a href="#" className="text-foreground/70 hover:text-accent">
+              <li><a href="/privacy-policy" className="text-foreground/70 hover:text-accent">{t('footer.privacy')}</a></li>
+              <li><a href="/google-privacy-policy" className="text-foreground/70 hover:text-accent">{t('footer.cookies')}</a></li>
+              <li><a href="/terms-of-service" className="text-foreground/70 hover:text-accent">{t('footer.terms')}</a></li>
+              <li><a href="/privacy-policy" className="text-foreground/70 hover:text-accent">
                 {language === 'nl' ? 'AVG Compliance' : 'GDPR Compliance'}
               </a></li>
               <li><a href="#" className="text-foreground/70 hover:text-accent">

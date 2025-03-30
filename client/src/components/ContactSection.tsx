@@ -177,7 +177,7 @@ const ContactSection = () => {
                   required
                 />
                 <label htmlFor="consent" className="text-sm text-foreground/70">
-                  I consent to Digimaatwerk processing my data in accordance with the <a href="#" className="text-accent hover:underline">Privacy Policy</a>. This site is protected by reCAPTCHA and the Google <a href="#" className="text-accent hover:underline">Privacy Policy</a> and <a href="#" className="text-accent hover:underline">Terms of Service</a> apply.
+                  I consent to Digimaatwerk processing my data in accordance with the <a href="/privacy-policy" className="text-accent hover:underline">Privacy Policy</a>. This site is protected by reCAPTCHA and the Google <a href="/google-privacy-policy" className="text-accent hover:underline">Privacy Policy</a> and <a href="/terms-of-service" className="text-accent hover:underline">Terms of Service</a> apply.
                 </label>
               </div>
               

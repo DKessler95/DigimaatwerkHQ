@@ -65,7 +65,7 @@ const comparisonData: ComparisonItem[] = [
 ];
 
 const TechStackSection = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   return (
     <section id="tech-stack" className="py-24 bg-gradient-to-b from-secondary to-primary">
@@ -142,7 +142,9 @@ const TechStackSection = () => {
         >
           <a href="#contact" className="flex flex-col items-center justify-center text-foreground/70 hover:text-accent transition group">
             <span className="text-sm mb-2">
-              {t('tech.scroll_to_contact')}
+              {language === 'nl' 
+                ? 'Neem contact met ons op' 
+                : 'Contact us'}
             </span>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 animate-bounce group-hover:text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />

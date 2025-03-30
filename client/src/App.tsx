@@ -7,6 +7,9 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import CmsTest from "@/pages/CmsTest";
 import Services from "@/pages/Services";
+import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
+import GooglePrivacyPolicy from "@/pages/legal/GooglePrivacyPolicy";
+import TermsOfService from "@/pages/legal/TermsOfService";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileMenu from "@/components/MobileMenu";
@@ -21,6 +24,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/cms-test" component={CmsTest} />
       <Route path="/services" component={Services} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/google-privacy-policy" component={GooglePrivacyPolicy} />
+      <Route path="/terms-of-service" component={TermsOfService} />
       <Route component={NotFound} />
     </Switch>
   );
