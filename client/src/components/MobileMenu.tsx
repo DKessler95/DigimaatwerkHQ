@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
+import { useLanguage } from '@/lib/languageContext';
+import { X } from 'lucide-react';
 
 const MobileMenu = () => {
+  const { t, language, setLanguage } = useLanguage();
+  
   const closeMobileMenu = () => {
     const mobileMenu = document.getElementById('mobile-menu');
     if (mobileMenu) {
@@ -35,8 +39,9 @@ const MobileMenu = () => {
           id="close-menu-button"
           className="text-foreground"
           onClick={closeMobileMenu}
+          aria-label="Close menu"
         >
-          <i className="ri-close-line text-2xl"></i>
+          <X className="h-6 w-6" />
         </button>
       </div>
       <nav className="flex flex-col items-center space-y-6 mt-16">
@@ -45,35 +50,52 @@ const MobileMenu = () => {
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
           onClick={handleNavClick}
         >
-          Services
+          {t('header.services')}
         </a>
         <a 
           href="#case-studies" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
           onClick={handleNavClick}
         >
-          Case Studies
+          {t('header.cases')}
         </a>
         <a 
           href="#tech-stack" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
           onClick={handleNavClick}
         >
-          Technology
+          {t('header.about')}
         </a>
         <a 
-          href="#about" 
+          href="#calculator" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
           onClick={handleNavClick}
         >
-          About
+          {t('header.calculator')}
         </a>
+        
+        {/* Language switcher */}
+        <div className="flex space-x-4 mt-4">
+          <button
+            onClick={() => setLanguage('nl')}
+            className={`px-4 py-2 rounded ${language === 'nl' ? 'bg-accent text-primary' : 'bg-primary/20 text-foreground'}`}
+          >
+            🇳🇱 NL
+          </button>
+          <button
+            onClick={() => setLanguage('en')}
+            className={`px-4 py-2 rounded ${language === 'en' ? 'bg-accent text-primary' : 'bg-primary/20 text-foreground'}`}
+          >
+            🇬🇧 EN
+          </button>
+        </div>
+        
         <a 
           href="#contact" 
           className="mt-4 px-6 py-3 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90"
           onClick={handleNavClick}
         >
-          Contact Us
+          {t('header.contact')}
         </a>
       </nav>
     </div>

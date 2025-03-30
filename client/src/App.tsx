@@ -11,6 +11,7 @@ import MobileMenu from "@/components/MobileMenu";
 import ChatbotWidget from "@/components/ChatbotWidget";
 import CookieConsent from "@/components/CookieConsent";
 import CodeAnimationLoader from "@/components/CodeAnimationLoader";
+import { LanguageProvider } from "@/lib/languageContext";
 
 function Router() {
   return (
@@ -52,19 +53,21 @@ function App() {
   
   return (
     <QueryClientProvider client={queryClient}>
-      {showLoader && <CodeAnimationLoader onComplete={handleLoaderComplete} />}
-      
-      <div className={`flex flex-col min-h-screen transition-opacity duration-500 ${contentLoaded ? 'opacity-100' : 'opacity-0'}`}>
-        <Header />
-        <MobileMenu />
-        <main className="flex-grow pt-16">
-          <Router />
-        </main>
-        <Footer />
-        <ChatbotWidget />
-        <CookieConsent />
-      </div>
-      <Toaster />
+      <LanguageProvider>
+        {showLoader && <CodeAnimationLoader onComplete={handleLoaderComplete} />}
+        
+        <div className={`flex flex-col min-h-screen transition-opacity duration-500 ${contentLoaded ? 'opacity-100' : 'opacity-0'}`}>
+          <Header />
+          <MobileMenu />
+          <main className="flex-grow pt-16">
+            <Router />
+          </main>
+          <Footer />
+          <ChatbotWidget />
+          <CookieConsent />
+        </div>
+        <Toaster />
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

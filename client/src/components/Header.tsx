@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
+import { useLanguage } from '@/lib/languageContext';
+import LanguageSwitcher from './LanguageSwitcher';
+import { Menu } from 'lucide-react';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const { t } = useLanguage();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -39,22 +43,24 @@ const Header = () => {
           </div>
           
           <nav className="hidden md:flex space-x-8">
-            <a href="#services" className="text-foreground/80 hover:text-accent transition font-body">Services</a>
-            <a href="#case-studies" className="text-foreground/80 hover:text-accent transition font-body">Case Studies</a>
-            <a href="#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">Technology</a>
-            <a href="#about" className="text-foreground/80 hover:text-accent transition font-body">About</a>
+            <a href="#services" className="text-foreground/80 hover:text-accent transition font-body">{t('header.services')}</a>
+            <a href="#case-studies" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</a>
+            <a href="#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</a>
+            <a href="#calculator" className="text-foreground/80 hover:text-accent transition font-body">{t('header.calculator')}</a>
           </nav>
           
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
             <a href="#contact" className="hidden md:block px-5 py-2 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90">
-              Contact Us
+              {t('header.contact')}
             </a>
             <button
               className="md:hidden text-foreground"
               id="mobile-menu-button"
               onClick={toggleMobileMenu}
+              aria-label="Open menu"
             >
-              <i className="ri-menu-line text-2xl"></i>
+              <Menu className="h-6 w-6" />
             </button>
           </div>
         </div>

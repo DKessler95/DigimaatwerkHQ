@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useLanguage } from '@/lib/languageContext';
 
 interface CodeAnimationLoaderProps {
   onComplete?: () => void;
@@ -9,25 +10,26 @@ const CodeAnimationLoader = ({ onComplete, duration = 1500 }: CodeAnimationLoade
   const [visible, setVisible] = useState(true);
   const [text, setText] = useState('');
   const codeRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
   
-  // Shorter code snippet for faster animation
-  const codeSnippet = `// Digimaatwerk Digital Solutions
+  // Shorter code snippet with translations
+  const codeSnippet = `${t('loader.code.comment1')}
 import { Client } from '@digimaatwerk/core';
 import { AI, Web } from '@digimaatwerk/services';
 
-// Initialize digital transformation
+${t('loader.code.comment2')}
 const client = new Client({
   name: 'Your Business',
   goals: ['growth', 'innovation']
 });
 
-// Apply intelligent solutions
+${t('loader.code.comment3')}
 const solution = await Promise.all([
   AI.createChatbot(client),
   Web.buildResponsiveApp(client)
 ]);
 
-// Digimaatwerk: Powering your digital future`;
+${t('loader.code.comment4')}`;
 
   // Skip animation handler
   const handleSkip = () => {
@@ -92,12 +94,12 @@ const solution = await Promise.all([
           <div className="h-4 w-2 bg-accent inline-block animate-pulse ml-1 relative top-1"></div>
         </div>
       </div>
-      <div className="mt-8 text-accent text-lg animate-pulse">Initializing Digimaatwerk Interface...</div>
+      <div className="mt-8 text-accent text-lg animate-pulse">{t('loader.initializing')}</div>
       <button 
         onClick={handleSkip}
         className="mt-4 px-6 py-2 bg-accent/20 hover:bg-accent/30 text-accent rounded-md transition-colors duration-200"
       >
-        Skip Animation
+        {t('loader.skip')}
       </button>
     </div>
   );
