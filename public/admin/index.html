@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Digimaatwerk CMS</title>
   <link rel="icon" href="/favicon.ico" />
-  <!-- Include Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
   <style>
     :root {
       --midnight-blue: #0F172A;
@@ -20,6 +18,32 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background-color: var(--midnight-blue);
+      color: var(--white);
+    }
+    
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    
+    .loading-spinner {
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 5px solid var(--teal);
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
     /* Custom CMS styling */
@@ -33,6 +57,54 @@
   </style>
 </head>
 <body>
-  <!-- The CMS will automatically be initialized -->
+  <div class="loading">
+    <div class="loading-spinner"></div>
+    <h2>Digimaatwerk CMS laden...</h2>
+    <p>Een moment geduld a.u.b.</p>
+  </div>
+
+  <!-- Include Netlify CMS -->
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
+  <script>
+    // Luisteren voor wanneer de Netlify CMS is geladen
+    window.addEventListener('load', function() {
+      // Controleer of er een hash in de URL staat (#/)
+      if (window.location.hash.includes('#/')) {
+        // Als de CMS niet correct laadt, doorverwijzen naar de login pagina
+        setTimeout(function() {
+          const cmsRoot = document.querySelector('[class*="AppMainUI"]');
+          if (!cmsRoot || cmsRoot.children.length === 0) {
+            console.log('CMS niet correct geladen, doorverwijzen naar login');
+            window.location.href = '/admin/login.html';
+          } else {
+            // CMS correct geladen, verberg de loading screen
+            document.querySelector('.loading').style.display = 'none';
+          }
+        }, 2000); // Controleer na 2 seconden
+      } else {
+        // Geen hash, dit is waarschijnlijk de eerste pagina - hier zou de CMS login moeten verschijnen
+        setTimeout(function() {
+          const loginForm = document.querySelector('[class*="LoginPage"]');
+          if (!loginForm) {
+            console.log('Login pagina niet gevonden, doorverwijzen naar aangepaste login');
+            window.location.href = '/admin/login.html';
+          } else {
+            // Login pagina correct geladen, verberg de loading screen
+            document.querySelector('.loading').style.display = 'none';
+          }
+        }, 2000); // Controleer na 2 seconden
+      }
+    });
+    
+    // Configureer backend specifiek voor Replit (voorkomt problemen met backend configuratie)
+    if (window.CMS) {
+      window.CMS.registerBackend('test-repo', {
+        init: function() {
+          // Auto-inloggen functionaliteit zou hier kunnen komen
+        }
+      });
+    }
+  </script>
 </body>
 </html>
