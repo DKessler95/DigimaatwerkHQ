@@ -34,6 +34,7 @@ const translations: Record<Language, Record<string, string>> = {
     'header.about': 'Over ons',
     'header.contact': 'Contact',
     'header.calculator': 'Bereken prijs',
+    'header.blogs': 'Blogs',
     
     // Hero
     'hero.title': 'Uw partner voor digitale transformatie',
@@ -165,6 +166,7 @@ const translations: Record<Language, Record<string, string>> = {
     'header.about': 'About',
     'header.contact': 'Contact',
     'header.calculator': 'Price Calculator',
+    'header.blogs': 'Blogs',
     
     // Hero
     'hero.title': 'Your Digital Transformation Partner',

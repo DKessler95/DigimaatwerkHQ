@@ -65,13 +65,19 @@ const TestimonialsSection = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="absolute top-6 left-8 text-6xl text-accent/20 z-0">"</div>
+              <div className="absolute top-6 right-8 text-6xl text-accent/20 z-0">"</div>
               <div className="relative z-10">
                 <p className="text-foreground/90 mb-6 text-lg">
                   {language === 'nl' ? testimonial.quote.nl : testimonial.quote.en}
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-accent/20 mr-4"></div>
+                  <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                    <img 
+                      src={testimonial.name === "Joost van der Meer" ? "/images/joost.jpg" : "/images/sophia.jpg"} 
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover" 
+                    />
+                  </div>
                   <div>
                     <div className="font-header font-medium">{testimonial.name}</div>
                     <div className="text-foreground/60 text-sm">

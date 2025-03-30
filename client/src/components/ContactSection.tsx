@@ -149,7 +149,7 @@ const ContactSection = () => {
               
               <div>
                 <label htmlFor="projectType" className="block text-foreground/80 mb-2">
-                  {language === 'nl' ? 'Project Type' : 'Project Type'}
+                  {language === 'nl' ? 'Type project' : 'Project Type'}
                 </label>
                 <select 
                   id="projectType" 
@@ -237,7 +237,7 @@ const ContactSection = () => {
                 />
               </div>
               <div className="text-center">
-                <h4 className="font-semibold text-lg">Thomas de Jong</h4>
+                <h4 className="font-semibold text-lg">Damian Kessler</h4>
                 <p className="text-sm text-foreground/70">{language === 'nl' ? 'Oprichter & CEO' : 'Founder & CEO'}</p>
               </div>
             </div>
@@ -253,7 +253,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="font-medium mb-1">{language === 'nl' ? 'Adres' : 'Address'}</h4>
-                  <p className="text-foreground/70">Herengracht 420<br />1017 BZ Amsterdam<br />{language === 'nl' ? 'Nederland' : 'The Netherlands'}</p>
+                  <p className="text-foreground/70">Star Numanstraat 79a<br />9714JL Groningen<br />{language === 'nl' ? 'Nederland' : 'The Netherlands'}</p>
                 </div>
               </div>
               
@@ -273,7 +273,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="font-medium mb-1">{language === 'nl' ? 'Telefoon' : 'Phone'}</h4>
-                  <a href="tel:+31201234567" className="text-foreground/70 hover:text-accent">+31 20 123 4567</a>
+                  <a href="tel:+31637353483" className="text-foreground/70 hover:text-accent">+31 637353483</a>
                 </div>
               </div>
               
@@ -283,7 +283,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="font-medium mb-1">WhatsApp</h4>
-                  <a href="https://wa.me/31201234567" className="text-foreground/70 hover:text-accent">
+                  <a href="https://wa.me/31637353483" className="text-foreground/70 hover:text-accent">
                     {language === 'nl' ? 'Stuur een bericht' : 'Send a message'}
                   </a>
                 </div>
