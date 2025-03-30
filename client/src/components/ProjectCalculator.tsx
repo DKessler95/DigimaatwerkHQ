@@ -32,15 +32,15 @@ const ProjectCalculator = () => {
   const features: Feature[] = [
     { 
       id: 'feature1', 
-      nameNl: 'Contactformulier', 
-      nameEn: 'Contact Form', 
-      priceImpact: 150 
+      nameNl: 'Contactformulier met email service', 
+      nameEn: 'Contact form with email service', 
+      priceImpact: 100 
     },
     { 
       id: 'feature2', 
       nameNl: 'Extra pagina\'s (per 5)', 
       nameEn: 'Additional pages (per 5)', 
-      priceImpact: 250 
+      priceImpact: 150 
     },
     { 
       id: 'feature3', 
@@ -70,13 +70,13 @@ const ProjectCalculator = () => {
       id: 'feature7', 
       nameNl: 'Meertalige website', 
       nameEn: 'Multilingual website', 
-      priceImpact: 450 
+      priceImpact: 100
     },
     { 
       id: 'feature8', 
-      nameNl: '3D visualisaties', 
-      nameEn: '3D visualizations', 
-      priceImpact: 750 
+      nameNl: 'Bespreekbaar start vanaf €100', 
+      nameEn: 'Negotiable starting from €100', 
+      priceImpact: 100 
     },
   ];
   
@@ -89,21 +89,21 @@ const ProjectCalculator = () => {
     },
     {
       id: 'basic',
-      nameNl: 'Basic (€49/maand)',
-      nameEn: 'Basic (€49/month)',
-      price: 49
+      nameNl: 'Basic (€29/maand)',
+      nameEn: 'Basic (€29/month)',
+      price: 29
     },
     {
       id: 'standard',
-      nameNl: 'Standaard (€99/maand)',
-      nameEn: 'Standard (€99/month)',
-      price: 99
+      nameNl: 'Standaard (€69/maand)',
+      nameEn: 'Standard (€69/month)',
+      price: 69
     },
     {
       id: 'premium',
-      nameNl: 'Premium (€149/maand)',
-      nameEn: 'Premium (€149/month)',
-      price: 149
+      nameNl: 'Premium (€129/maand)',
+      nameEn: 'Premium (€129/month)',
+      price: 129
     }
   ];
   
@@ -405,6 +405,47 @@ const ProjectCalculator = () => {
                       {language === 'nl' ? 'Optimalisatie voor zoekmachines (SEO)' : 'Search engine optimization (SEO)'}
                     </span>
                   </li>
+                  
+                  {/* Geselecteerde features */}
+                  {selectedFeatures.length > 0 && (
+                    <>
+                      <li className="pt-2 pb-1">
+                        <span className="font-medium text-accent">
+                          {language === 'nl' ? 'Geselecteerde opties:' : 'Selected options:'}
+                        </span>
+                      </li>
+                      {features
+                        .filter(feature => selectedFeatures.includes(feature.id))
+                        .map(feature => (
+                          <li key={feature.id} className="flex items-start">
+                            <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
+                            <span>{language === 'nl' ? feature.nameNl : feature.nameEn}</span>
+                          </li>
+                        ))
+                      }
+                    </>
+                  )}
+                  
+                  {/* Support pakket */}
+                  {supportPackage !== 'none' && (
+                    <>
+                      <li className="pt-2 pb-1">
+                        <span className="font-medium text-accent">
+                          {language === 'nl' ? 'Support pakket:' : 'Support package:'}
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
+                        <span>
+                          {supportPackages.find(pkg => pkg.id === supportPackage) 
+                            ? (language === 'nl' 
+                                ? supportPackages.find(pkg => pkg.id === supportPackage)!.nameNl 
+                                : supportPackages.find(pkg => pkg.id === supportPackage)!.nameEn) 
+                            : ''}
+                        </span>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
               

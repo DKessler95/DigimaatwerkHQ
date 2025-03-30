@@ -84,7 +84,7 @@ const PricingSection: React.FC = () => {
         nl: 'Perfecte start voor kleine bedrijven.',
         en: 'Perfect start for small businesses.'
       },
-      price: '€49',
+      price: '€29',
       features: {
         nl: [
           '24/7 ticket support',
@@ -109,7 +109,7 @@ const PricingSection: React.FC = () => {
         nl: 'Ideaal voor groeiende bedrijven.',
         en: 'Ideal for growing businesses.'
       },
-      price: '€99',
+      price: '€69',
       features: {
         nl: [
           'Snelle respons (24 uur)',
@@ -136,7 +136,7 @@ const PricingSection: React.FC = () => {
         nl: 'Complete dienstverlening voor veeleisende bedrijven.',
         en: 'Complete service for demanding businesses.'
       },
-      price: '€149',
+      price: '€129',
       features: {
         nl: [
           'Prioriteit respons (12 uur)',
