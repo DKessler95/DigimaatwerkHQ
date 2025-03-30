@@ -84,6 +84,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve CMS admin files directly
   app.use('/admin', express.static(path.join(process.cwd(), 'public/admin')));
   
+  // Redirect /admin root to dashboard
+  app.get('/admin', (req: Request, res: Response) => {
+    res.redirect('/admin/dashboard.html');
+  });
+  
+  // Add route to NetlifyCMS if needed
+  app.get('/admin/netlifycms', (req: Request, res: Response) => {
+    res.redirect('/netlifycms.html');
+  });
+  
   // Create a route to serve CMS content directly
   app.use('/content', express.static(path.join(process.cwd(), 'public/content')));
   
