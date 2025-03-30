@@ -77,6 +77,9 @@ const projectEstimateSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve node_modules for CMS
+  app.use('/node_modules', express.static(path.join(process.cwd(), 'node_modules')));
+  
   // Serve CMS admin files directly
   app.use('/admin', express.static(path.join(process.cwd(), 'public/admin')));
   
