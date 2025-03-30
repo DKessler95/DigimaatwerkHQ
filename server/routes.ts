@@ -587,11 +587,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const content = await fs.readFile(filePath, 'utf8');
       const parsed = matter(content);
       
-      // Update the data
+      // Extract content if it was provided
+      let markdownContent = parsed.content;
+      if (updates.content !== undefined) {
+        markdownContent = updates.content;
+        delete updates.content; // Remove from updates to avoid storing it in the frontmatter
+      }
+      
+      // Update the metadata
       Object.assign(parsed.data, updates);
       
-      // Write the updated content back to the file
-      const updatedContent = matter.stringify(parsed.content, parsed.data);
+      // Write the updated content back to the file with new markdown content
+      const updatedContent = matter.stringify(markdownContent, parsed.data);
       await fs.writeFile(filePath, updatedContent);
       
       // Return success response
@@ -600,7 +607,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Case study updated successfully",
         data: {
           slug,
-          ...parsed.data
+          ...parsed.data,
+          content: markdownContent
         }
       });
     } catch (error) {
@@ -801,11 +809,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const content = await fs.readFile(filePath, 'utf8');
       const parsed = matter(content);
       
-      // Update the data
+      // Extract content if it was provided
+      let markdownContent = parsed.content;
+      if (updates.content !== undefined) {
+        markdownContent = updates.content;
+        delete updates.content; // Remove from updates to avoid storing it in the frontmatter
+      }
+      
+      // Update the metadata
       Object.assign(parsed.data, updates);
       
-      // Write the updated content back to the file
-      const updatedContent = matter.stringify(parsed.content, parsed.data);
+      // Write the updated content back to the file with new markdown content
+      const updatedContent = matter.stringify(markdownContent, parsed.data);
       await fs.writeFile(filePath, updatedContent);
       
       // Return success response
@@ -814,7 +829,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Blog post updated successfully",
         data: {
           slug,
-          ...parsed.data
+          ...parsed.data,
+          content: markdownContent
         }
       });
     } catch (error) {
@@ -1055,11 +1071,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const content = await fs.readFile(filePath, 'utf8');
       const parsed = matter(content);
       
-      // Update the data
+      // Extract content if it was provided
+      let markdownContent = parsed.content;
+      if (updates.content !== undefined) {
+        markdownContent = updates.content;
+        delete updates.content; // Remove from updates to avoid storing it in the frontmatter
+      }
+      
+      // Update the metadata
       Object.assign(parsed.data, updates);
       
-      // Write the updated content back to the file
-      const updatedContent = matter.stringify(parsed.content, parsed.data);
+      // Write the updated content back to the file with new markdown content
+      const updatedContent = matter.stringify(markdownContent, parsed.data);
       await fs.writeFile(filePath, updatedContent);
       
       // Return success response
@@ -1068,7 +1091,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Service updated successfully",
         data: {
           slug,
-          ...parsed.data
+          ...parsed.data,
+          content: markdownContent
         }
       });
     } catch (error) {

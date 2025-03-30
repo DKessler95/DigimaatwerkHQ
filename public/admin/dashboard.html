@@ -2128,80 +2128,239 @@
           return;
         }
         
-        const modalContent = `
-          <div class="modal-form-group">
-            <label for="edit-case-study-title">Titel</label>
-            <input type="text" id="edit-case-study-title" value="${caseStudy.title || ''}" required>
-          </div>
-          <div class="modal-form-group">
-            <label for="edit-case-study-slug">Slug</label>
-            <input type="text" id="edit-case-study-slug" value="${caseStudy.slug || ''}" readonly>
-          </div>
-          <div class="modal-form-group">
-            <label for="edit-case-study-category">Categorie</label>
-            <select id="edit-case-study-category">
-              <option value="AI & Chatbots" ${caseStudy.category === 'AI & Chatbots' ? 'selected' : ''}>AI & Chatbots</option>
-              <option value="Automatisering" ${caseStudy.category === 'Automatisering' ? 'selected' : ''}>Automatisering</option>
-              <option value="Webontwikkeling" ${caseStudy.category === 'Webontwikkeling' ? 'selected' : ''}>Webontwikkeling</option>
-            </select>
-          </div>
-          <div class="modal-form-group">
-            <label for="edit-case-study-client">Client</label>
-            <input type="text" id="edit-case-study-client" value="${caseStudy.client || ''}">
-          </div>
-          <div class="modal-form-group">
-            <label for="edit-case-study-description">Beschrijving</label>
-            <textarea id="edit-case-study-description">${caseStudy.description || ''}</textarea>
-          </div>
-        `;
-        
-        const modalActions = `
-          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
-          <button class="modal-btn modal-btn-primary" id="update-case-study-btn">Bijwerken</button>
-        `;
-        
-        openModal('Case Study Bewerken', modalContent, modalActions);
-        
-        // Add event listener to save button
-        setTimeout(() => {
-          document.getElementById('update-case-study-btn').addEventListener('click', async () => {
-            try {
-              // Get form values
-              const updatedData = {
-                title: document.getElementById('edit-case-study-title').value,
-                category: document.getElementById('edit-case-study-category').value,
-                client: document.getElementById('edit-case-study-client').value,
-                description: document.getElementById('edit-case-study-description').value
-              };
-              
-              // Update via API
-              const response = await fetch(`/api/case-studies/${slug}?lang=${language}`, {
-                method: 'PATCH',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updatedData)
-              });
-              
-              if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Error updating case study');
-              }
-              
-              // Show success notification
-              showNotification('Case study bijgewerkt', 'success');
-              closeModal();
-              loadCaseStudies(); // Reload the list
-            } catch (error) {
-              console.error('Error updating case study:', error);
-              showNotification(`Fout bij het bijwerken: ${error.message}`, 'error');
+        // Fetch the full content of the case study first, including the Markdown content
+        fetch(`/api/case-studies/${slug}?lang=${language}`)
+          .then(response => response.json())
+          .then(fullData => {
+            if (!fullData.success) {
+              throw new Error('Kon case study inhoud niet laden');
             }
+            
+            const caseStudyData = fullData.data;
+            let contentType = 'simple';
+            
+            // Create the modal content with the full case study fields
+            const modalContent = `
+              <div class="modal-form-group">
+                <label for="edit-case-study-title">Titel</label>
+                <input type="text" id="edit-case-study-title" value="${caseStudyData.title || ''}" required>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-case-study-slug">Slug</label>
+                <input type="text" id="edit-case-study-slug" value="${caseStudyData.slug || ''}" readonly>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-case-study-category">Categorie</label>
+                <select id="edit-case-study-category">
+                  <option value="AI & Chatbots" ${caseStudyData.category === 'AI & Chatbots' ? 'selected' : ''}>AI & Chatbots</option>
+                  <option value="Automatisering" ${caseStudyData.category === 'Automatisering' ? 'selected' : ''}>Automatisering</option>
+                  <option value="Webontwikkeling" ${caseStudyData.category === 'Webontwikkeling' ? 'selected' : ''}>Webontwikkeling</option>
+                </select>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-case-study-client">Client</label>
+                <input type="text" id="edit-case-study-client" value="${caseStudyData.client || ''}">
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-case-study-description">Beschrijving</label>
+                <textarea id="edit-case-study-description">${caseStudyData.description || ''}</textarea>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-case-study-industry">Industrie</label>
+                <input type="text" id="edit-case-study-industry" value="${caseStudyData.industry || ''}">
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-case-study-challenge">Uitdaging</label>
+                <textarea id="edit-case-study-challenge">${caseStudyData.challenge || ''}</textarea>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-case-study-solution">Oplossing</label>
+                <textarea id="edit-case-study-solution">${caseStudyData.solution || ''}</textarea>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-case-study-result">Resultaat</label>
+                <textarea id="edit-case-study-result">${caseStudyData.result || ''}</textarea>
+              </div>
+              <div class="modal-form-group content-editor">
+                <div class="content-editor-header">
+                  <label for="edit-case-study-content">Content (Markdown)</label>
+                  <div class="editor-type-toggle">
+                    <button id="simple-editor-btn" class="active" onclick="toggleContentEditor('simple'); return false;">Eenvoudig</button>
+                    <button id="advanced-editor-btn" onclick="toggleContentEditor('advanced'); return false;">Geavanceerd</button>
+                  </div>
+                </div>
+                <div id="simple-editor" class="editor-container">
+                  <textarea id="edit-case-study-content" rows="15">${extractMarkdownContent(caseStudyData.content || '')}</textarea>
+                </div>
+                <div id="advanced-editor" class="editor-container" style="display: none;">
+                  <textarea id="edit-case-study-content-advanced" rows="15">${caseStudyData.content || ''}</textarea>
+                </div>
+              </div>
+            `;
+            
+            const modalActions = `
+              <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+              <button class="modal-btn modal-btn-primary" id="update-case-study-btn">Bijwerken</button>
+            `;
+            
+            openModal('Case Study Bewerken', modalContent, modalActions);
+            
+            // Add script to toggle between simple and advanced editor
+            window.toggleContentEditor = function(type) {
+              contentType = type;
+              if (type === 'simple') {
+                document.getElementById('simple-editor').style.display = 'block';
+                document.getElementById('advanced-editor').style.display = 'none';
+                document.getElementById('simple-editor-btn').classList.add('active');
+                document.getElementById('advanced-editor-btn').classList.remove('active');
+              } else {
+                document.getElementById('simple-editor').style.display = 'none';
+                document.getElementById('advanced-editor').style.display = 'block';
+                document.getElementById('simple-editor-btn').classList.remove('active');
+                document.getElementById('advanced-editor-btn').classList.add('active');
+                
+                // Copy content from simple to advanced if they haven't edited advanced yet
+                const simpleContent = document.getElementById('edit-case-study-content').value;
+                const advancedContent = document.getElementById('edit-case-study-content-advanced').value;
+                if (advancedContent === caseStudyData.content) {
+                  document.getElementById('edit-case-study-content-advanced').value = simpleContent;
+                }
+              }
+            };
+            
+            // Add style for the editor toggle
+            const styleElement = document.createElement('style');
+            styleElement.textContent = `
+              .content-editor-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 5px;
+              }
+              .editor-type-toggle button {
+                padding: 5px 10px;
+                background: #f5f5f5;
+                border: 1px solid #ddd;
+                cursor: pointer;
+              }
+              .editor-type-toggle button.active {
+                background: #0070f3;
+                color: white;
+                border-color: #0070f3;
+              }
+              .editor-container textarea {
+                width: 100%;
+                font-family: monospace;
+              }
+            `;
+            document.head.appendChild(styleElement);
+            
+            // Add event listener to save button
+            setTimeout(() => {
+              document.getElementById('update-case-study-btn').addEventListener('click', async () => {
+                try {
+                  // Get form values
+                  const content = contentType === 'simple' 
+                    ? document.getElementById('edit-case-study-content').value
+                    : document.getElementById('edit-case-study-content-advanced').value;
+                  
+                  const updatedData = {
+                    title: document.getElementById('edit-case-study-title').value,
+                    category: document.getElementById('edit-case-study-category').value,
+                    client: document.getElementById('edit-case-study-client').value,
+                    description: document.getElementById('edit-case-study-description').value,
+                    industry: document.getElementById('edit-case-study-industry').value,
+                    challenge: document.getElementById('edit-case-study-challenge').value,
+                    solution: document.getElementById('edit-case-study-solution').value,
+                    result: document.getElementById('edit-case-study-result').value,
+                    content: content
+                  };
+                  
+                  // Update via API
+                  const response = await fetch(`/api/case-studies/${slug}?lang=${language}`, {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedData)
+                  });
+                  
+                  if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error updating case study');
+                  }
+                  
+                  // Show success notification
+                  showNotification('Case study bijgewerkt', 'success');
+                  closeModal();
+                  
+                  // Force cache refresh for this specific case study
+                  const timestamp = new Date().getTime();
+                  const iframe = document.createElement('iframe');
+                  iframe.style.display = 'none';
+                  iframe.src = `/case-study/${slug}?refresh=${timestamp}`;
+                  document.body.appendChild(iframe);
+                  
+                  // Remove iframe after it loads
+                  iframe.onload = () => {
+                    document.body.removeChild(iframe);
+                    loadCaseStudies(); // Reload the list after cache refresh
+                  };
+                } catch (error) {
+                  console.error('Error updating case study:', error);
+                  showNotification(`Fout bij het bijwerken: ${error.message}`, 'error');
+                }
+              });
+            }, 100);
+          })
+          .catch(error => {
+            console.error('Error fetching case study data:', error);
+            showNotification(`Fout bij het laden van case study: ${error.message}`, 'error');
           });
-        }, 100);
       } catch (error) {
         console.error('Error editing case study:', error);
         showNotification('Error editing case study', 'error');
       }
+    }
+    
+    // Helper function to extract plain Markdown content from HTML
+    function extractMarkdownContent(htmlContent) {
+      // This is a simple conversion - may need to be improved for more complex content
+      let markdown = htmlContent || '';
+      
+      // Strip HTML tags but keep line breaks
+      markdown = markdown
+        .replace(/<h1>(.*?)<\/h1>/g, '# $1\n\n')
+        .replace(/<h2>(.*?)<\/h2>/g, '## $1\n\n')
+        .replace(/<h3>(.*?)<\/h3>/g, '### $1\n\n')
+        .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
+        .replace(/<em>(.*?)<\/em>/g, '*$1*')
+        .replace(/<p>(.*?)<\/p>/g, '$1\n\n')
+        .replace(/<a href="(.*?)".*?>(.*?)<\/a>/g, '[$2]($1)')
+        .replace(/<ul>(.*?)<\/ul>/g, (match, p1) => {
+          return p1.replace(/<li>(.*?)<\/li>/g, '- $1\n');
+        })
+        .replace(/<ol>(.*?)<\/ol>/g, (match, p1) => {
+          let items = p1.match(/<li>(.*?)<\/li>/g);
+          let result = '';
+          if (items) {
+            for (let i = 0; i < items.length; i++) {
+              result += `${i+1}. ${items[i].replace(/<li>(.*?)<\/li>/, '$1')}\n`;
+            }
+          }
+          return result;
+        })
+        .replace(/<blockquote>(.*?)<\/blockquote>/g, '> $1\n\n')
+        .replace(/<pre><code>(.*?)<\/code><\/pre>/g, '```\n$1\n```\n\n')
+        .replace(/<code>(.*?)<\/code>/g, '`$1`');
+      
+      // Remove any remaining HTML tags
+      markdown = markdown.replace(/<[^>]*>/g, '');
+      
+      // Fix multiple line breaks
+      markdown = markdown.replace(/\n\s*\n\s*\n/g, '\n\n');
+      
+      return markdown.trim();
     }
     
     function createCaseStudy() {
@@ -2233,6 +2392,26 @@
             <label for="new-case-study-description">Beschrijving</label>
             <textarea id="new-case-study-description"></textarea>
           </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-industry">Industrie</label>
+            <input type="text" id="new-case-study-industry">
+          </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-challenge">Uitdaging</label>
+            <textarea id="new-case-study-challenge"></textarea>
+          </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-solution">Oplossing</label>
+            <textarea id="new-case-study-solution"></textarea>
+          </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-result">Resultaat</label>
+            <textarea id="new-case-study-result"></textarea>
+          </div>
+          <div class="modal-form-group">
+            <label for="new-case-study-content">Content (Markdown)</label>
+            <textarea id="new-case-study-content" rows="8"></textarea>
+          </div>
         `;
         
         const modalActions = `
@@ -2261,6 +2440,11 @@
                 category: document.getElementById('new-case-study-category').value,
                 client: document.getElementById('new-case-study-client').value,
                 description: document.getElementById('new-case-study-description').value,
+                industry: document.getElementById('new-case-study-industry').value,
+                challenge: document.getElementById('new-case-study-challenge').value,
+                solution: document.getElementById('new-case-study-solution').value,
+                result: document.getElementById('new-case-study-result').value,
+                content: document.getElementById('new-case-study-content').value,
                 featured: false
               };
               
@@ -2291,6 +2475,430 @@
       } catch (error) {
         console.error('Error creating case study:', error);
         showNotification('Error creating case study', 'error');
+      }
+    }
+    
+    // Helper function to extract plain Markdown content from HTML
+    function extractMarkdownContent(htmlContent) {
+      // This is a simple conversion - may need to be improved for more complex content
+      let markdown = htmlContent || '';
+      
+      // Strip HTML tags but keep line breaks
+      markdown = markdown
+        .replace(/<h1>(.*?)<\/h1>/g, '# $1\n\n')
+        .replace(/<h2>(.*?)<\/h2>/g, '## $1\n\n')
+        .replace(/<h3>(.*?)<\/h3>/g, '### $1\n\n')
+        .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
+        .replace(/<em>(.*?)<\/em>/g, '*$1*')
+        .replace(/<p>(.*?)<\/p>/g, '$1\n\n')
+        .replace(/<a href="(.*?)".*?>(.*?)<\/a>/g, '[$2]($1)')
+        .replace(/<ul>(.*?)<\/ul>/g, (match, p1) => {
+          return p1.replace(/<li>(.*?)<\/li>/g, '- $1\n');
+        })
+        .replace(/<ol>(.*?)<\/ol>/g, (match, p1) => {
+          let items = p1.match(/<li>(.*?)<\/li>/g);
+          let result = '';
+          if (items) {
+            for (let i = 0; i < items.length; i++) {
+              result += `${i+1}. ${items[i].replace(/<li>(.*?)<\/li>/, '$1')}\n`;
+            }
+          }
+          return result;
+        })
+        .replace(/<blockquote>(.*?)<\/blockquote>/g, '> $1\n\n')
+        .replace(/<pre><code>(.*?)<\/code><\/pre>/g, '```\n$1\n```\n\n')
+        .replace(/<code>(.*?)<\/code>/g, '`$1`');
+      
+      // Remove any remaining HTML tags
+      markdown = markdown.replace(/<[^>]*>/g, '');
+      
+      // Fix multiple line breaks
+      markdown = markdown.replace(/\n\s*\n\s*\n/g, '\n\n');
+      
+      return markdown.trim();
+    }
+    
+    // Function to edit blog posts
+    function editBlogPost(slug) {
+      try {
+        // Show edit form in modal
+        const language = currentLang || 'nl';
+        const blogPost = blogPostsData.find(post => post.slug === slug);
+        
+        if (!blogPost) {
+          showNotification('Blog post niet gevonden', 'error');
+          return;
+        }
+        
+        // Fetch the full content of the blog post first, including the Markdown content
+        fetch(`/api/blog/${slug}?lang=${language}`)
+          .then(response => response.json())
+          .then(fullData => {
+            if (!fullData.success) {
+              throw new Error('Kon blog post inhoud niet laden');
+            }
+            
+            const blogPostData = fullData.data;
+            let contentType = 'simple';
+            
+            // Create the modal content with the full blog post fields
+            const modalContent = `
+              <div class="modal-form-group">
+                <label for="edit-blog-title">Titel</label>
+                <input type="text" id="edit-blog-title" value="${blogPostData.title || ''}" required>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-blog-slug">Slug</label>
+                <input type="text" id="edit-blog-slug" value="${blogPostData.slug || ''}" readonly>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-blog-author">Auteur</label>
+                <input type="text" id="edit-blog-author" value="${blogPostData.author || ''}">
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-blog-excerpt">Excerpt</label>
+                <textarea id="edit-blog-excerpt">${blogPostData.excerpt || ''}</textarea>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-blog-categories">Categorieën (komma-gescheiden)</label>
+                <input type="text" id="edit-blog-categories" value="${Array.isArray(blogPostData.categories) ? blogPostData.categories.join(', ') : ''}">
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-blog-tags">Tags (komma-gescheiden)</label>
+                <input type="text" id="edit-blog-tags" value="${Array.isArray(blogPostData.tags) ? blogPostData.tags.join(', ') : ''}">
+              </div>
+              <div class="modal-form-group content-editor">
+                <div class="content-editor-header">
+                  <label for="edit-blog-content">Content (Markdown)</label>
+                  <div class="editor-type-toggle">
+                    <button id="simple-editor-btn" class="active" onclick="toggleContentEditor('simple'); return false;">Eenvoudig</button>
+                    <button id="advanced-editor-btn" onclick="toggleContentEditor('advanced'); return false;">Geavanceerd</button>
+                  </div>
+                </div>
+                <div id="simple-editor" class="editor-container">
+                  <textarea id="edit-blog-content" rows="15">${extractMarkdownContent(blogPostData.content || '')}</textarea>
+                </div>
+                <div id="advanced-editor" class="editor-container" style="display: none;">
+                  <textarea id="edit-blog-content-advanced" rows="15">${blogPostData.content || ''}</textarea>
+                </div>
+              </div>
+            `;
+            
+            const modalActions = `
+              <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+              <button class="modal-btn modal-btn-primary" id="update-blog-btn">Bijwerken</button>
+            `;
+            
+            openModal('Blog Post Bewerken', modalContent, modalActions);
+            
+            // Add script to toggle between simple and advanced editor
+            window.toggleContentEditor = function(type) {
+              contentType = type;
+              if (type === 'simple') {
+                document.getElementById('simple-editor').style.display = 'block';
+                document.getElementById('advanced-editor').style.display = 'none';
+                document.getElementById('simple-editor-btn').classList.add('active');
+                document.getElementById('advanced-editor-btn').classList.remove('active');
+              } else {
+                document.getElementById('simple-editor').style.display = 'none';
+                document.getElementById('advanced-editor').style.display = 'block';
+                document.getElementById('simple-editor-btn').classList.remove('active');
+                document.getElementById('advanced-editor-btn').classList.add('active');
+                
+                // Copy content from simple to advanced if they haven't edited advanced yet
+                const simpleContent = document.getElementById('edit-blog-content').value;
+                const advancedContent = document.getElementById('edit-blog-content-advanced').value;
+                if (advancedContent === blogPostData.content) {
+                  document.getElementById('edit-blog-content-advanced').value = simpleContent;
+                }
+              }
+            };
+            
+            // Add style for the editor toggle if not already added
+            if (!document.getElementById('editor-toggle-style')) {
+              const styleElement = document.createElement('style');
+              styleElement.id = 'editor-toggle-style';
+              styleElement.textContent = `
+                .content-editor-header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 5px;
+                }
+                .editor-type-toggle button {
+                  padding: 5px 10px;
+                  background: #f5f5f5;
+                  border: 1px solid #ddd;
+                  cursor: pointer;
+                }
+                .editor-type-toggle button.active {
+                  background: #0070f3;
+                  color: white;
+                  border-color: #0070f3;
+                }
+                .editor-container textarea {
+                  width: 100%;
+                  font-family: monospace;
+                }
+              `;
+              document.head.appendChild(styleElement);
+            }
+            
+            // Add event listener to save button
+            setTimeout(() => {
+              document.getElementById('update-blog-btn').addEventListener('click', async () => {
+                try {
+                  // Get form values
+                  const content = contentType === 'simple' 
+                    ? document.getElementById('edit-blog-content').value
+                    : document.getElementById('edit-blog-content-advanced').value;
+                  
+                  // Parse categories and tags from comma-separated string to array
+                  const categoriesInput = document.getElementById('edit-blog-categories').value;
+                  const categories = categoriesInput.split(',').map(cat => cat.trim()).filter(cat => cat !== '');
+                  
+                  const tagsInput = document.getElementById('edit-blog-tags').value;
+                  const tags = tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+                  
+                  const updatedData = {
+                    title: document.getElementById('edit-blog-title').value,
+                    author: document.getElementById('edit-blog-author').value,
+                    excerpt: document.getElementById('edit-blog-excerpt').value,
+                    categories: categories,
+                    tags: tags,
+                    content: content
+                  };
+                  
+                  // Update via API
+                  const response = await fetch(`/api/blog/${slug}?lang=${language}`, {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedData)
+                  });
+                  
+                  if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error updating blog post');
+                  }
+                  
+                  // Show success notification
+                  showNotification('Blog post bijgewerkt', 'success');
+                  closeModal();
+                  
+                  // Force cache refresh for this specific blog post
+                  const timestamp = new Date().getTime();
+                  const iframe = document.createElement('iframe');
+                  iframe.style.display = 'none';
+                  iframe.src = `/blog/${slug}?refresh=${timestamp}`;
+                  document.body.appendChild(iframe);
+                  
+                  // Remove iframe after it loads
+                  iframe.onload = () => {
+                    document.body.removeChild(iframe);
+                    loadBlogPosts(); // Reload the list after cache refresh
+                  };
+                } catch (error) {
+                  console.error('Error updating blog post:', error);
+                  showNotification(`Fout bij het bijwerken: ${error.message}`, 'error');
+                }
+              });
+            }, 100);
+          })
+          .catch(error => {
+            console.error('Error fetching blog post data:', error);
+            showNotification(`Fout bij het laden van blog post: ${error.message}`, 'error');
+          });
+      } catch (error) {
+        console.error('Error editing blog post:', error);
+        showNotification('Error editing blog post', 'error');
+      }
+    }
+    
+    // Function to edit services
+    function editService(slug) {
+      try {
+        // Show edit form in modal
+        const language = currentLang || 'nl';
+        const service = servicesData.find(svc => svc.slug === slug);
+        
+        if (!service) {
+          showNotification('Service niet gevonden', 'error');
+          return;
+        }
+        
+        // Fetch the full content of the service first, including the Markdown content
+        fetch(`/api/services/${slug}?lang=${language}`)
+          .then(response => response.json())
+          .then(fullData => {
+            if (!fullData.success) {
+              throw new Error('Kon service inhoud niet laden');
+            }
+            
+            const serviceData = fullData.data;
+            let contentType = 'simple';
+            
+            // Create the modal content with the full service fields
+            const modalContent = `
+              <div class="modal-form-group">
+                <label for="edit-service-title">Titel</label>
+                <input type="text" id="edit-service-title" value="${serviceData.title || ''}" required>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-service-slug">Slug</label>
+                <input type="text" id="edit-service-slug" value="${serviceData.slug || ''}" readonly>
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-service-icon">Icon</label>
+                <input type="text" id="edit-service-icon" value="${serviceData.icon || ''}">
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-service-order">Volgorde</label>
+                <input type="number" id="edit-service-order" value="${serviceData.order || 999}">
+              </div>
+              <div class="modal-form-group">
+                <label for="edit-service-short-description">Korte Beschrijving</label>
+                <textarea id="edit-service-short-description">${serviceData.short_description || ''}</textarea>
+              </div>
+              <div class="modal-form-group content-editor">
+                <div class="content-editor-header">
+                  <label for="edit-service-content">Content (Markdown)</label>
+                  <div class="editor-type-toggle">
+                    <button id="simple-editor-btn" class="active" onclick="toggleContentEditor('simple'); return false;">Eenvoudig</button>
+                    <button id="advanced-editor-btn" onclick="toggleContentEditor('advanced'); return false;">Geavanceerd</button>
+                  </div>
+                </div>
+                <div id="simple-editor" class="editor-container">
+                  <textarea id="edit-service-content" rows="15">${extractMarkdownContent(serviceData.content || '')}</textarea>
+                </div>
+                <div id="advanced-editor" class="editor-container" style="display: none;">
+                  <textarea id="edit-service-content-advanced" rows="15">${serviceData.content || ''}</textarea>
+                </div>
+              </div>
+            `;
+            
+            const modalActions = `
+              <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+              <button class="modal-btn modal-btn-primary" id="update-service-btn">Bijwerken</button>
+            `;
+            
+            openModal('Service Bewerken', modalContent, modalActions);
+            
+            // Add script to toggle between simple and advanced editor
+            window.toggleContentEditor = function(type) {
+              contentType = type;
+              if (type === 'simple') {
+                document.getElementById('simple-editor').style.display = 'block';
+                document.getElementById('advanced-editor').style.display = 'none';
+                document.getElementById('simple-editor-btn').classList.add('active');
+                document.getElementById('advanced-editor-btn').classList.remove('active');
+              } else {
+                document.getElementById('simple-editor').style.display = 'none';
+                document.getElementById('advanced-editor').style.display = 'block';
+                document.getElementById('simple-editor-btn').classList.remove('active');
+                document.getElementById('advanced-editor-btn').classList.add('active');
+                
+                // Copy content from simple to advanced if they haven't edited advanced yet
+                const simpleContent = document.getElementById('edit-service-content').value;
+                const advancedContent = document.getElementById('edit-service-content-advanced').value;
+                if (advancedContent === serviceData.content) {
+                  document.getElementById('edit-service-content-advanced').value = simpleContent;
+                }
+              }
+            };
+            
+            // Add style for the editor toggle if not already added
+            if (!document.getElementById('editor-toggle-style')) {
+              const styleElement = document.createElement('style');
+              styleElement.id = 'editor-toggle-style';
+              styleElement.textContent = `
+                .content-editor-header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 5px;
+                }
+                .editor-type-toggle button {
+                  padding: 5px 10px;
+                  background: #f5f5f5;
+                  border: 1px solid #ddd;
+                  cursor: pointer;
+                }
+                .editor-type-toggle button.active {
+                  background: #0070f3;
+                  color: white;
+                  border-color: #0070f3;
+                }
+                .editor-container textarea {
+                  width: 100%;
+                  font-family: monospace;
+                }
+              `;
+              document.head.appendChild(styleElement);
+            }
+            
+            // Add event listener to save button
+            setTimeout(() => {
+              document.getElementById('update-service-btn').addEventListener('click', async () => {
+                try {
+                  // Get form values
+                  const content = contentType === 'simple' 
+                    ? document.getElementById('edit-service-content').value
+                    : document.getElementById('edit-service-content-advanced').value;
+                  
+                  const updatedData = {
+                    title: document.getElementById('edit-service-title').value,
+                    icon: document.getElementById('edit-service-icon').value,
+                    order: parseInt(document.getElementById('edit-service-order').value || 999),
+                    short_description: document.getElementById('edit-service-short-description').value,
+                    content: content
+                  };
+                  
+                  // Update via API
+                  const response = await fetch(`/api/services/${slug}?lang=${language}`, {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedData)
+                  });
+                  
+                  if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error updating service');
+                  }
+                  
+                  // Show success notification
+                  showNotification('Service bijgewerkt', 'success');
+                  closeModal();
+                  
+                  // Force cache refresh for this specific service
+                  const timestamp = new Date().getTime();
+                  const iframe = document.createElement('iframe');
+                  iframe.style.display = 'none';
+                  iframe.src = `/services/${slug}?refresh=${timestamp}`;
+                  document.body.appendChild(iframe);
+                  
+                  // Remove iframe after it loads
+                  iframe.onload = () => {
+                    document.body.removeChild(iframe);
+                    loadServices(); // Reload the list after cache refresh
+                  };
+                } catch (error) {
+                  console.error('Error updating service:', error);
+                  showNotification(`Fout bij het bijwerken: ${error.message}`, 'error');
+                }
+              });
+            }, 100);
+          })
+          .catch(error => {
+            console.error('Error fetching service data:', error);
+            showNotification(`Fout bij het laden van service: ${error.message}`, 'error');
+          });
+      } catch (error) {
+        console.error('Error editing service:', error);
+        showNotification('Error editing service', 'error');
       }
     }
     
@@ -2326,10 +2934,29 @@
                 throw new Error(errorData.message || 'Error updating featured status');
               }
               
+              // Reload the homepage to refresh the featured projects
+              const responseData = await response.json();
+              
               // Show success notification
               showNotification(`Case study is nu ${featured ? 'featured' : 'niet meer featured'}`, 'success');
               closeModal();
-              loadCaseStudies(); // Reload the list
+              
+              // Force cache refresh by adding a timestamp parameter
+              const timestamp = new Date().getTime();
+              
+              // Reload the homepage in a hidden iframe to refresh the cache
+              const iframe = document.createElement('iframe');
+              iframe.style.display = 'none';
+              iframe.src = `/?refresh=${timestamp}`;
+              document.body.appendChild(iframe);
+              
+              // Remove iframe after it loads
+              iframe.onload = () => {
+                document.body.removeChild(iframe);
+              };
+              
+              // Reload the case studies list
+              loadCaseStudies();
             } catch (error) {
               console.error('Error toggling featured status:', error);
               showNotification(`Fout bij het wijzigen van status: ${error.message}`, 'error');

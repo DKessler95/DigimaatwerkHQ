@@ -1,21 +1,30 @@
 ---
-slug: "test-case-study"
-title: "Test Case Study"
-featured_image: "https://images.unsplash.com/photo-1576153192396-180ecef2a715?ixlib=rb-1.2.1&auto=format&fit=crop&w=1789&q=80"
-category: "Webontwikkeling"
-client: "TestBedrijf BV"
-industry: "Software"
+slug: test-case-study
+title: Test Case Study
+featured_image: >-
+  https://images.unsplash.com/photo-1576153192396-180ecef2a715?ixlib=rb-1.2.1&auto=format&fit=crop&w=1789&q=80
+category: Webontwikkeling
+client: TestBedrijf BV
+industry: Software
 date: 2024-03-29T00:00:00.000Z
-description: "Een voorbeeld case study om te testen of ons CMS correct werkt en de styling goed wordt toegepast."
-challenge: "Het testen van een complex content management systeem met juiste opmaak en stijl die consistent is over alle pagina's."
-solution: "We hebben een test case study gemaakt die alle soorten opmaak bevat, zoals koppen, lijsten, links en afbeeldingen."
-result: "Een perfect werkend CMS dat content kan tonen met de juiste styling en gebruiksvriendelijke interface."
+description: >-
+  Een voorbeeld case study om te testen of ons CMS correct werkt en de styling
+  goed wordt toegepast.
+challenge: >-
+  Het testen van een complex content management systeem met juiste opmaak en
+  stijl die consistent is over alle pagina's.
+solution: >-
+  We hebben een test case study gemaakt die alle soorten opmaak bevat, zoals
+  koppen, lijsten, links en afbeeldingen.
+result: >-
+  Een perfect werkend CMS dat content kan tonen met de juiste styling en
+  gebruiksvriendelijke interface.
 metrics:
-  - label: "CMS Effectiviteit"
-    value: "99%"
-  - label: "Gebruikerstevredenheid"
-    value: "9.8/10"
-featured: true
+  - label: CMS Effectiviteit
+    value: 99%
+  - label: Gebruikerstevredenheid
+    value: 9.8/10
+featured: false
 ---
 
 # Test Case Study
