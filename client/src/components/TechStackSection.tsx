@@ -19,7 +19,7 @@ const techStack: TechItem[] = [
     descriptionKey: "tech.nextjs"
   },
   {
-    icon: "ri-3d-cube-line",
+    icon: "svg",
     name: "Three.js",
     descriptionKey: "tech.threejs"
   },
@@ -93,7 +93,13 @@ const TechStackSection = () => {
                 viewport={{ once: true }}
               >
                 <div className="w-16 h-16 mb-4 flex items-center justify-center bg-secondary rounded-xl">
-                  <i className={`${tech.icon} text-3xl text-accent`}></i>
+                  {tech.icon === "svg" ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-accent">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 17l1.5-2.5m-1.5 2.5l-1.5-2.5M17 14v-2m-5-5l-1.5-2.5m1.5 2.5l1.5-2.5M7 14v-2m3-5h4m-7 10h10a1 1 0 001-1V6a1 1 0 00-1-1H7a1 1 0 00-1 1v10a1 1 0 001 1z" />
+                    </svg>
+                  ) : (
+                    <i className={`${tech.icon} text-3xl text-accent`}></i>
+                  )}
                 </div>
                 <h3 className="text-lg font-header font-medium mb-1">{tech.name}</h3>
                 <p className="text-foreground/60 text-sm text-center">{t(tech.descriptionKey)}</p>

@@ -73,7 +73,7 @@ const TestimonialsSection = () => {
                 <div className="flex items-center">
                   <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
                     <img 
-                      src={`/assets/${testimonial.name === "Joost van der Meer" ? "joost.jpg" : "sophia.jpg"}`} 
+                      src={`/images/${testimonial.name === "Joost van der Meer" ? "joost.jpg" : "sophia.jpg"}`} 
                       alt={testimonial.name}
                       className="w-full h-full object-cover" 
                     />
