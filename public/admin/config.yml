@@ -1,6 +1,8 @@
 backend:
-  name: git-gateway
-  branch: main # Branch to update
+  name: test-repo
+  # Wanneer je in productie gaat, wijzig naar:
+  # name: git-gateway
+  # branch: main
 
 # These lines should be adjusted according to your deployment
 site_url: https://digimaatwerk.nl
@@ -13,6 +15,17 @@ public_folder: "/uploads" # The src attribute for uploaded media
 
 # Enables the editorial workflow - allows for draft, review, etc.
 publish_mode: editorial_workflow
+
+# Enable webhooks for integration with external services
+# These webhooks can be used with Make.com or n8n.io for automation
+webhooks:
+  - name: notify_on_publish
+    url: https://example.com/webhooks/cms/publish
+    events: 
+      - publish
+    format: json
+    headers:
+      Authorization: "Bearer ${WEBHOOK_SECRET_TOKEN}"
 
 # Localization configuration
 locale: 'nl'

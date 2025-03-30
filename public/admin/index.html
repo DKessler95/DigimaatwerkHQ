@@ -26,7 +26,47 @@
     // Preview styles - match your frontend styling
     CMS.registerPreviewStyle("/admin/preview.css");
     
-    // Custom widgets or extensions can be added here
+    // Custom preview templates for content types
+    const ServicePreview = createClass({
+      render: function() {
+        const entry = this.props.entry;
+        const title = entry.getIn(['data', 'title']);
+        const shortDescription = entry.getIn(['data', 'short_description']);
+        const features = entry.getIn(['data', 'features']) || [];
+        const techStack = entry.getIn(['data', 'tech_stack']) || [];
+        const content = this.props.widgetFor('body');
+        
+        return h('div', {className: 'service-preview'},
+          h('h1', {}, title),
+          h('div', {className: 'service-description'}, shortDescription),
+          
+          h('h2', {}, 'Features'),
+          h('div', {className: 'feature-list'},
+            features.map((feature, index) => {
+              return h('div', {className: 'feature-item', key: index},
+                h('h3', {}, feature.getIn(['name'])),
+                h('p', {}, feature.getIn(['description']))
+              );
+            })
+          ),
+          
+          h('h2', {}, 'Technologies'),
+          h('div', {className: 'tech-stack'},
+            techStack.map((tech, index) => {
+              return h('div', {className: 'tech-item', key: index},
+                h('strong', {}, tech.getIn(['name']) + ': '),
+                h('span', {}, tech.getIn(['description']))
+              );
+            })
+          ),
+          
+          h('h2', {}, 'Content'),
+          h('div', {}, content)
+        );
+      }
+    });
+    
+    CMS.registerPreviewTemplate('services', ServicePreview);
     
     // Localization
     const nl = {
@@ -94,6 +134,49 @@
     };
     
     CMS.registerLocale('nl', nl);
+    
+    // Make createClass available for preview templates
+    var createClass = React.createClass;
+    var h = React.createElement;
+    
+    // Add custom admin links
+    const addAdminLinks = () => {
+      // Wait a bit for CMS to render
+      setTimeout(() => {
+        // Get the app header div to append our links
+        const appHeader = document.querySelector('.nc-appHeader-toolbar');
+        
+        if (appHeader) {
+          // Create link to integrations documentation
+          const integrationsLink = document.createElement('a');
+          integrationsLink.href = '/admin/integrations.html';
+          integrationsLink.target = '_blank';
+          integrationsLink.className = 'nc-appHeader-toolbarLink';
+          integrationsLink.textContent = 'Integraties';
+          integrationsLink.style.marginRight = '20px';
+          
+          // Inject the link into the header
+          appHeader.appendChild(integrationsLink);
+        }
+      }, 1000);
+    };
+    
+    // Initialize the CMS
+    window.initCMS = () => {
+      CMS.init();
+      addAdminLinks();
+    };
+    
+    // Load React and ReactDOM for preview templates
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/react@16/umd/react.development.js';
+    script.onload = () => {
+      const reactDOM = document.createElement('script');
+      reactDOM.src = 'https://unpkg.com/react-dom@16/umd/react-dom.development.js';
+      reactDOM.onload = window.initCMS;
+      document.body.appendChild(reactDOM);
+    };
+    document.body.appendChild(script);
   </script>
 </body>
 </html>

@@ -5,6 +5,7 @@ import { z } from "zod";
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
+import express from "express";
 
 // Define interfaces for CMS content
 interface CaseStudy {
@@ -75,6 +76,14 @@ const projectEstimateSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve CMS admin files directly
+  app.use('/admin', express.static(path.join(process.cwd(), 'public/admin')));
+  
+  // Create a route to serve CMS content directly
+  app.use('/content', express.static(path.join(process.cwd(), 'public/content')));
+  
+  // Create a route to serve uploaded media
+  app.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads')));
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
     try {
@@ -407,6 +416,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Failed to fetch blog posts"
+      });
+    }
+  });
+  
+  // Webhook endpoint for CMS integrations (Make, n8n, etc)
+  app.post("/api/webhooks/cms", async (req, res) => {
+    try {
+      // Validate webhook request
+      const authHeader = req.headers.authorization;
+      const webhookSecret = process.env.WEBHOOK_SECRET_TOKEN;
+      
+      if (!webhookSecret) {
+        console.log("Webhook secret not configured");
+        return res.status(200).json({ message: "Webhook processed (secret not configured)" });
+      }
+      
+      const expectedAuth = `Bearer ${webhookSecret}`;
+      
+      if (authHeader !== expectedAuth) {
+        return res.status(401).json({ success: false, message: "Unauthorized webhook request" });
+      }
+      
+      // Log the webhook payload
+      console.log("Received CMS webhook:", JSON.stringify(req.body, null, 2));
+      
+      // Process based on the event type
+      const event = req.body.event || "";
+      
+      if (event === "publish") {
+        const collection = req.body.collection || "";
+        const slug = req.body.slug || "";
+        const locale = req.body.locale || "nl";
+        
+        console.log(`Content published: ${collection}/${slug} (${locale})`);
+        
+        // You could perform additional actions here based on the event
+        // Such as updating indexes, sending notifications, etc.
+      }
+      
+      // Successfully processed webhook
+      res.status(200).json({ 
+        success: true, 
+        message: "Webhook processed successfully" 
+      });
+    } catch (error) {
+      console.error("Webhook processing error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Error processing webhook" 
       });
     }
   });

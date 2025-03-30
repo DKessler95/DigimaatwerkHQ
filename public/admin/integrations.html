@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digimaatwerk CMS - Integraties</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+  <style>
+    :root {
+      --primary: #0F172A;
+      --primary-dark: #0a0f1b;
+      --accent: #0EA5E9;
+      --accent-hover: #0b89c2;
+      --bg: #f8fafc;
+      --text: #334155;
+      --heading: #0F172A;
+      --border: #e2e8f0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    h1, h2, h3, h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--heading);
+      margin-top: 1.5em;
+      margin-bottom: 0.75em;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-top: 0;
+      color: white;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+    }
+    
+    p {
+      margin-bottom: 1.2em;
+    }
+    
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+      color: var(--accent-hover);
+    }
+    
+    .button {
+      display: inline-block;
+      background-color: var(--accent);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    
+    .button:hover {
+      background-color: var(--accent-hover);
+      text-decoration: none;
+    }
+    
+    .button.secondary {
+      background-color: white;
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+    
+    .button.secondary:hover {
+      background-color: #f1f5f9;
+    }
+    
+    code {
+      background-color: #f1f5f9;
+      padding: 0.2em 0.4em;
+      border-radius: 0.25rem;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    
+    pre {
+      background-color: #1e293b;
+      color: #f8fafc;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    
+    pre code {
+      background-color: transparent;
+      color: inherit;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    
+    .tab {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .tab.active {
+      border-bottom: 2px solid var(--accent);
+      color: var(--accent);
+    }
+    
+    .tab-panel {
+      display: none;
+    }
+    
+    .tab-panel.active {
+      display: block;
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--accent);
+      background-color: rgba(14, 165, 233, 0.1);
+    }
+
+    .alert.warning {
+      border-left-color: #f59e0b;
+      background-color: rgba(245, 158, 11, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-weight: 600;
+      background-color: #f1f5f9;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Digimaatwerk CMS - Integraties</h1>
+      <div>
+        <a href="/admin/" class="button secondary">Terug naar CMS</a>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <h2>Integratie met Externe Services</h2>
+    <p>
+      Het Digimaatwerk CMS biedt mogelijkheden om te integreren met externe workflow automatiseringstools
+      zoals Make.com (voorheen Integromat) en n8n.io. Deze integratie maakt het mogelijk om workflows te automatiseren
+      wanneer content in het CMS wordt gepubliceerd, bewerkt of verwijderd.
+    </p>
+    
+    <div class="alert">
+      <strong>Tip:</strong> Voor productieomgevingen wordt aanbevolen om een beveiligingstoken te configureren
+      in de omgevingsvariabelen van de server om de webhook-integraties te beveiligen.
+    </div>
+    
+    <div class="tabs">
+      <div class="tab active" onclick="openTab(event, 'make')">Make.com</div>
+      <div class="tab" onclick="openTab(event, 'n8n')">n8n.io</div>
+      <div class="tab" onclick="openTab(event, 'zapier')">Zapier</div>
+      <div class="tab" onclick="openTab(event, 'api')">API Reference</div>
+    </div>
+    
+    <div id="make" class="tab-panel active">
+      <h3>Integreren met Make.com</h3>
+      <p>
+        Make.com (voorheen Integromat) is een krachtige no-code automatiseringstool waarmee je 
+        verschillende applicaties en services aan elkaar kunt koppelen.
+      </p>
+      
+      <div class="card">
+        <h4>Stappen om te integreren met Make.com:</h4>
+        <ol>
+          <li>Maak een nieuw scenario in Make.com</li>
+          <li>Begin met een webhook trigger (HTTP-module)</li>
+          <li>Configureer de webhook om JSON-data te ontvangen</li>
+          <li>Configureer de endpoint URL: <code>https://jouw-website.nl/api/webhooks/cms</code></li>
+          <li>
+            Voeg een Authorization header toe:
+            <pre><code>Bearer jouwGeheimeTokenHier</code></pre>
+          </li>
+          <li>Voeg verwerkingsstappen toe om de ontvangen CMS-data te verwerken</li>
+          <li>Voeg acties toe, zoals:
+            <ul>
+              <li>Notificaties sturen (Email, Slack, etc.)</li>
+              <li>Data opslaan in databases</li>
+              <li>Content doorsturen naar sociale media</li>
+              <li>Updates naar andere systemen sturen</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+      
+      <h4>Voorbeeld Make.com Scenario</h4>
+      <p>
+        Hieronder volgt een eenvoudig scenario voor het automatisch delen van nieuwe blogberichten op sociale media:
+      </p>
+      <img src="https://via.placeholder.com/800x400?text=Voorbeeld+Make.com+Scenario" alt="Voorbeeld Make.com Scenario" style="max-width: 100%; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+    </div>
+    
+    <div id="n8n" class="tab-panel">
+      <h3>Integreren met n8n.io</h3>
+      <p>
+        n8n is een workflow automatiseringstool met een node-gebaseerde aanpak, waardoor je complexe workflows
+        kunt bouwen met een visuele interface.
+      </p>
+      
+      <div class="card">
+        <h4>Stappen om te integreren met n8n.io:</h4>
+        <ol>
+          <li>Start een nieuwe workflow in n8n</li>
+          <li>Voeg een Webhook node toe als trigger</li>
+          <li>Configureer de webhook voor POST-verzoeken en JSON-data</li>
+          <li>Voeg een Function node toe om de ontvangen CMS-data te verwerken</li>
+          <li>
+            Voeg een HTTP Request node toe om te communiceren met API's van derden
+          </li>
+          <li>Voeg aanvullende nodes toe, afhankelijk van je automatiseringsbehoefte</li>
+        </ol>
+      </div>
+      
+      <h4>Voorbeeld n8n Workflow</h4>
+      <p>
+        Hieronder volgt een voorbeeld van een n8n workflow die nieuwe blogposts verwerkt en notificaties verzendt:
+      </p>
+      <img src="https://via.placeholder.com/800x400?text=Voorbeeld+n8n+Workflow" alt="Voorbeeld n8n Workflow" style="max-width: 100%; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+    </div>
+    
+    <div id="zapier" class="tab-panel">
+      <h3>Integreren met Zapier</h3>
+      <p>
+        Zapier is een populaire automatiseringstool die duizenden apps verbindt zonder dat je hoeft te coderen.
+      </p>
+      
+      <div class="card">
+        <h4>Stappen om te integreren met Zapier:</h4>
+        <ol>
+          <li>Maak een nieuwe Zap aan in Zapier</li>
+          <li>Selecteer "Webhooks by Zapier" als trigger</li>
+          <li>Kies "Catch Hook" als triggergebeurtenis</li>
+          <li>Configureer de webhook URL in het CMS of in je code</li>
+          <li>Test de webhook door een voorbeeldpublicatie te maken</li>
+          <li>Configureer de gewenste acties in Zapier</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div id="api" class="tab-panel">
+      <h3>API Referentie</h3>
+      <p>
+        Het Digimaatwerk CMS biedt verschillende API endpoints die je kunt gebruiken voor integraties.
+      </p>
+      
+      <h4>Webhook Payload</h4>
+      <p>
+        Wanneer content wordt gepubliceerd in het CMS, zal de volgende JSON-payload naar de geconfigureerde webhook URL worden verzonden:
+      </p>
+      
+      <pre><code>{
+  "event": "publish",
+  "collection": "blog",
+  "slug": "voorbeeld-artikel",
+  "locale": "nl",
+  "title": "Voorbeeld artikel titel",
+  "author": "Auteur Naam",
+  "timestamp": "2025-03-30T12:00:00Z",
+  "data": {
+    // Complete content entry data
+  }
+}</code></pre>
+
+      <h4>Beschikbare API Endpoints</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Methode</th>
+            <th>Beschrijving</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/services</code></td>
+            <td>GET</td>
+            <td>Haalt alle services op</td>
+          </tr>
+          <tr>
+            <td><code>/api/blog</code></td>
+            <td>GET</td>
+            <td>Haalt alle blogposts op</td>
+          </tr>
+          <tr>
+            <td><code>/api/case-studies</code></td>
+            <td>GET</td>
+            <td>Haalt alle case studies op</td>
+          </tr>
+          <tr>
+            <td><code>/api/webhooks/cms</code></td>
+            <td>POST</td>
+            <td>Endpoint voor CMS webhook integraties</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="alert warning">
+        <strong>Let op:</strong> Zorg ervoor dat je API-endpoints beveiligd zijn met de juiste authenticatie voor productieomgevingen.
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function openTab(evt, tabName) {
+      // Hide all tab panels
+      const tabPanels = document.querySelectorAll('.tab-panel');
+      tabPanels.forEach(panel => {
+        panel.classList.remove('active');
+      });
+      
+      // Remove active class from all tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show the selected tab panel and mark tab as active
+      document.getElementById(tabName).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>
