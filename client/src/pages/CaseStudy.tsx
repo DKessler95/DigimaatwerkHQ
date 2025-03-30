@@ -4,6 +4,30 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
 
+// Helper function to format the HTML content for case studies
+function formatCaseStudyContent(content: string): string {
+  // Replace Markdown heading syntax with proper HTML headings
+  let formatted = content.replace(/\n# (.*?)\n/g, '<h1>$1</h1>');
+  formatted = formatted.replace(/\n## (.*?)\n/g, '<h2>$1</h2>');
+  formatted = formatted.replace(/\n### (.*?)\n/g, '<h3>$1</h3>');
+  
+  // Fix bullet points that might be simple dashes
+  formatted = formatted.replace(/\n- (.*?)(?=\n)/g, '<ul><li>$1</li></ul>');
+  formatted = formatted.replace(/<\/ul>\n<ul>/g, '');
+  
+  // Fix numbered lists
+  formatted = formatted.replace(/\n\d+\. (.*?)(?=\n)/g, '<ol><li>$1</li></ol>');
+  formatted = formatted.replace(/<\/ol>\n<ol>/g, '');
+  
+  // Enhance blockquotes
+  formatted = formatted.replace(/\n> (.*?)(?=\n)/g, '<blockquote>$1</blockquote>');
+  
+  // Enhance strong text 
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  return formatted;
+}
+
 interface CaseStudy {
   slug: string;
   title: string;
@@ -35,6 +59,10 @@ const CaseStudyPage = () => {
         throw new Error('Failed to fetch case study');
       }
       const data = await response.json();
+      // Format the content for better rendering using our helper function
+      if (data.data && data.data.content) {
+        data.data.content = formatCaseStudyContent(data.data.content);
+      }
       return data.data as CaseStudy;
     }
   });
@@ -173,36 +201,39 @@ const CaseStudyPage = () => {
           
           {/* Main content */}
           <div className="md:col-span-2">
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <div className="mb-8">
-                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4">
+            <div className="max-w-none">
+              <div className="mb-10 bg-secondary/30 p-6 rounded-lg">
+                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4 text-accent">
                   {language === 'nl' ? 'De Uitdaging' : 'The Challenge'}
                 </h2>
-                <p className="text-foreground/80">
+                <p className="text-foreground/90 text-lg leading-relaxed">
                   {caseStudy.challenge}
                 </p>
               </div>
               
-              <div className="mb-8">
-                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4">
+              <div className="mb-10 bg-secondary/30 p-6 rounded-lg">
+                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4 text-accent">
                   {language === 'nl' ? 'Onze Oplossing' : 'Our Solution'}
                 </h2>
-                <p className="text-foreground/80">
+                <p className="text-foreground/90 text-lg leading-relaxed">
                   {caseStudy.solution}
                 </p>
               </div>
               
-              <div className="mb-8">
-                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4">
+              <div className="mb-10 bg-secondary/30 p-6 rounded-lg">
+                <h2 className="text-xl md:text-2xl font-header font-semibold mb-4 text-accent">
                   {language === 'nl' ? 'Het Resultaat' : 'The Result'}
                 </h2>
-                <p className="text-foreground/80">
+                <p className="text-foreground/90 text-lg leading-relaxed">
                   {caseStudy.result}
                 </p>
               </div>
               
               {/* Full content */}
-              <div dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
+              <div 
+                className="case-study-content text-lg leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
+              />
             </div>
           </div>
         </div>

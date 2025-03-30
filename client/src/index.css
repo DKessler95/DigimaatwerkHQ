@@ -71,6 +71,52 @@
     @apply absolute top-0 left-0 w-full h-full z-0;
   }
   
+  /* Case Study Content Styling */
+  .case-study-content {
+    @apply text-lg leading-relaxed space-y-6;
+  }
+  
+  .case-study-content h1 {
+    @apply text-3xl font-bold text-accent mt-8 mb-6;
+  }
+  
+  .case-study-content h2 {
+    @apply text-2xl font-semibold text-accent mt-6 mb-4;
+  }
+  
+  .case-study-content h3 {
+    @apply text-xl font-semibold text-accent/90 mt-4 mb-2;
+  }
+  
+  .case-study-content p {
+    @apply text-foreground/90 mb-4 leading-relaxed;
+  }
+  
+  .case-study-content ul, 
+  .case-study-content ol {
+    @apply pl-6 mb-4;
+  }
+  
+  .case-study-content ul li {
+    @apply list-disc mb-2;
+  }
+  
+  .case-study-content ol li {
+    @apply list-decimal mb-2;
+  }
+  
+  .case-study-content blockquote {
+    @apply border-l-4 border-accent pl-4 italic my-6 py-2 text-foreground/80 bg-secondary/20 rounded-r-lg p-4;
+  }
+  
+  .case-study-content a {
+    @apply text-accent hover:underline;
+  }
+  
+  .case-study-content strong {
+    @apply font-bold text-accent/90;
+  }
+  
   /* Code Animation Loader Styles */
   .typing-animation {
     display: inline-block;

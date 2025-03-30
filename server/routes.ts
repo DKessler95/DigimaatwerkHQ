@@ -364,7 +364,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Since we can't use require in this context
       const convertMarkdownToHtml = (markdown: string) => {
         // Basic markdown to HTML conversion
-        return markdown
+        let html = markdown
           // Convert headers
           .replace(/^# (.*$)/gm, '<h1>$1</h1>')
           .replace(/^## (.*$)/gm, '<h2>$1</h2>')
@@ -373,10 +373,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
           // Convert italic
           .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          // Convert bullet lists
+          .replace(/^- (.*$)/gm, '<li>$1</li>')
+          // Wrap list items
+          .replace(/(<li>.*<\/li>\n)+/g, (match) => `<ul>${match}</ul>`)
+          // Convert number lists
+          .replace(/^\d+\. (.*$)/gm, '<li>$1</li>')
+          // Wrap number list items
+          .replace(/(<li>.*<\/li>\n)+/g, (match) => `<ol>${match}</ol>`)
+          // Fix unintended nesting
+          .replace(/<\/ul>\n<ul>/g, '')
+          .replace(/<\/ol>\n<ol>/g, '')
+          // Convert links
+          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-accent hover:underline">$1</a>')
           // Convert blockquotes
           .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
-          // Convert paragraphs (must be last)
-          .replace(/^([^<].*)/gm, '<p>$1</p>');
+          // Convert code blocks
+          .replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>')
+          // Convert inline code
+          .replace(/`([^`]+)`/g, '<code>$1</code>');
+          
+        // Convert paragraphs - this must be done last to avoid conflicts
+        const lines = html.split('\n');
+        let inBlock = false;
+        let result = '';
+        
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          
+          // Skip if line is empty or already contains HTML tags
+          if (line.trim() === '' || 
+              line.startsWith('<h') || 
+              line.startsWith('<ul') || 
+              line.startsWith('<ol') || 
+              line.startsWith('<li') || 
+              line.startsWith('<blockquote') || 
+              line.startsWith('<pre>')) {
+            result += line + '\n';
+            continue;
+          }
+          
+          // Otherwise wrap in paragraph tags
+          if (!inBlock) {
+            result += '<p>' + line;
+            inBlock = true;
+          } else {
+            result += ' ' + line;
+          }
+          
+          // Close paragraph if next line is empty or a block element
+          const nextLine = i < lines.length - 1 ? lines[i + 1] : '';
+          if (nextLine.trim() === '' || 
+              nextLine.startsWith('<h') || 
+              nextLine.startsWith('<ul') || 
+              nextLine.startsWith('<ol') || 
+              nextLine.startsWith('<li') || 
+              nextLine.startsWith('<blockquote') || 
+              nextLine.startsWith('<pre>')) {
+            result += '</p>\n';
+            inBlock = false;
+          }
+        }
+        
+        // Close any remaining paragraph
+        if (inBlock) {
+          result += '</p>\n';
+        }
+        
+        return result;
       };
       
       const htmlContent = convertMarkdownToHtml(parsed.content);
