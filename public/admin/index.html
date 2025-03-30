@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digimaatwerk CMS</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .nc-app-header {
+      background-color: #0F172A !important;
+    }
+    :root {
+      --primary-color: #0F172A;
+      --secondary-color: #0EA5E9;
+    }
+  </style>
+</head>
+<body>
+  <!-- Include the script that builds the page and powers Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    // Preview styles - match your frontend styling
+    CMS.registerPreviewStyle("/admin/preview.css");
+    
+    // Custom widgets or extensions can be added here
+    
+    // Localization
+    const nl = {
+      app: {
+        header: {
+          content: 'Inhoud',
+          workflow: 'Workflow',
+          media: 'Media',
+          quickAdd: 'Snel toevoegen',
+        },
+        notFoundPage: {
+          header: 'Niet gevonden',
+        },
+        errorBoundary: {
+          detailsHeading: 'Details',
+          reportError: 'Fout melden',
+          retryMessage: 'Opnieuw proberen',
+        },
+        settingsDropdown: {
+          logOut: 'Uitloggen',
+        },
+      },
+      collection: {
+        sidebar: {
+          collections: 'Collecties',
+          allCollections: 'Alle collecties',
+          searchAll: 'Alles zoeken',
+          searchIn: 'Zoeken in',
+        },
+        collectionTop: {
+          sortBy: 'Sorteren op',
+          viewAs: 'Bekijken als',
+          newButton: 'Nieuwe %{collectionLabel}',
+          ascending: 'Oplopend',
+          descending: 'Aflopend',
+          searchResults: 'Zoekresultaten voor "%{searchTerm}"',
+          searchResultsInCollection: 'Zoekresultaten voor "%{searchTerm}" in %{collection}',
+          filterBy: 'Filteren op',
+          groupBy: 'Groeperen op',
+        },
+      },
+      editor: {
+        editorControl: {
+          field: {
+            optional: 'optioneel',
+          },
+        },
+        editorControlPane: {
+          widget: {
+            required: '%{fieldLabel} is vereist.',
+            regexPattern: '%{fieldLabel} komt niet overeen met het patroon: %{pattern}.',
+            processing: '%{fieldLabel} wordt verwerkt.',
+            range: '%{fieldLabel} moet tussen %{minValue} en %{maxValue} liggen.',
+            min: '%{fieldLabel} moet ten minste %{minValue} zijn.',
+            max: '%{fieldLabel} moet %{maxValue} of minder zijn.',
+            rangeCount: '%{fieldLabel} moet tussen %{minCount} en %{maxCount} items hebben.',
+            rangeCountExact: '%{fieldLabel} moet precies %{count} items hebben.',
+            minCount: '%{fieldLabel} moet ten minste %{minCount} item hebben.',
+            maxCount: '%{fieldLabel} moet %{maxCount} of minder items hebben.',
+            invalidPath: '"%{path}" is geen geldig pad.',
+            pathExists: 'Pad "%{path}" bestaat al.',
+          },
+        },
+      },
+    };
+    
+    CMS.registerLocale('nl', nl);
+  </script>
+</body>
+</html>
