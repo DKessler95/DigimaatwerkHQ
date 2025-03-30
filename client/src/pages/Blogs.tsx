@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const CmsTest = () => {
+const Blogs = () => {
   const { language } = useLanguage();
   const [activeTab, setActiveTab] = useState('case-studies');
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
@@ -75,17 +75,17 @@ const CmsTest = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">CMS Content Test</h1>
+      <h1 className="text-3xl font-bold mb-8">{language === 'nl' ? 'Blogs & Case Studies' : 'Blogs & Case Studies'}</h1>
       
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-6">
-          <TabsTrigger value="case-studies">Case Studies ({caseStudies.length})</TabsTrigger>
-          <TabsTrigger value="blog">Blog Posts ({blogPosts.length})</TabsTrigger>
-          <TabsTrigger value="services">Services ({services.length})</TabsTrigger>
+          <TabsTrigger value="case-studies">{language === 'nl' ? 'Case Studies' : 'Case Studies'} ({caseStudies.length})</TabsTrigger>
+          <TabsTrigger value="blog">{language === 'nl' ? 'Blog Berichten' : 'Blog Posts'} ({blogPosts.length})</TabsTrigger>
+          <TabsTrigger value="services">{language === 'nl' ? 'Diensten' : 'Services'} ({services.length})</TabsTrigger>
         </TabsList>
         
         <TabsContent value="case-studies">
-          <h2 className="text-2xl font-semibold mb-4">Case Studies</h2>
+          <h2 className="text-2xl font-semibold mb-4">{language === 'nl' ? 'Case Studies' : 'Case Studies'}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {caseStudies.map((study) => (
               <Card key={study.slug} className="h-full flex flex-col">
@@ -100,7 +100,7 @@ const CmsTest = () => {
                 <CardFooter>
                   {study.featured && (
                     <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 mr-2">
-                      Featured
+                      {language === 'nl' ? 'Uitgelicht' : 'Featured'}
                     </span>
                   )}
                   <div className="text-sm text-muted-foreground ml-auto">
@@ -113,13 +113,13 @@ const CmsTest = () => {
         </TabsContent>
         
         <TabsContent value="blog">
-          <h2 className="text-2xl font-semibold mb-4">Blog Posts</h2>
+          <h2 className="text-2xl font-semibold mb-4">{language === 'nl' ? 'Blog Berichten' : 'Blog Posts'}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogPosts.map((post) => (
               <Card key={post.slug} className="h-full flex flex-col">
                 <CardHeader>
                   <CardTitle>{post.title}</CardTitle>
-                  <CardDescription>By {post.author} • {new Date(post.date).toLocaleDateString()}</CardDescription>
+                  <CardDescription>{language === 'nl' ? 'Door' : 'By'} {post.author} • {new Date(post.date).toLocaleDateString()}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
                   <p>{post.excerpt}</p>
@@ -139,7 +139,7 @@ const CmsTest = () => {
         </TabsContent>
         
         <TabsContent value="services">
-          <h2 className="text-2xl font-semibold mb-4">Services</h2>
+          <h2 className="text-2xl font-semibold mb-4">{language === 'nl' ? 'Diensten' : 'Services'}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
               <Card key={service.slug} className="h-full flex flex-col">
@@ -151,7 +151,7 @@ const CmsTest = () => {
                   <p className="mb-4">{service.short_description}</p>
                   {service.features && Array.isArray(service.features) && (
                     <div className="mb-4">
-                      <h4 className="font-medium mb-2">Features:</h4>
+                      <h4 className="font-medium mb-2">{language === 'nl' ? 'Kenmerken:' : 'Features:'}</h4>
                       <ul className="list-disc list-inside">
                         {service.features.slice(0, 3).map((feature: any, index: number) => (
                           <li key={index}>{feature.name}</li>
@@ -161,7 +161,7 @@ const CmsTest = () => {
                   )}
                 </CardContent>
                 <CardFooter>
-                  <Button variant="outline" size="sm">View Details</Button>
+                  <Button variant="outline" size="sm">{language === 'nl' ? 'Bekijk Details' : 'View Details'}</Button>
                 </CardFooter>
               </Card>
             ))}
@@ -172,4 +172,4 @@ const CmsTest = () => {
   );
 };
 
-export default CmsTest;
+export default Blogs;

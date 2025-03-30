@@ -5,7 +5,7 @@ import { queryClient } from "@/lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
-import CmsTest from "@/pages/CmsTest";
+import Blogs from "@/pages/Blogs";
 import Services from "@/pages/Services";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import GooglePrivacyPolicy from "@/pages/legal/GooglePrivacyPolicy";
@@ -22,7 +22,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/cms-test" component={CmsTest} />
+      <Route path="/blogs" component={Blogs} />
       <Route path="/services" component={Services} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/google-privacy-policy" component={GooglePrivacyPolicy} />
