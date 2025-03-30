@@ -595,6 +595,26 @@ const ProjectCalculator = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Scroll Indicator pointing to contact section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="mt-16 flex justify-center"
+        >
+          <a href="#contact" className="flex flex-col items-center justify-center text-foreground/70 hover:text-accent transition group">
+            <span className="text-sm mb-2">
+              {language === 'nl' 
+                ? 'Neem contact met ons op voor een gratis adviesgesprek' 
+                : 'Contact us for a free consultation'}
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 animate-bounce group-hover:text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

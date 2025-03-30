@@ -159,7 +159,7 @@ const PricingSection: React.FC = () => {
   ];
 
   return (
-    <section className="bg-slate-900 py-20">
+    <section id="pricing" className="bg-slate-900 py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial="hidden"

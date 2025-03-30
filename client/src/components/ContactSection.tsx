@@ -200,7 +200,17 @@ const ContactSection = () => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-xl font-header font-semibold mb-6">Contact Information</h3>
+            <div className="flex flex-col items-center mb-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-accent">
+                <img 
+                  src="/images/profile.jpg" 
+                  alt="Profile Photo" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            
+            <h3 className="text-xl font-header font-semibold mb-6 text-center">Contact Information</h3>
             
             <div className="space-y-6">
               <div className="flex items-start">
@@ -244,18 +254,12 @@ const ContactSection = () => {
               </div>
             </div>
             
-            <h3 className="text-xl font-header font-semibold mt-10 mb-6">Follow Us</h3>
-            <div className="flex space-x-4">
-              <a href="#" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+            <h3 className="text-xl font-header font-semibold mt-10 mb-6 text-center">Follow Us</h3>
+            <div className="flex justify-center space-x-4">
+              <a href="https://linkedin.com/company/digimaatwerk" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
                 <i className="ri-linkedin-fill text-accent"></i>
               </a>
-              <a href="#" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
-                <i className="ri-twitter-x-fill text-accent"></i>
-              </a>
-              <a href="#" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
-                <i className="ri-facebook-fill text-accent"></i>
-              </a>
-              <a href="#" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+              <a href="https://instagram.com/digimaatwerk" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
                 <i className="ri-instagram-fill text-accent"></i>
               </a>
             </div>

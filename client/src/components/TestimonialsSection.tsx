@@ -65,8 +65,8 @@ const TestimonialsSection = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="absolute top-6 left-8 text-6xl text-accent/20">"</div>
-              <div className="relative">
+              <div className="absolute top-6 left-8 text-6xl text-accent/20 z-0">"</div>
+              <div className="relative z-10">
                 <p className="text-foreground/90 mb-6 text-lg">
                   {language === 'nl' ? testimonial.quote.nl : testimonial.quote.en}
                 </p>
@@ -108,6 +108,26 @@ const TestimonialsSection = () => {
               {t('testimonials.read')}
             </span>
             <i className="ri-external-link-line ml-2"></i>
+          </a>
+        </motion.div>
+        
+        {/* Scroll Indicator pointing to tech stack section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-16 flex justify-center"
+        >
+          <a href="#tech-stack" className="flex flex-col items-center justify-center text-foreground/70 hover:text-accent transition group">
+            <span className="text-sm mb-2">
+              {language === 'nl' 
+                ? 'Onze technologie stack bekijken' 
+                : 'Check out our technology stack'}
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 animate-bounce group-hover:text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </a>
         </motion.div>
       </div>
