@@ -1,9 +1,32 @@
 import { spawn } from 'child_process';
 import path from 'path';
 import { log } from './vite';
+import * as fs from 'fs';
 
 // This is a simple script to start the Netlify CMS proxy server
 export function startCMSProxy() {
+  // Ensure content directories exist
+  const contentDirs = [
+    'public/content',
+    'public/content/services',
+    'public/content/case-studies',
+    'public/content/blog',
+    'public/uploads'
+  ];
+  
+  // Create directories synchronously if they don't exist
+  contentDirs.forEach(dir => {
+    const fullPath = path.join(process.cwd(), dir);
+    try {
+      fs.mkdirSync(fullPath, { recursive: true });
+    } catch (error: any) { // Type assertion for error
+      // Ignore if directory already exists
+      if (error.code !== 'EEXIST') {
+        console.error(`Error creating directory ${fullPath}:`, error);
+      }
+    }
+  });
+  
   // Define content paths
   const rootPaths = {
     services: path.join(process.cwd(), 'public/content/services'),
