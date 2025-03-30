@@ -40,6 +40,12 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.subtitle': 'AI, Automatisering & Web Development',
     'hero.cta': 'Ontdek onze diensten',
     'hero.contact': 'Neem contact op',
+    'hero.services.web.title': 'Maatwerk websites',
+    'hero.services.web.description': 'Op maat gemaakte websites die perfect aansluiten bij uw merkidentiteit en zakelijke doelen',
+    'hero.services.automation.title': 'Workflow automatisering',
+    'hero.services.automation.description': 'Stroomlijn uw bedrijfsprocessen en verhoog de efficiëntie met intelligente automatisering',
+    'hero.services.chatbot.title': 'AI Chatbots',
+    'hero.services.chatbot.description': 'Verbeter uw klantenservice met 24/7 intelligente ondersteuning via AI-chatbots',
     
     // Services
     'services.title': 'Onze digitale diensten',
@@ -165,6 +171,12 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.subtitle': 'AI, Automation & Web Development',
     'hero.cta': 'Discover our services',
     'hero.contact': 'Contact us',
+    'hero.services.web.title': 'Custom Websites',
+    'hero.services.web.description': 'Tailor-made websites that perfectly align with your brand identity and business goals',
+    'hero.services.automation.title': 'Workflow Automation',
+    'hero.services.automation.description': 'Streamline your business processes and increase efficiency with intelligent automation',
+    'hero.services.chatbot.title': 'AI Chatbots',
+    'hero.services.chatbot.description': 'Enhance your customer service with 24/7 intelligent support through AI chatbots',
     
     // Services
     'services.title': 'Our Digital Services',

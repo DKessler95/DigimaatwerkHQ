@@ -245,7 +245,7 @@ const PricingSection: React.FC = () => {
                   <p className="text-slate-300 mt-1">{plan.description[language]}</p>
                 </div>
                 
-                <ul className="space-y-2 mb-6 flex-grow">
+                <ul className="space-y-2 flex-grow">
                   {plan.features[language].map((feature, i) => (
                     <li key={i} className="flex items-start">
                       <svg className="h-5 w-5 text-teal-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -255,17 +255,28 @@ const PricingSection: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                
-                <button className={`mt-auto w-full py-3 px-4 rounded-md font-medium transition ${
-                  index === 1
-                    ? 'bg-teal-500 hover:bg-teal-600 text-white'
-                    : 'bg-slate-700 hover:bg-slate-600 text-white'
-                }`}>
-                  {language === 'nl' ? 'Neem contact op' : 'Contact us'}
-                </button>
               </motion.div>
             ))}
           </div>
+          
+          {/* Centralized contact button */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={fadeIn}
+            className="flex justify-center mt-10"
+          >
+            <a 
+              href="#contact" 
+              className="px-8 py-4 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md transition-colors shadow-lg inline-flex items-center"
+            >
+              {language === 'nl' ? 'Neem contact op voor een offerte' : 'Contact us for a quote'}
+              <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </motion.div>
         </motion.div>
         
         {/* Additional info */}

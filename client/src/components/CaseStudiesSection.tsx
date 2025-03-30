@@ -176,10 +176,7 @@ const CaseStudiesSection = () => {
               <div className="p-6 flex-grow flex flex-col">
                 <h3 className="text-xl font-header font-semibold mb-3">{study.title[language]}</h3>
                 <p className="text-foreground/70 mb-4 flex-grow">{study.description[language]}</p>
-                <div className="flex items-center justify-between mt-4">
-                  <div className="text-accent">
-                    <span className="font-medium">{study.metric.label[language]}:</span> {study.metric.value}
-                  </div>
+                <div className="flex items-center justify-end mt-4">
                   <a href="#" className="text-foreground/70 hover:text-accent flex items-center">
                     <span>{language === 'nl' ? 'Bekijk Project' : 'View Case'}</span>
                     <i className="ri-arrow-right-line ml-1"></i>

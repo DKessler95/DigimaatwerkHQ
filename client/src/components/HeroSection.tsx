@@ -31,23 +31,45 @@ const HeroSection = () => {
             </a>
           </div>
           
-          {/* Performance metrics */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-4">
-              <div className="text-3xl font-bold text-accent mb-1">92+</div>
-              <div className="text-sm text-foreground/70">LCP Score</div>
+          {/* Service Icons */}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg">
+                <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6C22 4.89543 21.1046 4 20 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M8 10H6V16H8V10Z" fill="currentColor"/>
+                  <path d="M14 10H12V16H14V10Z" fill="currentColor"/>
+                  <path d="M20 10H18V16H20V10Z" fill="currentColor"/>
+                  <path d="M10 12H14V14H10V12Z" fill="currentColor"/>
+                  <path d="M16 12H20V14H16V12Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-medium mb-2">{t('hero.services.web.title')}</h3>
+              <p className="text-foreground/70 text-sm">{t('hero.services.web.description')}</p>
             </div>
-            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-4">
-              <div className="text-3xl font-bold text-accent mb-1">98+</div>
-              <div className="text-sm text-foreground/70">CLS Score</div>
+            
+            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg">
+                <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 16L16 12L12 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M8 12H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-medium mb-2">{t('hero.services.automation.title')}</h3>
+              <p className="text-foreground/70 text-sm">{t('hero.services.automation.description')}</p>
             </div>
-            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-4">
-              <div className="text-3xl font-bold text-accent mb-1">95+</div>
-              <div className="text-sm text-foreground/70">FID Score</div>
-            </div>
-            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-4">
-              <div className="text-3xl font-bold text-accent mb-1">AA</div>
-              <div className="text-sm text-foreground/70">WCAG Compliance</div>
+            
+            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg">
+                <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 15C21 16.6569 19.6569 18 18 18H17.2829C17.1241 18 16.9716 18.0636 16.8672 18.1769L15.7205 19.4323C14.9289 20.3064 13.5943 20.3064 12.8026 19.4323L11.6559 18.1769C11.5515 18.0636 11.399 18 11.2402 18H6C4.34315 18 3 16.6569 3 15V7C3 5.34315 4.34315 4 6 4H18C19.6569 4 21 5.34315 21 7V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M7 9H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M7 13H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-medium mb-2">{t('hero.services.chatbot.title')}</h3>
+              <p className="text-foreground/70 text-sm">{t('hero.services.chatbot.description')}</p>
             </div>
           </div>
         </div>
