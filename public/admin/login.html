@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digimaatwerk CMS - Login</title>
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root {
+      --midnight-blue: #0F172A;
+      --dark-gray: #1E293B;
+      --teal: #0D9488;
+      --teal-light: #14B8A6;
+      --white: #FFFFFF;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--midnight-blue);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .login-container {
+      background-color: var(--dark-gray);
+      border-radius: 8px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .brand {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .brand img {
+      max-width: 180px;
+      margin-bottom: 15px;
+    }
+    
+    h1 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      margin: 0;
+      color: var(--white);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      font-size: 16px;
+      color: var(--white);
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    
+    input:focus {
+      border-color: var(--teal);
+      outline: none;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--teal-light);
+    }
+    
+    .error-message {
+      color: #ef4444;
+      background-color: rgba(239, 68, 68, 0.1);
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .info {
+      font-size: 13px;
+      text-align: center;
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="brand">
+      <h1>Digimaatwerk CMS</h1>
+    </div>
+    
+    <div id="errorMessage" class="error-message">
+      Invalid credentials. Please try again.
+    </div>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password">
+      </div>
+      
+      <button type="submit">Log In</button>
+    </form>
+    
+    <p class="info">Content Management System voor Digimaatwerk</p>
+  </div>
+  
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+      
+      // Reset error message
+      errorMessage.style.display = 'none';
+      
+      try {
+        const response = await fetch('/admin/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password }),
+          credentials: 'include'
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+          // Redirect to the admin interface
+          window.location.href = '/admin/';
+        } else {
+          // Show error message
+          errorMessage.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        errorMessage.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

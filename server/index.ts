@@ -1,10 +1,27 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import session from "express-session";
+import MemoryStore from "memorystore";
+import './types'; // Import session types
+
+// Create memory store for sessions
+const MemoryStoreSession = MemoryStore(session);
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Set up session middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'digimaatwerk-session-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false, maxAge: 86400000 }, // 1 day
+  store: new MemoryStoreSession({
+    checkPeriod: 86400000 // prune expired entries every 24h
+  })
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();

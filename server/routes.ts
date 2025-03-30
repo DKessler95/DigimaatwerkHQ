@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -6,6 +6,7 @@ import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
 import express from "express";
+import './types'; // Import session types
 
 // Define interfaces for CMS content
 interface CaseStudy {
@@ -517,6 +518,143 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Failed to fetch services"
+      });
+    }
+  });
+
+  // Set up local CMS authentication backend
+  const cmsContentRoot = path.join(process.cwd(), 'public/content');
+  const cmsMediaRoot = path.join(process.cwd(), 'public/uploads');
+  
+  // Default login credentials for CMS (only in development)
+  const username = 'admin';
+  const password = 'digimaatwerk2024';
+
+  // Manual login endpoint for CMS
+  app.post('/api/admin/login', (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      // Simple authentication for development
+      if (email === username && password === password) {
+        res.status(200).json({ 
+          success: true, 
+          token: 'mock-token', 
+          email: email 
+        });
+      } else {
+        res.status(401).json({ 
+          success: false, 
+          message: 'Invalid credentials' 
+        });
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Internal server error' 
+      });
+    }
+  });
+
+  // Login route for CMS admin
+  app.post('/admin/api/login', (req, res) => {
+    const { email, password } = req.body;
+    const username = 'admin@digimaatwerk.nl';
+    const correctPassword = 'digimaatwerk2025';
+    
+    if (email === username && password === correctPassword) {
+      // Simple session-based auth
+      if (!req.session) {
+        return res.status(500).json({ 
+          success: false, 
+          message: "Session management not available" 
+        });
+      }
+      
+      // Set session
+      req.session.user = { email, isAdmin: true };
+      
+      return res.status(200).json({
+        success: true,
+        message: "Login successful",
+        data: {
+          email: email,
+          token: "mock-token" // In production, use a real JWT or similar
+        }
+      });
+    }
+    
+    return res.status(401).json({
+      success: false,
+      message: "Invalid credentials"
+    });
+  });
+  
+  // Check if user is authenticated
+  app.get('/admin/api/auth/check', (req, res) => {
+    if (req.session && req.session.user) {
+      return res.status(200).json({
+        success: true,
+        message: "Authenticated",
+        data: {
+          email: req.session.user.email
+        }
+      });
+    }
+    
+    return res.status(401).json({
+      success: false,
+      message: "Not authenticated"
+    });
+  });
+  
+  // Authentication check middleware
+  const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+    if (req.session && req.session.user) {
+      return next();
+    }
+    
+    return res.status(401).json({
+      success: false,
+      message: "Authentication required"
+    });
+  };
+  
+  // CMS API routes
+  app.post('/admin/api/collections/:collection', requireAuth, async (req, res) => {
+    try {
+      const { collection } = req.params;
+      const data = req.body;
+      
+      // Ensure content directory exists
+      const contentDir = path.join(process.cwd(), 'public/content', collection);
+      try {
+        await fs.access(contentDir);
+      } catch (error) {
+        await fs.mkdir(contentDir, { recursive: true });
+      }
+      
+      // Save the content
+      const slug = data.slug || Date.now().toString();
+      const language = data.language || 'nl';
+      const content = matter.stringify(data.content || '', data);
+      
+      await fs.writeFile(
+        path.join(contentDir, `${slug}.${language}.md`),
+        content
+      );
+      
+      res.status(201).json({
+        success: true,
+        message: `${collection} item created`,
+        data: { slug, language }
+      });
+    } catch (error) {
+      console.error(`Error saving ${req.params.collection}:`, error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to save content"
       });
     }
   });

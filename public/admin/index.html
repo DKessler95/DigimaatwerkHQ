@@ -1,182 +1,230 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Digimaatwerk CMS</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+  <link rel="icon" href="/favicon.ico" />
+  <!-- Import Decap CMS -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .nc-app-header {
-      background-color: #0F172A !important;
-    }
     :root {
-      --primary-color: #0F172A;
-      --secondary-color: #0EA5E9;
+      --midnight-blue: #0F172A;
+      --dark-gray: #1E293B;
+      --teal: #0D9488;
+      --teal-light: #14B8A6;
+      --white: #FFFFFF;
+    }
+    
+    /* Override Decap CMS styles to match our theme */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    /* Loading screen styles */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--midnight-blue);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease-out;
+    }
+    
+    .loading-text {
+      color: var(--white);
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    
+    .spinner {
+      border: 5px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+      border-top: 5px solid var(--teal);
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Custom CSS for admin dashboard */
+    .custom-sidebar-header {
+      background-color: var(--midnight-blue);
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .custom-sidebar-header h1 {
+      color: white;
+      font-size: 18px;
+      margin: 0;
     }
   </style>
 </head>
 <body>
-  <!-- Include the script that builds the page and powers Decap CMS -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- Loading screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-text">Loading CMS...</div>
+    <div class="spinner"></div>
+  </div>
   
   <script>
-    // Preview styles - match your frontend styling
-    CMS.registerPreviewStyle("/admin/preview.css");
-    
-    // Custom preview templates for content types
-    const ServicePreview = createClass({
-      render: function() {
-        const entry = this.props.entry;
-        const title = entry.getIn(['data', 'title']);
-        const shortDescription = entry.getIn(['data', 'short_description']);
-        const features = entry.getIn(['data', 'features']) || [];
-        const techStack = entry.getIn(['data', 'tech_stack']) || [];
-        const content = this.props.widgetFor('body');
+    // Check if user is logged in
+    async function checkAuth() {
+      try {
+        const response = await fetch('/admin/api/auth/check', {
+          credentials: 'include'
+        });
         
-        return h('div', {className: 'service-preview'},
-          h('h1', {}, title),
-          h('div', {className: 'service-description'}, shortDescription),
-          
-          h('h2', {}, 'Features'),
-          h('div', {className: 'feature-list'},
-            features.map((feature, index) => {
-              return h('div', {className: 'feature-item', key: index},
-                h('h3', {}, feature.getIn(['name'])),
-                h('p', {}, feature.getIn(['description']))
-              );
-            })
-          ),
-          
-          h('h2', {}, 'Technologies'),
-          h('div', {className: 'tech-stack'},
-            techStack.map((tech, index) => {
-              return h('div', {className: 'tech-item', key: index},
-                h('strong', {}, tech.getIn(['name']) + ': '),
-                h('span', {}, tech.getIn(['description']))
-              );
-            })
-          ),
-          
-          h('h2', {}, 'Content'),
-          h('div', {}, content)
-        );
+        if (!response.ok) {
+          // Redirect to login if not authenticated
+          window.location.href = '/admin/login.html';
+        } else {
+          // User is authenticated, hide loading screen
+          setTimeout(() => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+              loadingScreen.style.opacity = '0';
+              setTimeout(() => {
+                loadingScreen.style.display = 'none';
+              }, 500);
+            }
+          }, 1000);
+        }
+      } catch (error) {
+        console.error('Auth check error:', error);
+        window.location.href = '/admin/login.html';
+      }
+    }
+    
+    // Configure Decap CMS
+    window.CMS.init({
+      config: {
+        backend: {
+          name: 'test-repo', // For development only, use proxy on local setup
+          login: false       // Disable the login feature since we're handling auth separately
+        },
+        media_folder: 'public/uploads',
+        public_folder: '/uploads',
+        logo_url: '/logo.svg',
+        site_url: '/',
+        display_url: 'https://digimaatwerk.nl',
+        locale: 'nl',
+        collections: [
+          {
+            name: 'services',
+            label: 'Diensten',
+            folder: 'public/content/services',
+            create: true,
+            i18n: {
+              structure: 'multiple_files',
+              locales: ['nl', 'en']
+            },
+            slug: '{{slug}}',
+            fields: [
+              { label: 'Titel', name: 'title', widget: 'string', i18n: true },
+              { label: 'Icoon', name: 'icon', widget: 'string', hint: 'Icoon code, bijv. "code" voor code-icoon', i18n: true },
+              { label: 'Korte Beschrijving', name: 'short_description', widget: 'text', i18n: true },
+              { label: 'Hoofdafbeelding', name: 'featured_image', widget: 'image', i18n: true },
+              { label: 'Volgorde', name: 'order', widget: 'number', default: 0, value_type: 'int', min: 0, max: 999 },
+              { 
+                label: 'Functies', 
+                name: 'features', 
+                widget: 'list', 
+                i18n: true,
+                fields: [
+                  { label: 'Naam', name: 'name', widget: 'string' },
+                  { label: 'Beschrijving', name: 'description', widget: 'text' }
+                ]
+              },
+              { 
+                label: 'Tech Stack', 
+                name: 'tech_stack', 
+                widget: 'list', 
+                i18n: true,
+                fields: [
+                  { label: 'Naam', name: 'name', widget: 'string' },
+                  { label: 'Beschrijving', name: 'description', widget: 'text' }
+                ]
+              },
+              { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }
+            ]
+          },
+          {
+            name: 'case-studies',
+            label: 'Case Studies',
+            folder: 'public/content/case-studies',
+            create: true,
+            i18n: {
+              structure: 'multiple_files',
+              locales: ['nl', 'en']
+            },
+            slug: '{{slug}}',
+            fields: [
+              { label: 'Titel', name: 'title', widget: 'string', i18n: true },
+              { label: 'Afbeelding', name: 'featured_image', widget: 'image', i18n: true },
+              { label: 'Categorie', name: 'category', widget: 'select', options: ['AI & Chatbots', 'Automatisering', 'Web Development'], i18n: true },
+              { label: 'Klant', name: 'client', widget: 'string', i18n: true },
+              { label: 'Industrie', name: 'industry', widget: 'string', i18n: true },
+              { label: 'Datum', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', i18n: true },
+              { label: 'Beschrijving', name: 'description', widget: 'text', i18n: true },
+              { label: 'Uitdaging', name: 'challenge', widget: 'text', i18n: true },
+              { label: 'Oplossing', name: 'solution', widget: 'text', i18n: true },
+              { label: 'Resultaat', name: 'result', widget: 'text', i18n: true },
+              { 
+                label: 'Metrics', 
+                name: 'metrics', 
+                widget: 'list', 
+                i18n: true,
+                fields: [
+                  { label: 'Label', name: 'label', widget: 'string' },
+                  { label: 'Waarde', name: 'value', widget: 'string' }
+                ]
+              },
+              { label: 'Uitgelicht', name: 'featured', widget: 'boolean', default: false, i18n: true },
+              { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }
+            ]
+          },
+          {
+            name: 'blog',
+            label: 'Blog',
+            folder: 'public/content/blog',
+            create: true,
+            i18n: {
+              structure: 'multiple_files',
+              locales: ['nl', 'en']
+            },
+            slug: '{{slug}}',
+            fields: [
+              { label: 'Titel', name: 'title', widget: 'string', i18n: true },
+              { label: 'Afbeelding', name: 'featured_image', widget: 'image', i18n: true },
+              { label: 'Auteur', name: 'author', widget: 'string', i18n: true },
+              { label: 'Datum', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', i18n: true },
+              { label: 'Categorieën', name: 'categories', widget: 'list', i18n: true },
+              { label: 'Tags', name: 'tags', widget: 'list', i18n: true },
+              { label: 'Samenvatting', name: 'excerpt', widget: 'text', i18n: true },
+              { label: 'Inhoud', name: 'content', widget: 'markdown', i18n: true }
+            ]
+          }
+        ]
       }
     });
     
-    CMS.registerPreviewTemplate('services', ServicePreview);
-    
-    // Localization
-    const nl = {
-      app: {
-        header: {
-          content: 'Inhoud',
-          workflow: 'Workflow',
-          media: 'Media',
-          quickAdd: 'Snel toevoegen',
-        },
-        notFoundPage: {
-          header: 'Niet gevonden',
-        },
-        errorBoundary: {
-          detailsHeading: 'Details',
-          reportError: 'Fout melden',
-          retryMessage: 'Opnieuw proberen',
-        },
-        settingsDropdown: {
-          logOut: 'Uitloggen',
-        },
-      },
-      collection: {
-        sidebar: {
-          collections: 'Collecties',
-          allCollections: 'Alle collecties',
-          searchAll: 'Alles zoeken',
-          searchIn: 'Zoeken in',
-        },
-        collectionTop: {
-          sortBy: 'Sorteren op',
-          viewAs: 'Bekijken als',
-          newButton: 'Nieuwe %{collectionLabel}',
-          ascending: 'Oplopend',
-          descending: 'Aflopend',
-          searchResults: 'Zoekresultaten voor "%{searchTerm}"',
-          searchResultsInCollection: 'Zoekresultaten voor "%{searchTerm}" in %{collection}',
-          filterBy: 'Filteren op',
-          groupBy: 'Groeperen op',
-        },
-      },
-      editor: {
-        editorControl: {
-          field: {
-            optional: 'optioneel',
-          },
-        },
-        editorControlPane: {
-          widget: {
-            required: '%{fieldLabel} is vereist.',
-            regexPattern: '%{fieldLabel} komt niet overeen met het patroon: %{pattern}.',
-            processing: '%{fieldLabel} wordt verwerkt.',
-            range: '%{fieldLabel} moet tussen %{minValue} en %{maxValue} liggen.',
-            min: '%{fieldLabel} moet ten minste %{minValue} zijn.',
-            max: '%{fieldLabel} moet %{maxValue} of minder zijn.',
-            rangeCount: '%{fieldLabel} moet tussen %{minCount} en %{maxCount} items hebben.',
-            rangeCountExact: '%{fieldLabel} moet precies %{count} items hebben.',
-            minCount: '%{fieldLabel} moet ten minste %{minCount} item hebben.',
-            maxCount: '%{fieldLabel} moet %{maxCount} of minder items hebben.',
-            invalidPath: '"%{path}" is geen geldig pad.',
-            pathExists: 'Pad "%{path}" bestaat al.',
-          },
-        },
-      },
-    };
-    
-    CMS.registerLocale('nl', nl);
-    
-    // Make createClass available for preview templates
-    var createClass = React.createClass;
-    var h = React.createElement;
-    
-    // Add custom admin links
-    const addAdminLinks = () => {
-      // Wait a bit for CMS to render
-      setTimeout(() => {
-        // Get the app header div to append our links
-        const appHeader = document.querySelector('.nc-appHeader-toolbar');
-        
-        if (appHeader) {
-          // Create link to integrations documentation
-          const integrationsLink = document.createElement('a');
-          integrationsLink.href = '/admin/integrations.html';
-          integrationsLink.target = '_blank';
-          integrationsLink.className = 'nc-appHeader-toolbarLink';
-          integrationsLink.textContent = 'Integraties';
-          integrationsLink.style.marginRight = '20px';
-          
-          // Inject the link into the header
-          appHeader.appendChild(integrationsLink);
-        }
-      }, 1000);
-    };
-    
-    // Initialize the CMS
-    window.initCMS = () => {
-      CMS.init();
-      addAdminLinks();
-    };
-    
-    // Load React and ReactDOM for preview templates
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/react@16/umd/react.development.js';
-    script.onload = () => {
-      const reactDOM = document.createElement('script');
-      reactDOM.src = 'https://unpkg.com/react-dom@16/umd/react-dom.development.js';
-      reactDOM.onload = window.initCMS;
-      document.body.appendChild(reactDOM);
-    };
-    document.body.appendChild(script);
+    // Run auth check
+    checkAuth();
   </script>
 </body>
 </html>
