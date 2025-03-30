@@ -468,6 +468,215 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Delete case study by slug
+  app.delete("/api/case-studies/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/case-studies');
+      
+      // Find all files that start with this slug (to handle all languages)
+      const allFiles = await fs.readdir(contentDir);
+      const matchingFiles = allFiles.filter(file => 
+        file === `${slug}.md` || 
+        file.startsWith(`${slug}.`)
+      );
+      
+      if (matchingFiles.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Case study not found"
+        });
+      }
+      
+      // Delete each matching file
+      for (const file of matchingFiles) {
+        const filePath = path.join(contentDir, file);
+        await fs.unlink(filePath);
+        console.log(`Deleted: ${filePath}`);
+      }
+      
+      // Return success response
+      res.status(200).json({
+        success: true,
+        message: "Case study deleted successfully"
+      });
+    } catch (error) {
+      console.error("Error deleting case study:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete case study"
+      });
+    }
+  });
+  
+  // Update case study featured status
+  app.patch("/api/case-studies/:slug/featured", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const { featured } = req.body;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/case-studies');
+      
+      // Construct the expected filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
+      
+      // Check if file exists
+      try {
+        await fs.access(filePath);
+      } catch (err) {
+        return res.status(404).json({
+          success: false,
+          message: "Case study not found"
+        });
+      }
+      
+      // Read and parse the file
+      const content = await fs.readFile(filePath, 'utf8');
+      const parsed = matter(content);
+      
+      // Update the featured status
+      parsed.data.featured = featured === true;
+      
+      // Write the updated content back to the file
+      const updatedContent = matter.stringify(parsed.content, parsed.data);
+      await fs.writeFile(filePath, updatedContent);
+      
+      // Return success response
+      res.status(200).json({
+        success: true,
+        message: "Case study updated successfully",
+        data: {
+          slug,
+          ...parsed.data
+        }
+      });
+    } catch (error) {
+      console.error("Error updating case study:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update case study"
+      });
+    }
+  });
+  
+  // Update case study 
+  app.patch("/api/case-studies/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const updates = req.body;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/case-studies');
+      
+      // Construct the expected filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
+      
+      // Check if file exists
+      try {
+        await fs.access(filePath);
+      } catch (err) {
+        return res.status(404).json({
+          success: false,
+          message: "Case study not found"
+        });
+      }
+      
+      // Read and parse the file
+      const content = await fs.readFile(filePath, 'utf8');
+      const parsed = matter(content);
+      
+      // Update the data
+      Object.assign(parsed.data, updates);
+      
+      // Write the updated content back to the file
+      const updatedContent = matter.stringify(parsed.content, parsed.data);
+      await fs.writeFile(filePath, updatedContent);
+      
+      // Return success response
+      res.status(200).json({
+        success: true,
+        message: "Case study updated successfully",
+        data: {
+          slug,
+          ...parsed.data
+        }
+      });
+    } catch (error) {
+      console.error("Error updating case study:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update case study"
+      });
+    }
+  });
+  
+  // Create new case study
+  app.post("/api/case-studies", async (req, res) => {
+    try {
+      const { title, slug, category, client, description, content, featured } = req.body;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/case-studies');
+      
+      // Ensure content directory exists
+      try {
+        await fs.mkdir(contentDir, { recursive: true });
+      } catch (err) {
+        // Ignore if directory already exists
+      }
+      
+      // Construct the filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
+      
+      // Check if file already exists
+      try {
+        await fs.access(filePath);
+        return res.status(409).json({
+          success: false,
+          message: "Case study with this slug already exists"
+        });
+      } catch (err) {
+        // File doesn't exist, this is what we want
+      }
+      
+      // Prepare the data
+      const data = {
+        title,
+        slug,
+        category: category || 'Webontwikkeling',
+        client: client || '',
+        featured: featured || false,
+        date: new Date().toISOString(),
+        description: description || '',
+        featured_image: '/uploads/default-case-study.jpg', // Default image
+        industry: '',
+        metrics: [],
+        challenge: '',
+        solution: '',
+        result: ''
+      };
+      
+      // Create the file content with frontmatter
+      const fileContent = matter.stringify(content || '# New Case Study\n\nAdd content here.', data);
+      await fs.writeFile(filePath, fileContent);
+      
+      // Return success response
+      res.status(201).json({
+        success: true,
+        message: "Case study created successfully",
+        data
+      });
+    } catch (error) {
+      console.error("Error creating case study:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create case study"
+      });
+    }
+  });
+  
 
   
   // Get blog posts
@@ -520,6 +729,159 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Failed to fetch blog posts"
+      });
+    }
+  });
+  
+  // Delete blog post by slug
+  app.delete("/api/blog/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/blog');
+      
+      // Find all files that start with this slug (to handle all languages)
+      const allFiles = await fs.readdir(contentDir);
+      const matchingFiles = allFiles.filter(file => 
+        file === `${slug}.md` || 
+        file.startsWith(`${slug}.`)
+      );
+      
+      if (matchingFiles.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Blog post not found"
+        });
+      }
+      
+      // Delete each matching file
+      for (const file of matchingFiles) {
+        const filePath = path.join(contentDir, file);
+        await fs.unlink(filePath);
+        console.log(`Deleted: ${filePath}`);
+      }
+      
+      // Return success response
+      res.status(200).json({
+        success: true,
+        message: "Blog post deleted successfully"
+      });
+    } catch (error) {
+      console.error("Error deleting blog post:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete blog post"
+      });
+    }
+  });
+  
+  // Update blog post 
+  app.patch("/api/blog/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const updates = req.body;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/blog');
+      
+      // Construct the expected filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
+      
+      // Check if file exists
+      try {
+        await fs.access(filePath);
+      } catch (err) {
+        return res.status(404).json({
+          success: false,
+          message: "Blog post not found"
+        });
+      }
+      
+      // Read and parse the file
+      const content = await fs.readFile(filePath, 'utf8');
+      const parsed = matter(content);
+      
+      // Update the data
+      Object.assign(parsed.data, updates);
+      
+      // Write the updated content back to the file
+      const updatedContent = matter.stringify(parsed.content, parsed.data);
+      await fs.writeFile(filePath, updatedContent);
+      
+      // Return success response
+      res.status(200).json({
+        success: true,
+        message: "Blog post updated successfully",
+        data: {
+          slug,
+          ...parsed.data
+        }
+      });
+    } catch (error) {
+      console.error("Error updating blog post:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update blog post"
+      });
+    }
+  });
+  
+  // Create new blog post
+  app.post("/api/blog", async (req, res) => {
+    try {
+      const { title, slug, author, categories, tags, excerpt, content } = req.body;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/blog');
+      
+      // Ensure content directory exists
+      try {
+        await fs.mkdir(contentDir, { recursive: true });
+      } catch (err) {
+        // Ignore if directory already exists
+      }
+      
+      // Construct the filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
+      
+      // Check if file already exists
+      try {
+        await fs.access(filePath);
+        return res.status(409).json({
+          success: false,
+          message: "Blog post with this slug already exists"
+        });
+      } catch (err) {
+        // File doesn't exist, this is what we want
+      }
+      
+      // Prepare the data
+      const data = {
+        title,
+        slug,
+        author: author || 'Damian Kessler',
+        date: new Date().toISOString(),
+        categories: categories || ['Algemeen'],
+        tags: tags || [],
+        excerpt: excerpt || '',
+        featured_image: '/uploads/default-blog.jpg'
+      };
+      
+      // Create the file content with frontmatter
+      const fileContent = matter.stringify(content || '# New Blog Post\n\nAdd content here.', data);
+      await fs.writeFile(filePath, fileContent);
+      
+      // Return success response
+      res.status(201).json({
+        success: true,
+        message: "Blog post created successfully",
+        data
+      });
+    } catch (error) {
+      console.error("Error creating blog post:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create blog post"
       });
     }
   });
@@ -621,6 +983,159 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Failed to fetch services"
+      });
+    }
+  });
+  
+  // Delete service by slug
+  app.delete("/api/services/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/services');
+      
+      // Find all files that start with this slug (to handle all languages)
+      const allFiles = await fs.readdir(contentDir);
+      const matchingFiles = allFiles.filter(file => 
+        file === `${slug}.md` || 
+        file.startsWith(`${slug}.`)
+      );
+      
+      if (matchingFiles.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Service not found"
+        });
+      }
+      
+      // Delete each matching file
+      for (const file of matchingFiles) {
+        const filePath = path.join(contentDir, file);
+        await fs.unlink(filePath);
+        console.log(`Deleted: ${filePath}`);
+      }
+      
+      // Return success response
+      res.status(200).json({
+        success: true,
+        message: "Service deleted successfully"
+      });
+    } catch (error) {
+      console.error("Error deleting service:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete service"
+      });
+    }
+  });
+  
+  // Update service 
+  app.patch("/api/services/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const updates = req.body;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/services');
+      
+      // Construct the expected filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
+      
+      // Check if file exists
+      try {
+        await fs.access(filePath);
+      } catch (err) {
+        return res.status(404).json({
+          success: false,
+          message: "Service not found"
+        });
+      }
+      
+      // Read and parse the file
+      const content = await fs.readFile(filePath, 'utf8');
+      const parsed = matter(content);
+      
+      // Update the data
+      Object.assign(parsed.data, updates);
+      
+      // Write the updated content back to the file
+      const updatedContent = matter.stringify(parsed.content, parsed.data);
+      await fs.writeFile(filePath, updatedContent);
+      
+      // Return success response
+      res.status(200).json({
+        success: true,
+        message: "Service updated successfully",
+        data: {
+          slug,
+          ...parsed.data
+        }
+      });
+    } catch (error) {
+      console.error("Error updating service:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update service"
+      });
+    }
+  });
+  
+  // Create new service
+  app.post("/api/services", async (req, res) => {
+    try {
+      const { title, slug, icon, short_description, features, tech_stack, content, order } = req.body;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/services');
+      
+      // Ensure content directory exists
+      try {
+        await fs.mkdir(contentDir, { recursive: true });
+      } catch (err) {
+        // Ignore if directory already exists
+      }
+      
+      // Construct the filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
+      
+      // Check if file already exists
+      try {
+        await fs.access(filePath);
+        return res.status(409).json({
+          success: false,
+          message: "Service with this slug already exists"
+        });
+      } catch (err) {
+        // File doesn't exist, this is what we want
+      }
+      
+      // Prepare the data
+      const data = {
+        title: title || '',
+        slug,
+        icon: icon || 'code',
+        short_description: short_description || '',
+        featured_image: '/uploads/default-service.jpg',
+        order: order || 999,
+        features: features || [],
+        tech_stack: tech_stack || []
+      };
+      
+      // Create the file content with frontmatter
+      const fileContent = matter.stringify(content || '# New Service\n\nAdd content here.', data);
+      await fs.writeFile(filePath, fileContent);
+      
+      // Return success response
+      res.status(201).json({
+        success: true,
+        message: "Service created successfully",
+        data
+      });
+    } catch (error) {
+      console.error("Error creating service:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create service"
       });
     }
   });

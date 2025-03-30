@@ -2165,10 +2165,37 @@
         // Add event listener to save button
         setTimeout(() => {
           document.getElementById('update-case-study-btn').addEventListener('click', async () => {
-            // Get form values and update
-            showNotification('Case study bijgewerkt', 'success');
-            closeModal();
-            loadCaseStudies();
+            try {
+              // Get form values
+              const updatedData = {
+                title: document.getElementById('edit-case-study-title').value,
+                category: document.getElementById('edit-case-study-category').value,
+                client: document.getElementById('edit-case-study-client').value,
+                description: document.getElementById('edit-case-study-description').value
+              };
+              
+              // Update via API
+              const response = await fetch(`/api/case-studies/${slug}?lang=${language}`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+              });
+              
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error updating case study');
+              }
+              
+              // Show success notification
+              showNotification('Case study bijgewerkt', 'success');
+              closeModal();
+              loadCaseStudies(); // Reload the list
+            } catch (error) {
+              console.error('Error updating case study:', error);
+              showNotification(`Fout bij het bijwerken: ${error.message}`, 'error');
+            }
           });
         }, 100);
       } catch (error) {
@@ -2180,6 +2207,7 @@
     function createCaseStudy() {
       try {
         // Show create form in modal
+        const language = currentLang || 'nl';
         const modalContent = `
           <div class="modal-form-group">
             <label for="new-case-study-title">Titel</label>
@@ -2217,10 +2245,47 @@
         // Add event listener to create button
         setTimeout(() => {
           document.getElementById('create-case-study-btn').addEventListener('click', async () => {
-            // Get form values and create
-            showNotification('Case study aangemaakt', 'success');
-            closeModal();
-            loadCaseStudies();
+            try {
+              // Get form values
+              const title = document.getElementById('new-case-study-title').value;
+              const slug = document.getElementById('new-case-study-slug').value;
+              
+              if (!title || !slug) {
+                showNotification('Titel en slug zijn verplicht', 'error');
+                return;
+              }
+              
+              const newData = {
+                title: title,
+                slug: slug,
+                category: document.getElementById('new-case-study-category').value,
+                client: document.getElementById('new-case-study-client').value,
+                description: document.getElementById('new-case-study-description').value,
+                featured: false
+              };
+              
+              // Create via API
+              const response = await fetch(`/api/case-studies?lang=${language}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newData)
+              });
+              
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error creating case study');
+              }
+              
+              // Show success notification
+              showNotification('Case study aangemaakt', 'success');
+              closeModal();
+              loadCaseStudies(); // Reload the list
+            } catch (error) {
+              console.error('Error creating case study:', error);
+              showNotification(`Fout bij het aanmaken: ${error.message}`, 'error');
+            }
           });
         }, 100);
       } catch (error) {
@@ -2246,15 +2311,34 @@
         // Add event listener to confirm button
         setTimeout(() => {
           document.getElementById('toggle-featured-btn').addEventListener('click', async () => {
-            // Toggle featured status
-            showNotification(`Case study is nu ${featured ? 'featured' : 'niet meer featured'}`, 'success');
-            closeModal();
-            loadCaseStudies();
+            try {
+              // Update featured status via API
+              const response = await fetch(`/api/case-studies/${slug}/featured`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ featured: featured })
+              });
+              
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error updating featured status');
+              }
+              
+              // Show success notification
+              showNotification(`Case study is nu ${featured ? 'featured' : 'niet meer featured'}`, 'success');
+              closeModal();
+              loadCaseStudies(); // Reload the list
+            } catch (error) {
+              console.error('Error toggling featured status:', error);
+              showNotification(`Fout bij het wijzigen van status: ${error.message}`, 'error');
+            }
           });
         }, 100);
       } catch (error) {
-        console.error('Error toggling featured status:', error);
-        showNotification('Error toggling featured status', 'error');
+        console.error('Error in toggle featured function:', error);
+        showNotification('Error handling featured status change', 'error');
       }
     }
     
@@ -2275,15 +2359,33 @@
         // Add event listener to delete button
         setTimeout(() => {
           document.getElementById('delete-case-study-btn').addEventListener('click', async () => {
-            // Delete case study
-            showNotification('Case study verwijderd', 'success');
-            closeModal();
-            loadCaseStudies();
+            try {
+              // Delete case study via API
+              const response = await fetch(`/api/case-studies/${slug}`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+              
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error deleting case study');
+              }
+              
+              // Show success notification
+              showNotification('Case study verwijderd', 'success');
+              closeModal();
+              loadCaseStudies(); // Reload the list
+            } catch (error) {
+              console.error('Error deleting case study:', error);
+              showNotification(`Fout bij het verwijderen: ${error.message}`, 'error');
+            }
           });
         }, 100);
       } catch (error) {
-        console.error('Error deleting case study:', error);
-        showNotification('Error deleting case study', 'error');
+        console.error('Error in delete case study function:', error);
+        showNotification('Error handling delete operation', 'error');
       }
     }
     
