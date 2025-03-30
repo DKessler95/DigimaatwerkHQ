@@ -570,40 +570,20 @@
                   <th>Naam</th>
                   <th>URL</th>
                   <th>Event Type</th>
-                  <th>Status</th>
                   <th>Acties</th>
                 </tr>
               </thead>
               <tbody id="webhooks-table-body">
                 <tr>
-                  <td>Blog Post Notificatie</td>
-                  <td>https://hook.eu1.make.com/yourwebhook123</td>
-                  <td>blog.created</td>
-                  <td><span style="color: #10B981;">Actief</span></td>
-                  <td>
-                    <div class="table-actions">
-                      <button class="edit-btn" data-id="1">Bewerken</button>
-                      <button class="delete-btn" data-id="1">Verwijderen</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Contact Formulier Verwerking</td>
-                  <td>https://n8n.yourdomain.com/webhook/contact-form</td>
-                  <td>contact.submitted</td>
-                  <td><span style="color: #10B981;">Actief</span></td>
-                  <td>
-                    <div class="table-actions">
-                      <button class="edit-btn" data-id="2">Bewerken</button>
-                      <button class="delete-btn" data-id="2">Verwijderen</button>
-                    </div>
+                  <td colspan="4" style="text-align: center;">
+                    <div class="loading"></div> Webhooks laden...
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           
-          <div id="webhook-form-container" class="form-container" style="display: none;">
+          <div id="webhook-form-container" class="form-container">
             <h3 id="webhook-form-title">Webhook Toevoegen</h3>
             <form id="webhook-form">
               <div class="form-group">
@@ -611,31 +591,22 @@
                 <input type="text" id="webhook-name" name="name" required>
               </div>
               <div class="form-group">
-                <label for="webhook-url">Webhook URL</label>
-                <input type="url" id="webhook-url" name="url" required placeholder="https://hook.eu1.make.com/yourwebhook">
+                <label for="webhook-url">URL</label>
+                <input type="text" id="webhook-url" name="url" required>
               </div>
               <div class="form-group">
-                <label for="webhook-event">Event Type</label>
-                <select id="webhook-event" name="event" required>
-                  <option value="">Selecteer een event</option>
-                  <option value="blog.created">Blog Post Aangemaakt</option>
-                  <option value="blog.updated">Blog Post Bijgewerkt</option>
-                  <option value="case-study.created">Case Study Aangemaakt</option>
-                  <option value="case-study.updated">Case Study Bijgewerkt</option>
-                  <option value="service.created">Service Aangemaakt</option>
-                  <option value="service.updated">Service Bijgewerkt</option>
-                  <option value="contact.submitted">Contact Formulier Ingediend</option>
+                <label for="webhook-event-type">Event Type</label>
+                <select id="webhook-event-type" name="event_type" required>
+                  <option value="contact-form">Contact Form</option>
+                  <option value="chat-message">Chat Message</option>
+                  <option value="project-estimate">Project Estimate</option>
+                  <option value="content-sync">Content Sync</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="webhook-secret">Webhook Secret Token</label>
-                <input type="text" id="webhook-secret" name="secret" placeholder="Optioneel beveiligingstoken">
-                <small style="display: block; margin-top: 0.5rem; color: #CBD5E1;">Dit token wordt gebruikt om de webhook-verzoeken te valideren.</small>
-              </div>
-              <div class="form-group">
-                <label>
-                  <input type="checkbox" id="webhook-active" name="active" checked>
-                  Webhook actief
+                <label for="webhook-is-active">
+                  <input type="checkbox" id="webhook-is-active" name="is_active" checked>
+                  Actief
                 </label>
               </div>
               <div class="form-actions">
@@ -836,6 +807,9 @@
     let servicesData = [];
     let caseStudiesData = [];
     let blogData = [];
+    let webhooksData = [];
+    let currentItemId = null;
+    let isEditing = false;
     
     // DOM Elements
     const navLinks = document.querySelectorAll('.nav-link');
@@ -878,12 +852,16 @@
         currentTab = tab;
         
         // Load data for the tab if needed
-        if (tab === 'services' && servicesData.length === 0) {
+        if (tab === 'services') {
           loadServices();
-        } else if (tab === 'case-studies' && caseStudiesData.length === 0) {
+        } else if (tab === 'case-studies') {
           loadCaseStudies();
-        } else if (tab === 'blog' && blogData.length === 0) {
+        } else if (tab === 'blog') {
           loadBlogPosts();
+        } else if (tab === 'webhooks') {
+          loadWebhooks();
+        } else if (tab === 'dashboard') {
+          loadDashboardStats();
         }
       });
     });
@@ -947,10 +925,17 @@
     const addWebhookBtn = document.getElementById('add-webhook-btn');
     if (addWebhookBtn) {
       addWebhookBtn.addEventListener('click', () => {
+        // Reset editing state
+        isEditing = false;
+        currentItemId = null;
+        
+        // Clear form
+        document.getElementById('webhook-form').reset();
+        document.getElementById('webhook-form-title').textContent = 'Webhook Toevoegen';
+        
+        // Show form
         const webhookFormContainer = document.getElementById('webhook-form-container');
         webhookFormContainer.style.display = 'block';
-        document.getElementById('webhook-form-title').textContent = 'Webhook Toevoegen';
-        document.getElementById('webhook-form').reset();
       });
     }
     
@@ -963,16 +948,49 @@
     
     const webhookForm = document.getElementById('webhook-form');
     if (webhookForm) {
-      webhookForm.addEventListener('submit', (e) => {
+      webhookForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(webhookForm);
         const webhookData = Object.fromEntries(formData.entries());
         
-        console.log('Webhook data to submit:', webhookData);
+        // Convert checkbox value to boolean
+        if (webhookData.is_active !== undefined) {
+          webhookData.is_active = webhookData.is_active === 'on';
+        }
         
-        // Toon bevestigingsbericht
-        showNotification('Webhook succesvol opgeslagen!');
-        document.getElementById('webhook-form-container').style.display = 'none';
+        try {
+          // Determine if we're creating a new webhook or updating an existing one
+          let url = '/api/webhooks';
+          let method = 'POST';
+          
+          if (isEditing && currentItemId) {
+            url = `/api/webhooks/${currentItemId}`;
+            method = 'PUT';
+          }
+          
+          const response = await fetch(url, {
+            method: method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(webhookData),
+          });
+          
+          if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+          }
+          
+          showNotification('Webhook succesvol opgeslagen!');
+          document.getElementById('webhook-form-container').style.display = 'none';
+          
+          // Reset status and reload webhooks
+          isEditing = false;
+          currentItemId = null;
+          loadWebhooks();
+        } catch (error) {
+          console.error('Error saving webhook:', error);
+          showNotification(`Fout bij het opslaan van webhook: ${error.message}`, 'error');
+        }
       });
     }
     
@@ -1149,6 +1167,147 @@
       }
     }
     
+    // Load webhooks
+    async function loadWebhooks() {
+      const webhooksTableBody = document.getElementById('webhooks-table-body');
+      if (!webhooksTableBody) return;
+      
+      webhooksTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;"><div class="loading"></div> Webhooks laden...</td></tr>';
+      
+      try {
+        const response = await fetch('/api/webhooks');
+        const data = await response.json();
+        
+        if (data.success) {
+          webhooksData = data.data;
+          
+          if (webhooksData.length === 0) {
+            webhooksTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Geen webhooks gevonden</td></tr>';
+            return;
+          }
+          
+          webhooksTableBody.innerHTML = '';
+          
+          webhooksData.forEach(webhook => {
+            const tr = document.createElement('tr');
+            
+            tr.innerHTML = `
+              <td>${webhook.name}</td>
+              <td>${webhook.url}</td>
+              <td>${webhook.event_type}</td>
+              <td>
+                <div class="table-actions">
+                  <button class="view-btn" data-id="${webhook.id}">Bekijken</button>
+                  <button class="edit-btn" data-id="${webhook.id}">Bewerken</button>
+                  <button class="delete-btn" data-id="${webhook.id}">Verwijderen</button>
+                </div>
+              </td>
+            `;
+            
+            webhooksTableBody.appendChild(tr);
+          });
+          
+          // Add event listeners for webhook buttons
+          document.querySelectorAll('#webhooks-table-body .view-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+              const webhookId = btn.getAttribute('data-id');
+              try {
+                const response = await fetch(`/api/webhooks/${webhookId}`);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                  throw new Error(`API error: ${response.status}`);
+                }
+                
+                const webhook = data.data;
+                
+                alert(`Webhook: ${webhook.name}\n\nURL: ${webhook.url}\nEvent Type: ${webhook.event_type}`);
+              } catch (error) {
+                console.error('Error viewing webhook:', error);
+                showNotification(`Fout bij het bekijken van webhook: ${error.message}`, 'error');
+              }
+            });
+          });
+          
+          document.querySelectorAll('#webhooks-table-body .edit-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+              const webhookId = btn.getAttribute('data-id');
+              try {
+                const response = await fetch(`/api/webhooks/${webhookId}`);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                  throw new Error(`API error: ${response.status}`);
+                }
+                
+                const webhook = data.data;
+                
+                // Fill the webhook form with the data
+                // Set editing state
+                isEditing = true;
+                currentItemId = webhook.id;
+                
+                // Fill the form
+                document.getElementById('webhook-form-title').textContent = 'Webhook Bewerken';
+                document.getElementById('webhook-name').value = webhook.name || '';
+                document.getElementById('webhook-url').value = webhook.url || '';
+                document.getElementById('webhook-event-type').value = webhook.event_type || '';
+                document.getElementById('webhook-is-active').checked = webhook.is_active || false;
+                
+                // Show the form
+                document.getElementById('webhook-form-container').style.display = 'block';
+              } catch (error) {
+                console.error('Error editing webhook:', error);
+                showNotification(`Fout bij het bewerken van webhook: ${error.message}`, 'error');
+              }
+            });
+          });
+          
+          document.querySelectorAll('#webhooks-table-body .delete-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+              const webhookId = btn.getAttribute('data-id');
+              if (confirm(`Weet je zeker dat je deze webhook wilt verwijderen?`)) {
+                try {
+                  const response = await fetch(`/api/webhooks/${webhookId}`, {
+                    method: 'DELETE'
+                  });
+                  
+                  if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                  }
+                  
+                  showNotification('Webhook succesvol verwijderd!');
+                  loadWebhooks();
+                } catch (error) {
+                  console.error('Error deleting webhook:', error);
+                  showNotification(`Fout bij het verwijderen van webhook: ${error.message}`, 'error');
+                }
+              }
+            });
+          });
+        } else {
+          webhooksTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van webhooks</td></tr>';
+        }
+      } catch (error) {
+        console.error('Error loading webhooks:', error);
+        webhooksTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Fout bij het laden van webhooks</td></tr>';
+      }
+    }
+    
+    // Load dashboard stats
+    async function loadDashboardStats() {
+      try {
+        // Load all counts for the dashboard
+        await Promise.all([
+          loadServices(),
+          loadCaseStudies(),
+          loadBlogPosts()
+        ]);
+      } catch (error) {
+        console.error('Error loading dashboard stats:', error);
+      }
+    }
+    
     // Check authentication and load initial data
     function checkAuth() {
       const isAuthenticated = localStorage.getItem('cms_authenticated');
@@ -1158,10 +1317,8 @@
         return;
       }
       
-      // Load all data for dashboard
-      loadServices();
-      loadCaseStudies();
-      loadBlogPosts();
+      // Load data for dashboard
+      loadDashboardStats();
     }
     
     // Initialize
