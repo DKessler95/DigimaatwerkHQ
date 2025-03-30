@@ -5,6 +5,8 @@ import { queryClient } from "@/lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import CmsTest from "@/pages/CmsTest";
+import Services from "@/pages/Services";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileMenu from "@/components/MobileMenu";
@@ -17,6 +19,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/cms-test" component={CmsTest} />
+      <Route path="/services" component={Services} />
       <Route component={NotFound} />
     </Switch>
   );

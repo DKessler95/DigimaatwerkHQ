@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'wouter';
 import { useLanguage } from '@/lib/languageContext';
 import { X } from 'lucide-react';
 
@@ -45,13 +46,13 @@ const MobileMenu = () => {
         </button>
       </div>
       <nav className="flex flex-col items-center space-y-6 mt-16">
-        <a 
-          href="#services" 
+        <Link 
+          href="/services" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
-          onClick={handleNavClick}
+          onClick={closeMobileMenu}
         >
           {t('header.services')}
-        </a>
+        </Link>
         <a 
           href="#case-studies" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
@@ -66,13 +67,13 @@ const MobileMenu = () => {
         >
           {t('header.about')}
         </a>
-        <a 
-          href="#calculator" 
+        <Link 
+          href="/cms-test" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
-          onClick={handleNavClick}
+          onClick={closeMobileMenu}
         >
-          {t('header.calculator')}
-        </a>
+          CMS Test
+        </Link>
         
         {/* Language switcher */}
         <div className="flex space-x-4 mt-4">

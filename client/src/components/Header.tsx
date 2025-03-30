@@ -43,10 +43,10 @@ const Header = () => {
           </div>
           
           <nav className="hidden md:flex space-x-8">
-            <a href="#services" className="text-foreground/80 hover:text-accent transition font-body">{t('header.services')}</a>
+            <Link href="/services" className="text-foreground/80 hover:text-accent transition font-body">{t('header.services')}</Link>
             <a href="#case-studies" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</a>
             <a href="#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</a>
-            <a href="#calculator" className="text-foreground/80 hover:text-accent transition font-body">{t('header.calculator')}</a>
+            <Link href="/cms-test" className="text-foreground/80 hover:text-accent transition font-body">CMS Test</Link>
           </nav>
           
           <div className="flex items-center space-x-4">
