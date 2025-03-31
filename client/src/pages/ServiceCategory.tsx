@@ -1,185 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'wouter';
 import { useLanguage } from '@/lib/languageContext';
 import { motion } from 'framer-motion';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { PerspectiveCamera, OrbitControls, useGLTF, Float, MeshDistortMaterial, Sphere } from '@react-three/drei';
-import * as THREE from 'three';
 import { Loader2 } from 'lucide-react';
-
-// Animation for AI Chatbots
-const ChatbotAnimation = () => {
-  const { viewport } = useThree();
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (group.current) {
-      group.current.rotation.y = Math.sin(t / 4) / 8;
-      group.current.position.y = Math.sin(t / 2) / 10;
-    }
-  });
-
-  return (
-    <group ref={group}>
-      <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-        <Sphere args={[1, 32, 32]} position={[0, 0, 0]}>
-          <MeshDistortMaterial 
-            color="#10B981" 
-            attach="material" 
-            distort={0.4} 
-            speed={2} 
-            roughness={0}
-            metalness={0.7}
-          />
-        </Sphere>
-        
-        <Sphere args={[0.3, 32, 32]} position={[-1.5, 0.5, 0]}>
-          <MeshDistortMaterial 
-            color="#0EA5E9" 
-            attach="material" 
-            distort={0.2} 
-            speed={5} 
-            roughness={0}
-            metalness={0.2}
-          />
-        </Sphere>
-        
-        <Sphere args={[0.5, 32, 32]} position={[1.5, -0.5, 0]}>
-          <MeshDistortMaterial 
-            color="#8B5CF6" 
-            attach="material" 
-            distort={0.3} 
-            speed={3} 
-            roughness={0.2}
-            metalness={0.5}
-          />
-        </Sphere>
-      </Float>
-    </group>
-  );
-};
-
-// Animation for Workflow Automation
-const AutomationAnimation = () => {
-  const { viewport } = useThree();
-  const group = useRef<THREE.Group>(null);
-  const gears = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (group.current) {
-      group.current.rotation.y = Math.sin(t / 5) / 10;
-      group.current.position.y = Math.sin(t / 3) / 15;
-    }
-    
-    if (gears.current) {
-      gears.current.children.forEach((gear, i) => {
-        gear.rotation.z = t * (i % 2 === 0 ? 1 : -1) / 2;
-      });
-    }
-  });
-
-  return (
-    <group ref={group}>
-      <group ref={gears}>
-        {[...Array(5)].map((_, i) => (
-          <mesh 
-            key={i} 
-            position={[
-              Math.sin(i / 5 * Math.PI * 2) * 1.2,
-              Math.cos(i / 5 * Math.PI * 2) * 1.2,
-              0
-            ]}
-          >
-            <torusGeometry args={[0.3, 0.1, 16, 32]} />
-            <meshStandardMaterial 
-              color={i % 2 === 0 ? "#F59E0B" : "#D97706"} 
-              metalness={0.8} 
-              roughness={0.2} 
-            />
-          </mesh>
-        ))}
-      </group>
-      
-      <mesh>
-        <torusGeometry args={[0.6, 0.2, 16, 100]} />
-        <meshStandardMaterial color="#FBBF24" metalness={0.7} roughness={0.3} />
-      </mesh>
-    </group>
-  );
-};
-
-// Animation for Web Development
-const WebDevAnimation = () => {
-  const { viewport } = useThree();
-  const group = useRef<THREE.Group>(null);
-  const boxesRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (group.current) {
-      group.current.rotation.y = Math.sin(t / 4) / 6;
-      group.current.position.y = Math.sin(t / 2) / 12;
-    }
-    
-    if (boxesRef.current) {
-      boxesRef.current.children.forEach((box, i) => {
-        box.position.y = Math.sin(t + i * 0.5) * 0.2;
-        box.rotation.x = t * 0.2;
-        box.rotation.z = t * 0.2;
-      });
-    }
-  });
-
-  return (
-    <group ref={group}>
-      <group ref={boxesRef}>
-        {[...Array(9)].map((_, i) => {
-          const x = (i % 3 - 1) * 0.6;
-          const z = (Math.floor(i / 3) - 1) * 0.6;
-          return (
-            <mesh key={i} position={[x, 0, z]}>
-              <boxGeometry args={[0.3, 0.3, 0.3]} />
-              <meshStandardMaterial 
-                color={['#3B82F6', '#2563EB', '#1D4ED8'][i % 3]} 
-                metalness={0.4} 
-                roughness={0.2} 
-              />
-            </mesh>
-          );
-        })}
-      </group>
-      
-      <mesh position={[0, 0, 0]} rotation={[0, Math.PI / 4, 0]}>
-        <boxGeometry args={[2, 0.05, 2]} />
-        <meshStandardMaterial 
-          color="#60A5FA" 
-          opacity={0.6} 
-          transparent 
-          metalness={0.5} 
-          roughness={0.1} 
-        />
-      </mesh>
-    </group>
-  );
-};
-
-// Scene component that selects animation based on category
-const Scene = ({ category }: { category: string }) => {
-  return (
-    <>
-      <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[10, 10, 5]} intensity={1} />
-      <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate autoRotateSpeed={0.5} />
-      
-      {category === 'ai-chatbots' && <ChatbotAnimation />}
-      {category === 'workflow-automation' && <AutomationAnimation />}
-      {category === 'web-development' && <WebDevAnimation />}
-    </>
-  );
-};
 
 // Main component for service category page
 const ServiceCategory = () => {
@@ -313,15 +136,55 @@ const ServiceCategory = () => {
           </div>
           
           <motion.div 
-            className="w-full lg:w-1/2 h-[400px] rounded-xl overflow-hidden"
+            className="w-full lg:w-1/2 h-[400px] rounded-xl overflow-hidden bg-secondary/20 backdrop-blur-sm"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="w-full h-full">
-              <Canvas>
-                <Scene category={category || ''} />
-              </Canvas>
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="relative">
+                {category === 'ai-chatbots' && (
+                  <div className="flex items-center gap-8 animate-float">
+                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-green-400 to-blue-500 animate-pulse-slow" />
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 animate-pulse-slow" style={{ animationDelay: '0.5s' }} />
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 animate-pulse-slow" style={{ animationDelay: '1s' }} />
+                  </div>
+                )}
+                
+                {category === 'workflow-automation' && (
+                  <div className="flex items-center gap-6 animate-float">
+                    <div className="rotate-animation w-28 h-28 border-4 border-amber-400 rounded-full flex items-center justify-center">
+                      <div className="w-16 h-16 border-4 border-amber-500 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-amber-600 rounded-full"></div>
+                      </div>
+                    </div>
+                    <div className="counter-rotate-animation w-20 h-20 border-4 border-amber-500 rounded-full"></div>
+                  </div>
+                )}
+                
+                {category === 'web-development' && (
+                  <div className="grid grid-cols-3 gap-4 animate-float">
+                    {[...Array(9)].map((_, i) => (
+                      <div 
+                        key={i} 
+                        className="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-700 rounded-md transform hover:rotate-45 transition-transform"
+                        style={{ 
+                          animation: 'bounce 3s infinite alternate',
+                          animationDelay: `${i * 0.2}s`
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+                
+                {!['ai-chatbots', 'workflow-automation', 'web-development'].includes(category || '') && (
+                  <div className="flex items-center gap-8 animate-float">
+                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-green-400 to-blue-500 animate-pulse-slow" />
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 animate-pulse-slow" style={{ animationDelay: '0.5s' }} />
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 animate-pulse-slow" style={{ animationDelay: '1s' }} />
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
         </div>
