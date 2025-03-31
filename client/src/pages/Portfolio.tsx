@@ -14,21 +14,7 @@ interface PortfolioItem {
   websiteScreenshot?: string;
 }
 
-const portfolioData: PortfolioItem[] = [
-  {
-    id: 'fast-taxi-rotterdam',
-    title: 'Fast Taxi Rotterdam',
-    description: `Voor de nieuwe website van Fast Taxi Rotterdam heb ik een moderne, gebruiksvriendelijke en volledig geoptimaliseerde oplossing ontwikkeld die een aanzienlijke verbetering biedt ten opzichte van de oude website. De nieuwe site is sneller, mobielvriendelijk en beschikt over een intuïtieve interface waarmee klanten eenvoudig ritten kunnen boeken.
-
-Een belangrijke innovatie is de automatische workflow-integratie met WhatsApp Business. Bestellingen die via de website binnenkomen, worden direct doorgestuurd naar WhatsApp, waardoor chauffeurs sneller reageren en ritten efficiënter plannen. Dit verkort niet alleen de responstijd, maar verhoogt ook de klanttevredenheid en het aantal afgeronde boekingen.
-
-Dankzij deze verbeteringen kan Fast Taxi Rotterdam zijn service soepeler uitvoeren, meer klanten bedienen en uiteindelijk meer winst genereren. Deze case illustreert hoe slimme technologie en een goed ontworpen website bijdragen aan bedrijfsoptimalisatie en groei.`,
-    imageUrl: '/images/portfolio/fasttaxi.png', // Consistente verwijzing naar afbeelding in gestructureerde map
-    websiteUrl: 'https://www.fasttaxirotterdam.com',
-    websiteScreenshot: '/images/portfolio/fasttaxi.png', // Consistente verwijzing naar afbeelding in gestructureerde map
-    category: 'web'
-  }
-];
+// Portfolio data wordt geladen via de API in de Portfolio component
 
 const PortfolioBlock = ({ 
   item, 
@@ -102,11 +88,11 @@ const PortfolioBlock = ({
               </div>
               
               {/* Monitor screen content - direct image */}
-              <div className="bg-white h-[calc(100%-24px)] flex items-center justify-center overflow-hidden">
+              <div className="bg-white h-[calc(100%-24px)] flex items-center justify-center overflow-hidden py-2">
                 <img 
                   src={'/images/portfolio/fasttaxi.png'} 
                   alt={`${item.title} website`}
-                  className="w-full h-[95%] object-contain pt-2"
+                  className="w-full h-full object-contain"
                   onError={(e) => {
                     console.error('Afbeelding kon niet worden geladen, fallback naar fasttaxi.png');
                     e.currentTarget.src = '/images/portfolio/fasttaxi.png';
@@ -361,14 +347,14 @@ const PortfolioDetailModal = ({
                 </div>
                 
                 {/* Monitor screen content - direct image */}
-                <div className="bg-white h-[calc(100%-32px)] flex items-center justify-center overflow-hidden">
+                <div className="bg-white h-[calc(100%-32px)] flex items-center justify-center overflow-hidden py-2">
                   {isScreenshotLoading ? (
                     <div className="animate-spin w-8 h-8 border-4 border-accent border-t-transparent rounded-full"></div>
                   ) : (
                     <img 
                       src={'/images/portfolio/fasttaxi.png'} 
                       alt={`${item.title} website screenshot`}
-                      className="w-full h-full object-contain"
+                      className="w-full h-[95%] object-contain"
                       onError={(e) => {
                         console.error('Afbeelding kon niet worden geladen in detail view, fallback naar fasttaxi.png');
                         e.currentTarget.src = '/images/portfolio/fasttaxi.png';
@@ -394,6 +380,7 @@ const PortfolioDetailModal = ({
 const Portfolio = () => {
   const { language } = useLanguage();
   const [loading, setLoading] = useState(true);
+  const [portfolioData, setPortfolioData] = useState<PortfolioItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [websiteScreenshots, setWebsiteScreenshots] = useState<Record<string, string>>({});
@@ -407,7 +394,7 @@ const Portfolio = () => {
       setScreenshotLoading({...screenshotLoading, [item.id]: true});
       
       // Direct de websiteScreenshot uit portfolioData gebruiken
-      setWebsiteScreenshots(prev => ({
+      setWebsiteScreenshots((prev: Record<string, string>) => ({
         ...prev,
         [item.id]: item.websiteScreenshot || '/images/portfolio/fasttaxi.png'
       }));
@@ -419,18 +406,36 @@ const Portfolio = () => {
   };
   
   useEffect(() => {
-    // Data inladen
-    const timer = setTimeout(() => {
-      setLoading(false);
-      
-      // Voor elk portfolio item een screenshot ophalen
-      portfolioData.forEach(item => {
-        fetchWebsiteScreenshot(item);
-      });
-    }, 800);
+    // Data inladen via API
+    const fetchPortfolioData = async () => {
+      try {
+        setLoading(true);
+        const response = await apiRequest('GET', `/api/portfolio?lang=${language}`);
+        const data = await response.json();
+        
+        if (data.success && Array.isArray(data.data)) {
+          setPortfolioData(data.data);
+          
+          // Voor elk portfolio item een screenshot ophalen
+          data.data.forEach((item: PortfolioItem) => {
+            fetchWebsiteScreenshot(item);
+          });
+        } else {
+          console.error('Fout bij ophalen portfolio data:', data);
+          // Fallback naar lege array
+          setPortfolioData([]);
+        }
+      } catch (error) {
+        console.error('API error bij ophalen portfolio data:', error);
+        // Fallback naar lege array
+        setPortfolioData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
     
-    return () => clearTimeout(timer);
-  }, []);
+    fetchPortfolioData();
+  }, [language]);
   
   const handlePortfolioItemClick = (item: PortfolioItem) => {
     setSelectedItem(item);

@@ -97,3 +97,24 @@ collections:
           - {label: "Name", name: "name", widget: "string"}
           - {label: "Description", name: "description", widget: "text"}
       - {label: "Content", name: "body", widget: "markdown", i18n: true}
+          
+  - name: "portfolio"
+    label: "Portfolio Items"
+    folder: "public/content/portfolio"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    i18n:
+      structure: multiple_files
+      locales: [nl, en]
+    fields:
+      - {label: "ID", name: "id", widget: "string", i18n: "duplicate"}
+      - {label: "Title", name: "title", widget: "string", i18n: true}
+      - {label: "Description", name: "description", widget: "markdown", i18n: true}
+      - {label: "Image", name: "imageUrl", widget: "image", i18n: "duplicate"}
+      - {label: "Website URL", name: "websiteUrl", widget: "string", i18n: "duplicate"}
+      - {label: "Website Screenshot", name: "websiteScreenshot", widget: "image", i18n: "duplicate"}
+      - {label: "Category", name: "category", widget: "select", options: ["web", "automation", "chatbot"], i18n: "duplicate", default: "web"}
+      - {label: "Order", name: "order", widget: "number", i18n: "duplicate", default: 0}
+      - {label: "Featured", name: "featured", widget: "boolean", i18n: "duplicate", default: false}

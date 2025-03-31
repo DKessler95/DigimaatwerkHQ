@@ -54,6 +54,19 @@ interface Service {
   [key: string]: any;
 }
 
+interface PortfolioItem {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  websiteUrl: string;
+  websiteScreenshot: string;
+  category: 'web' | 'automation' | 'chatbot';
+  order: number;
+  featured: boolean;
+  [key: string]: any;
+}
+
 const contactFormSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
@@ -996,6 +1009,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Get services
+  // Portfolio items endpoint
+  app.get("/api/portfolio", async (req, res) => {
+    try {
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/portfolio');
+      console.log("Portfolio API called with language:", language);
+      console.log("Content directory:", contentDir);
+      
+      // Get all files in the portfolio directory
+      const files = await fs.readdir(contentDir);
+      console.log("Found files:", files);
+      
+      // Filter for the requested language or default to .nl.md files
+      const languageFiles = files.filter(file => file.endsWith(`.${language}.md`));
+      console.log("Filtered language files:", languageFiles);
+      
+      // Read and parse each file
+      const portfolioItems: PortfolioItem[] = await Promise.all(
+        languageFiles.map(async (file) => {
+          const filePath = path.join(contentDir, file);
+          const content = await fs.readFile(filePath, 'utf8');
+          
+          // Parse frontmatter
+          const parsed = matter(content);
+          
+          // Return the portfolio item data
+          return {
+            ...parsed.data,
+          } as PortfolioItem;
+        })
+      );
+      
+      // Sort by order and featured
+      const sortedItems = portfolioItems.sort((a, b) => {
+        // First sort by featured
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        
+        // Then sort by order
+        return (a.order || 0) - (b.order || 0);
+      });
+      
+      // Return success response
+      res.status(200).json({
+        success: true,
+        data: sortedItems
+      });
+    } catch (error) {
+      console.error("Error fetching portfolio items:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch portfolio items"
+      });
+    }
+  });
+
   app.get("/api/services", async (req, res) => {
     try {
       const language = req.query.lang || 'nl';
