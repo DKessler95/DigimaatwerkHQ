@@ -24,9 +24,9 @@ const portfolioData: PortfolioItem[] = [
 Een belangrijke innovatie is de automatische workflow-integratie met WhatsApp Business. Bestellingen die via de website binnenkomen, worden direct doorgestuurd naar WhatsApp, waardoor chauffeurs sneller reageren en ritten efficiënter plannen. Dit verkort niet alleen de responstijd, maar verhoogt ook de klanttevredenheid en het aantal afgeronde boekingen.
 
 Dankzij deze verbeteringen kan Fast Taxi Rotterdam zijn service soepeler uitvoeren, meer klanten bedienen en uiteindelijk meer winst genereren. Deze case illustreert hoe slimme technologie en een goed ontworpen website bijdragen aan bedrijfsoptimalisatie en groei.`,
-    imageUrl: '/images/fasttaxi.png', // Directe verwijzing naar afbeelding in public folder
+    imageUrl: '/images/portfolio/fasttaxi.png', // Consistente verwijzing naar afbeelding in gestructureerde map
     websiteUrl: 'https://www.fasttaxirotterdam.com',
-    websiteScreenshot: '/images/fasttaxi.png', // Directe verwijzing naar afbeelding in public folder
+    websiteScreenshot: '/images/portfolio/fasttaxi.png', // Consistente verwijzing naar afbeelding in gestructureerde map
     category: 'web'
   }
 ];
@@ -171,8 +171,8 @@ const PortfolioDetailModal = ({
     try {
       setIsScreenshotLoading(true);
       
-      // Direct pad naar afbeelding in public map gebruiken
-      setWebsiteScreenshot('/images/fasttaxi.png');
+      // Direct pad naar afbeelding in gestructureerde map
+      setWebsiteScreenshot('/images/portfolio/fasttaxi.png');
       
       /* Originele API aanroep (uitgeschakeld)
       // API aanroepen om screenshot te genereren
@@ -186,8 +186,8 @@ const PortfolioDetailModal = ({
       */
     } catch (error) {
       console.error('Error setting website screenshot for modal:', error);
-      // Fallback bij fout - gebruik afbeelding uit public map
-      setWebsiteScreenshot('/images/fasttaxi.png');
+      // Fallback bij fout - gebruik afbeelding uit gestructureerde map
+      setWebsiteScreenshot('/images/portfolio/fasttaxi.png');
     } finally {
       setIsScreenshotLoading(false);
     }
@@ -370,10 +370,10 @@ const Portfolio = () => {
       
       // Direct path naar afbeelding in public map gebruiken
       
-      // Update state met public map afbeelding
+      // Update state met afbeelding uit gestructureerde map
       setWebsiteScreenshots(prev => ({
         ...prev,
-        [item.id]: '/images/fasttaxi.png'
+        [item.id]: '/images/portfolio/fasttaxi.png'
       }));
       
       // Optioneel: uncomment deze code om de API aanroep te gebruiken indien nodig
@@ -393,10 +393,10 @@ const Portfolio = () => {
     } catch (error) {
       console.error('Error setting website screenshot:', error);
       
-      // Fallback bij fout met afbeelding uit public map
+      // Fallback bij fout met afbeelding uit gestructureerde map
       setWebsiteScreenshots(prev => ({
         ...prev,
-        [item.id]: '/images/fasttaxi.png'
+        [item.id]: '/images/portfolio/fasttaxi.png'
       }));
     } finally {
       setScreenshotLoading({...screenshotLoading, [item.id]: false});

@@ -51,8 +51,8 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
                       console.log("Image error, failed to load:", imageUrl);
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
-                      // Gebruik vaste afbeelding als fallback
-                      target.src = '/images/fasttaxi.png';
+                      // Gebruik vaste afbeelding uit gestructureerde map als fallback
+                      target.src = '/images/portfolio/fasttaxi.png';
                     }}
                   />
                 </div>
