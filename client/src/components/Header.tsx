@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'wouter';
 import { useLanguage } from '@/lib/languageContext';
 import LanguageSwitcher from './LanguageSwitcher';
-import { Menu } from 'lucide-react';
+import { Menu, ChevronDown } from 'lucide-react';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const { t } = useLanguage();
+  const dropdownRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -16,9 +18,18 @@ const Header = () => {
       }
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setServicesDropdownOpen(false);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
+    document.addEventListener('mousedown', handleClickOutside);
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [scrolled]);
 
@@ -27,6 +38,10 @@ const Header = () => {
     if (mobileMenu) {
       mobileMenu.classList.remove('translate-x-full');
     }
+  };
+  
+  const toggleServicesDropdown = () => {
+    setServicesDropdownOpen(!servicesDropdownOpen);
   };
 
   return (
@@ -43,7 +58,28 @@ const Header = () => {
           </div>
           
           <nav className="hidden md:flex space-x-8">
-            <Link href="/services" className="text-foreground/80 hover:text-accent transition font-body">{t('header.services')}</Link>
+            <div className="relative" ref={dropdownRef}>
+              <button 
+                onClick={toggleServicesDropdown}
+                className="text-foreground/80 hover:text-accent transition font-body flex items-center"
+              >
+                {t('header.services')} <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {servicesDropdownOpen && (
+                <div className="absolute mt-2 w-60 rounded-lg shadow-lg py-1 bg-primary/95 backdrop-blur-md border border-accent/20 z-20">
+                  <Link href="/services/ai-chatbots" className="block px-4 py-2 text-sm text-foreground/80 hover:bg-accent/10 hover:text-accent">
+                    AI Chatbots
+                  </Link>
+                  <Link href="/services/workflow-automation" className="block px-4 py-2 text-sm text-foreground/80 hover:bg-accent/10 hover:text-accent">
+                    Workflow Automatisering
+                  </Link>
+                  <Link href="/services/web-development" className="block px-4 py-2 text-sm text-foreground/80 hover:bg-accent/10 hover:text-accent">
+                    Webontwikkeling
+                  </Link>
+                </div>
+              )}
+            </div>
             <a href="#case-studies" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</a>
             <a href="#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</a>
             <Link href="/blogs" className="text-foreground/80 hover:text-accent transition font-body">{t('header.blogs')}</Link>

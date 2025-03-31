@@ -94,31 +94,49 @@ const ServicesSection = () => {
     <section id="services" className="py-24 bg-gradient-to-b from-primary to-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">{t('services.title')}</h2>
+          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">Onze digitale diensten</h2>
           <p className="text-foreground/70 max-w-2xl mx-auto">{t('services.subtitle')}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <motion.div 
-              key={index}
-              className="relative bg-gradient-to-br from-secondary via-secondary/80 to-primary/80 p-8 rounded-2xl shadow-lg card-hover-effect overflow-hidden group"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
-              <div className="relative z-10">
-                <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-6">
-                  <i className={`${service.icon} text-2xl text-accent`}></i>
+          {services.map((service, index) => {
+            // Map icons to paths for each category
+            const categoryPaths = {
+              "ri-robot-line": "/services/ai-chatbots",
+              "ri-settings-line": "/services/workflow-automation",
+              "ri-code-s-slash-line": "/services/web-development"
+            };
+            
+            return (
+              <motion.div 
+                key={index}
+                className="relative bg-gradient-to-br from-secondary via-secondary/80 to-primary/80 p-8 rounded-2xl shadow-lg card-hover-effect overflow-hidden group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-6">
+                    <i className={`${service.icon} text-2xl text-accent`}></i>
+                  </div>
+                  <h3 className="text-xl font-header font-semibold mb-3">{t(service.titleKey)}</h3>
+                  <p className="text-foreground/70 mb-4">{t(service.descriptionKey)}</p>
+                  <p className="text-accent font-mono text-sm">{t(service.techKey)}</p>
+                  <div className="mt-6">
+                    <a 
+                      href={categoryPaths[service.icon as keyof typeof categoryPaths]} 
+                      className="inline-flex items-center text-accent group"
+                    >
+                      <span className="group-hover:underline">Bekijk details</span>
+                      <i className="ri-arrow-right-line ml-2 transition-transform group-hover:translate-x-1"></i>
+                    </a>
+                  </div>
                 </div>
-                <h3 className="text-xl font-header font-semibold mb-3">{t(service.titleKey)}</h3>
-                <p className="text-foreground/70 mb-4">{t(service.descriptionKey)}</p>
-                <p className="text-accent font-mono text-sm">{t(service.techKey)}</p>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
         
         {/* Service Feature (AI Chatbot Demo) */}

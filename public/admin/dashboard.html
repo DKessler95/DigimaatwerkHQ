@@ -1265,7 +1265,8 @@
       servicesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;"><div class="loading"></div> Services laden...</td></tr>';
       
       try {
-        const response = await fetch('/api/services');
+        const langParam = currentLang ? `?lang=${currentLang}` : '';
+        const response = await fetch(`/api/services${langParam}`);
         const data = await response.json();
         
         if (data.success) {
@@ -1274,21 +1275,16 @@
           // Update dashboard count
           document.getElementById('services-count').textContent = servicesData.length;
           
-          // Filter by current language
-          const filteredServices = servicesData.filter(service => {
-            // If the filename contains the language code (e.g., .en.md or .nl.md)
-            return service.slug.includes(`.${currentLang}.`);
-          });
-          
-          if (filteredServices.length === 0) {
+          if (servicesData.length === 0) {
             servicesTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Geen services gevonden</td></tr>';
             return;
           }
           
           servicesTableBody.innerHTML = '';
           
-          filteredServices.forEach(service => {
+          servicesData.forEach(service => {
             const tr = document.createElement('tr');
+            tr.dataset.slug = service.slug;
             
             tr.innerHTML = `
               <td>${service.title}</td>
@@ -1380,33 +1376,29 @@
       blogTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;"><div class="loading"></div> Blog posts laden...</td></tr>';
       
       try {
-        const response = await fetch('/api/blog');
+        const langParam = currentLang ? `?lang=${currentLang}` : '';
+        const response = await fetch(`/api/blog${langParam}`);
         const data = await response.json();
         
         if (data.success) {
-          blogData = data.data;
+          blogPostsData = data.data;
           
           // Update dashboard count
-          document.getElementById('blog-count').textContent = blogData.length;
+          document.getElementById('blog-count').textContent = blogPostsData.length;
           
-          // Filter by current language
-          const filteredBlogPosts = blogData.filter(post => {
-            // If the filename contains the language code (e.g., .en.md or .nl.md)
-            return post.slug.includes(`.${currentLang}.`) || !post.slug.includes('.');
-          });
-          
-          if (filteredBlogPosts.length === 0) {
+          if (blogPostsData.length === 0) {
             blogTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Geen blog posts gevonden</td></tr>';
             return;
           }
           
           blogTableBody.innerHTML = '';
           
-          filteredBlogPosts.forEach(post => {
+          blogPostsData.forEach(post => {
             const tr = document.createElement('tr');
+            tr.dataset.slug = post.slug;
             
-            // Bepaal random status voor demonstratie (in productie zou dit uit de database komen)
-            const isPublished = Math.random() > 0.5;
+            // Status is gebaseerd op post.published vlag, of default naar true
+            const isPublished = post.published !== undefined ? post.published : true;
             const statusHtml = isPublished ? 
               '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(16, 185, 129, 0.1); color: #10B981; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #10B981; border-radius: 9999px; margin-right: 0.25rem;"></span>Live</span>' : 
               '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(239, 68, 68, 0.1); color: #EF4444; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #EF4444; border-radius: 9999px; margin-right: 0.25rem;"></span>Concept</span>';

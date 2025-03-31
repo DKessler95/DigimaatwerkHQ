@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'wouter';
 import { useLanguage } from '@/lib/languageContext';
-import { X } from 'lucide-react';
+import { X, ChevronDown, ChevronRight } from 'lucide-react';
 
 const MobileMenu = () => {
   const { t, language, setLanguage } = useLanguage();
+  const [servicesSubMenuOpen, setServicesSubMenuOpen] = useState(false);
   
   const closeMobileMenu = () => {
     const mobileMenu = document.getElementById('mobile-menu');
@@ -29,6 +30,10 @@ const MobileMenu = () => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     closeMobileMenu();
   };
+  
+  const toggleServicesSubMenu = () => {
+    setServicesSubMenuOpen(!servicesSubMenuOpen);
+  };
 
   return (
     <div 
@@ -46,13 +51,45 @@ const MobileMenu = () => {
         </button>
       </div>
       <nav className="flex flex-col items-center space-y-6 mt-16">
-        <Link 
-          href="/services" 
-          className="text-xl text-foreground/80 hover:text-accent transition font-body"
-          onClick={closeMobileMenu}
-        >
-          {t('header.services')}
-        </Link>
+        <div className="flex flex-col items-center">
+          <button
+            className="flex items-center text-xl text-foreground/80 hover:text-accent transition font-body"
+            onClick={toggleServicesSubMenu}
+          >
+            {t('header.services')} 
+            {servicesSubMenuOpen ? 
+              <ChevronDown className="ml-1 h-5 w-5" /> : 
+              <ChevronRight className="ml-1 h-5 w-5" />
+            }
+          </button>
+          
+          {servicesSubMenuOpen && (
+            <div className="mt-3 space-y-4 flex flex-col items-center">
+              <Link 
+                href="/services/ai-chatbots" 
+                className="text-lg text-foreground/80 hover:text-accent transition font-body"
+                onClick={closeMobileMenu}
+              >
+                AI Chatbots
+              </Link>
+              <Link 
+                href="/services/workflow-automation" 
+                className="text-lg text-foreground/80 hover:text-accent transition font-body"
+                onClick={closeMobileMenu}
+              >
+                Workflow Automatisering
+              </Link>
+              <Link 
+                href="/services/web-development" 
+                className="text-lg text-foreground/80 hover:text-accent transition font-body"
+                onClick={closeMobileMenu}
+              >
+                Webontwikkeling
+              </Link>
+            </div>
+          )}
+        </div>
+        
         <a 
           href="#case-studies" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
@@ -68,11 +105,11 @@ const MobileMenu = () => {
           {t('header.about')}
         </a>
         <Link 
-          href="/cms-test" 
+          href="/blogs" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
           onClick={closeMobileMenu}
         >
-          CMS Test
+          {t('header.blogs')}
         </Link>
         
         {/* Language switcher */}
