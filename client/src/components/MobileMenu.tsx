@@ -90,13 +90,13 @@ const MobileMenu = () => {
           )}
         </div>
         
-        <a 
-          href="#case-studies" 
+        <Link 
+          href="/portfolio" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
-          onClick={handleNavClick}
+          onClick={closeMobileMenu}
         >
           {t('header.cases')}
-        </a>
+        </Link>
         <a 
           href="#tech-stack" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"

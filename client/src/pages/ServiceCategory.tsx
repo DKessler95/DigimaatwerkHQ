@@ -337,7 +337,7 @@ const ServiceCategory = () => {
                   Bekijk onze portfolio van websites en webapplicaties. 
                   Zie hoe we responsieve ontwerpen maken die er geweldig uitzien op elk apparaat.
                 </p>
-                <Link href="/case-studies" className="text-accent hover:underline">
+                <Link href="/portfolio" className="text-accent hover:underline">
                   Bekijk ons portfolio →
                 </Link>
               </div>

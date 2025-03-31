@@ -9,6 +9,7 @@ import Blogs from "@/pages/Blogs";
 import Services from "@/pages/Services";
 import ServiceCategory from "@/pages/ServiceCategory";
 import CaseStudy from "@/pages/CaseStudy";
+import Portfolio from "@/pages/Portfolio";
 import Dashboard from "@/pages/Dashboard";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import GooglePrivacyPolicy from "@/pages/legal/GooglePrivacyPolicy";
@@ -29,6 +30,7 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/services/:category" component={ServiceCategory} />
       <Route path="/case-studies/:slug" component={CaseStudy} />
+      <Route path="/portfolio" component={Portfolio} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/google-privacy-policy" component={GooglePrivacyPolicy} />
       <Route path="/terms-of-service" component={TermsOfService} />

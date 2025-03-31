@@ -161,7 +161,9 @@ const Blogs = () => {
                   )}
                 </CardContent>
                 <CardFooter>
-                  <Button variant="outline" size="sm">{language === 'nl' ? 'Bekijk Details' : 'View Details'}</Button>
+                  <Button variant="outline" size="sm" asChild>
+                    <a href={`/services/${service.slug}`}>{language === 'nl' ? 'Bekijk Details' : 'View Details'}</a>
+                  </Button>
                 </CardFooter>
               </Card>
             ))}

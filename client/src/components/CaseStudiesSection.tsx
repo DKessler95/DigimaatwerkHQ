@@ -191,9 +191,11 @@ const CaseStudiesSection = () => {
         )}
         
         <div className="text-center mt-8">
-          <a href="/admin/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 border border-foreground/30 rounded-lg hover:bg-secondary transition">
+          <a href="/blogs" className="inline-flex items-center px-6 py-3 border border-foreground/30 rounded-lg hover:bg-secondary transition">
             <span>{language === 'nl' ? 'Meer Succesverhalen' : 'More Success Stories'}</span>
-            <i className="ri-arrow-right-line ml-2"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
           </a>
         </div>
       </div>
