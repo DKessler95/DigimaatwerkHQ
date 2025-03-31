@@ -42,7 +42,7 @@ const MobileMenu = () => {
     >
       <div className="flex justify-between items-center p-4">
         <div className="ml-4">
-          <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{width: '180px', maxWidth: 'none', objectFit: 'contain'}} />
+          <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{height: '24px', width: 'auto', maxWidth: 'none', objectFit: 'contain'}} />
         </div>
         <button
           id="close-menu-button"

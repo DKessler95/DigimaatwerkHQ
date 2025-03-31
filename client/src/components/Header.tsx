@@ -45,12 +45,12 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-primary/90 backdrop-blur-md shadow-md' : 'bg-transparent'}`} style={{paddingTop: '8px', paddingBottom: '8px'}}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-2">
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 h-[40px] flex items-center ${scrolled ? 'bg-primary/90 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full">
+        <div className="flex justify-between items-center h-full">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{width: '200px', maxWidth: 'none', objectFit: 'contain', marginBottom: '-5px'}} />
+              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{height: '24px', width: 'auto', maxWidth: 'none', objectFit: 'contain', margin: '0'}} />
             </Link>
           </div>
           
