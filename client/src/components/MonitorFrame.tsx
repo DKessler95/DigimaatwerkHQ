@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface MonitorFrameProps {
   imageUrl: string;
@@ -15,6 +15,26 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
   className = '',
   isLoading = false
 }) => {
+  // Gebruik een state om bij te houden of de afbeelding succesvol is geladen
+  const [imageSrc, setImageSrc] = useState<string>('/images/portfolio/fasttaxi.png');
+  
+  // Probeer de afbeelding te laden bij initialisatie of wanneer imageUrl wijzigt
+  useEffect(() => {
+    // Alleen proberen als er een imageUrl is doorgegeven
+    if (imageUrl) {
+      const img = new Image();
+      img.onload = () => {
+        console.log("Afbeelding succesvol geladen:", imageUrl);
+        setImageSrc(imageUrl);
+      };
+      img.onerror = () => {
+        console.log("Fout bij laden afbeelding, fallback naar vaste afbeelding:", imageUrl);
+        setImageSrc('/images/portfolio/fasttaxi.png');
+      };
+      img.src = imageUrl;
+    }
+  }, [imageUrl]);
+  
   return (
     <div className={`relative ${className}`}>
       {isLoading ? (
@@ -44,7 +64,7 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
               <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
                 <div className="w-full h-full overflow-hidden bg-white">
                   <img 
-                    src={'/images/portfolio/fasttaxi.png'} 
+                    src={imageSrc} 
                     alt={altText} 
                     className="w-full h-full object-contain object-center"
                   />

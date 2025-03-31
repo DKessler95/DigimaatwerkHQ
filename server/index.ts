@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import session from "express-session";
 import MemoryStore from "memorystore";
+import path from "path";
 import './types'; // Import session types
 import { startCMSProxy } from "./cms-proxy";
 
@@ -56,6 +57,12 @@ app.use((req, res, next) => {
 
 (async () => {
   const server = await registerRoutes(app);
+
+  // Expliciete route voor publieke statische bestanden
+  app.use(express.static(path.join(process.cwd(), 'public')));
+  
+  // Specifieke route voor afbeeldingen om te voorkomen dat ze worden blokkeerd door catch-all routes
+  app.use('/images', express.static(path.join(process.cwd(), 'public/images')));
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

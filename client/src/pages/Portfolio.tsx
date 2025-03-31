@@ -170,23 +170,10 @@ const PortfolioDetailModal = ({
     
     try {
       setIsScreenshotLoading(true);
-      
-      // Direct pad naar afbeelding in gestructureerde map
-      setWebsiteScreenshot('/images/portfolio/fasttaxi.png');
-      
-      /* Originele API aanroep (uitgeschakeld)
-      // API aanroepen om screenshot te genereren
-      const response = await apiRequest('GET', `/api/website-screenshot?url=${encodeURIComponent(item.websiteUrl)}`);
-      const data = await response.json();
-      
-      // Check of de screenshot beschikbaar is
-      if (data && data.image_url) {
-        setWebsiteScreenshot(data.image_url);
-      }
-      */
+      // Direct de websiteScreenshot uit het portfolio item gebruiken met fallback
+      setWebsiteScreenshot(item.websiteScreenshot || '/images/portfolio/fasttaxi.png');
     } catch (error) {
       console.error('Error setting website screenshot for modal:', error);
-      // Fallback bij fout - gebruik afbeelding uit gestructureerde map
       setWebsiteScreenshot('/images/portfolio/fasttaxi.png');
     } finally {
       setIsScreenshotLoading(false);
@@ -368,36 +355,13 @@ const Portfolio = () => {
     try {
       setScreenshotLoading({...screenshotLoading, [item.id]: true});
       
-      // Direct path naar afbeelding in public map gebruiken
-      
-      // Update state met afbeelding uit gestructureerde map
+      // Direct de websiteScreenshot uit portfolioData gebruiken
       setWebsiteScreenshots(prev => ({
         ...prev,
-        [item.id]: '/images/portfolio/fasttaxi.png'
+        [item.id]: item.websiteScreenshot || '/images/portfolio/fasttaxi.png'
       }));
-      
-      // Optioneel: uncomment deze code om de API aanroep te gebruiken indien nodig
-      /*
-      // API aanroepen om screenshot te genereren
-      const response = await apiRequest('GET', `/api/website-screenshot?url=${encodeURIComponent(item.websiteUrl)}`);
-      const data = await response.json();
-      
-      // Check of de screenshot beschikbaar is
-      if (data && data.image_url) {
-        setWebsiteScreenshots(prev => ({
-          ...prev,
-          [item.id]: data.image_url
-        }));
-      }
-      */
     } catch (error) {
       console.error('Error setting website screenshot:', error);
-      
-      // Fallback bij fout met afbeelding uit gestructureerde map
-      setWebsiteScreenshots(prev => ({
-        ...prev,
-        [item.id]: '/images/portfolio/fasttaxi.png'
-      }));
     } finally {
       setScreenshotLoading({...screenshotLoading, [item.id]: false});
     }
