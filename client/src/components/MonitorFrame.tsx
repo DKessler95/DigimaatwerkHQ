@@ -1,4 +1,6 @@
 import React from 'react';
+// Importeer de afbeelding direct
+import fasttaxiImage from '../assets/fasttaxi.png';
 
 interface MonitorFrameProps {
   imageUrl: string;
@@ -44,26 +46,15 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
               <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
                 <div className="w-full h-full overflow-hidden bg-white">
                   <img 
-                    src={imageUrl}
+                    src={imageUrl.includes('fasttaxi') ? fasttaxiImage : imageUrl}
                     alt={altText} 
                     className="w-full h-full object-contain object-center"
                     onError={(e) => {
                       console.log("Image error, failed to load:", imageUrl);
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
-                      
-                      // Gebruik vaste fallback afbeeldingen die we zeker weten dat bestaan
-                      if (imageUrl.includes('fasttaxi')) {
-                        // Voor Fast Taxi Rotterdam gebruiken we één van deze fallbacks
-                        if (imageUrl.endsWith('.jpg')) {
-                          target.src = '/img/fasttaxi.png';
-                        } else {
-                          target.src = '/img/fasttaxi.jpg';
-                        }
-                      } else {
-                        // Algemene fallback
-                        target.src = '/img/fasttaxi.png';
-                      }
+                      // Gebruik geïmporteerde afbeelding als fallback
+                      target.src = fasttaxiImage;
                     }}
                   />
                 </div>

@@ -4,6 +4,7 @@ import { useLanguage } from '@/lib/languageContext';
 import { Loader2, Monitor } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import MonitorFrame from '@/components/MonitorFrame';
+import fasttaxiImage from '../assets/fasttaxi.png';
 
 interface PortfolioItem {
   id: string;
@@ -24,9 +25,9 @@ const portfolioData: PortfolioItem[] = [
 Een belangrijke innovatie is de automatische workflow-integratie met WhatsApp Business. Bestellingen die via de website binnenkomen, worden direct doorgestuurd naar WhatsApp, waardoor chauffeurs sneller reageren en ritten efficiënter plannen. Dit verkort niet alleen de responstijd, maar verhoogt ook de klanttevredenheid en het aantal afgeronde boekingen.
 
 Dankzij deze verbeteringen kan Fast Taxi Rotterdam zijn service soepeler uitvoeren, meer klanten bedienen en uiteindelijk meer winst genereren. Deze case illustreert hoe slimme technologie en een goed ontworpen website bijdragen aan bedrijfsoptimalisatie en groei.`,
-    imageUrl: '/img/fasttaxi.jpg',
+    imageUrl: fasttaxiImage, // Direct geïmporteerde afbeelding gebruiken
     websiteUrl: 'https://www.fasttaxirotterdam.com',
-    websiteScreenshot: '/img/fasttaxi.jpg', // Direct naar lokale afbeelding verwijzen
+    websiteScreenshot: fasttaxiImage, // Direct geïmporteerde afbeelding gebruiken
     category: 'web'
   }
 ];
@@ -171,8 +172,8 @@ const PortfolioDetailModal = ({
     try {
       setIsScreenshotLoading(true);
       
-      // Direct lokale afbeelding gebruiken
-      setWebsiteScreenshot('/img/fasttaxi.jpg');
+      // Direct geïmporteerde afbeelding gebruiken
+      setWebsiteScreenshot(fasttaxiImage);
       
       /* Originele API aanroep (uitgeschakeld)
       // API aanroepen om screenshot te genereren
@@ -186,8 +187,8 @@ const PortfolioDetailModal = ({
       */
     } catch (error) {
       console.error('Error setting website screenshot for modal:', error);
-      // Fallback bij fout
-      setWebsiteScreenshot('/img/fasttaxi.jpg');
+      // Fallback bij fout - gebruik geïmporteerde afbeelding
+      setWebsiteScreenshot(fasttaxiImage);
     } finally {
       setIsScreenshotLoading(false);
     }
@@ -368,13 +369,12 @@ const Portfolio = () => {
     try {
       setScreenshotLoading({...screenshotLoading, [item.id]: true});
       
-      // Direct lokale afbeelding toewijzen in plaats van API aanroep
-      const localImage = '/img/fasttaxi.jpg';
+      // Direct geïmporteerde afbeelding toewijzen
       
-      // Update state met lokale afbeeldingspad
+      // Update state met geïmporteerde afbeelding
       setWebsiteScreenshots(prev => ({
         ...prev,
-        [item.id]: localImage
+        [item.id]: fasttaxiImage
       }));
       
       // Optioneel: uncomment deze code om de API aanroep te gebruiken indien nodig
@@ -394,10 +394,10 @@ const Portfolio = () => {
     } catch (error) {
       console.error('Error setting website screenshot:', error);
       
-      // Fallback bij fout
+      // Fallback bij fout met geïmporteerde afbeelding
       setWebsiteScreenshots(prev => ({
         ...prev,
-        [item.id]: '/img/fasttaxi.jpg'
+        [item.id]: fasttaxiImage
       }));
     } finally {
       setScreenshotLoading({...screenshotLoading, [item.id]: false});
