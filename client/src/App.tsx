@@ -34,7 +34,7 @@ function Router() {
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/google-privacy-policy" component={GooglePrivacyPolicy} />
       <Route path="/terms-of-service" component={TermsOfService} />
-      <Route path="/admin" component={Dashboard} />
+      <Route path="/dashboard" component={Dashboard} />
       <Route component={NotFound} />
     </Switch>
   );
