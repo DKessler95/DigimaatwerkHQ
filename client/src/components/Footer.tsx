@@ -10,8 +10,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div>
             <a href="#" className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
-                <span className="text-primary font-bold text-xl">D</span>
+              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center overflow-hidden">
+                <img src="/digimaatwerkLOGO.png" alt="Digimaatwerk Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-header font-semibold text-foreground">Digimaatwerk</span>
             </a>

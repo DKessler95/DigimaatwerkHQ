@@ -51,7 +51,7 @@ const Header = () => {
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center overflow-hidden">
-                <img src="/logo40x40.png" alt="Digimaatwerk Logo" className="w-full h-full object-cover" />
+                <img src="/digimaatwerkLOGO.png" alt="Digimaatwerk Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-header font-semibold text-foreground">Digimaatwerk</span>
             </Link>
