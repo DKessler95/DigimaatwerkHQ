@@ -251,7 +251,7 @@ const CaseStudyPage = () => {
               : "We're here to help you achieve your digital ambitions. Contact us for a no-obligation conversation."}
           </p>
           <a 
-            href="/#contact" 
+            href="#contact" 
             className="inline-flex items-center px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition"
           >
             {language === 'nl' ? 'Neem Contact Op' : 'Contact Us'}

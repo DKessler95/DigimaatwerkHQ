@@ -501,7 +501,7 @@ const Portfolio = () => {
               : 'Contact us for a no-obligation discussion about your project. We are happy to think along with you!'}
           </p>
           <a 
-            href="/#contact"
+            href="#contact"
             className="px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition inline-flex items-center"
           >
             {language === 'nl' ? 'Contact opnemen' : 'Contact us'}

@@ -47,14 +47,17 @@ const Header = () => {
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-primary/90 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-2">
+        <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{height: '32px', width: 'auto', maxWidth: 'none', objectFit: 'contain', margin: '0'}} />
+            <Link href="/" className="flex items-center space-x-2">
+              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
+                <span className="text-primary font-bold text-xl">D</span>
+              </div>
+              <span className="text-xl font-header font-semibold text-foreground">Digimaatwerk</span>
             </Link>
           </div>
           
-          <nav className="hidden md:flex space-x-8 items-center">
+          <nav className="hidden md:flex space-x-8">
             <div className="relative" ref={dropdownRef}>
               <button 
                 onClick={toggleServicesDropdown}
@@ -78,15 +81,15 @@ const Header = () => {
               )}
             </div>
             <Link href="/portfolio" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</Link>
-            <Link href="/#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</Link>
+            <a href="#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</a>
             <Link href="/blogs" className="text-foreground/80 hover:text-accent transition font-body">{t('header.blogs')}</Link>
           </nav>
           
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
-            <Link href="/#contact" className="hidden md:block px-5 py-2 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90">
+            <a href="#contact" className="hidden md:block px-5 py-2 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90">
               {t('header.contact')}
-            </Link>
+            </a>
             <button
               className="md:hidden text-foreground"
               id="mobile-menu-button"
