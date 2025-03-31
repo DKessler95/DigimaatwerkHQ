@@ -47,10 +47,10 @@ const Header = () => {
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-primary/90 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-3">
+        <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" className="h-10" />
+              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{height: '70px', width: '280px', maxWidth: 'none'}} />
             </Link>
           </div>
           
