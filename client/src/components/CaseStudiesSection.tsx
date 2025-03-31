@@ -198,12 +198,14 @@ const CaseStudiesSection = () => {
             </svg>
           </a>
           
-          <a href="/portfolio" className="inline-flex items-center px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition group">
-            <span>{language === 'nl' ? 'Portfolio Verkennen' : 'Explore Portfolio'}</span>
-            <div className="relative ml-2 w-5 h-5 overflow-hidden">
-              <div className="absolute inset-0 bg-primary rounded-sm rotate-45 transform-gpu group-hover:rotate-[135deg] transition-transform duration-500"></div>
-              <div className="absolute inset-0 bg-primary rounded-sm -rotate-45 transform-gpu group-hover:rotate-[45deg] transition-transform duration-500"></div>
-            </div>
+          <a href="/portfolio" className="inline-flex items-center px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition-all duration-300 group relative overflow-hidden">
+            <span className="relative z-10">{language === 'nl' ? 'Portfolio Verkennen' : 'Explore Portfolio'}</span>
+            <span className="absolute inset-0 bg-gradient-to-r from-accent to-accent-light opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            <span className="ml-2 relative z-10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5 group-hover:animate-pulse">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+              </svg>
+            </span>
           </a>
         </div>
       </div>

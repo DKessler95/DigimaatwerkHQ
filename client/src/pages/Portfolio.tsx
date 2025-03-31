@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
 import { Loader2, Monitor } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
+import MonitorFrame from '@/components/MonitorFrame';
 
 interface PortfolioItem {
   id: string;
@@ -84,31 +85,15 @@ const PortfolioBlock = ({
       <div className="bg-secondary/80 backdrop-blur-sm rounded-lg h-full cursor-pointer relative overflow-hidden flex flex-col">
         {/* Website screenshot in monitor frame */}
         <div className="relative h-48 overflow-hidden bg-black/20">
-          {isLoading ? (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-accent" />
-            </div>
-          ) : (
-            <>
-              {/* Monitor frame */}
-              <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                <div className="w-[95%] h-[85%] border-4 border-gray-800 rounded-lg bg-transparent overflow-hidden">
-                  {/* Monitor stand */}
-                  <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 w-12 h-8 bg-gray-800 rounded-t-md"></div>
-                  {/* Monitor base */}
-                  <div className="absolute bottom-[-22px] left-1/2 transform -translate-x-1/2 w-24 h-2 bg-gray-700 rounded-lg"></div>
-                </div>
-              </div>
-              
-              {/* Website screenshot - use real screenshot if available */}
-              <img 
-                src={screenshotUrl || item.websiteScreenshot || item.imageUrl} 
-                alt={`${item.title} website`} 
-                className="absolute inset-[10%] w-[80%] h-[70%] object-contain object-center transform transition-transform duration-700 hover:scale-105 rounded-sm"
-                style={{ marginTop: '5px' }}
-              />
-            </>
-          )}
+          <div className="absolute inset-0 flex items-center justify-center py-2">
+            <MonitorFrame 
+              imageUrl={screenshotUrl || item.websiteScreenshot || item.imageUrl}
+              altText={`${item.title} website`}
+              websiteUrl={item.websiteUrl}
+              isLoading={isLoading}
+              className="w-[95%] h-[90%]"
+            />
+          </div>
           
           <div className="absolute top-2 right-2 bg-accent/80 backdrop-blur-sm text-primary text-xs px-2 py-1 rounded font-medium z-20">
             {item.category === 'web' ? 'Website' : item.category === 'automation' ? 'Automatisering' : 'Chatbot'}
@@ -345,40 +330,15 @@ const PortfolioDetailModal = ({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            {isScreenshotLoading ? (
-              <div className="h-full w-full flex items-center justify-center min-h-[300px]">
-                <Loader2 className="h-10 w-10 animate-spin text-accent" />
-                <p className="ml-3 text-sm text-foreground/60">Screenshot laden...</p>
-              </div>
-            ) : (
-              <div className="relative w-full max-w-md mx-auto">
-                {/* Monitor design */}
-                <div className="bg-gray-900 rounded-t-xl p-2 flex items-center">
-                  <div className="flex space-x-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  </div>
-                  <div className="mx-auto text-center text-xs text-gray-400 font-mono">
-                    {item.websiteUrl}
-                  </div>
-                </div>
-                
-                {/* Screenshot container */}
-                <div className="bg-white border-l-2 border-r-2 border-gray-900">
-                  <img 
-                    src={websiteScreenshot || item.websiteScreenshot || item.imageUrl} 
-                    alt={`${item.title} website screenshot`}
-                    className="w-full object-contain"
-                  />
-                </div>
-                
-                {/* Monitor base */}
-                <div className="bg-gray-900 h-3 rounded-b-md"></div>
-                <div className="bg-gray-800 h-2 w-32 mx-auto rounded-b-md"></div>
-                <div className="h-10 w-24 mx-auto border-b-[10px] border-l-[7px] border-r-[7px] border-transparent border-t-0 border-gray-800 rounded-b-lg"></div>
-              </div>
-            )}
+            <div className="max-w-md w-full mx-auto">
+              <MonitorFrame 
+                imageUrl={websiteScreenshot || item.websiteScreenshot || item.imageUrl}
+                altText={`${item.title} website screenshot`}
+                websiteUrl={item.websiteUrl}
+                isLoading={isScreenshotLoading}
+                className="w-full aspect-[4/3]"
+              />
+            </div>
           </motion.div>
         </div>
       </motion.div>
