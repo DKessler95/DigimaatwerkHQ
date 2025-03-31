@@ -45,16 +45,16 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-primary/90 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-primary/90 backdrop-blur-md shadow-md' : 'bg-transparent'}`} style={{paddingTop: '8px', paddingBottom: '8px'}}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center py-2">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{height: '70px', width: '280px', maxWidth: 'none'}} />
+              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{width: '300px', maxWidth: 'none', objectFit: 'contain', marginBottom: '-5px'}} />
             </Link>
           </div>
           
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-8 items-center">
             <div className="relative" ref={dropdownRef}>
               <button 
                 onClick={toggleServicesDropdown}
