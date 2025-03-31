@@ -554,6 +554,9 @@
           <a href="#case-studies" class="nav-link" data-tab="case-studies">Case Studies</a>
         </li>
         <li class="nav-item">
+          <a href="#portfolio" class="nav-link" data-tab="portfolio">Portfolio</a>
+        </li>
+        <li class="nav-item">
           <a href="#blog" class="nav-link" data-tab="blog">Blog</a>
         </li>
         <li class="nav-item">
@@ -587,7 +590,7 @@
           <p>Welkom bij het Digimaatwerk Content Management Systeem.</p>
           <p>Gebruik het menu aan de linkerkant om content te beheren.</p>
           
-          <div class="stats-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem;">
+          <div class="stats-container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem;">
             <div style="background: rgba(13, 148, 136, 0.2); padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
               <h3>Services</h3>
               <p style="font-size: 2rem; margin: 0.5rem 0;" id="services-count">...</p>
@@ -595,6 +598,10 @@
             <div style="background: rgba(13, 148, 136, 0.2); padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
               <h3>Case Studies</h3>
               <p style="font-size: 2rem; margin: 0.5rem 0;" id="case-studies-count">...</p>
+            </div>
+            <div style="background: rgba(13, 148, 136, 0.2); padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+              <h3>Portfolio</h3>
+              <p style="font-size: 2rem; margin: 0.5rem 0;" id="portfolio-count">...</p>
             </div>
             <div style="background: rgba(13, 148, 136, 0.2); padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
               <h3>Blog Posts</h3>
@@ -711,6 +718,102 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+      
+      <div id="portfolio" class="tab-content">
+        <div class="content-section">
+          <div class="section-header">
+            <h2>Portfolio</h2>
+            <button class="action-button" id="add-portfolio-btn">Nieuw Portfolio Item</button>
+          </div>
+          
+          <div class="tab-container">
+            <div class="tab-buttons">
+              <button class="tab-button active" data-lang="nl">Nederlands</button>
+              <button class="tab-button" data-lang="en">Engels</button>
+            </div>
+          </div>
+          
+          <div id="portfolio-table-container">
+            <table class="cms-table" id="portfolio-table">
+              <thead>
+                <tr>
+                  <th>Titel</th>
+                  <th>ID</th>
+                  <th>Categorie</th>
+                  <th>Status</th>
+                  <th>Acties</th>
+                </tr>
+              </thead>
+              <tbody id="portfolio-table-body">
+                <tr>
+                  <td colspan="5" style="text-align: center;">
+                    <div class="loading"></div> Portfolio items laden...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div id="portfolio-form-container" class="form-container">
+            <h3 id="portfolio-form-title">Portfolio Item Toevoegen</h3>
+            <form id="portfolio-form">
+              <div class="form-group">
+                <label for="portfolio-title">Titel</label>
+                <input type="text" id="portfolio-title" name="title" required>
+              </div>
+              <div class="form-group">
+                <label for="portfolio-id">ID</label>
+                <input type="text" id="portfolio-id" name="id" required>
+                <small>Gebruik alleen kleine letters, cijfers en koppeltekens. Bijv. 'fast-taxi-rotterdam'</small>
+              </div>
+              <div class="form-group">
+                <label for="portfolio-description">Beschrijving</label>
+                <textarea id="portfolio-description" name="description" rows="4" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="portfolio-category">Categorie</label>
+                <select id="portfolio-category" name="category" required>
+                  <option value="web">Website</option>
+                  <option value="automation">Automatisering</option>
+                  <option value="chatbot">Chatbot / AI</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="portfolio-image">Afbeelding</label>
+                <input type="file" id="portfolio-image" name="imageUrl" accept="image/*">
+                <div id="portfolio-image-preview" class="image-upload-preview" style="display: none;">
+                  <img id="portfolio-preview-img" src="#" alt="Preview">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="portfolio-website-url">Website URL</label>
+                <input type="url" id="portfolio-website-url" name="websiteUrl" placeholder="https://www.example.com">
+              </div>
+              <div class="form-group">
+                <label for="portfolio-screenshot">Website Screenshot</label>
+                <input type="file" id="portfolio-screenshot" name="websiteScreenshot" accept="image/*">
+                <div id="screenshot-preview" class="image-upload-preview" style="display: none;">
+                  <img id="screenshot-preview-img" src="#" alt="Preview">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="portfolio-order">Volgorde</label>
+                <input type="number" id="portfolio-order" name="order" min="1" value="1">
+              </div>
+              <div class="form-group">
+                <label for="portfolio-featured">
+                  <input type="checkbox" id="portfolio-featured" name="featured">
+                  Uitgelicht
+                </label>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="cancel-button" id="cancel-portfolio-btn">Annuleren</button>
+                <button type="submit" class="save-button">Opslaan</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -1593,6 +1696,7 @@
         await Promise.all([
           loadServices(),
           loadCaseStudies(),
+          loadPortfolioItems(),
           loadBlogPosts()
         ]);
       } catch (error) {
@@ -3180,6 +3284,329 @@
     }
     
     // Check authentication and load initial data
+    // Portfolio
+    let portfolioData = [];
+    
+    async function loadPortfolioItems() {
+      const portfolioTableBody = document.getElementById('portfolio-table-body');
+      portfolioTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;"><div class="loading"></div> Portfolio items laden...</td></tr>';
+      
+      try {
+        const langParam = currentLang ? `?lang=${currentLang}` : '';
+        const response = await fetch(`/api/portfolio${langParam}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          portfolioData = data.data;
+          
+          // Update dashboard stats if we're on the dashboard
+          document.getElementById('portfolio-count').textContent = portfolioData.length;
+          
+          if (portfolioData.length === 0) {
+            portfolioTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Geen portfolio items gevonden</td></tr>';
+            return;
+          }
+          
+          portfolioTableBody.innerHTML = '';
+          
+          portfolioData.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.dataset.id = item.id;
+            
+            // Status is based on featured flag
+            const statusHtml = item.featured ? 
+              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(16, 185, 129, 0.1); color: #10B981; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #10B981; border-radius: 9999px; margin-right: 0.25rem;"></span>Featured</span>' : 
+              '<span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background-color: rgba(239, 68, 68, 0.1); color: #EF4444; border-radius: 9999px; font-size: 0.75rem;"><span style="width: 0.5rem; height: 0.5rem; background-color: #EF4444; border-radius: 9999px; margin-right: 0.25rem;"></span>Standard</span>';
+            
+            tr.innerHTML = `
+              <td>${item.title}</td>
+              <td>${item.id}</td>
+              <td>${item.category || 'N/A'}</td>
+              <td>${statusHtml}</td>
+              <td>
+                <div class="table-actions">
+                  <button class="view-btn" onclick="viewPortfolioItem('${item.id}')">Bekijken</button>
+                  <button class="edit-btn" onclick="editPortfolioItem('${item.id}')">Bewerken</button>
+                  <button class="${item.featured ? 'delete-btn' : 'view-btn'}" 
+                    style="background-color: ${item.featured ? '#F59E0B' : '#10B981'};" 
+                    onclick="togglePortfolioItemFeatured('${item.id}', ${!item.featured})">
+                    ${item.featured ? 'Revoke' : 'Publish'}
+                  </button>
+                  <button class="delete-btn" onclick="deletePortfolioItem('${item.id}')">Delete</button>
+                </div>
+              </td>
+            `;
+            
+            portfolioTableBody.appendChild(tr);
+          });
+        } else {
+          portfolioTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Fout bij het laden van portfolio items</td></tr>';
+        }
+      } catch (error) {
+        console.error('Error loading portfolio items:', error);
+        portfolioTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Fout bij het laden van portfolio items</td></tr>';
+      }
+    }
+    
+    async function viewPortfolioItem(id) {
+      try {
+        const langParam = currentLang ? `?lang=${currentLang}` : '';
+        const response = await fetch(`/api/portfolio/${id}${langParam}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          const item = data.data;
+          
+          // Create a modal to display the item details
+          let modalContent = `
+            <div class="modal-content-scroll">
+              <h3>${item.title}</h3>
+              <div class="detail-item">
+                <strong>ID:</strong> ${item.id}
+              </div>
+              <div class="detail-item">
+                <strong>Category:</strong> ${item.category}
+              </div>
+              <div class="detail-item">
+                <strong>URL:</strong> <a href="${item.websiteUrl}" target="_blank">${item.websiteUrl}</a>
+              </div>
+              <div class="detail-item">
+                <strong>Description:</strong>
+                <p>${item.description}</p>
+              </div>
+              <div class="detail-image">
+                <h4>Afbeelding:</h4>
+                <img src="${item.imageUrl}" alt="${item.title}" style="max-width: 100%; border-radius: 4px; margin-top: 8px;">
+              </div>
+              ${item.websiteScreenshot ? `
+              <div class="detail-image">
+                <h4>Screenshot:</h4>
+                <img src="${item.websiteScreenshot}" alt="${item.title}" style="max-width: 100%; border-radius: 4px; margin-top: 8px;">
+              </div>` : ''}
+            </div>
+          `;
+          
+          const modalActions = `
+            <button class="modal-btn modal-btn-secondary" data-action="close">Sluiten</button>
+            <button class="modal-btn modal-btn-primary" onclick="editPortfolioItem('${item.id}')">Bewerken</button>
+          `;
+          
+          openModal('Portfolio Item', modalContent, modalActions);
+        } else {
+          showNotification('Fout bij het ophalen van portfolio item', 'error');
+        }
+      } catch (error) {
+        console.error('Error loading portfolio item:', error);
+        showNotification('Fout bij het ophalen van portfolio item', 'error');
+      }
+    }
+    
+    function createPortfolioItem() {
+      // Reset form
+      const form = document.getElementById('portfolio-form');
+      form.reset();
+      document.getElementById('portfolio-form-title').textContent = 'Portfolio Item Toevoegen';
+      
+      // Show form
+      document.getElementById('portfolio-form-container').style.display = 'block';
+      document.getElementById('portfolio-table-container').style.display = 'none';
+      
+      // Hide preview images
+      document.getElementById('portfolio-image-preview').style.display = 'none';
+      document.getElementById('screenshot-preview').style.display = 'none';
+      
+      // Setup cancel button
+      document.getElementById('cancel-portfolio-btn').addEventListener('click', () => {
+        document.getElementById('portfolio-form-container').style.display = 'none';
+        document.getElementById('portfolio-table-container').style.display = 'block';
+      });
+      
+      // Setup image preview functionality
+      document.getElementById('portfolio-image').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const previewImg = document.getElementById('portfolio-preview-img');
+            previewImg.src = e.target.result;
+            document.getElementById('portfolio-image-preview').style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      
+      document.getElementById('portfolio-screenshot').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const previewImg = document.getElementById('screenshot-preview-img');
+            previewImg.src = e.target.result;
+            document.getElementById('screenshot-preview').style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      
+      // Setup form submission
+      form.onsubmit = async function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(form);
+        const portfolioData = {
+          id: formData.get('id'),
+          title: formData.get('title'),
+          description: formData.get('description'),
+          category: formData.get('category'),
+          websiteUrl: formData.get('websiteUrl'),
+          order: parseInt(formData.get('order')) || 1,
+          featured: formData.get('featured') === 'on'
+        };
+        
+        try {
+          // Simulate API call
+          setTimeout(() => {
+            showNotification('Portfolio item succesvol toegevoegd!');
+            document.getElementById('portfolio-form-container').style.display = 'none';
+            document.getElementById('portfolio-table-container').style.display = 'block';
+            loadPortfolioItems(); // Reload the list
+          }, 500);
+        } catch (error) {
+          console.error('Error creating portfolio item:', error);
+          showNotification('Fout bij het aanmaken van portfolio item', 'error');
+        }
+      };
+    }
+    
+    async function editPortfolioItem(id) {
+      try {
+        const item = portfolioData.find(item => item.id === id);
+        
+        if (!item) {
+          showNotification('Portfolio item niet gevonden', 'error');
+          return;
+        }
+        
+        // Set form title
+        document.getElementById('portfolio-form-title').textContent = 'Portfolio Item Bewerken';
+        
+        // Populate form
+        const form = document.getElementById('portfolio-form');
+        form.reset();
+        
+        document.getElementById('portfolio-id').value = item.id;
+        document.getElementById('portfolio-title').value = item.title;
+        document.getElementById('portfolio-description').value = item.description;
+        document.getElementById('portfolio-category').value = item.category;
+        document.getElementById('portfolio-website-url').value = item.websiteUrl || '';
+        document.getElementById('portfolio-order').value = item.order || 1;
+        document.getElementById('portfolio-featured').checked = item.featured;
+        
+        // Show image previews if available
+        if (item.imageUrl) {
+          document.getElementById('portfolio-preview-img').src = item.imageUrl;
+          document.getElementById('portfolio-image-preview').style.display = 'block';
+        } else {
+          document.getElementById('portfolio-image-preview').style.display = 'none';
+        }
+        
+        if (item.websiteScreenshot) {
+          document.getElementById('screenshot-preview-img').src = item.websiteScreenshot;
+          document.getElementById('screenshot-preview').style.display = 'block';
+        } else {
+          document.getElementById('screenshot-preview').style.display = 'none';
+        }
+        
+        // Show form
+        document.getElementById('portfolio-form-container').style.display = 'block';
+        document.getElementById('portfolio-table-container').style.display = 'none';
+        
+        // Setup cancel button
+        document.getElementById('cancel-portfolio-btn').addEventListener('click', () => {
+          document.getElementById('portfolio-form-container').style.display = 'none';
+          document.getElementById('portfolio-table-container').style.display = 'block';
+        });
+        
+        // Setup form submission
+        form.onsubmit = async function(e) {
+          e.preventDefault();
+          
+          // Get form data
+          const formData = new FormData(form);
+          const portfolioData = {
+            id: formData.get('id'),
+            title: formData.get('title'),
+            description: formData.get('description'),
+            category: formData.get('category'),
+            websiteUrl: formData.get('websiteUrl'),
+            order: parseInt(formData.get('order')) || 1,
+            featured: formData.get('featured') === 'on'
+          };
+          
+          try {
+            // Simulate API call
+            setTimeout(() => {
+              showNotification('Portfolio item succesvol bijgewerkt!');
+              document.getElementById('portfolio-form-container').style.display = 'none';
+              document.getElementById('portfolio-table-container').style.display = 'block';
+              loadPortfolioItems(); // Reload the list
+            }, 500);
+          } catch (error) {
+            console.error('Error updating portfolio item:', error);
+            showNotification('Fout bij het bijwerken van portfolio item', 'error');
+          }
+        };
+      } catch (error) {
+        console.error('Error editing portfolio item:', error);
+        showNotification('Fout bij het bewerken van portfolio item', 'error');
+      }
+    }
+    
+    async function deletePortfolioItem(id) {
+      // Show confirmation dialog in a modal
+      const modalContent = `
+        <p>Weet je zeker dat je dit portfolio item wilt verwijderen?</p>
+        <p>Deze actie kan niet ongedaan worden gemaakt.</p>
+      `;
+      
+      const modalActions = `
+        <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+        <button class="modal-btn modal-btn-danger" id="confirm-delete-portfolio">Verwijderen</button>
+      `;
+      
+      openModal('Portfolio Item Verwijderen', modalContent, modalActions);
+      
+      // Add event listener to confirm delete button
+      document.getElementById('confirm-delete-portfolio').addEventListener('click', async () => {
+        try {
+          // Simulate API call
+          setTimeout(() => {
+            closeModal();
+            showNotification('Portfolio item succesvol verwijderd!');
+            loadPortfolioItems(); // Reload the list
+          }, 500);
+        } catch (error) {
+          console.error('Error deleting portfolio item:', error);
+          showNotification('Fout bij het verwijderen van portfolio item', 'error');
+          closeModal();
+        }
+      });
+    }
+    
+    async function togglePortfolioItemFeatured(id, featured) {
+      try {
+        // Simulate API call
+        setTimeout(() => {
+          showNotification(`Portfolio item succesvol ${featured ? 'uitgelicht' : 'niet meer uitgelicht'}!`);
+          loadPortfolioItems(); // Reload the list
+        }, 500);
+      } catch (error) {
+        console.error('Error updating portfolio item:', error);
+        showNotification('Fout bij het bijwerken van portfolio item', 'error');
+      }
+    }
+
     function checkAuth() {
       const isAuthenticated = localStorage.getItem('cms_authenticated');
       
@@ -3195,6 +3622,12 @@
       const addCaseStudyBtn = document.getElementById('add-case-study-btn');
       if (addCaseStudyBtn) {
         addCaseStudyBtn.addEventListener('click', createCaseStudy);
+      }
+      
+      // Add event listener to add portfolio item button
+      const addPortfolioBtn = document.getElementById('add-portfolio-btn');
+      if (addPortfolioBtn) {
+        addPortfolioBtn.addEventListener('click', createPortfolioItem);
       }
     }
     
