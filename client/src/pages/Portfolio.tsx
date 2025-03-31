@@ -106,7 +106,7 @@ const PortfolioBlock = ({
                 <img 
                   src={'/images/portfolio/fasttaxi.png'} 
                   alt={`${item.title} website`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-[95%] object-contain pt-2"
                   onError={(e) => {
                     console.error('Afbeelding kon niet worden geladen, fallback naar fasttaxi.png');
                     e.currentTarget.src = '/images/portfolio/fasttaxi.png';
@@ -345,9 +345,9 @@ const PortfolioDetailModal = ({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            <div className="max-w-md w-full mx-auto">
+            <div className="w-full mx-auto">
               {/* Ingebouwde monitor frame ipv component */}
-              <div className="relative w-full aspect-[4/3] bg-gray-900 rounded-xl overflow-hidden shadow-lg">
+              <div className="relative w-full aspect-[16/10] bg-gray-900 rounded-xl overflow-hidden shadow-xl">
                 {/* Monitor top bar with browser controls */}
                 <div className="bg-gray-900 rounded-t-xl p-2 flex items-center">
                   <div className="flex space-x-1.5">
@@ -368,7 +368,7 @@ const PortfolioDetailModal = ({
                     <img 
                       src={'/images/portfolio/fasttaxi.png'} 
                       alt={`${item.title} website screenshot`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       onError={(e) => {
                         console.error('Afbeelding kon niet worden geladen in detail view, fallback naar fasttaxi.png');
                         e.currentTarget.src = '/images/portfolio/fasttaxi.png';
