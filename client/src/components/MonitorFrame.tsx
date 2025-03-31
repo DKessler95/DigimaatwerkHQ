@@ -1,6 +1,4 @@
 import React from 'react';
-// Importeer de afbeelding direct
-import fasttaxiImage from '../assets/fasttaxi.png';
 
 interface MonitorFrameProps {
   imageUrl: string;
@@ -46,15 +44,15 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
               <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
                 <div className="w-full h-full overflow-hidden bg-white">
                   <img 
-                    src={imageUrl.includes('fasttaxi') ? fasttaxiImage : imageUrl}
+                    src={imageUrl}
                     alt={altText} 
                     className="w-full h-full object-contain object-center"
                     onError={(e) => {
                       console.log("Image error, failed to load:", imageUrl);
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
-                      // Gebruik geïmporteerde afbeelding als fallback
-                      target.src = fasttaxiImage;
+                      // Gebruik vaste afbeelding als fallback
+                      target.src = '/images/fasttaxi.png';
                     }}
                   />
                 </div>
