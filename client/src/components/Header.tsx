@@ -50,10 +50,7 @@ const Header = () => {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
-                <span className="text-primary font-bold text-xl">D</span>
-              </div>
-              <span className="text-xl font-header font-semibold text-foreground">Digimaatwerk</span>
+              <img src="/logo.svg" alt="Digimaatwerk Logo" className="h-12" />
             </Link>
           </div>
           

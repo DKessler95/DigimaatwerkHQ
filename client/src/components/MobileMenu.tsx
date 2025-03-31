@@ -40,7 +40,10 @@ const MobileMenu = () => {
       id="mobile-menu" 
       className="fixed inset-0 bg-primary z-40 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden"
     >
-      <div className="flex justify-end p-4">
+      <div className="flex justify-between items-center p-4">
+        <div className="ml-4">
+          <img src="/logo.svg" alt="Digimaatwerk Logo" className="h-10" />
+        </div>
         <button
           id="close-menu-button"
           className="text-foreground"
