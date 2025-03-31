@@ -153,9 +153,13 @@ const CaseStudiesSection = () => {
               >
                 <div className="h-48 overflow-hidden relative">
                   <img 
-                    src={study.featured_image}
+                    src={study.featured_image || '/uploads/retailtech-chatbot.jpg'} 
                     alt={study.title} 
                     className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110"
+                    onError={(e) => {
+                      console.error('Afbeelding kon niet worden geladen:', study.featured_image);
+                      e.currentTarget.src = '/uploads/retailtech-chatbot.jpg';
+                    }}
                   />
                   <div className="absolute top-3 right-3 bg-accent text-primary text-xs px-2 py-1 rounded-lg font-medium">
                     {study.category}
