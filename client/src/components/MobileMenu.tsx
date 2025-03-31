@@ -42,7 +42,7 @@ const MobileMenu = () => {
     >
       <div className="flex justify-between items-center p-4">
         <div className="ml-4">
-          <img src="/logo.svg" alt="Digimaatwerk Logo" className="h-10" />
+          <img src="/logo.svg" alt="Digimaatwerk Logo" className="h-8" />
         </div>
         <button
           id="close-menu-button"
@@ -100,13 +100,13 @@ const MobileMenu = () => {
         >
           {t('header.cases')}
         </Link>
-        <a 
-          href="#tech-stack" 
+        <Link 
+          href="/#tech-stack" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
-          onClick={handleNavClick}
+          onClick={closeMobileMenu}
         >
           {t('header.about')}
-        </a>
+        </Link>
         <Link 
           href="/blogs" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
@@ -131,13 +131,13 @@ const MobileMenu = () => {
           </button>
         </div>
         
-        <a 
-          href="#contact" 
+        <Link 
+          href="/#contact" 
           className="mt-4 px-6 py-3 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90"
-          onClick={handleNavClick}
+          onClick={closeMobileMenu}
         >
           {t('header.contact')}
-        </a>
+        </Link>
       </nav>
     </div>
   );

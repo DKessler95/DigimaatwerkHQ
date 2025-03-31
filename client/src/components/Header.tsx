@@ -49,8 +49,8 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.svg" alt="Digimaatwerk Logo" className="h-12" />
+            <Link href="/" className="flex items-center">
+              <img src="/logo.svg" alt="Digimaatwerk Logo" className="h-10" />
             </Link>
           </div>
           
@@ -78,15 +78,15 @@ const Header = () => {
               )}
             </div>
             <Link href="/portfolio" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</Link>
-            <a href="#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</a>
+            <Link href="/#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</Link>
             <Link href="/blogs" className="text-foreground/80 hover:text-accent transition font-body">{t('header.blogs')}</Link>
           </nav>
           
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
-            <a href="#contact" className="hidden md:block px-5 py-2 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90">
+            <Link href="/#contact" className="hidden md:block px-5 py-2 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90">
               {t('header.contact')}
-            </a>
+            </Link>
             <button
               className="md:hidden text-foreground"
               id="mobile-menu-button"
