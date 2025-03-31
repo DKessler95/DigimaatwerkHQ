@@ -98,6 +98,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a route to serve images from the public/img directory
   app.use('/img', express.static(path.join(process.cwd(), 'public/img')));
   
+  // Create a route to serve images from the public/images directory
+  app.use('/images', express.static(path.join(process.cwd(), 'public/images')));
+  
   // Register API webhooks for Make and n8n integrations
   setupWebhookRoutes(app);
   
