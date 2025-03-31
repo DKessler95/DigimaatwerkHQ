@@ -11,7 +11,7 @@ interface ContentItem {
 interface ContentSectionProps {
   title: string;
   items: ContentItem[];
-  contentType: 'case-studies' | 'blog' | 'services';
+  contentType: 'case-studies' | 'blog' | 'services' | 'portfolio';
   onEdit: (item: ContentItem) => void;
   onDelete: (item: ContentItem) => void;
   onPublish: (item: ContentItem) => void;
@@ -117,7 +117,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
 interface EditorModalProps {
   isOpen: boolean;
   onClose: () => void;
-  contentType: 'case-studies' | 'blog' | 'services';
+  contentType: 'case-studies' | 'blog' | 'services' | 'portfolio';
   item?: ContentItem;
   onSave: (data: any) => void;
 }
@@ -175,8 +175,12 @@ const EditorModal: React.FC<EditorModalProps> = ({
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">
-              {item ? `Bewerk ${contentType === 'case-studies' ? 'Case Study' : contentType === 'blog' ? 'Blog Post' : 'Service'}` : 
-                     `Nieuwe ${contentType === 'case-studies' ? 'Case Study' : contentType === 'blog' ? 'Blog Post' : 'Service'}`}
+              {item ? `Bewerk ${contentType === 'case-studies' ? 'Case Study' : 
+                       contentType === 'blog' ? 'Blog Post' : 
+                       contentType === 'portfolio' ? 'Portfolio Item' : 'Service'}` : 
+                     `Nieuwe ${contentType === 'case-studies' ? 'Case Study' : 
+                             contentType === 'blog' ? 'Blog Post' : 
+                             contentType === 'portfolio' ? 'Portfolio Item' : 'Service'}`}
             </h2>
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -276,6 +280,46 @@ const EditorModal: React.FC<EditorModalProps> = ({
                   />
                 </div>
               )}
+              
+              {contentType === 'portfolio' && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Website URL</label>
+                    <input
+                      type="text"
+                      name="websiteUrl"
+                      value={formData.websiteUrl || ''}
+                      onChange={handleChange}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Category</label>
+                    <select
+                      name="category"
+                      value={formData.category || 'web'}
+                      onChange={handleChange as any}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border"
+                    >
+                      <option value="web">Web</option>
+                      <option value="automation">Automatisering</option>
+                      <option value="chatbot">Chatbot</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Featured</label>
+                    <select
+                      name="featured"
+                      value={formData.featured ? 'true' : 'false'}
+                      onChange={handleChange as any}
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border"
+                    >
+                      <option value="true">Ja</option>
+                      <option value="false">Nee</option>
+                    </select>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="mt-6 flex justify-end space-x-3">
@@ -310,18 +354,20 @@ const Dashboard: React.FC = () => {
   
   // Modal state
   const [editorOpen, setEditorOpen] = useState(false);
-  const [currentContentType, setCurrentContentType] = useState<'case-studies' | 'blog' | 'services'>('case-studies');
+  const [currentContentType, setCurrentContentType] = useState<'case-studies' | 'blog' | 'services' | 'portfolio'>('case-studies');
   const [currentItem, setCurrentItem] = useState<ContentItem | undefined>();
+  const [portfolioItems, setPortfolioItems] = useState<ContentItem[]>([]);
 
   useEffect(() => {
     // Haal alle content op bij het laden van de pagina
     const fetchAllContent = async () => {
       setLoading(true);
       try {
-        const [caseStudiesRes, blogRes, servicesRes] = await Promise.all([
+        const [caseStudiesRes, blogRes, servicesRes, portfolioRes] = await Promise.all([
           apiRequest('GET', '/api/case-studies').then(res => res.json()),
           apiRequest('GET', '/api/blog').then(res => res.json()),
-          apiRequest('GET', '/api/services').then(res => res.json())
+          apiRequest('GET', '/api/services').then(res => res.json()),
+          apiRequest('GET', '/api/portfolio').then(res => res.json())
         ]);
 
         // Voeg statussen toe (normaliter zou dit van de server komen)
@@ -339,10 +385,17 @@ const Dashboard: React.FC = () => {
           ...item,
           status: Math.random() > 0.5 ? 'published' : 'draft'
         }));
+        
+        const portfolioWithStatus = portfolioRes.data.map((item: any) => ({
+          ...item,
+          slug: item.id, // Voor portfolio items gebruiken we 'id' als slug
+          status: Math.random() > 0.5 ? 'published' : 'draft'
+        }));
 
         setCaseStudies(caseStudiesWithStatus);
         setBlogPosts(blogWithStatus);
         setServices(servicesWithStatus);
+        setPortfolioItems(portfolioWithStatus);
       } catch (err) {
         setError('Er is een fout opgetreden bij het laden van de content.');
         console.error('Error fetching content:', err);
@@ -354,7 +407,7 @@ const Dashboard: React.FC = () => {
     fetchAllContent();
   }, []);
 
-  const openEditor = (contentType: 'case-studies' | 'blog' | 'services', item?: ContentItem) => {
+  const openEditor = (contentType: 'case-studies' | 'blog' | 'services' | 'portfolio', item?: ContentItem) => {
     setCurrentContentType(contentType);
     setCurrentItem(item);
     setEditorOpen(true);
@@ -402,6 +455,14 @@ const Dashboard: React.FC = () => {
         } else {
           setServices(prev => [...prev, {...data, status: 'draft'}]);
         }
+      } else if (currentContentType === 'portfolio') {
+        if (currentItem) {
+          setPortfolioItems(prev => prev.map(item => 
+            item.slug === currentItem.slug ? {...data, status: item.status} : item
+          ));
+        } else {
+          setPortfolioItems(prev => [...prev, {...data, status: 'draft'}]);
+        }
       }
       
       setEditorOpen(false);
@@ -411,9 +472,13 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleDelete = (contentType: 'case-studies' | 'blog' | 'services', item: ContentItem) => {
+  const handleDelete = (contentType: 'case-studies' | 'blog' | 'services' | 'portfolio', item: ContentItem) => {
     // Implementeer hier de daadwerkelijke verwijderlogica
-    if (window.confirm(`Weet je zeker dat je deze ${contentType === 'case-studies' ? 'case study' : contentType === 'blog' ? 'blog post' : 'service'} wilt verwijderen?`)) {
+    if (window.confirm(`Weet je zeker dat je deze ${
+      contentType === 'case-studies' ? 'case study' : 
+      contentType === 'blog' ? 'blog post' : 
+      contentType === 'portfolio' ? 'portfolio item' : 'service'
+    } wilt verwijderen?`)) {
       console.log('Deleting:', contentType, item);
       
       // Simuleer verwijdering in de lokale staat
@@ -423,13 +488,15 @@ const Dashboard: React.FC = () => {
         setBlogPosts(prev => prev.filter(i => i.slug !== item.slug));
       } else if (contentType === 'services') {
         setServices(prev => prev.filter(i => i.slug !== item.slug));
+      } else if (contentType === 'portfolio') {
+        setPortfolioItems(prev => prev.filter(i => i.slug !== item.slug));
       }
       
       alert(`${contentType} verwijderd! (Simulatie)`);
     }
   };
 
-  const handleStatusChange = (contentType: 'case-studies' | 'blog' | 'services', item: ContentItem, newStatus: 'draft' | 'published') => {
+  const handleStatusChange = (contentType: 'case-studies' | 'blog' | 'services' | 'portfolio', item: ContentItem, newStatus: 'draft' | 'published') => {
     // Implementeer hier de daadwerkelijke statuswijziging
     console.log('Changing status:', contentType, item, newStatus);
     
@@ -444,6 +511,10 @@ const Dashboard: React.FC = () => {
       ));
     } else if (contentType === 'services') {
       setServices(prev => prev.map(i => 
+        i.slug === item.slug ? {...i, status: newStatus} : i
+      ));
+    } else if (contentType === 'portfolio') {
+      setPortfolioItems(prev => prev.map(i => 
         i.slug === item.slug ? {...i, status: newStatus} : i
       ));
     }
@@ -514,6 +585,17 @@ const Dashboard: React.FC = () => {
         onPublish={(item) => handleStatusChange('services', item, 'published')}
         onRevoke={(item) => handleStatusChange('services', item, 'draft')}
         onCreateNew={() => openEditor('services')}
+      />
+
+      <ContentSection
+        title="Portfolio Items"
+        items={portfolioItems}
+        contentType="portfolio"
+        onEdit={(item) => openEditor('portfolio', item)}
+        onDelete={(item) => handleDelete('portfolio', item)}
+        onPublish={(item) => handleStatusChange('portfolio', item, 'published')}
+        onRevoke={(item) => handleStatusChange('portfolio', item, 'draft')}
+        onCreateNew={() => openEditor('portfolio')}
       />
 
       <EditorModal
