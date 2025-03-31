@@ -1296,9 +1296,9 @@
               <td>${service.order || 'N/A'}</td>
               <td>
                 <div class="table-actions">
-                  <button class="view-btn" data-id="${service.slug}">Bekijken</button>
-                  <button class="edit-btn" data-id="${service.slug}">Bewerken</button>
-                  <button class="delete-btn" data-id="${service.slug}">Verwijderen</button>
+                  <button class="view-btn" onclick="viewService('${service.slug}')">Bekijken</button>
+                  <button class="edit-btn" onclick="editService('${service.slug}')">Bewerken</button>
+                  <button class="delete-btn" onclick="deleteService('${service.slug}')">Verwijderen</button>
                 </div>
               </td>
             `;
@@ -1418,12 +1418,12 @@
               <td>${statusHtml}</td>
               <td>
                 <div class="table-actions">
-                  <button class="view-btn" data-id="${post.slug}">Bekijken</button>
-                  <button class="edit-btn" data-id="${post.slug}">Bewerken</button>
+                  <button class="view-btn" onclick="viewBlogPost('${post.slug}')">Bekijken</button>
+                  <button class="edit-btn" onclick="editBlogPost('${post.slug}')">Bewerken</button>
                   ${isPublished ? 
-                    '<button class="delete-btn" style="background-color: #F59E0B;" data-id="' + post.slug + '">Revoke</button>' : 
-                    '<button class="view-btn" style="background-color: #10B981;" data-id="' + post.slug + '">Publish</button>'}
-                  <button class="delete-btn" data-id="${post.slug}">Delete</button>
+                    '<button class="delete-btn" style="background-color: #F59E0B;" onclick="toggleBlogPostStatus(\'' + post.slug + '\', false)">Revoke</button>' : 
+                    '<button class="view-btn" style="background-color: #10B981;" onclick="toggleBlogPostStatus(\'' + post.slug + '\', true)">Publish</button>'}
+                  <button class="delete-btn" onclick="deleteBlogPost('${post.slug}')">Delete</button>
                 </div>
               </td>
             `;
@@ -2110,10 +2110,181 @@
       try {
         // Open case study in new tab
         const language = currentLang || 'nl';
-        window.open(`/case-study/${slug}?lang=${language}`, '_blank');
+        window.open(`/case-studies/${slug}?lang=${language}`, '_blank');
       } catch (error) {
         console.error('Error viewing case study:', error);
         showNotification('Error viewing case study', 'error');
+      }
+    }
+    
+    // Function to view a blog post in a new tab
+    function viewBlogPost(slug) {
+      try {
+        // Open blog post in a new tab
+        const language = currentLang || 'nl';
+        window.open(`/blog/${slug}?lang=${language}`, '_blank');
+      } catch (error) {
+        console.error('Error viewing blog post:', error);
+        showNotification('Error viewing blog post', 'error');
+      }
+    }
+    
+    // Function to view a service in a new tab
+    function viewService(slug) {
+      try {
+        // Open service in a new tab
+        const language = currentLang || 'nl';
+        window.open(`/services/${slug}?lang=${language}`, '_blank');
+      } catch (error) {
+        console.error('Error viewing service:', error);
+        showNotification('Error viewing service', 'error');
+      }
+    }
+    
+    // Function to toggle the published status of a blog post
+    function toggleBlogPostStatus(slug, publish) {
+      try {
+        // Show confirmation modal
+        const modalContent = `
+          <p>Weet je zeker dat je deze blog post wilt ${publish ? 'publiceren' : 'terugtrekken'}?</p>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-primary" id="toggle-status-btn">Bevestigen</button>
+        `;
+        
+        openModal(`Blog Post ${publish ? 'Publiceren' : 'Terugtrekken'}`, modalContent, modalActions);
+        
+        // Add event listener to confirm button
+        setTimeout(() => {
+          document.getElementById('toggle-status-btn').addEventListener('click', async () => {
+            try {
+              // Update status via API
+              const response = await fetch(`/api/blog/${slug}/status`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ published: publish })
+              });
+              
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error updating blog post status');
+              }
+              
+              // Show success notification
+              showNotification(`Blog post is nu ${publish ? 'gepubliceerd' : 'teruggetrokken'}`, 'success');
+              closeModal();
+              
+              // Reload the blog posts list
+              loadBlogPosts();
+            } catch (error) {
+              console.error('Error toggling blog post status:', error);
+              showNotification(`Fout bij het wijzigen van status: ${error.message}`, 'error');
+            }
+          });
+        }, 100);
+      } catch (error) {
+        console.error('Error in toggle blog post status function:', error);
+        showNotification('Error handling blog post status change', 'error');
+      }
+    }
+    
+    // Function to delete a blog post
+    function deleteBlogPost(slug) {
+      try {
+        // Show confirmation modal
+        const modalContent = `
+          <p>Weet je zeker dat je deze blog post wilt verwijderen? Dit kan niet ongedaan worden gemaakt.</p>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-danger" id="delete-blog-post-btn">Verwijderen</button>
+        `;
+        
+        openModal('Blog Post Verwijderen', modalContent, modalActions);
+        
+        // Add event listener to delete button
+        setTimeout(() => {
+          document.getElementById('delete-blog-post-btn').addEventListener('click', async () => {
+            try {
+              // Delete blog post via API
+              const response = await fetch(`/api/blog/${slug}`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+              
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error deleting blog post');
+              }
+              
+              // Show success notification
+              showNotification('Blog post verwijderd', 'success');
+              closeModal();
+              loadBlogPosts(); // Reload the list
+            } catch (error) {
+              console.error('Error deleting blog post:', error);
+              showNotification(`Fout bij het verwijderen: ${error.message}`, 'error');
+            }
+          });
+        }, 100);
+      } catch (error) {
+        console.error('Error in delete blog post function:', error);
+        showNotification('Error handling delete operation', 'error');
+      }
+    }
+    
+    // Function to delete a service
+    function deleteService(slug) {
+      try {
+        // Show confirmation modal
+        const modalContent = `
+          <p>Weet je zeker dat je deze service wilt verwijderen? Dit kan niet ongedaan worden gemaakt.</p>
+        `;
+        
+        const modalActions = `
+          <button class="modal-btn modal-btn-secondary" data-action="close">Annuleren</button>
+          <button class="modal-btn modal-btn-danger" id="delete-service-btn">Verwijderen</button>
+        `;
+        
+        openModal('Service Verwijderen', modalContent, modalActions);
+        
+        // Add event listener to delete button
+        setTimeout(() => {
+          document.getElementById('delete-service-btn').addEventListener('click', async () => {
+            try {
+              // Delete service via API
+              const response = await fetch(`/api/services/${slug}`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+              
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error deleting service');
+              }
+              
+              // Show success notification
+              showNotification('Service verwijderd', 'success');
+              closeModal();
+              loadServices(); // Reload the list
+            } catch (error) {
+              console.error('Error deleting service:', error);
+              showNotification(`Fout bij het verwijderen: ${error.message}`, 'error');
+            }
+          });
+        }, 100);
+      } catch (error) {
+        console.error('Error in delete service function:', error);
+        showNotification('Error handling delete operation', 'error');
       }
     }
     
