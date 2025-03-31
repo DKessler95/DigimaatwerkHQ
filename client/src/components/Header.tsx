@@ -50,7 +50,7 @@ const Header = () => {
         <div className="flex justify-between items-center py-2">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{width: '300px', maxWidth: 'none', objectFit: 'contain', marginBottom: '-5px'}} />
+              <img src="/images/digimaatwerk.svg" alt="Digimaatwerk Logo" style={{width: '200px', maxWidth: 'none', objectFit: 'contain', marginBottom: '-5px'}} />
             </Link>
           </div>
           
