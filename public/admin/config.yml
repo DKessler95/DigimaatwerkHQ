@@ -7,7 +7,7 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 publish_mode: editorial_workflow
 
-# Custom CMS bevindt zich op /dashboard
+# Custom CMS bevindt zich op /admin/dashboard.html
 # Dit bestand is alleen voor NetlifyCMS configuratie
 
 collections:

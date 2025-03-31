@@ -10,7 +10,6 @@ import Services from "@/pages/Services";
 import ServiceCategory from "@/pages/ServiceCategory";
 import CaseStudy from "@/pages/CaseStudy";
 import Portfolio from "@/pages/Portfolio";
-import Dashboard from "@/pages/Dashboard";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import GooglePrivacyPolicy from "@/pages/legal/GooglePrivacyPolicy";
 import TermsOfService from "@/pages/legal/TermsOfService";
@@ -34,7 +33,6 @@ function Router() {
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/google-privacy-policy" component={GooglePrivacyPolicy} />
       <Route path="/terms-of-service" component={TermsOfService} />
-      <Route path="/dashboard" component={Dashboard} />
       <Route component={NotFound} />
     </Switch>
   );

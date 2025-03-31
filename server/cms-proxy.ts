@@ -11,6 +11,7 @@ export function startCMSProxy() {
     'public/content/services',
     'public/content/case-studies',
     'public/content/blog',
+    'public/content/portfolio',
     'public/uploads'
   ];
   
@@ -31,7 +32,8 @@ export function startCMSProxy() {
   const rootPaths = {
     services: path.join(process.cwd(), 'public/content/services'),
     'case-studies': path.join(process.cwd(), 'public/content/case-studies'),
-    blog: path.join(process.cwd(), 'public/content/blog')
+    blog: path.join(process.cwd(), 'public/content/blog'),
+    portfolio: path.join(process.cwd(), 'public/content/portfolio')
   };
   
   // Convert rootPaths to command line arguments
