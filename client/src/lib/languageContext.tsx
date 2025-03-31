@@ -73,7 +73,7 @@ const translations: Record<Language, Record<string, string>> = {
     'services.chatbot.placeholder': 'Typ hier uw bericht...',
     
     // Case Studies
-    'cases.title': 'Succesverhalen',
+    'cases.title': 'Projecten',
     'cases.subtitle': 'Ontdek hoe we bedrijven hebben geholpen',
     'cases.cta': 'Bekijk alle projecten',
     'cases.filter.all': 'Alle',
@@ -205,7 +205,7 @@ const translations: Record<Language, Record<string, string>> = {
     'services.chatbot.placeholder': 'Type your message here...',
     
     // Case Studies
-    'cases.title': 'Success Stories',
+    'cases.title': 'Projects',
     'cases.subtitle': 'Discover how we helped businesses',
     'cases.cta': 'View all projects',
     'cases.filter.all': 'All',

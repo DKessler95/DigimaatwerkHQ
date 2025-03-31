@@ -190,12 +190,20 @@ const CaseStudiesSection = () => {
           </div>
         )}
         
-        <div className="text-center mt-8">
+        <div className="text-center mt-8 flex justify-center gap-4">
           <a href="/blogs" className="inline-flex items-center px-6 py-3 border border-foreground/30 rounded-lg hover:bg-secondary transition">
-            <span>{language === 'nl' ? 'Meer Succesverhalen' : 'More Success Stories'}</span>
+            <span>{language === 'nl' ? 'Meer Projecten' : 'More Projects'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
+          </a>
+          
+          <a href="/portfolio" className="inline-flex items-center px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition group">
+            <span>{language === 'nl' ? 'Portfolio Verkennen' : 'Explore Portfolio'}</span>
+            <div className="relative ml-2 w-5 h-5 overflow-hidden">
+              <div className="absolute inset-0 bg-primary rounded-sm rotate-45 transform-gpu group-hover:rotate-[135deg] transition-transform duration-500"></div>
+              <div className="absolute inset-0 bg-primary rounded-sm -rotate-45 transform-gpu group-hover:rotate-[45deg] transition-transform duration-500"></div>
+            </div>
           </a>
         </div>
       </div>
