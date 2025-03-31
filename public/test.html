@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afbeelding Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        img {
+            max-width: 100%;
+            border: 2px solid #333;
+            margin: 20px 0;
+        }
+        .test-container {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Afbeelding Test Pagina</h1>
+    
+    <div class="test-container">
+        <h2>Test 1: Direct pad naar fasttaxi.png</h2>
+        <p>Direct pad: /images/portfolio/fasttaxi.png</p>
+        <img src="/images/portfolio/fasttaxi.png" alt="Fast Taxi Rotterdam" />
+    </div>
+
+    <div class="test-container">
+        <h2>Test 2: Relatief pad</h2>
+        <p>Relatief pad: ../images/portfolio/fasttaxi.png</p>
+        <img src="../images/portfolio/fasttaxi.png" alt="Fast Taxi Rotterdam" />
+    </div>
+
+    <div class="test-container">
+        <h2>Test 3: Asset pad</h2>
+        <p>Asset pad: /assets/fasttaxi.png</p>
+        <img src="/assets/fasttaxi.png" alt="Fast Taxi Rotterdam" />
+    </div>
+
+    <div class="test-container">
+        <h2>Test 4: Public img pad</h2>
+        <p>Public img pad: /img/fasttaxi.png</p>
+        <img src="/img/fasttaxi.png" alt="Fast Taxi Rotterdam" />
+    </div>
+</body>
+</html>
