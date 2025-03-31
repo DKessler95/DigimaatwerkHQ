@@ -118,7 +118,7 @@ const CaseStudyPage = () => {
           className="absolute w-full h-full object-cover"
         />
         <div className="relative z-20 container mx-auto px-4 h-full flex flex-col justify-end pb-12">
-          <div className="inline-block px-3 py-1 bg-accent text-primary text-sm rounded mb-4">
+          <div className="inline-block px-3 py-1 text-accent text-sm font-semibold mb-4">
             {caseStudy.category}
           </div>
           <h1 className="text-3xl md:text-5xl font-header font-bold mb-4 text-white">
@@ -251,7 +251,7 @@ const CaseStudyPage = () => {
               : "We're here to help you achieve your digital ambitions. Contact us for a no-obligation conversation."}
           </p>
           <a 
-            href="#contact" 
+            href="/#contact" 
             className="inline-flex items-center px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition"
           >
             {language === 'nl' ? 'Neem Contact Op' : 'Contact Us'}

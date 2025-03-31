@@ -125,7 +125,7 @@ const ServiceCategory = () => {
                 {details.description}
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href="#contact" className="px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
+                <Link href="/#contact" className="px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
                   Contact opnemen
                 </Link>
                 <Link href="#examples" className="px-6 py-3 bg-transparent text-accent font-medium rounded-lg border border-accent hover:bg-accent/10 transition">
@@ -301,7 +301,7 @@ const ServiceCategory = () => {
                   Onze chatbot kan vragen beantwoorden over uw producten, openingstijden en meer. 
                   Probeer het met vragen als "Wat zijn jullie diensten?" of "Kan ik een afspraak maken?"
                 </p>
-                <Link href="#contact" className="text-accent hover:underline">
+                <Link href="/#contact" className="text-accent hover:underline">
                   Probeer onze volledige chatbot demo →
                 </Link>
               </div>
@@ -319,7 +319,7 @@ const ServiceCategory = () => {
                   Ontdek hoe automatisering uw contactformulier kan verbinden met uw CRM, e-mailmarketing en meer.
                   Vul ons contactformulier in om de automatisering in actie te zien.
                 </p>
-                <Link href="#contact" className="text-accent hover:underline">
+                <Link href="/#contact" className="text-accent hover:underline">
                   Bekijk de workflow demo →
                 </Link>
               </div>
@@ -401,7 +401,7 @@ const ServiceCategory = () => {
               Neem contact met ons op voor een vrijblijvend gesprek over uw project.
               We denken graag met u mee over de mogelijkheden!
             </p>
-            <Link href="#contact" className="inline-block px-8 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
+            <Link href="/#contact" className="inline-block px-8 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
               Neem contact op
             </Link>
           </motion.div>

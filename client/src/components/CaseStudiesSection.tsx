@@ -161,7 +161,7 @@ const CaseStudiesSection = () => {
                       e.currentTarget.src = '/uploads/retailtech-chatbot.jpg';
                     }}
                   />
-                  <div className="absolute top-3 right-3 bg-accent text-primary text-xs px-2 py-1 rounded-lg font-medium">
+                  <div className="absolute top-3 right-3 text-accent text-xs px-2 py-1 font-semibold">
                     {study.category}
                   </div>
                 </div>
