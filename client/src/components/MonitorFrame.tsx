@@ -51,8 +51,19 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
                       console.log("Image error, failed to load:", imageUrl);
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
-                      // Gebruik één specifieke en bestaande afbeelding als fallback
-                      target.src = '/images/portfolio/fasttaxi.png';
+                      
+                      // Gebruik vaste fallback afbeeldingen die we zeker weten dat bestaan
+                      if (imageUrl.includes('fasttaxi')) {
+                        // Voor Fast Taxi Rotterdam gebruiken we één van deze fallbacks
+                        if (imageUrl.endsWith('.jpg')) {
+                          target.src = '/img/fasttaxi.png';
+                        } else {
+                          target.src = '/img/fasttaxi.jpg';
+                        }
+                      } else {
+                        // Algemene fallback
+                        target.src = '/img/fasttaxi.png';
+                      }
                     }}
                   />
                 </div>

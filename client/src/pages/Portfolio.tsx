@@ -26,7 +26,7 @@ Een belangrijke innovatie is de automatische workflow-integratie met WhatsApp Bu
 Dankzij deze verbeteringen kan Fast Taxi Rotterdam zijn service soepeler uitvoeren, meer klanten bedienen en uiteindelijk meer winst genereren. Deze case illustreert hoe slimme technologie en een goed ontworpen website bijdragen aan bedrijfsoptimalisatie en groei.`,
     imageUrl: '/img/fasttaxi.jpg',
     websiteUrl: 'https://www.fasttaxirotterdam.com',
-    websiteScreenshot: '/img/fasttaxi.jpg',
+    websiteScreenshot: '/img/fasttaxi.jpg', // Direct naar lokale afbeelding verwijzen
     category: 'web'
   }
 ];
@@ -171,6 +171,10 @@ const PortfolioDetailModal = ({
     try {
       setIsScreenshotLoading(true);
       
+      // Direct lokale afbeelding gebruiken
+      setWebsiteScreenshot('/img/fasttaxi.jpg');
+      
+      /* Originele API aanroep (uitgeschakeld)
       // API aanroepen om screenshot te genereren
       const response = await apiRequest('GET', `/api/website-screenshot?url=${encodeURIComponent(item.websiteUrl)}`);
       const data = await response.json();
@@ -179,8 +183,11 @@ const PortfolioDetailModal = ({
       if (data && data.image_url) {
         setWebsiteScreenshot(data.image_url);
       }
+      */
     } catch (error) {
-      console.error('Error fetching website screenshot for modal:', error);
+      console.error('Error setting website screenshot for modal:', error);
+      // Fallback bij fout
+      setWebsiteScreenshot('/img/fasttaxi.jpg');
     } finally {
       setIsScreenshotLoading(false);
     }
@@ -361,6 +368,17 @@ const Portfolio = () => {
     try {
       setScreenshotLoading({...screenshotLoading, [item.id]: true});
       
+      // Direct lokale afbeelding toewijzen in plaats van API aanroep
+      const localImage = '/img/fasttaxi.jpg';
+      
+      // Update state met lokale afbeeldingspad
+      setWebsiteScreenshots(prev => ({
+        ...prev,
+        [item.id]: localImage
+      }));
+      
+      // Optioneel: uncomment deze code om de API aanroep te gebruiken indien nodig
+      /*
       // API aanroepen om screenshot te genereren
       const response = await apiRequest('GET', `/api/website-screenshot?url=${encodeURIComponent(item.websiteUrl)}`);
       const data = await response.json();
@@ -372,8 +390,15 @@ const Portfolio = () => {
           [item.id]: data.image_url
         }));
       }
+      */
     } catch (error) {
-      console.error('Error fetching website screenshot:', error);
+      console.error('Error setting website screenshot:', error);
+      
+      // Fallback bij fout
+      setWebsiteScreenshots(prev => ({
+        ...prev,
+        [item.id]: '/img/fasttaxi.jpg'
+      }));
     } finally {
       setScreenshotLoading({...screenshotLoading, [item.id]: false});
     }
