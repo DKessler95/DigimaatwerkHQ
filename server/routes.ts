@@ -97,6 +97,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Register API webhooks for Make and n8n integrations
   setupWebhookRoutes(app);
+  
+  // API endpoint voor Page2Images screenshots
+  app.get("/api/website-screenshot", async (req: Request, res: Response) => {
+    try {
+      const { url } = req.query;
+      
+      if (!url || typeof url !== 'string') {
+        return res.status(400).json({ error: 'URL is vereist' });
+      }
+      
+      const apiKey = process.env.PAGE2IMAGES_API_KEY;
+      if (!apiKey) {
+        return res.status(500).json({ error: 'API key is niet geconfigureerd' });
+      }
+      
+      // Page2Images API aanroepen
+      const apiUrl = `https://api.page2images.com/restfullink?p2i_url=${encodeURIComponent(url)}&p2i_key=${apiKey}&p2i_device=6&p2i_screen=1280x800&p2i_size=1280x0`;
+      
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      
+      return res.json(data);
+    } catch (error) {
+      console.error('Screenshot API error:', error);
+      return res.status(500).json({ error: 'Er is een fout opgetreden bij het ophalen van de screenshot' });
+    }
+  });
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
     try {

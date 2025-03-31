@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Monitor } from 'lucide-react';
+import { apiRequest } from '@/lib/queryClient';
 
 interface PortfolioItem {
   id: string;
@@ -10,6 +11,7 @@ interface PortfolioItem {
   imageUrl: string;
   websiteUrl: string;
   category: 'web' | 'automation' | 'chatbot';
+  websiteScreenshot?: string;
 }
 
 const portfolioData: PortfolioItem[] = [
@@ -23,35 +25,22 @@ Een belangrijke innovatie is de automatische workflow-integratie met WhatsApp Bu
 Dankzij deze verbeteringen kan Fast Taxi Rotterdam zijn service soepeler uitvoeren, meer klanten bedienen en uiteindelijk meer winst genereren. Deze case illustreert hoe slimme technologie en een goed ontworpen website bijdragen aan bedrijfsoptimalisatie en groei.`,
     imageUrl: '/images/portfolio/fast-taxi.jpg',
     websiteUrl: 'https://www.fasttaxirotterdam.com',
+    websiteScreenshot: '/images/portfolio/fast-taxi.jpg',
     category: 'web'
-  },
-  {
-    id: 'bouw-expert',
-    title: 'Bouw Expert',
-    description: `Voor Bouw Expert heb ik een geïntegreerd projectmanagementsysteem ontwikkeld dat de efficiëntie van hun bouwprojecten aanzienlijk heeft verbeterd. Het systeem synchroniseert projectplanning, materiaalbestellingen en personeelsbezetting in één centrale hub.
-
-De belangrijkste innovatie is de automatische koppeling tussen materiaalbestellingen en leveranciersystemen. Wanneer materialen bijna op zijn, genereert het systeem automatisch bestelopdrachten die direct naar de leveranciers worden verzonden. Dit voorkomt vertragingen in het bouwproces door materiaalgebrek.
-
-Deze automatisering heeft geleid tot een reductie van 30% in projectvertragingen en een kostenvermindering van 15% door efficiëntere inkoopprocessen. Bouw Expert kan nu grotere projecten aan met dezelfde personeelsbezetting, wat hun winstgevendheid substantieel heeft verbeterd.`,
-    imageUrl: '/images/portfolio/bouw-expert.jpg',
-    websiteUrl: 'https://www.bouwexpert.nl',
-    category: 'automation'
-  },
-  {
-    id: 'zorg-support',
-    title: 'Zorg Support',
-    description: `Voor Zorg Support heb ik een AI-gestuurde chatbot ontwikkeld die patiënten helpt bij het maken van afspraken, het beantwoorden van veelgestelde vragen en het bieden van eerste hulpinformatie. De chatbot is 24/7 beschikbaar en integreert naadloos met het bestaande patiëntenportaal.
-
-De chatbot maakt gebruik van natuurlijke taalverwerking om patiëntvragen te begrijpen en geeft gepersonaliseerde antwoorden op basis van de beschikbare patiëntgegevens. Bij complexere vragen schakelt het systeem automatisch door naar een menselijke zorgverlener.
-
-Sinds de implementatie is de werklast van het callcenter met 40% verminderd, terwijl de patiënttevredenheid met 25% is gestegen. Patiënten waarderen vooral de onmiddellijke beschikbaarheid van informatie en de mogelijkheid om eenvoudige taken zoals het verzetten van afspraken zelfstandig uit te voeren.`,
-    imageUrl: '/images/portfolio/zorg-support.jpg',
-    websiteUrl: 'https://www.zorgsupport.nl',
-    category: 'chatbot'
   }
 ];
 
-const PortfolioBlock = ({ item, onClick }: { item: PortfolioItem, onClick: () => void }) => {
+const PortfolioBlock = ({ 
+  item, 
+  onClick,
+  screenshotUrl,
+  isLoading
+}: { 
+  item: PortfolioItem, 
+  onClick: () => void,
+  screenshotUrl?: string,
+  isLoading?: boolean
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   
   const getCategoryColors = (category: string) => {
@@ -92,48 +81,84 @@ const PortfolioBlock = ({ item, onClick }: { item: PortfolioItem, onClick: () =>
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="bg-secondary/80 backdrop-blur-sm rounded-lg p-6 h-full cursor-pointer relative overflow-hidden">
-        {/* Animated background */}
-        <div 
-          className={`absolute inset-0 bg-gradient-to-br ${getCategoryColors(item.category)} opacity-10 transition-opacity duration-500 ${isHovered ? 'opacity-20' : 'opacity-10'}`}
-        />
-        
-        {/* Animated particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(10)].map((_, i) => (
-            <div 
-              key={i}
-              className="absolute w-6 h-6 rounded-full bg-white opacity-20"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animation: `float ${3 + Math.random() * 7}s infinite ease-in-out ${Math.random() * 5}s`,
-                transform: `scale(${0.5 + Math.random() * 0.5})`,
-                opacity: isHovered ? 0.3 : 0.1
-              }}
-            />
-          ))}
+      <div className="bg-secondary/80 backdrop-blur-sm rounded-lg h-full cursor-pointer relative overflow-hidden flex flex-col">
+        {/* Website screenshot in monitor frame */}
+        <div className="relative h-48 overflow-hidden bg-black/20">
+          {isLoading ? (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-accent" />
+            </div>
+          ) : (
+            <>
+              {/* Monitor frame */}
+              <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                <div className="w-[95%] h-[85%] border-4 border-gray-800 rounded-lg bg-transparent overflow-hidden">
+                  {/* Monitor stand */}
+                  <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 w-12 h-8 bg-gray-800 rounded-t-md"></div>
+                  {/* Monitor base */}
+                  <div className="absolute bottom-[-22px] left-1/2 transform -translate-x-1/2 w-24 h-2 bg-gray-700 rounded-lg"></div>
+                </div>
+              </div>
+              
+              {/* Website screenshot - use real screenshot if available */}
+              <img 
+                src={screenshotUrl || item.imageUrl} 
+                alt={`${item.title} website`} 
+                className="absolute inset-[10%] w-[80%] h-[70%] object-cover object-top transform transition-transform duration-700 hover:scale-105 rounded-sm"
+                style={{ marginTop: '5px' }}
+              />
+            </>
+          )}
+          
+          <div className="absolute top-2 right-2 bg-accent/80 backdrop-blur-sm text-primary text-xs px-2 py-1 rounded font-medium z-20">
+            {item.category === 'web' ? 'Website' : item.category === 'automation' ? 'Automatisering' : 'Chatbot'}
+          </div>
         </div>
         
-        <div className="relative z-10">
-          <div className="flex items-center mb-4">
-            <div className="w-10 h-10 rounded-full bg-primary/30 flex items-center justify-center mr-3 backdrop-blur-sm">
-              <span className="text-lg">{getCategoryIcon(item.category)}</span>
-            </div>
-            <h3 className="text-xl font-header font-bold">{item.title}</h3>
+        {/* Content */}
+        <div className="p-6 flex-grow">
+          {/* Animated background */}
+          <div 
+            className={`absolute inset-0 bg-gradient-to-br ${getCategoryColors(item.category)} opacity-10 transition-opacity duration-500 ${isHovered ? 'opacity-20' : 'opacity-10'}`}
+          />
+          
+          {/* Animated particles */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(10)].map((_, i) => (
+              <div 
+                key={i}
+                className="absolute w-6 h-6 rounded-full bg-white opacity-20"
+                style={{
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  animation: `float ${3 + Math.random() * 7}s infinite ease-in-out ${Math.random() * 5}s`,
+                  transform: `scale(${0.5 + Math.random() * 0.5})`,
+                  opacity: isHovered ? 0.3 : 0.1
+                }}
+              />
+            ))}
           </div>
           
-          <p className="text-foreground/80 line-clamp-3 mb-4">
-            {item.description.split("\n\n")[0]}
-          </p>
-          
-          <div className={`transition-all duration-500 ${isHovered ? 'opacity-100' : 'opacity-70'}`}>
-            <span className="inline-flex items-center text-accent">
-              Meer informatie
-              <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 ml-2 transition-transform duration-300 ${isHovered ? 'translate-x-1' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </span>
+          <div className="relative z-10">
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 rounded-full bg-primary/30 flex items-center justify-center mr-3 backdrop-blur-sm">
+                <span className="text-lg">{getCategoryIcon(item.category)}</span>
+              </div>
+              <h3 className="text-xl font-header font-bold">{item.title}</h3>
+            </div>
+            
+            <p className="text-foreground/80 line-clamp-3 mb-4">
+              {item.description.split("\n\n")[0]}
+            </p>
+            
+            <div className={`transition-all duration-500 ${isHovered ? 'opacity-100' : 'opacity-70'}`}>
+              <span className="inline-flex items-center text-accent">
+                Meer informatie
+                <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 ml-2 transition-transform duration-300 ${isHovered ? 'translate-x-1' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -151,9 +176,39 @@ const PortfolioDetailModal = ({
   onClose: () => void 
 }) => {
   const [animationComplete, setAnimationComplete] = useState(false);
+  const [websiteScreenshot, setWebsiteScreenshot] = useState<string | null>(null);
+  const [isScreenshotLoading, setIsScreenshotLoading] = useState(false);
+  
+  // Functie om website screenshot op te halen
+  const fetchWebsiteScreenshot = async () => {
+    if (!item) return;
+    
+    try {
+      setIsScreenshotLoading(true);
+      
+      // API aanroepen om screenshot te genereren
+      const response = await apiRequest('GET', `/api/website-screenshot?url=${encodeURIComponent(item.websiteUrl)}`);
+      const data = await response.json();
+      
+      // Check of de screenshot beschikbaar is
+      if (data && data.image_url) {
+        setWebsiteScreenshot(data.image_url);
+      }
+    } catch (error) {
+      console.error('Error fetching website screenshot for modal:', error);
+    } finally {
+      setIsScreenshotLoading(false);
+    }
+  };
   
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && item) {
+      // Reset screenshot status when modal opens
+      setWebsiteScreenshot(null);
+      
+      // Fetch screenshot for this website
+      fetchWebsiteScreenshot();
+      
       // Play sound effect when opening modal
       const audio = new Audio('/sounds/woosh.mp3');
       audio.volume = 0.3;
@@ -168,7 +223,7 @@ const PortfolioDetailModal = ({
     } else {
       setAnimationComplete(false);
     }
-  }, [isOpen]);
+  }, [isOpen, item]);
   
   if (!item) return null;
   
@@ -192,7 +247,7 @@ const PortfolioDetailModal = ({
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
       
       <motion.div
-        className="bg-secondary rounded-xl overflow-hidden max-w-4xl w-full max-h-[80vh] relative z-10"
+        className="bg-secondary rounded-xl overflow-hidden max-w-5xl w-full max-h-[85vh] relative z-10"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: isOpen ? 1 : 0.9, opacity: isOpen ? 1 : 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
@@ -250,34 +305,80 @@ const PortfolioDetailModal = ({
           </div>
         </div>
         
-        <div className="p-6 overflow-y-auto max-h-[calc(80vh-13rem)]">
-          {item.description.split("\n\n").map((paragraph, index) => (
-            <motion.p 
-              key={index}
-              className="mb-4 text-foreground/90"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 overflow-y-auto max-h-[calc(85vh-13rem)]">
+          {/* Left column - text content */}
+          <div>
+            {item.description.split("\n\n").map((paragraph, index) => (
+              <motion.p 
+                key={index}
+                className="mb-4 text-foreground/90"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+              >
+                {paragraph}
+              </motion.p>
+            ))}
+            
+            <motion.div
+              className="mt-8"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
             >
-              {paragraph}
-            </motion.p>
-          ))}
+              <button
+                className="px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition inline-flex items-center"
+                onClick={handleVisitWebsite}
+              >
+                Website bezoeken
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </button>
+            </motion.div>
+          </div>
           
+          {/* Right column - website screenshot in device frame */}
           <motion.div
-            className="mt-8"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
+            className="bg-black/10 p-4 rounded-xl flex items-center justify-center overflow-hidden relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
           >
-            <button
-              className="px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition inline-flex items-center"
-              onClick={handleVisitWebsite}
-            >
-              Website bezoeken
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </button>
+            {isScreenshotLoading ? (
+              <div className="h-full w-full flex items-center justify-center min-h-[300px]">
+                <Loader2 className="h-10 w-10 animate-spin text-accent" />
+                <p className="ml-3 text-sm text-foreground/60">Screenshot laden...</p>
+              </div>
+            ) : (
+              <div className="relative w-full max-w-md mx-auto">
+                {/* Monitor design */}
+                <div className="bg-gray-900 rounded-t-xl p-2 flex items-center">
+                  <div className="flex space-x-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div className="mx-auto text-center text-xs text-gray-400 font-mono">
+                    {item.websiteUrl}
+                  </div>
+                </div>
+                
+                {/* Screenshot container */}
+                <div className="bg-white border-l-2 border-r-2 border-gray-900">
+                  <img 
+                    src={websiteScreenshot || item.imageUrl} 
+                    alt={`${item.title} website screenshot`}
+                    className="w-full object-cover"
+                  />
+                </div>
+                
+                {/* Monitor base */}
+                <div className="bg-gray-900 h-3 rounded-b-md"></div>
+                <div className="bg-gray-800 h-2 w-32 mx-auto rounded-b-md"></div>
+                <div className="h-10 w-24 mx-auto border-b-[10px] border-l-[7px] border-r-[7px] border-transparent border-t-0 border-gray-800 rounded-b-lg"></div>
+              </div>
+            )}
           </motion.div>
         </div>
       </motion.div>
@@ -290,11 +391,43 @@ const Portfolio = () => {
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [websiteScreenshots, setWebsiteScreenshots] = useState<Record<string, string>>({});
+  const [screenshotLoading, setScreenshotLoading] = useState<Record<string, boolean>>({});
+  
+  // Functie om website screenshot op te halen
+  const fetchWebsiteScreenshot = async (item: PortfolioItem) => {
+    if (websiteScreenshots[item.id]) return; // Skip if already fetched
+    
+    try {
+      setScreenshotLoading({...screenshotLoading, [item.id]: true});
+      
+      // API aanroepen om screenshot te genereren
+      const response = await apiRequest('GET', `/api/website-screenshot?url=${encodeURIComponent(item.websiteUrl)}`);
+      const data = await response.json();
+      
+      // Check of de screenshot beschikbaar is
+      if (data && data.image_url) {
+        setWebsiteScreenshots(prev => ({
+          ...prev,
+          [item.id]: data.image_url
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching website screenshot:', error);
+    } finally {
+      setScreenshotLoading({...screenshotLoading, [item.id]: false});
+    }
+  };
   
   useEffect(() => {
-    // Simulate loading data
+    // Data inladen
     const timer = setTimeout(() => {
       setLoading(false);
+      
+      // Voor elk portfolio item een screenshot ophalen
+      portfolioData.forEach(item => {
+        fetchWebsiteScreenshot(item);
+      });
     }, 800);
     
     return () => clearTimeout(timer);
@@ -303,6 +436,11 @@ const Portfolio = () => {
   const handlePortfolioItemClick = (item: PortfolioItem) => {
     setSelectedItem(item);
     setModalOpen(true);
+    
+    // Zorg ervoor dat de screenshot is opgehaald
+    if (!websiteScreenshots[item.id]) {
+      fetchWebsiteScreenshot(item);
+    }
     
     // Play sound effect
     const audio = new Audio('/sounds/select.mp3');
@@ -343,6 +481,8 @@ const Portfolio = () => {
               key={item.id} 
               item={item} 
               onClick={() => handlePortfolioItemClick(item)} 
+              screenshotUrl={websiteScreenshots[item.id]}
+              isLoading={screenshotLoading[item.id]}
             />
           ))}
         </div>
