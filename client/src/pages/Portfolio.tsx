@@ -4,7 +4,6 @@ import { useLanguage } from '@/lib/languageContext';
 import { Loader2, Monitor } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import MonitorFrame from '@/components/MonitorFrame';
-import fasttaxiImage from '../assets/fasttaxi.png';
 
 interface PortfolioItem {
   id: string;
@@ -25,9 +24,9 @@ const portfolioData: PortfolioItem[] = [
 Een belangrijke innovatie is de automatische workflow-integratie met WhatsApp Business. Bestellingen die via de website binnenkomen, worden direct doorgestuurd naar WhatsApp, waardoor chauffeurs sneller reageren en ritten efficiënter plannen. Dit verkort niet alleen de responstijd, maar verhoogt ook de klanttevredenheid en het aantal afgeronde boekingen.
 
 Dankzij deze verbeteringen kan Fast Taxi Rotterdam zijn service soepeler uitvoeren, meer klanten bedienen en uiteindelijk meer winst genereren. Deze case illustreert hoe slimme technologie en een goed ontworpen website bijdragen aan bedrijfsoptimalisatie en groei.`,
-    imageUrl: fasttaxiImage, // Direct geïmporteerde afbeelding gebruiken
+    imageUrl: '/images/fasttaxi.png', // Directe verwijzing naar afbeelding in public folder
     websiteUrl: 'https://www.fasttaxirotterdam.com',
-    websiteScreenshot: fasttaxiImage, // Direct geïmporteerde afbeelding gebruiken
+    websiteScreenshot: '/images/fasttaxi.png', // Directe verwijzing naar afbeelding in public folder
     category: 'web'
   }
 ];
@@ -172,8 +171,8 @@ const PortfolioDetailModal = ({
     try {
       setIsScreenshotLoading(true);
       
-      // Direct geïmporteerde afbeelding gebruiken
-      setWebsiteScreenshot(fasttaxiImage);
+      // Direct pad naar afbeelding in public map gebruiken
+      setWebsiteScreenshot('/images/fasttaxi.png');
       
       /* Originele API aanroep (uitgeschakeld)
       // API aanroepen om screenshot te genereren
@@ -187,8 +186,8 @@ const PortfolioDetailModal = ({
       */
     } catch (error) {
       console.error('Error setting website screenshot for modal:', error);
-      // Fallback bij fout - gebruik geïmporteerde afbeelding
-      setWebsiteScreenshot(fasttaxiImage);
+      // Fallback bij fout - gebruik afbeelding uit public map
+      setWebsiteScreenshot('/images/fasttaxi.png');
     } finally {
       setIsScreenshotLoading(false);
     }
@@ -369,12 +368,12 @@ const Portfolio = () => {
     try {
       setScreenshotLoading({...screenshotLoading, [item.id]: true});
       
-      // Direct geïmporteerde afbeelding toewijzen
+      // Direct path naar afbeelding in public map gebruiken
       
-      // Update state met geïmporteerde afbeelding
+      // Update state met public map afbeelding
       setWebsiteScreenshots(prev => ({
         ...prev,
-        [item.id]: fasttaxiImage
+        [item.id]: '/images/fasttaxi.png'
       }));
       
       // Optioneel: uncomment deze code om de API aanroep te gebruiken indien nodig
@@ -394,10 +393,10 @@ const Portfolio = () => {
     } catch (error) {
       console.error('Error setting website screenshot:', error);
       
-      // Fallback bij fout met geïmporteerde afbeelding
+      // Fallback bij fout met afbeelding uit public map
       setWebsiteScreenshots(prev => ({
         ...prev,
-        [item.id]: fasttaxiImage
+        [item.id]: '/images/fasttaxi.png'
       }));
     } finally {
       setScreenshotLoading({...screenshotLoading, [item.id]: false});
