@@ -48,9 +48,11 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
                     alt={altText} 
                     className="w-full h-full object-contain object-center"
                     onError={(e) => {
+                      console.log("Image error, failed to load:", imageUrl);
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
-                      target.src = '/images/placeholder-website.png';
+                      // Neem een hardcoded fallback image als default
+                      target.src = '/images/portfolio/fasttaxi-display.png';
                     }}
                   />
                 </div>

@@ -108,7 +108,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Lokale afbeelding gebruiken als fallback in plaats van Page2Images API
-      const localImagePath = typeof localImage === 'string' ? localImage : '/assets/fasttaxi.png';
+      const localImagePath = typeof localImage === 'string' ? localImage : '/images/portfolio/fasttaxi-display.png';
       
       // Success response met lokale afbeelding
       return res.json({ 
