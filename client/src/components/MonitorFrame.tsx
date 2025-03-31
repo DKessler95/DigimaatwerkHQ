@@ -15,23 +15,21 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
   className = '',
   isLoading = false
 }) => {
-  // Gebruik een state om bij te houden of de afbeelding succesvol is geladen
-  const [imageSrc, setImageSrc] = useState<string>('/images/portfolio/fasttaxi.png');
+  // Gebruik direct de fallback als startpunt
+  const fallbackImage = '/images/portfolio/fasttaxi.png';
+  const [imageSrc, setImageSrc] = useState<string>(fallbackImage);
+  const [imageError, setImageError] = useState<boolean>(false);
   
   // Probeer de afbeelding te laden bij initialisatie of wanneer imageUrl wijzigt
   useEffect(() => {
-    // Alleen proberen als er een imageUrl is doorgegeven
+    // Reset error state wanneer imageUrl verandert
+    setImageError(false);
+    
+    // Gebruik direct de imageUrl (indien beschikbaar) of fallback
     if (imageUrl) {
-      const img = new Image();
-      img.onload = () => {
-        console.log("Afbeelding succesvol geladen:", imageUrl);
-        setImageSrc(imageUrl);
-      };
-      img.onerror = () => {
-        console.log("Fout bij laden afbeelding, fallback naar vaste afbeelding:", imageUrl);
-        setImageSrc('/images/portfolio/fasttaxi.png');
-      };
-      img.src = imageUrl;
+      setImageSrc(imageUrl);
+    } else {
+      setImageSrc(fallbackImage);
     }
   }, [imageUrl]);
   
@@ -67,6 +65,11 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
                     src={imageSrc} 
                     alt={altText} 
                     className="w-full h-full object-contain object-center"
+                    onError={(e) => {
+                      console.error("Afbeelding kon niet worden geladen:", imageSrc);
+                      setImageError(true);
+                      e.currentTarget.src = fallbackImage;
+                    }}
                   />
                 </div>
               </div>
