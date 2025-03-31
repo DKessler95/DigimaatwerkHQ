@@ -44,16 +44,9 @@ const MonitorFrame: React.FC<MonitorFrameProps> = ({
               <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
                 <div className="w-full h-full overflow-hidden bg-white">
                   <img 
-                    src={imageUrl}
+                    src={'/images/portfolio/fasttaxi.png'} 
                     alt={altText} 
                     className="w-full h-full object-contain object-center"
-                    onError={(e) => {
-                      console.log("Image error, failed to load:", imageUrl);
-                      const target = e.target as HTMLImageElement;
-                      target.onerror = null;
-                      // Gebruik vaste afbeelding uit gestructureerde map als fallback
-                      target.src = '/images/portfolio/fasttaxi.png';
-                    }}
                   />
                 </div>
               </div>
