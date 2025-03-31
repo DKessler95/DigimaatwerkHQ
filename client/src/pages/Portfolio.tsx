@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
-import { Loader2, Monitor } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import MonitorFrame from '@/components/MonitorFrame';
 
 interface PortfolioItem {
   id: string;
@@ -86,13 +85,35 @@ const PortfolioBlock = ({
         {/* Website screenshot in monitor frame */}
         <div className="relative h-48 overflow-hidden bg-black/20">
           <div className="absolute inset-0 flex items-center justify-center py-2">
-            <MonitorFrame 
-              imageUrl={screenshotUrl || item.websiteScreenshot || item.imageUrl}
-              altText={`${item.title} website`}
-              websiteUrl={item.websiteUrl}
-              isLoading={isLoading}
-              className="w-[95%] h-[90%]"
-            />
+            {/* Monitor frame styling zonder de component */}
+            <div className="relative w-[95%] h-[90%] bg-gray-900 rounded-xl overflow-hidden shadow-lg">
+              {/* Monitor top bar with browser controls */}
+              <div className="bg-gray-900 rounded-t-xl p-1 flex items-center">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                  <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                </div>
+                {item.websiteUrl && (
+                  <div className="mx-auto text-center text-xs text-gray-400 font-mono overflow-hidden text-ellipsis whitespace-nowrap max-w-[140px]">
+                    {item.websiteUrl}
+                  </div>
+                )}
+              </div>
+              
+              {/* Monitor screen content - direct image */}
+              <div className="bg-white h-[calc(100%-24px)] flex items-center justify-center overflow-hidden">
+                <img 
+                  src={'/images/portfolio/fasttaxi.png'} 
+                  alt={`${item.title} website`}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    console.error('Afbeelding kon niet worden geladen, fallback naar fasttaxi.png');
+                    e.currentTarget.src = '/images/portfolio/fasttaxi.png';
+                  }}
+                />
+              </div>
+            </div>
           </div>
           
           <div className="absolute top-2 right-2 bg-accent/80 backdrop-blur-sm text-primary text-xs px-2 py-1 rounded font-medium z-20">
@@ -325,13 +346,43 @@ const PortfolioDetailModal = ({
             transition={{ delay: 0.4, duration: 0.5 }}
           >
             <div className="max-w-md w-full mx-auto">
-              <MonitorFrame 
-                imageUrl={websiteScreenshot || item.websiteScreenshot || item.imageUrl}
-                altText={`${item.title} website screenshot`}
-                websiteUrl={item.websiteUrl}
-                isLoading={isScreenshotLoading}
-                className="w-full aspect-[4/3]"
-              />
+              {/* Ingebouwde monitor frame ipv component */}
+              <div className="relative w-full aspect-[4/3] bg-gray-900 rounded-xl overflow-hidden shadow-lg">
+                {/* Monitor top bar with browser controls */}
+                <div className="bg-gray-900 rounded-t-xl p-2 flex items-center">
+                  <div className="flex space-x-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div className="mx-auto text-center text-xs text-gray-400 font-mono overflow-hidden text-ellipsis whitespace-nowrap max-w-[180px] md:max-w-full">
+                    {item.websiteUrl}
+                  </div>
+                </div>
+                
+                {/* Monitor screen content - direct image */}
+                <div className="bg-white h-[calc(100%-32px)] flex items-center justify-center overflow-hidden">
+                  {isScreenshotLoading ? (
+                    <div className="animate-spin w-8 h-8 border-4 border-accent border-t-transparent rounded-full"></div>
+                  ) : (
+                    <img 
+                      src={'/images/portfolio/fasttaxi.png'} 
+                      alt={`${item.title} website screenshot`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error('Afbeelding kon niet worden geladen in detail view, fallback naar fasttaxi.png');
+                        e.currentTarget.src = '/images/portfolio/fasttaxi.png';
+                      }}
+                    />
+                  )}
+                </div>
+                
+                {/* Monitor base */}
+                <div className="absolute bottom-0 left-0 right-0">
+                  <div className="bg-gray-800 h-1.5 w-full"></div>
+                  <div className="bg-gray-700 h-2 w-32 mx-auto"></div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
