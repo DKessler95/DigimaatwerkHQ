@@ -24,9 +24,9 @@ const portfolioData: PortfolioItem[] = [
 Een belangrijke innovatie is de automatische workflow-integratie met WhatsApp Business. Bestellingen die via de website binnenkomen, worden direct doorgestuurd naar WhatsApp, waardoor chauffeurs sneller reageren en ritten efficiënter plannen. Dit verkort niet alleen de responstijd, maar verhoogt ook de klanttevredenheid en het aantal afgeronde boekingen.
 
 Dankzij deze verbeteringen kan Fast Taxi Rotterdam zijn service soepeler uitvoeren, meer klanten bedienen en uiteindelijk meer winst genereren. Deze case illustreert hoe slimme technologie en een goed ontworpen website bijdragen aan bedrijfsoptimalisatie en groei.`,
-    imageUrl: '/images/fasttaxi.png',
+    imageUrl: '/img/fasttaxi.jpg',
     websiteUrl: 'https://www.fasttaxirotterdam.com',
-    websiteScreenshot: '/images/fasttaxi.png',
+    websiteScreenshot: '/img/fasttaxi.jpg',
     category: 'web'
   }
 ];
