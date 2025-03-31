@@ -98,27 +98,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register API webhooks for Make and n8n integrations
   setupWebhookRoutes(app);
   
-  // API endpoint voor Page2Images screenshots
+  // API endpoint voor website screenshots met fallback naar lokale afbeeldingen
   app.get("/api/website-screenshot", async (req: Request, res: Response) => {
     try {
-      const { url } = req.query;
+      const { url, localImage } = req.query;
       
       if (!url || typeof url !== 'string') {
         return res.status(400).json({ error: 'URL is vereist' });
       }
       
+      // Lokale afbeelding gebruiken als fallback in plaats van Page2Images API
+      const localImagePath = typeof localImage === 'string' ? localImage : '/images/portfolio/fasttaxi-display.jpg';
+      
+      // Success response met lokale afbeelding
+      return res.json({ 
+        status: "success", 
+        image_url: localImagePath 
+      });
+      
+      /* 
+      // Originele Page2Images API code (uitgeschakeld vanwege API-limieten)
       const apiKey = process.env.PAGE2IMAGES_API_KEY;
       if (!apiKey) {
         return res.status(500).json({ error: 'API key is niet geconfigureerd' });
       }
       
-      // Page2Images API aanroepen
       const apiUrl = `https://api.page2images.com/restfullink?p2i_url=${encodeURIComponent(url)}&p2i_key=${apiKey}&p2i_device=6&p2i_screen=1280x800&p2i_size=1280x0`;
       
       const response = await fetch(apiUrl);
       const data = await response.json();
       
       return res.json(data);
+      */
     } catch (error) {
       console.error('Screenshot API error:', error);
       return res.status(500).json({ error: 'Er is een fout opgetreden bij het ophalen van de screenshot' });

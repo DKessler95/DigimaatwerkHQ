@@ -23,9 +23,9 @@ const portfolioData: PortfolioItem[] = [
 Een belangrijke innovatie is de automatische workflow-integratie met WhatsApp Business. Bestellingen die via de website binnenkomen, worden direct doorgestuurd naar WhatsApp, waardoor chauffeurs sneller reageren en ritten efficiënter plannen. Dit verkort niet alleen de responstijd, maar verhoogt ook de klanttevredenheid en het aantal afgeronde boekingen.
 
 Dankzij deze verbeteringen kan Fast Taxi Rotterdam zijn service soepeler uitvoeren, meer klanten bedienen en uiteindelijk meer winst genereren. Deze case illustreert hoe slimme technologie en een goed ontworpen website bijdragen aan bedrijfsoptimalisatie en groei.`,
-    imageUrl: '/images/portfolio/fast-taxi.jpg',
+    imageUrl: '/images/portfolio/fasttaxi-display.jpg',
     websiteUrl: 'https://www.fasttaxirotterdam.com',
-    websiteScreenshot: '/images/portfolio/fast-taxi.jpg',
+    websiteScreenshot: '/images/portfolio/fasttaxi-display.jpg',
     category: 'web'
   }
 ];
@@ -102,9 +102,9 @@ const PortfolioBlock = ({
               
               {/* Website screenshot - use real screenshot if available */}
               <img 
-                src={screenshotUrl || item.imageUrl} 
+                src={screenshotUrl || item.websiteScreenshot || item.imageUrl} 
                 alt={`${item.title} website`} 
-                className="absolute inset-[10%] w-[80%] h-[70%] object-cover object-top transform transition-transform duration-700 hover:scale-105 rounded-sm"
+                className="absolute inset-[10%] w-[80%] h-[70%] object-contain object-center transform transition-transform duration-700 hover:scale-105 rounded-sm"
                 style={{ marginTop: '5px' }}
               />
             </>
@@ -367,9 +367,9 @@ const PortfolioDetailModal = ({
                 {/* Screenshot container */}
                 <div className="bg-white border-l-2 border-r-2 border-gray-900">
                   <img 
-                    src={websiteScreenshot || item.imageUrl} 
+                    src={websiteScreenshot || item.websiteScreenshot || item.imageUrl} 
                     alt={`${item.title} website screenshot`}
-                    className="w-full object-cover"
+                    className="w-full object-contain"
                   />
                 </div>
                 
