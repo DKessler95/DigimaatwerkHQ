@@ -1021,8 +1021,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const files = await fs.readdir(contentDir);
       console.log("Found files:", files);
       
-      // Filter for the requested language or default to .nl.md files
-      const languageFiles = files.filter(file => file.endsWith(`.${language}.md`));
+      // Filter for the requested language
+      let languageFiles = [];
+      
+      if (language === 'nl') {
+        // For Dutch, include base .md files without language suffix first
+        const baseFiles = files.filter(file => 
+          file.endsWith('.md') && !file.includes('.en.') && !file.includes('.nl.')
+        );
+        // Then add specific .nl.md files 
+        const nlFiles = files.filter(file => file.endsWith('.nl.md'));
+        
+        languageFiles = [...baseFiles, ...nlFiles];
+      } else {
+        // For other languages just get the language-specific files
+        languageFiles = files.filter(file => file.endsWith(`.${language}.md`));
+      }
+      
+      console.log(`Found ${languageFiles.length} files for language ${language}:`, languageFiles);
       console.log("Filtered language files:", languageFiles);
       
       // Read and parse each file
