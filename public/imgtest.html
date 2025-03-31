@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .test-container {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    h2 {
+      color: #333;
+    }
+    img {
+      max-width: 100%;
+      border: 1px dashed #999;
+      padding: 5px;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Loading Test</h1>
+  
+  <div class="test-container">
+    <h2>Test 1: Direct /test.png</h2>
+    <img src="/test.png" alt="Test Image" onerror="this.parentNode.innerHTML += '<p class=\'error\'>FOUT: Kan afbeelding niet laden</p>'" onload="this.parentNode.innerHTML += '<p class=\'success\'>SUCCES: Afbeelding geladen</p>'">
+  </div>
+  
+  <div class="test-container">
+    <h2>Test 2: Direct /images/fasttaxi.png</h2>
+    <img src="/images/fasttaxi.png" alt="FastTaxi Image" onerror="this.parentNode.innerHTML += '<p class=\'error\'>FOUT: Kan afbeelding niet laden</p>'" onload="this.parentNode.innerHTML += '<p class=\'success\'>SUCCES: Afbeelding geladen</p>'">
+  </div>
+
+  <div class="test-container">
+    <h2>Test 3: Direct /img/fasttaxi.png</h2>
+    <img src="/img/fasttaxi.png" alt="FastTaxi Image" onerror="this.parentNode.innerHTML += '<p class=\'error\'>FOUT: Kan afbeelding niet laden</p>'" onload="this.parentNode.innerHTML += '<p class=\'success\'>SUCCES: Afbeelding geladen</p>'">
+  </div>
+
+  <div class="test-container">
+    <h2>Test 4: Relatief ./images/fasttaxi.png</h2>
+    <img src="./images/fasttaxi.png" alt="FastTaxi Image" onerror="this.parentNode.innerHTML += '<p class=\'error\'>FOUT: Kan afbeelding niet laden</p>'" onload="this.parentNode.innerHTML += '<p class=\'success\'>SUCCES: Afbeelding geladen</p>'">
+  </div>
+
+  <div class="test-container">
+    <h2>Test 5: Relatief met path ./img/fasttaxi.png</h2>
+    <img src="./img/fasttaxi.png" alt="FastTaxi Image" onerror="this.parentNode.innerHTML += '<p class=\'error\'>FOUT: Kan afbeelding niet laden</p>'" onload="this.parentNode.innerHTML += '<p class=\'success\'>SUCCES: Afbeelding geladen</p>'">
+  </div>
+
+  <script>
+    console.log('Image test page loaded');
+  </script>
+</body>
+</html>
