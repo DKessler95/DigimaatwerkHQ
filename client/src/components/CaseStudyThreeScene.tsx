@@ -1,13 +1,23 @@
 import React, { useRef, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 import { useFrame, Canvas } from '@react-three/fiber';
-import { Html, OrbitControls } from '@react-three/drei';
+import { Html, OrbitControls, ContactShadows, useTexture } from '@react-three/drei';
+import { setupReplitMock } from '@/lib/mockReplit';
 
-// Simplified texture hook to avoid Replit-specific dependencies
-const useSimpleTexture = (url: string) => {
-  const texture = new THREE.TextureLoader().load(url);
-  return texture;
-};
+// Set up Replit mock to prevent errors
+setupReplitMock();
+
+// Initialization helper function
+function initThreeJS() {
+  if (typeof window !== 'undefined') {
+    window.HTMLCanvasElement.prototype.getContext = 
+      window.HTMLCanvasElement.prototype.getContext || 
+      function() { return null; };
+  }
+}
+
+// Run once
+initThreeJS();
 
 // Floating text component
 const FloatingText = ({ position, text, color = '#ffffff', scale = 1 }: { position: [number, number, number]; text: string; color?: string; scale?: number }) => {
@@ -92,7 +102,7 @@ const AutomationAnimation = () => {
 const WebDevAnimation = ({ logoUrl = '/digimaatwerkLOGO.png' }) => {
   const groupRef = useRef<THREE.Group>(null);
   const planeRef = useRef<THREE.Mesh>(null);
-  const texture = useSimpleTexture(logoUrl);
+  const texture = useTexture(logoUrl);
   
   useFrame(({ clock }) => {
     if (groupRef.current) {
@@ -199,11 +209,14 @@ const AnimationScene = ({ category }: { category: string }) => {
       <pointLight position={[10, 10, 10]} intensity={1} />
       <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2.5} maxPolarAngle={Math.PI / 2.5} />
       
-      {/* Simple shadow plane instead of ContactShadows */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
-        <planeGeometry args={[20, 20]} />
-        <shadowMaterial opacity={0.2} />
-      </mesh>
+      {/* Contact shadows */}
+      <ContactShadows
+        position={[0, -1.5, 0]}
+        opacity={0.4}
+        scale={10}
+        blur={2}
+        far={5}
+      />
       
       {/* Choose animation based on category */}
       {category === 'Automatisering' || category === 'Automation' ? (
