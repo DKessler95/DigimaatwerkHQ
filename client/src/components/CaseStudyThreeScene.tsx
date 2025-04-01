@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame, Canvas } from '@react-three/fiber';
-import { Html, useTexture, OrbitControls, ContactShadows, Environment, Sphere } from '@react-three/drei';
+import { Html, useTexture, OrbitControls, ContactShadows } from '@react-three/drei';
 
 // Floating text component
 const FloatingText = ({ position, text, color = '#ffffff', scale = 1 }: { position: [number, number, number]; text: string; color?: string; scale?: number }) => {
@@ -199,7 +199,6 @@ const AnimationScene = ({ category }: { category: string }) => {
         blur={2}
         far={5}
       />
-      <Environment preset="city" />
       
       {/* Choose animation based on category */}
       {category === 'Automatisering' || category === 'Automation' ? (

@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Particle system animation with dynamic color based on category
@@ -141,7 +140,6 @@ const CaseStudyBackgroundAnimation: React.FC<CaseStudyBackgroundAnimationProps> 
       <Canvas camera={{ position: [0, 0, 25], fov: 60 }}>
         <ambientLight intensity={0.2} />
         <ParticlesAnimation category={category} />
-        <Environment preset="night" />
       </Canvas>
     </div>
   );
