@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 import { useFrame, Canvas } from '@react-three/fiber';
-import { Html, OrbitControls, ContactShadows, useTexture } from '@react-three/drei';
+import { Html, OrbitControls } from '@react-three/drei';
 import { setupReplitMock } from '@/lib/mockReplit';
 
 // Set up Replit mock to prevent errors
@@ -102,7 +102,7 @@ const AutomationAnimation = () => {
 const WebDevAnimation = ({ logoUrl = '/digimaatwerkLOGO.png' }) => {
   const groupRef = useRef<THREE.Group>(null);
   const planeRef = useRef<THREE.Mesh>(null);
-  const texture = useTexture(logoUrl);
+  const texture = new THREE.TextureLoader().load(logoUrl);
   
   useFrame(({ clock }) => {
     if (groupRef.current) {
@@ -209,14 +209,11 @@ const AnimationScene = ({ category }: { category: string }) => {
       <pointLight position={[10, 10, 10]} intensity={1} />
       <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2.5} maxPolarAngle={Math.PI / 2.5} />
       
-      {/* Contact shadows */}
-      <ContactShadows
-        position={[0, -1.5, 0]}
-        opacity={0.4}
-        scale={10}
-        blur={2}
-        far={5}
-      />
+      {/* Simple shadow plane */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
+        <planeGeometry args={[20, 20]} />
+        <shadowMaterial opacity={0.2} />
+      </mesh>
       
       {/* Choose animation based on category */}
       {category === 'Automatisering' || category === 'Automation' ? (

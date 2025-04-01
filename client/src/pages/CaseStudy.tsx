@@ -3,7 +3,7 @@ import { useParams, Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
-import CaseStudyThreeScene from '@/components/CaseStudyThreeScene';
+import SimpleCaseStudyAnimation from '@/components/SimpleCaseStudyAnimation';
 import CaseStudyBackgroundAnimation from '@/components/CaseStudyBackgroundAnimation';
 
 // Helper function to format the HTML content for case studies
@@ -236,7 +236,7 @@ const CaseStudyPage = () => {
               
               {/* Interactive 3D visualization */}
               <div className="mb-10">
-                <CaseStudyThreeScene 
+                <SimpleCaseStudyAnimation 
                   category={caseStudy.category}
                   height="400px"
                   className="h-[400px] rounded-lg shadow-xl"
