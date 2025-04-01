@@ -109,11 +109,11 @@ const CaseStudyPage = () => {
 
   return (
     <div className="bg-primary min-h-screen relative">
-      {/* Background gradient */}
+      {/* Remove 3D background animation to avoid replit errors */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary to-secondary opacity-30"></div>
       
       {/* Hero section */}
-      <div className="relative h-[40vh] md:h-[50vh] overflow-hidden">
+      <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <div className="absolute inset-0 bg-black/60 z-10"></div>
         <img 
           src={caseStudy.featured_image} 
@@ -121,13 +121,13 @@ const CaseStudyPage = () => {
           className="absolute w-full h-full object-cover"
         />
         <div className="relative z-20 container mx-auto px-4 h-full flex flex-col justify-end pb-12">
-          <div className="inline-block px-3 py-1 text-accent text-sm font-semibold mb-4 bg-accent/10 rounded">
+          <div className="inline-block px-3 py-1 text-accent text-sm font-semibold mb-4">
             {caseStudy.category}
           </div>
           <h1 className="text-3xl md:text-5xl font-header font-bold mb-4 text-white">
             {caseStudy.title}
           </h1>
-          <p className="text-white/80 max-w-3xl mb-6">
+          <p className="text-white/80 max-w-2xl mb-6">
             {caseStudy.description}
           </p>
           <div className="flex flex-wrap gap-4 text-sm text-white/70">
@@ -147,9 +147,10 @@ const CaseStudyPage = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-10">
-        {/* Navigation and live website links */}
-        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
+      {/* Main content with navigation */}
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        {/* Top navigation and quick metrics */}
+        <div className="flex justify-between items-center mb-10 flex-wrap gap-4">
           <a 
             href="/#case-studies"
             className="inline-flex items-center px-4 py-2 border border-accent/30 bg-secondary/30 rounded-lg hover:bg-secondary/50 transition"
@@ -175,19 +176,19 @@ const CaseStudyPage = () => {
           )}
         </div>
         
-        {/* Key metrics/results in a horizontal row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        {/* Highlights/Metrics in horizontal layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-10">
           {caseStudy.metrics.map((metric, index) => (
             <motion.div 
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="bg-gradient-to-r from-secondary/40 to-secondary/20 rounded-lg p-4 shadow-md border border-accent/10"
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="bg-gradient-to-r from-secondary/80 to-secondary/50 rounded-lg p-4 shadow-md border border-accent/10"
             >
               <div className="flex items-start gap-3">
                 {/* Icon based on metric type */}
-                <div className="bg-accent/20 p-2 rounded-full flex-shrink-0">
+                <div className="bg-accent/30 p-2 rounded-full">
                   {metric.label.toLowerCase().includes('tijd') || metric.label.toLowerCase().includes('time') ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -219,117 +220,83 @@ const CaseStudyPage = () => {
           ))}
         </div>
         
-        {/* Main content in sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-          {/* Left column: Challenge and Solution */}
-          <div>
-            {/* Challenge section */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-              className="mb-8 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10"
-            >
-              <div className="flex items-center bg-accent/10 p-3 border-b border-accent/10">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                  </svg>
+        {/* Main content area */}
+        <div className="max-w-none">
+              {/* Challenge section with icon */}
+              <div className="mb-10 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10">
+                <div className="flex items-center bg-accent/10 p-4 border-b border-accent/10">
+                  <div className="flex-shrink-0 bg-accent/20 p-3 rounded-full mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    </svg>
+                  </div>
+                  <h2 className="text-xl md:text-2xl font-header font-bold text-accent">
+                    {language === 'nl' ? 'De Uitdaging' : 'The Challenge'}
+                  </h2>
                 </div>
-                <h2 className="text-lg md:text-xl font-header font-bold text-accent">
-                  {language === 'nl' ? 'De Uitdaging' : 'The Challenge'}
-                </h2>
-              </div>
-              <div className="p-5">
-                <div className="text-foreground/90 leading-relaxed">
-                  {caseStudy.challenge}
+                <div className="p-6">
+                  <div className="text-foreground/90 text-lg leading-relaxed">
+                    {caseStudy.challenge}
+                  </div>
                 </div>
               </div>
-            </motion.div>
-            
-            {/* Solution section */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="mb-8 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10"
-            >
-              <div className="flex items-center bg-accent/10 p-3 border-b border-accent/10">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+              
+              {/* Solution section with icon */}
+              <div className="mb-10 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10">
+                <div className="flex items-center bg-accent/10 p-4 border-b border-accent/10">
+                  <div className="flex-shrink-0 bg-accent/20 p-3 rounded-full mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-xl md:text-2xl font-header font-bold text-accent">
+                    {language === 'nl' ? 'Onze Oplossing' : 'Our Solution'}
+                  </h2>
                 </div>
-                <h2 className="text-lg md:text-xl font-header font-bold text-accent">
-                  {language === 'nl' ? 'Onze Oplossing' : 'Our Solution'}
-                </h2>
-              </div>
-              <div className="p-5">
-                <div className="text-foreground/90 leading-relaxed">
-                  {caseStudy.solution}
+                <div className="p-6">
+                  <div className="text-foreground/90 text-lg leading-relaxed">
+                    {caseStudy.solution}
+                  </div>
                 </div>
               </div>
-            </motion.div>
+              
+              {/* Result section with icon */}
+              <div className="mb-10 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10">
+                <div className="flex items-center bg-accent/10 p-4 border-b border-accent/10">
+                  <div className="flex-shrink-0 bg-accent/20 p-3 rounded-full mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-xl md:text-2xl font-header font-bold text-accent">
+                    {language === 'nl' ? 'Het Resultaat' : 'The Result'}
+                  </h2>
+                </div>
+                <div className="p-6">
+                  <div className="text-foreground/90 text-lg leading-relaxed">
+                    {caseStudy.result}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Interactive 3D visualization */}
+              <div className="mb-10">
+                <FallbackCaseStudyAnimation 
+                  category={caseStudy.category}
+                  height="400px"
+                  className="h-[400px] rounded-lg shadow-xl"
+                />
+              </div>
+              
+              {/* Full content - Styled with TailwindCSS prose */}
+              <div className="bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10 p-6 mb-10">
+                <div 
+                  className="case-study-content prose prose-lg max-w-none prose-headings:text-accent prose-headings:font-header prose-headings:font-bold prose-p:text-foreground/90 prose-strong:text-accent prose-strong:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 prose-blockquote:py-0.5 prose-blockquote:not-italic prose-li:marker:text-accent"
+                  dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
+                />
+              </div>
+            </div>
           </div>
-          
-          {/* Right column: Result and Animation */}
-          <div>
-            {/* Result section */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="mb-8 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10"
-            >
-              <div className="flex items-center bg-accent/10 p-3 border-b border-accent/10">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                  </svg>
-                </div>
-                <h2 className="text-lg md:text-xl font-header font-bold text-accent">
-                  {language === 'nl' ? 'Het Resultaat' : 'The Result'}
-                </h2>
-              </div>
-              <div className="p-5">
-                <div className="text-foreground/90 leading-relaxed">
-                  {caseStudy.result}
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Small animation visualization instead of large 3D */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-              className="mb-8"
-            >
-              <FallbackCaseStudyAnimation 
-                category={caseStudy.category}
-                height="200px"
-                className="h-[200px] rounded-lg shadow-lg border border-accent/10"
-              />
-            </motion.div>
-          </div>
-        </div>
-        
-        {/* Full content with improved styling */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
-          className="bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10 p-6 mb-10"
-        >
-          <h2 className="text-xl md:text-2xl font-header font-bold text-accent mb-4">
-            {language === 'nl' ? 'Meer Details' : 'More Details'}
-          </h2>
-          <div 
-            className="case-study-content prose prose-lg max-w-none prose-headings:text-accent prose-headings:font-header prose-headings:font-bold prose-p:text-foreground/90 prose-strong:text-accent prose-strong:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 prose-blockquote:py-0.5 prose-blockquote:not-italic prose-li:marker:text-accent"
-            dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
-          />
-        </motion.div>
-      </div>
       
       {/* Contact CTA */}
       <div className="bg-secondary py-12">
@@ -347,9 +314,7 @@ const CaseStudyPage = () => {
             className="inline-flex items-center px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition"
           >
             {language === 'nl' ? 'Neem Contact Op' : 'Contact Us'}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
+            <i className="ri-arrow-right-line ml-2"></i>
           </a>
         </div>
       </div>
