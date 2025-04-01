@@ -213,7 +213,7 @@ const CaseStudyPage = () => {
               {/* Metrics section that sticks with navigation */}
               <div className="bg-secondary/20 rounded-xl p-5 border border-accent/10 shadow-md">
                 <h3 className="text-lg font-header font-semibold mb-4 text-accent">
-                  {language === 'nl' ? 'Project Details' : 'Project Details'}
+                  {language === 'nl' ? 'Project Statistieken' : 'Project Statistics'}
                 </h3>
                 
                 <div className="space-y-4">
@@ -248,7 +248,7 @@ const CaseStudyPage = () => {
                         <div className="text-base font-header font-bold text-accent">
                           {metric.value}
                         </div>
-                        <div className="text-xs text-foreground/70">
+                        <div className="text-xs text-foreground">
                           {metric.label}
                         </div>
                       </div>
@@ -281,54 +281,50 @@ const CaseStudyPage = () => {
                     transition={{ delay: 0.2, duration: 0.5 }}
                     className="mb-8"
                   >
-                    <div className="mb-6 bg-secondary/20 p-4 rounded-xl border border-accent/10">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mt-1">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="space-y-10">
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 bg-accent/20 p-3 rounded-full mt-1 mr-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                           </svg>
                         </div>
                         <div>
-                          <h3 className="text-xl font-header font-semibold text-accent/90 mb-2">
+                          <h3 className="text-xl md:text-2xl font-header font-semibold text-accent mb-3">
                             {language === 'nl' ? 'De Uitdaging' : 'The Challenge'}
                           </h3>
-                          <div className="text-foreground/90">
+                          <div className="text-foreground pl-2 border-l-2 border-accent/20 py-2">
                             <p className="leading-relaxed">{caseStudy.challenge}</p>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className="mb-6 bg-secondary/20 p-4 rounded-xl border border-accent/10">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mt-1">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 bg-accent/20 p-3 rounded-full mt-1 mr-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                           </svg>
                         </div>
                         <div>
-                          <h3 className="text-xl font-header font-semibold text-accent/90 mb-2">
+                          <h3 className="text-xl md:text-2xl font-header font-semibold text-accent mb-3">
                             {language === 'nl' ? 'Onze Oplossing' : 'Our Solution'}
                           </h3>
-                          <div className="text-foreground/90">
+                          <div className="text-foreground pl-2 border-l-2 border-accent/20 py-2">
                             <p className="leading-relaxed">{caseStudy.solution}</p>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className="bg-secondary/20 p-4 rounded-xl border border-accent/10">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mt-1">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 bg-accent/20 p-3 rounded-full mt-1 mr-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                           </svg>
                         </div>
                         <div>
-                          <h3 className="text-xl font-header font-semibold text-accent/90 mb-2">
+                          <h3 className="text-xl md:text-2xl font-header font-semibold text-accent mb-3">
                             {language === 'nl' ? 'Het Resultaat' : 'The Result'}
                           </h3>
-                          <div className="text-foreground/90">
+                          <div className="text-foreground pl-2 border-l-2 border-accent/20 py-2">
                             <p className="leading-relaxed">{caseStudy.result}</p>
                           </div>
                         </div>
@@ -349,15 +345,15 @@ const CaseStudyPage = () => {
                 >
                   <div className="case-study-content prose prose-lg max-w-none 
                     prose-headings:text-accent prose-headings:font-header prose-headings:font-bold 
-                    prose-p:text-foreground/90 prose-strong:text-accent prose-strong:font-medium 
+                    prose-p:text-foreground prose-p:mb-4 prose-strong:text-accent prose-strong:font-medium 
                     prose-a:text-accent prose-a:no-underline hover:prose-a:underline 
                     prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded 
                     prose-code:before:content-none prose-code:after:content-none 
                     prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:not-italic 
-                    prose-ul:pl-5 prose-ol:pl-5 prose-li:marker:text-accent prose-li:my-1
+                    prose-ul:pl-5 prose-ol:pl-5 prose-li:text-foreground prose-li:marker:text-accent prose-li:my-1
                     [&_.content-section]:mb-8 [&_.section-heading]:text-2xl [&_.section-heading]:mb-4 
                     [&_.subsection-heading]:text-xl [&_.subsection-heading]:mb-3 [&_.mini-heading]:text-lg [&_.mini-heading]:mb-2 
-                    [&_.content-paragraph]:mb-4 [&_.content-paragraph:last-child]:mb-0 
+                    [&_.content-paragraph]:mb-4 [&_.content-paragraph]:text-foreground [&_.content-paragraph:last-child]:mb-0 
                     [&_.fancy-list]:ml-4 [&_.fancy-list>li]:ml-2 [&_.fancy-list>li]:mb-2 
                     [&_.numbered-list]:ml-4 [&_.numbered-list>li]:ml-2 [&_.numbered-list>li]:mb-2 
                     [&_.highlight-quote]:border-l-4 [&_.highlight-quote]:italic [&_.highlight-quote]:text-foreground/80 
@@ -377,7 +373,7 @@ const CaseStudyPage = () => {
           <h2 className="text-2xl md:text-3xl font-header font-bold mb-4">
             {language === 'nl' ? 'Klaar om jouw project te bespreken?' : 'Ready to discuss your project?'}
           </h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto mb-8">
+          <p className="text-foreground max-w-2xl mx-auto mb-8">
             {language === 'nl' 
               ? 'Wij helpen je graag bij het realiseren van jouw digitale ambities. Neem contact met ons op voor een vrijblijvend gesprek.' 
               : "We're here to help you achieve your digital ambitions. Contact us for a no-obligation conversation."}
