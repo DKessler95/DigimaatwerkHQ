@@ -1,15 +1,24 @@
 ---
 slug: financial-automation
 title: Financiële Diensten Automatisering
-featured_image: https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80
+featured_image: >-
+  https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80
 category: Automatisering
 client: FinSecure Nederland
 industry: Financiële dienstverlening
-date: 2023-10-05
-description: Geautomatiseerde documentverwerkingsworkflow die de verwerkingstijd verminderde van dagen naar minuten en handmatige fouten elimineerde.
-challenge: FinSecure verwerkte handmatig duizenden documenten per maand, wat leidde tot vertragingen, fouten en hoge operationele kosten.
-solution: We ontwikkelden een geautomatiseerde documentverwerking en goedkeuringsworkflow met OCR, AI-classificatie en geautomatiseerde validatie.
-result: De documentverwerkingstijd daalde van 2 dagen naar 5 minuten met 99.7% nauwkeurigheid en een kostenbesparing van €245.000 per jaar.
+date: 2023-10-05T00:00:00.000Z
+description: >-
+  Geautomatiseerde documentverwerkingsworkflow die de verwerkingstijd
+  verminderde van dagen naar minuten en handmatige fouten elimineerde.
+challenge: >-
+  FinSecure verwerkte handmatig duizenden documenten per maand, wat leidde tot
+  vertragingen, fouten en hoge operationele kosten.
+solution: >-
+  We ontwikkelden een geautomatiseerde documentverwerking en
+  goedkeuringsworkflow met OCR, AI-classificatie en geautomatiseerde validatie.
+result: >-
+  De documentverwerkingstijd daalde van 2 dagen naar 5 minuten met 99.7%
+  nauwkeurigheid en een kostenbesparing van €245.000 per jaar.
 metrics:
   - label: Tijdsbesparing
     value: 87%
@@ -17,7 +26,7 @@ metrics:
     value: €245.000
   - label: Verwerkingsnauwkeurigheid
     value: 99.7%
-live_url: https://finsecure.nl/platform
+live_url: 'https://finsecure.nl/platform'
 featured: true
 ---
 
