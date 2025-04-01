@@ -3,6 +3,8 @@ import { useParams, Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
+import CaseStudyThreeScene from '@/components/CaseStudyThreeScene';
+import CaseStudyBackgroundAnimation from '@/components/CaseStudyBackgroundAnimation';
 
 // Helper function to format the HTML content for case studies
 function formatCaseStudyContent(content: string): string {
@@ -108,7 +110,10 @@ const CaseStudyPage = () => {
   };
 
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-primary min-h-screen relative">
+      {/* Background animation */}
+      <CaseStudyBackgroundAnimation category={caseStudy.category} />
+      
       {/* Hero section */}
       <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <div className="absolute inset-0 bg-black/60 z-10"></div>
@@ -227,6 +232,15 @@ const CaseStudyPage = () => {
                 <p className="text-foreground/90 text-lg leading-relaxed">
                   {caseStudy.result}
                 </p>
+              </div>
+              
+              {/* Interactive 3D visualization */}
+              <div className="mb-10">
+                <CaseStudyThreeScene 
+                  category={caseStudy.category}
+                  height="400px"
+                  className="h-[400px] rounded-lg shadow-xl"
+                />
               </div>
               
               {/* Full content */}
