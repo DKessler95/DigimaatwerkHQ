@@ -90,7 +90,7 @@ const Blogs = () => {
             {caseStudies.map((study) => (
               <a 
                 key={study.slug} 
-                href={`/case-study/${study.slug}`} 
+                href={`/case-studies/${study.slug}`} 
                 className="block transition-transform hover:scale-[1.02] duration-300"
               >
                 <Card className="h-full flex flex-col hover:shadow-md transition-shadow cursor-pointer">
