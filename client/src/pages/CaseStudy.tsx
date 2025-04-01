@@ -171,165 +171,203 @@ const CaseStudyPage = () => {
       </div>
 
       <div className="container mx-auto px-4 py-10">
-        {/* Navigation and live website links */}
-        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
-          <a 
-            href="/#case-studies"
-            className="inline-flex items-center px-4 py-2 border border-accent/30 bg-secondary/30 rounded-lg hover:bg-secondary/50 transition"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            {language === 'nl' ? 'Alle Case Studies' : 'All Case Studies'}
-          </a>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Sticky sidebar with navigation and metrics */}
+          <div className="col-span-1">
+            <div className="sticky top-24 space-y-6">
+              {/* Navigation links that stay visible */}
+              <div className="bg-secondary/20 rounded-xl p-5 border border-accent/10 shadow-md">
+                <h3 className="text-lg font-header font-semibold mb-4 text-accent">
+                  {language === 'nl' ? 'Navigatie' : 'Navigation'}
+                </h3>
+                
+                <a 
+                  href="/#case-studies"
+                  className="flex items-center mb-4 px-3 py-2 rounded-lg bg-secondary/40 hover:bg-secondary/60 transition group"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  <span className="text-sm group-hover:text-accent transition">
+                    {language === 'nl' ? 'Alle Case Studies' : 'All Case Studies'}
+                  </span>
+                </a>
+                
+                {caseStudy.live_url && (
+                  <a 
+                    href={caseStudy.live_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center px-3 py-2 rounded-lg bg-accent text-primary hover:bg-accent/90 transition"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    <span className="text-sm">
+                      {language === 'nl' ? 'Bekijk Live Website' : 'View Live Website'}
+                    </span>
+                  </a>
+                )}
+              </div>
+              
+              {/* Metrics section that sticks with navigation */}
+              <div className="bg-secondary/20 rounded-xl p-5 border border-accent/10 shadow-md">
+                <h3 className="text-lg font-header font-semibold mb-4 text-accent">
+                  {language === 'nl' ? 'Project Details' : 'Project Details'}
+                </h3>
+                
+                <div className="space-y-4">
+                  {caseStudy.metrics.map((metric, index) => (
+                    <motion.div 
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      className="flex items-start gap-3"
+                    >
+                      <div className="bg-accent/20 p-1.5 rounded-full flex-shrink-0">
+                        {metric.label.toLowerCase().includes('tijd') || metric.label.toLowerCase().includes('time') ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        ) : metric.label.toLowerCase().includes('besparing') || metric.label.toLowerCase().includes('saving') || metric.label.toLowerCase().includes('kosten') || metric.label.toLowerCase().includes('cost') ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        ) : metric.label.toLowerCase().includes('efficiënt') || metric.label.toLowerCase().includes('efficient') ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                          </svg>
+                        )}
+                      </div>
+                      <div>
+                        <div className="text-base font-header font-bold text-accent">
+                          {metric.value}
+                        </div>
+                        <div className="text-xs text-foreground/70">
+                          {metric.label}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
           
-          {caseStudy.live_url && (
-            <a 
-              href={caseStudy.live_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 bg-accent text-primary rounded-lg hover:bg-accent/90 transition"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-              {language === 'nl' ? 'Bekijk Live Website' : 'View Live Website'}
-            </a>
-          )}
-        </div>
-        
-        {/* Key metrics/results in a horizontal row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          {caseStudy.metrics.map((metric, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="bg-gradient-to-r from-secondary/40 to-secondary/20 rounded-lg p-4 shadow-md border border-accent/10"
-            >
-              <div className="flex items-start gap-3">
-                {/* Icon based on metric type */}
-                <div className="bg-accent/20 p-2 rounded-full flex-shrink-0">
-                  {metric.label.toLowerCase().includes('tijd') || metric.label.toLowerCase().includes('time') ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  ) : metric.label.toLowerCase().includes('besparing') || metric.label.toLowerCase().includes('saving') || metric.label.toLowerCase().includes('kosten') || metric.label.toLowerCase().includes('cost') ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  ) : metric.label.toLowerCase().includes('efficiënt') || metric.label.toLowerCase().includes('efficient') ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  )}
-                </div>
-                <div>
-                  <div className="text-xl font-header font-bold text-accent">
-                    {metric.value}
-                  </div>
-                  <div className="text-sm text-foreground/70">
-                    {metric.label}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        {/* Content with scroll animations */}
-        <div className="max-w-3xl mx-auto mb-10">
-          {/* Introduction section combining challenge + solution + result */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-12"
-          >
-            <div className="prose prose-lg max-w-none">
-              <h2 className="text-2xl md:text-3xl font-header font-bold text-accent mb-6">
-                {language === 'nl' ? 'Projectoverzicht' : 'Project Overview'}
-              </h2>
+          {/* Main content area */}
+          <div className="col-span-1 md:col-span-3">
+            {/* Case study content with scroll animations */}
+            <div className="space-y-12">
+              {/* Project overview section */}
+              <section>
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="prose prose-lg max-w-none"
+                >
+                  <h2 className="text-2xl md:text-3xl font-header font-bold text-accent mb-6 inline-block pb-2 border-b-2 border-accent/20">
+                    {language === 'nl' ? 'Projectoverzicht' : 'Project Overview'}
+                  </h2>
+                  
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className="mb-8"
+                  >
+                    <div className="mb-6 bg-secondary/20 p-4 rounded-xl border border-accent/10">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mt-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-header font-semibold text-accent/90 mb-2">
+                            {language === 'nl' ? 'De Uitdaging' : 'The Challenge'}
+                          </h3>
+                          <div className="text-foreground/90">
+                            <p className="leading-relaxed">{caseStudy.challenge}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="mb-6 bg-secondary/20 p-4 rounded-xl border border-accent/10">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mt-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-header font-semibold text-accent/90 mb-2">
+                            {language === 'nl' ? 'Onze Oplossing' : 'Our Solution'}
+                          </h3>
+                          <div className="text-foreground/90">
+                            <p className="leading-relaxed">{caseStudy.solution}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-secondary/20 p-4 rounded-xl border border-accent/10">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mt-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-header font-semibold text-accent/90 mb-2">
+                            {language === 'nl' ? 'Het Resultaat' : 'The Result'}
+                          </h3>
+                          <div className="text-foreground/90">
+                            <p className="leading-relaxed">{caseStudy.result}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </section>
               
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-header font-semibold text-accent/90 m-0">
-                  {language === 'nl' ? 'De Uitdaging' : 'The Challenge'}
-                </h3>
-              </div>
-              <div className="pl-10 mb-8 text-foreground/90 border-l-2 border-accent/10 py-2">
-                <p className="leading-relaxed">{caseStudy.challenge}</p>
-              </div>
-              
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-header font-semibold text-accent/90 m-0">
-                  {language === 'nl' ? 'Onze Oplossing' : 'Our Solution'}
-                </h3>
-              </div>
-              <div className="pl-10 mb-8 text-foreground/90 border-l-2 border-accent/10 py-2">
-                <p className="leading-relaxed">{caseStudy.solution}</p>
-              </div>
-              
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-header font-semibold text-accent/90 m-0">
-                  {language === 'nl' ? 'Het Resultaat' : 'The Result'}
-                </h3>
-              </div>
-              <div className="pl-10 mb-8 text-foreground/90 border-l-2 border-accent/10 py-2">
-                <p className="leading-relaxed">{caseStudy.result}</p>
-              </div>
+              {/* Detailed implementation section with scroll animations */}
+              <section>
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.7 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  className="bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10 p-6"
+                >
+                  <div className="case-study-content prose prose-lg max-w-none 
+                    prose-headings:text-accent prose-headings:font-header prose-headings:font-bold 
+                    prose-p:text-foreground/90 prose-strong:text-accent prose-strong:font-medium 
+                    prose-a:text-accent prose-a:no-underline hover:prose-a:underline 
+                    prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded 
+                    prose-code:before:content-none prose-code:after:content-none 
+                    prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:not-italic 
+                    prose-ul:pl-5 prose-ol:pl-5 prose-li:marker:text-accent prose-li:my-1
+                    [&_.content-section]:mb-8 [&_.section-heading]:text-2xl [&_.section-heading]:mb-4 
+                    [&_.subsection-heading]:text-xl [&_.subsection-heading]:mb-3 [&_.mini-heading]:text-lg [&_.mini-heading]:mb-2 
+                    [&_.content-paragraph]:mb-4 [&_.content-paragraph:last-child]:mb-0 
+                    [&_.fancy-list]:ml-4 [&_.fancy-list>li]:ml-2 [&_.fancy-list>li]:mb-2 
+                    [&_.numbered-list]:ml-4 [&_.numbered-list>li]:ml-2 [&_.numbered-list>li]:mb-2 
+                    [&_.highlight-quote]:border-l-4 [&_.highlight-quote]:italic [&_.highlight-quote]:text-foreground/80 
+                    [&_.accent-text]:text-accent [&_.accent-text]:font-semibold"
+                    dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
+                  />
+                </motion.div>
+              </section>
             </div>
-          </motion.div>
-        </div>
-        
-        {/* Case study detailed content with scroll animations */}
-        <div className="max-w-3xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="mb-10"
-          >
-            <div className="bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10 p-6">
-              <div className="case-study-content prose prose-lg max-w-none 
-                prose-headings:text-accent prose-headings:font-header prose-headings:font-bold 
-                prose-p:text-foreground/90 prose-strong:text-accent prose-strong:font-medium 
-                prose-a:text-accent prose-a:no-underline hover:prose-a:underline 
-                prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded 
-                prose-code:before:content-none prose-code:after:content-none 
-                prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:not-italic 
-                prose-ul:pl-5 prose-ol:pl-5 prose-li:marker:text-accent prose-li:my-1
-                [&_.content-section]:mb-8 [&_.section-heading]:text-2xl [&_.section-heading]:mb-4 
-                [&_.subsection-heading]:text-xl [&_.subsection-heading]:mb-3 [&_.mini-heading]:text-lg [&_.mini-heading]:mb-2 
-                [&_.content-paragraph]:mb-4 [&_.content-paragraph:last-child]:mb-0 
-                [&_.fancy-list]:ml-4 [&_.fancy-list>li]:ml-2 [&_.fancy-list>li]:mb-2 
-                [&_.numbered-list]:ml-4 [&_.numbered-list>li]:ml-2 [&_.numbered-list>li]:mb-2 
-                [&_.highlight-quote]:border-l-4 [&_.highlight-quote]:italic [&_.highlight-quote]:text-foreground/80 
-                [&_.accent-text]:text-accent [&_.accent-text]:font-semibold"
-                dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
-              />
-            </div>
-          </motion.div>
+          </div>
         </div>
       </div>
       
