@@ -3,8 +3,6 @@ import { useParams, Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
-import CaseStudyThreeScene from '@/components/CaseStudyThreeScene';
-import CaseStudyBackgroundAnimation from '@/components/CaseStudyBackgroundAnimation';
 
 // Helper function to format the HTML content for case studies
 function formatCaseStudyContent(content: string): string {
@@ -111,9 +109,6 @@ const CaseStudyPage = () => {
 
   return (
     <div className="bg-primary min-h-screen relative">
-      {/* Background animation */}
-      <CaseStudyBackgroundAnimation category={caseStudy.category} />
-      
       {/* Hero section */}
       <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <div className="absolute inset-0 bg-black/60 z-10"></div>
@@ -234,13 +229,67 @@ const CaseStudyPage = () => {
                 </p>
               </div>
               
-              {/* Interactive 3D visualization */}
+              {/* Category visualization */}
               <div className="mb-10">
-                <CaseStudyThreeScene 
-                  category={caseStudy.category}
-                  height="400px"
-                  className="h-[400px] rounded-lg shadow-xl"
-                />
+                <div className="h-64 rounded-lg shadow-xl overflow-hidden relative">
+                  {caseStudy.category === 'Automatisering' || caseStudy.category === 'Automation' ? (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800 p-6">
+                      <div className="text-center text-white">
+                        <div className="text-6xl mb-4">
+                          <i className="ri-settings-4-line"></i>
+                        </div>
+                        <h3 className="text-2xl font-bold">{caseStudy.category}</h3>
+                        <p className="mt-2 opacity-80">
+                          {language === 'nl' ? 
+                            'Optimaliseer uw bedrijfsprocessen met slimme automatisering' : 
+                            'Optimize your business processes with smart automation'}
+                        </p>
+                      </div>
+                    </div>
+                  ) : caseStudy.category === 'Webontwikkeling' || caseStudy.category === 'Web Development' ? (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-teal-600 to-teal-800 p-6">
+                      <div className="text-center text-white">
+                        <div className="text-6xl mb-4">
+                          <i className="ri-code-s-slash-line"></i>
+                        </div>
+                        <h3 className="text-2xl font-bold">{caseStudy.category}</h3>
+                        <p className="mt-2 opacity-80">
+                          {language === 'nl' ? 
+                            'Professionele websites en webapplicaties op maat' : 
+                            'Professional custom websites and web applications'}
+                        </p>
+                      </div>
+                    </div>
+                  ) : caseStudy.category === 'AI & Chatbots' ? (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-600 to-cyan-800 p-6">
+                      <div className="text-center text-white">
+                        <div className="text-6xl mb-4">
+                          <i className="ri-robot-line"></i>
+                        </div>
+                        <h3 className="text-2xl font-bold">{caseStudy.category}</h3>
+                        <p className="mt-2 opacity-80">
+                          {language === 'nl' ? 
+                            'Intelligente AI-oplossingen en interactieve chatbots' : 
+                            'Intelligent AI solutions and interactive chatbots'}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-600 to-slate-800 p-6">
+                      <div className="text-center text-white">
+                        <div className="text-6xl mb-4">
+                          <i className="ri-lightbulb-line"></i>
+                        </div>
+                        <h3 className="text-2xl font-bold">{caseStudy.category}</h3>
+                        <p className="mt-2 opacity-80">
+                          {language === 'nl' ? 
+                            'Innovatieve digitale oplossingen voor uw organisatie' : 
+                            'Innovative digital solutions for your organization'}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
               
               {/* Full content */}
