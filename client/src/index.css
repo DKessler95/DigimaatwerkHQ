@@ -142,51 +142,19 @@
     }
   }
   
-  /* Case Study Content Styling */
-  .case-study-content {
-    @apply text-lg leading-relaxed space-y-6;
-  }
+  /* 
+  Case Study Content Styling now uses Tailwind typography prose plugin
+  See CaseStudy.tsx for the full styling class:
   
-  .case-study-content h1 {
-    @apply text-3xl font-bold text-accent mt-8 mb-6;
-  }
-  
-  .case-study-content h2 {
-    @apply text-2xl font-semibold text-accent mt-6 mb-4;
-  }
-  
-  .case-study-content h3 {
-    @apply text-xl font-semibold text-accent/90 mt-4 mb-2;
-  }
-  
-  .case-study-content p {
-    @apply text-foreground/90 mb-4 leading-relaxed;
-  }
-  
-  .case-study-content ul, 
-  .case-study-content ol {
-    @apply pl-6 mb-4;
-  }
-  
-  .case-study-content ul li {
-    @apply list-disc mb-2;
-  }
-  
-  .case-study-content ol li {
-    @apply list-decimal mb-2;
-  }
-  
-  .case-study-content blockquote {
-    @apply border-l-4 border-accent pl-4 italic my-6 py-2 text-foreground/80 bg-secondary/20 rounded-r-lg p-4;
-  }
-  
-  .case-study-content a {
-    @apply text-accent hover:underline;
-  }
-  
-  .case-study-content strong {
-    @apply font-bold text-accent/90;
-  }
+  className="prose prose-lg max-w-none prose-headings:text-accent 
+  prose-headings:font-header prose-headings:font-bold prose-p:text-foreground/90 
+  prose-strong:text-accent prose-strong:font-medium prose-a:text-accent 
+  prose-a:no-underline hover:prose-a:underline prose-code:text-accent 
+  prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded 
+  prose-code:before:content-none prose-code:after:content-none 
+  prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 
+  prose-blockquote:py-0.5 prose-blockquote:not-italic prose-li:marker:text-accent"
+  */
   
   /* Code Animation Loader Styles */
   .typing-animation {
