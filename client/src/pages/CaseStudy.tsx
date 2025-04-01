@@ -182,7 +182,11 @@ const CaseStudyPage = () => {
                 </h3>
                 
                 <a 
-                  href="/#case-studies"
+                  href="/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/#case-studies';
+                  }}
                   className="flex items-center mb-4 px-3 py-2 rounded-lg bg-secondary/40 hover:bg-secondary/60 transition group"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
