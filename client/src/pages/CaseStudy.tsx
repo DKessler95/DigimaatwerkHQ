@@ -1,29 +1,52 @@
 import { useParams } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
-import FallbackCaseStudyAnimation from '@/components/FallbackCaseStudyAnimation';
+import { useRef, useEffect } from 'react';
 
-// Helper function to format the HTML content for case studies
+// Enhanced helper function to format the HTML content for case studies
 function formatCaseStudyContent(content: string): string {
-  // Replace Markdown heading syntax with proper HTML headings
-  let formatted = content.replace(/\n# (.*?)\n/g, '<h1>$1</h1>');
-  formatted = formatted.replace(/\n## (.*?)\n/g, '<h2>$1</h2>');
-  formatted = formatted.replace(/\n### (.*?)\n/g, '<h3>$1</h3>');
+  // Add section dividers to create better readable content
+  let formatted = content;
+  
+  // Replace Markdown heading syntax with proper HTML headings and add section classes
+  formatted = formatted.replace(/\n# (.*?)\n/g, '<div class="content-section"><h1 class="section-heading">$1</h1>');
+  formatted = formatted.replace(/\n## (.*?)\n/g, '<h2 class="subsection-heading">$1</h2>');
+  formatted = formatted.replace(/\n### (.*?)\n/g, '<h3 class="mini-heading">$1</h3>');
+  
+  // Close previous section before starting a new one
+  formatted = formatted.replace(/<div class="content-section"><h1/g, '</div><div class="content-section"><h1');
   
   // Fix bullet points that might be simple dashes
-  formatted = formatted.replace(/\n- (.*?)(?=\n)/g, '<ul><li>$1</li></ul>');
-  formatted = formatted.replace(/<\/ul>\n<ul>/g, '');
+  formatted = formatted.replace(/\n- (.*?)(?=\n)/g, '<ul class="fancy-list"><li>$1</li></ul>');
+  formatted = formatted.replace(/<\/ul>\n<ul class="fancy-list">/g, '');
   
   // Fix numbered lists
-  formatted = formatted.replace(/\n\d+\. (.*?)(?=\n)/g, '<ol><li>$1</li></ol>');
-  formatted = formatted.replace(/<\/ol>\n<ol>/g, '');
+  formatted = formatted.replace(/\n\d+\. (.*?)(?=\n)/g, '<ol class="numbered-list"><li>$1</li></ol>');
+  formatted = formatted.replace(/<\/ol>\n<ol class="numbered-list">/g, '');
   
   // Enhance blockquotes
-  formatted = formatted.replace(/\n> (.*?)(?=\n)/g, '<blockquote>$1</blockquote>');
+  formatted = formatted.replace(/\n> (.*?)(?=\n)/g, '<blockquote class="highlight-quote">$1</blockquote>');
   
-  // Enhance strong text 
-  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Enhance strong text with accent color
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="accent-text">$1</strong>');
+  
+  // Add paragraph styling
+  formatted = formatted.replace(/\n([^<\n].*?)(?=\n)/g, '<p class="content-paragraph">$1</p>');
+  
+  // Add final section closing tag if needed
+  if (formatted.includes('<div class="content-section">') && !formatted.endsWith('</div>')) {
+    formatted += '</div>';
+  }
+  
+  // Fix any duplicate paragraph tags or improper nesting
+  formatted = formatted.replace(/<p class="content-paragraph"><p class="content-paragraph">/g, '<p class="content-paragraph">');
+  formatted = formatted.replace(/<\/p><\/p>/g, '</p>');
+  
+  // Remove the first </div> tag if it exists at the beginning
+  if (formatted.startsWith('</div>')) {
+    formatted = formatted.substring(5);
+  }
   
   return formatted;
 }
@@ -219,116 +242,95 @@ const CaseStudyPage = () => {
           ))}
         </div>
         
-        {/* Main content in sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-          {/* Left column: Challenge and Solution */}
-          <div>
-            {/* Challenge section */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-              className="mb-8 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10"
-            >
-              <div className="flex items-center bg-accent/10 p-3 border-b border-accent/10">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mr-3">
+        {/* Content with scroll animations */}
+        <div className="max-w-3xl mx-auto mb-10">
+          {/* Introduction section combining challenge + solution + result */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-12"
+          >
+            <div className="prose prose-lg max-w-none">
+              <h2 className="text-2xl md:text-3xl font-header font-bold text-accent mb-6">
+                {language === 'nl' ? 'Projectoverzicht' : 'Project Overview'}
+              </h2>
+              
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                   </svg>
                 </div>
-                <h2 className="text-lg md:text-xl font-header font-bold text-accent">
+                <h3 className="text-xl font-header font-semibold text-accent/90 m-0">
                   {language === 'nl' ? 'De Uitdaging' : 'The Challenge'}
-                </h2>
+                </h3>
               </div>
-              <div className="p-5">
-                <div className="text-foreground/90 leading-relaxed">
-                  {caseStudy.challenge}
-                </div>
+              <div className="pl-10 mb-8 text-foreground/90 border-l-2 border-accent/10 py-2">
+                <p className="leading-relaxed">{caseStudy.challenge}</p>
               </div>
-            </motion.div>
-            
-            {/* Solution section */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="mb-8 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10"
-            >
-              <div className="flex items-center bg-accent/10 p-3 border-b border-accent/10">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mr-3">
+              
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h2 className="text-lg md:text-xl font-header font-bold text-accent">
+                <h3 className="text-xl font-header font-semibold text-accent/90 m-0">
                   {language === 'nl' ? 'Onze Oplossing' : 'Our Solution'}
-                </h2>
+                </h3>
               </div>
-              <div className="p-5">
-                <div className="text-foreground/90 leading-relaxed">
-                  {caseStudy.solution}
-                </div>
+              <div className="pl-10 mb-8 text-foreground/90 border-l-2 border-accent/10 py-2">
+                <p className="leading-relaxed">{caseStudy.solution}</p>
               </div>
-            </motion.div>
-          </div>
-          
-          {/* Right column: Result and Animation */}
-          <div>
-            {/* Result section */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="mb-8 bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10"
-            >
-              <div className="flex items-center bg-accent/10 p-3 border-b border-accent/10">
-                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full mr-3">
+              
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex-shrink-0 bg-accent/20 p-2 rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                   </svg>
                 </div>
-                <h2 className="text-lg md:text-xl font-header font-bold text-accent">
+                <h3 className="text-xl font-header font-semibold text-accent/90 m-0">
                   {language === 'nl' ? 'Het Resultaat' : 'The Result'}
-                </h2>
+                </h3>
               </div>
-              <div className="p-5">
-                <div className="text-foreground/90 leading-relaxed">
-                  {caseStudy.result}
-                </div>
+              <div className="pl-10 mb-8 text-foreground/90 border-l-2 border-accent/10 py-2">
+                <p className="leading-relaxed">{caseStudy.result}</p>
               </div>
-            </motion.div>
-            
-            {/* Small animation visualization instead of large 3D */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-              className="mb-8"
-            >
-              <FallbackCaseStudyAnimation 
-                category={caseStudy.category}
-                height="200px"
-                className="h-[200px] rounded-lg shadow-lg border border-accent/10"
-              />
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
         
-        {/* Full content with improved styling */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
-          className="bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10 p-6 mb-10"
-        >
-          <h2 className="text-xl md:text-2xl font-header font-bold text-accent mb-4">
-            {language === 'nl' ? 'Meer Details' : 'More Details'}
-          </h2>
-          <div 
-            className="case-study-content prose prose-lg max-w-none prose-headings:text-accent prose-headings:font-header prose-headings:font-bold prose-p:text-foreground/90 prose-strong:text-accent prose-strong:font-medium prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 prose-blockquote:py-0.5 prose-blockquote:not-italic prose-li:marker:text-accent"
-            dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
-          />
-        </motion.div>
+        {/* Case study detailed content with scroll animations */}
+        <div className="max-w-3xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="mb-10"
+          >
+            <div className="bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10 p-6">
+              <div className="case-study-content prose prose-lg max-w-none 
+                prose-headings:text-accent prose-headings:font-header prose-headings:font-bold 
+                prose-p:text-foreground/90 prose-strong:text-accent prose-strong:font-medium 
+                prose-a:text-accent prose-a:no-underline hover:prose-a:underline 
+                prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded 
+                prose-code:before:content-none prose-code:after:content-none 
+                prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:not-italic 
+                prose-ul:pl-5 prose-ol:pl-5 prose-li:marker:text-accent prose-li:my-1
+                [&_.content-section]:mb-8 [&_.section-heading]:text-2xl [&_.section-heading]:mb-4 
+                [&_.subsection-heading]:text-xl [&_.subsection-heading]:mb-3 [&_.mini-heading]:text-lg [&_.mini-heading]:mb-2 
+                [&_.content-paragraph]:mb-4 [&_.content-paragraph:last-child]:mb-0 
+                [&_.fancy-list]:ml-4 [&_.fancy-list>li]:ml-2 [&_.fancy-list>li]:mb-2 
+                [&_.numbered-list]:ml-4 [&_.numbered-list>li]:ml-2 [&_.numbered-list>li]:mb-2 
+                [&_.highlight-quote]:border-l-4 [&_.highlight-quote]:italic [&_.highlight-quote]:text-foreground/80 
+                [&_.accent-text]:text-accent [&_.accent-text]:font-semibold"
+                dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
+              />
+            </div>
+          </motion.div>
+        </div>
       </div>
       
       {/* Contact CTA */}
