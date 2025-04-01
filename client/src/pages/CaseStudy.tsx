@@ -342,23 +342,29 @@ const CaseStudyPage = () => {
                   whileInView={{ opacity: 1 }}
                   transition={{ duration: 0.7 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  className="bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10 p-6"
+                  className="bg-gradient-to-r from-secondary/30 to-secondary/10 rounded-xl overflow-hidden shadow-lg border border-accent/10 p-8"
                 >
                   <div className="case-study-content prose prose-lg max-w-none 
                     prose-headings:text-accent prose-headings:font-header prose-headings:font-bold 
-                    prose-p:text-foreground prose-p:mb-4 prose-strong:text-accent prose-strong:font-medium 
+                    prose-p:text-foreground prose-p:font-medium prose-p:mb-4
+                    prose-strong:text-accent prose-strong:font-medium 
                     prose-a:text-accent prose-a:no-underline hover:prose-a:underline 
                     prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded 
                     prose-code:before:content-none prose-code:after:content-none 
-                    prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:not-italic 
-                    prose-ul:pl-5 prose-ol:pl-5 prose-li:text-foreground prose-li:marker:text-accent prose-li:my-1
+                    prose-blockquote:border-l-4 prose-blockquote:border-l-orange-500 prose-blockquote:bg-orange-100/30 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:not-italic 
+                    prose-blockquote:text-orange-600 prose-blockquote:font-medium prose-blockquote:text-lg
+                    prose-ul:pl-5 prose-ol:pl-5 prose-li:text-foreground prose-li:font-medium prose-li:marker:text-accent prose-li:my-1
+                    
                     [&_.content-section]:mb-8 [&_.section-heading]:text-2xl [&_.section-heading]:mb-4 
-                    [&_.subsection-heading]:text-xl [&_.subsection-heading]:mb-3 [&_.mini-heading]:text-lg [&_.mini-heading]:mb-2 
-                    [&_.content-paragraph]:mb-4 [&_.content-paragraph]:text-foreground [&_.content-paragraph:last-child]:mb-0 
-                    [&_.fancy-list]:ml-4 [&_.fancy-list>li]:ml-2 [&_.fancy-list>li]:mb-2 
-                    [&_.numbered-list]:ml-4 [&_.numbered-list>li]:ml-2 [&_.numbered-list>li]:mb-2 
+                    [&_.subsection-heading]:text-xl [&_.subsection-heading]:mb-3 [&_.subsection-heading]:text-accent/90
+                    [&_.mini-heading]:text-lg [&_.mini-heading]:mb-2 
+                    [&_.content-paragraph]:mb-4 [&_.content-paragraph]:text-foreground [&_.content-paragraph]:font-medium [&_.content-paragraph:last-child]:mb-0 
+                    [&_.fancy-list]:ml-4 [&_.fancy-list>li]:ml-2 [&_.fancy-list>li]:mb-2 [&_.fancy-list>li]:font-medium
+                    [&_.numbered-list]:ml-4 [&_.numbered-list>li]:ml-2 [&_.numbered-list>li]:mb-2 [&_.numbered-list>li]:font-medium
                     [&_.highlight-quote]:border-l-4 [&_.highlight-quote]:italic [&_.highlight-quote]:text-foreground/80 
-                    [&_.accent-text]:text-accent [&_.accent-text]:font-semibold"
+                    [&_.accent-text]:text-accent [&_.accent-text]:font-semibold
+
+                    before:content-[attr(data-before)] after:content-[attr(data-after)]"
                     dangerouslySetInnerHTML={{ __html: caseStudy.content }} 
                   />
                 </motion.div>

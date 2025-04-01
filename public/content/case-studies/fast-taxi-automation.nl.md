@@ -34,10 +34,10 @@ Fast Taxi Rotterdam ontving dagelijks tientallen e-mails met boekingsaanvragen e
 - **Menselijke fouten:** Vergeten boekingen of foutieve gegevensinvoer.
 - **Hoge werkdruk:** Het team besteedde veel tijd aan routinetaken in plaats van zich te richten op strategische verbeteringen.
 
-Het doel was om een geautomatiseerd systeem te ontwikkelen dat:
-1. E-mails categoriseert en prioriteert.
-2. Automatisch antwoorden genereert voor veelgestelde vragen.
-3. Boekingsaanvragen verwerkt en synchroniseert met de planning.
+**Het doel was om een geautomatiseerd systeem te ontwikkelen dat:**
+1. **E-mails categoriseert en prioriteert.**
+2. **Automatisch antwoorden genereert voor veelgestelde vragen.**
+3. **Boekingsaanvragen verwerkt en synchroniseert met de planning.**
 
 ## Onze Aanpak
 
@@ -67,12 +67,12 @@ De technische implementatie bestond uit:
 - **Twilio API:** Voor het verzenden van SMS-herinneringen.
 - **AI-gebaseerde filters:** Voor automatische categorisatie van e-mails.
 
-Het systeem werkt als volgt:
+**Het systeem werkt als volgt:**
 
 1. Een klant stuurt een e-mail naar Fast Taxi Rotterdam (bijv. "Ik wil een taxi boeken voor morgen om 10:00 uur").
 2. Het systeem analyseert de inhoud van de e-mail:
-   - Categoriseert deze als "Boekingsaanvraag".
-   - Controleert beschikbaarheid via de gedeelde Google Calendar.
+   - **Categoriseert deze als "Boekingsaanvraag".**
+   - **Controleert beschikbaarheid via de gedeelde Google Calendar.**
 3. Een automatische bevestigingsmail wordt verzonden naar de klant met details over de rit.
 4. De boeking wordt toegevoegd aan de planning, inclusief een SMS-herinnering voor zowel de klant als de chauffeur.
 
