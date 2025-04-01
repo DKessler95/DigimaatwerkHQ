@@ -1,10 +1,7 @@
 import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { setupReplitMock } from '@/lib/mockReplit';
-
-// Set up Replit mock to prevent errors
-setupReplitMock();
+// No need to import the Replit mock for this simple background animation
 
 // Particle system animation with dynamic color based on category
 const ParticlesAnimation = ({ category }: { category: string }) => {
