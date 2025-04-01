@@ -92,6 +92,104 @@
   - WordPress / WooCommerce
   - Moderne frontend frameworks
 
+## Prijzen
+
+### Transparante Prijzen
+- **Titel**: Transparante Prijzen
+- **Ondertitel**: Bij Digimaatwerk geloven we in transparantie en kwaliteit. Wij bieden betaalbare maatwerkoplossingen die perfect aansluiten bij de behoeften van jouw bedrijf.
+
+### Diensten Prijzen
+- **Basis Website**: €650
+  - Tot 5 pagina's, responsive design, basis SEO
+- **Geavanceerde Website**: €1.250
+  - Tot 10 pagina's, CMS-integratie, custom design
+- **Maatwerk Applicatie**: €2.500+
+  - Volledig op maat gemaakt, geavanceerde functionaliteit
+
+### Support Pakketten
+- **Basis Support**: €29/maand
+  - 24/7 ticket support
+  - Kleine updates en fixes
+  - Maandelijkse backup
+  - Response binnen 48 uur
+- **Standaard Support**: €69/maand
+  - Snelle respons (24 uur)
+  - Maandelijkse beveiligingscheck
+  - Content updates
+  - Technische ondersteuning
+  - Toegang tot klantenportaal
+- **Premium Support**: €129/maand
+  - Prioriteit respons (12 uur)
+  - Uitgebreide SEO-monitoring
+  - Wekelijkse beveiligingscheck
+  - Doorlopende optimalisatie
+  - Performance monitoring
+  - Persoonlijke accountmanager
+
+### Extra Informatie
+- Alle maandelijkse pakketten omvatten toegang tot ons klantenportaal waar je eenvoudig hulp kunt krijgen en updates kunt volgen. Voor specifieke wensen of aangepaste oplossingen, neem contact met ons op voor een persoonlijk voorstel.
+
+## Project Calculator
+
+### Hoofdsectie
+- **Titel**: Project Calculator
+- **Ondertitel**: Schat de kosten en tijdlijn van uw project
+
+### Project Types
+- **AI & Chatbot**
+- **Automatisering**
+- **Website / App**
+- **Gecombineerd**
+
+### Schaal
+- **Klein**
+- **Middel**
+- **Groot**
+
+### Kenmerken Website / App
+- Contactformulier met email service (€100)
+- Extra pagina's (per 5) (€150)
+- Blog functionaliteit (€350)
+- Gebruikersauthenticatie (€450)
+- E-commerce functionaliteit (€850)
+- CMS systeem (€550)
+- Meertalige website (€100)
+- 3D visualisaties (Start van €100)
+
+### Kenmerken AI & Chatbot
+- Basis chatbot (FAQ) (€500)
+- Meertalige chatbot (€200)
+- CRM-integratie (€300)
+- Geavanceerde AI-functionaliteit (NLU/NLP) (€750)
+- Chatbot met betalingsverwerking (€600)
+- Analytics dashboard (€350)
+
+### Kenmerken Automatisering
+- Workflow automatisering (€400)
+- Integratie met bestaande tools (bijv. Trello, Zapier) (€300)
+- Automatische e-mailflows (€250)
+- Data-analyse en rapportage (€500)
+- Realtime meldingen (€200)
+
+### Kenmerken Gecombineerd Project
+- Website met chatbot integratie (€1000)
+- Automatisering gekoppeld aan website (bijv. leads naar CRM) (€750)
+- E-commerce met AI-aanbevelingen (€1200)
+- Dynamische content op basis van AI (€900)
+- Contactformulier met email service (€100)
+- Meertalige website (€100)
+
+### Tijdlijn Prioriteit
+- **Standaard**
+- **Versneld** (25% sneller, 25% meerprijs)
+- **Spoed** (40% sneller, 50% meerprijs)
+
+### Support Pakketten (Maandelijks)
+- **Geen maandelijks pakket** (€0)
+- **Basic** (€29/maand)
+- **Standaard** (€69/maand)
+- **Premium** (€129/maand)
+
 ## Case Studies
 
 ### RetailTech Chatbot
