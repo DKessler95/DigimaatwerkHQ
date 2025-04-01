@@ -240,7 +240,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="font-medium mb-1">{language === 'nl' ? 'Adres' : 'Address'}</h4>
-                  <p className="text-foreground/70">Star Numanstraat 79a<br />9714JL Groningen<br />{language === 'nl' ? 'Nederland' : 'The Netherlands'}</p>
+                  <p className="text-foreground/70">Groningen<br />{language === 'nl' ? 'Nederland' : 'The Netherlands'}</p>
                 </div>
               </div>
               

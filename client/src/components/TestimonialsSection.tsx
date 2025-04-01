@@ -9,12 +9,12 @@ const AboutDamianSection = () => {
     : 'About Damian Kessler: The Force Behind Digimaatwerk';
 
   const paragraph1 = language === 'nl'
-    ? 'Wat mij drijft is de mogelijkheid om bedrijven te helpen groeien door middel van digitale transformatie. Ik vind het belangrijk om mijn kennis op niveau te houden en ben altijd op zoek naar nieuwe manieren om mijn klanten te ondersteunen. Mijn persoonlijke aanpak en mijn vermogen om complexe technologieën begrijpelijk te maken, maken mij een betrouwbare partner voor uw digitale projecten.'
-    : 'What drives me is the opportunity to help businesses grow through digital transformation. I find it important to keep my knowledge up to date and I am always looking for new ways to support my clients. My personal approach and my ability to make complex technologies understandable make me a reliable partner for your digital projects.';
+    ? 'Wat mij drijft is de mogelijkheid om bedrijven te helpen groeien door middel van digitale transformatie. Ik vind het belangrijk om mijn kennis op niveau te houden en ben altijd op zoek naar nieuwe manieren om mijn klanten te ondersteunen.'
+    : 'What drives me is the opportunity to help businesses grow through digital transformation. I find it important to keep my knowledge up to date and I am always looking for new ways to support my clients.';
 
   const paragraph2 = language === 'nl'
-    ? 'Naast mijn werk ben ik een trotse eigenaar van Elfie, mijn 11 maanden oude Australische herdershond. Elfie brengt me elke dag vreugde en leert me de waarde van geduld, toewijding en onvoorwaardelijke liefde. Deze lessen neem ik mee in mijn werk, waar ik met dezelfde toewijding en zorg uw digitale oplossingen ontwerp en implementeer.'
-    : 'Besides my work, I am a proud owner of Elfie, my 11-month-old Australian shepherd dog. Elfie brings me joy every day and teaches me the value of patience, dedication, and unconditional love. I take these lessons with me in my work, where I design and implement your digital solutions with the same dedication and care.';
+    ? 'Naast mijn werk ben ik een trotse eigenaar van Elfie. Zij brengt me elke dag vreugde en leert me de waarde van geduld, toewijding en onvoorwaardelijke liefde. Deze lessen neem ik mee in mijn werk, waar ik met dezelfde toewijding en zorg uw digitale oplossingen ontwerp en implementeer.'
+    : 'Besides my work, I am a proud owner of Elfie. She brings me joy every day and teaches me the value of patience, dedication, and unconditional love. I take these lessons with me in my work, where I design and implement your digital solutions with the same dedication and care.';
 
   const paragraph3 = language === 'nl'
     ? 'Bij Digimaatwerk bied ik niet alleen technische expertise, maar ook een persoonlijke aanpak die gericht is op uw specifieke behoeften. Ik begeleid u van ontwerp tot lancering, zorg voor transparante prijzen en ben altijd bereid om over uw ideeën en wensen te praten. Mijn doel is om uw bedrijf te helpen groeien door middel van innovatieve, betaalbare en op maat gemaakte digitale oplossingen.'
@@ -127,7 +127,7 @@ const AboutDamianSection = () => {
                   </div>
                 </div>
                 <h3 className="text-xl font-header font-semibold mb-1">Elfie</h3>
-                <p className="text-foreground/70">{language === 'nl' ? 'Australische Herder, 11 maanden' : 'Australian Shepherd, 11 months'}</p>
+                <p className="text-foreground/70">{language === 'nl' ? 'Australische Herder' : 'Australian Shepherd'}</p>
               </div>
             </div>
           </motion.div>
@@ -160,25 +160,7 @@ const AboutDamianSection = () => {
           </a>
         </motion.div>
         
-        {/* Scroll Indicator pointing to tech stack section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="mt-16 flex justify-center"
-        >
-          <a href="#tech-stack" className="flex flex-col items-center justify-center text-foreground/70 hover:text-accent transition group">
-            <span className="text-sm mb-2">
-              {language === 'nl' 
-                ? 'Onze technologie stack bekijken' 
-                : 'Check out our technology stack'}
-            </span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 animate-bounce group-hover:text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </a>
-        </motion.div>
+
       </div>
     </section>
   );

@@ -43,9 +43,24 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+    height: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     font-family: 'Space Grotesk', monospace;
     @apply bg-primary text-foreground;
+    overflow-x: hidden;
+    min-height: 100%;
+  }
+
+  /* This ensures sections have proper padding for smooth scrolling */
+  section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    scroll-margin-top: 5rem; /* Offset for fixed header */
   }
 
   h1, h2, h3, h4, h5, h6 {
