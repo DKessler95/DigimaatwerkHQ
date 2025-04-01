@@ -4,7 +4,7 @@ import CaseStudiesSection from "@/components/CaseStudiesSection";
 import TechStackSection from "@/components/TechStackSection";
 import PricingSection from "@/components/PricingSection";
 import ProjectCalculator from "@/components/ProjectCalculator";
-import TestimonialsSection from "@/components/TestimonialsSection";
+import AboutDamianSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 
 const Home = () => {
@@ -16,7 +16,7 @@ const Home = () => {
       <TechStackSection />
       <PricingSection />
       <ProjectCalculator />
-      <TestimonialsSection />
+      <AboutDamianSection />
       <ContactSection />
     </>
   );

@@ -124,7 +124,7 @@ const ContactSection = () => {
                     id="email" 
                     name="email"
                     className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent" 
-                    placeholder="your@email.com"
+                    placeholder={language === 'nl' ? "jouw@email.nl" : "your@email.com"}
                     value={formData.email}
                     onChange={handleChange}
                     required
@@ -228,19 +228,6 @@ const ContactSection = () => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <div className="flex flex-col items-center mb-8">
-              <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-accent">
-                <img 
-                  src="/images/profile.jpg" 
-                  alt={language === 'nl' ? "Profielfoto" : "Profile Photo"}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="text-center">
-                <h4 className="font-semibold text-lg">Damian Kessler</h4>
-                <p className="text-sm text-foreground/70">{language === 'nl' ? 'Oprichter & CEO' : 'Founder & CEO'}</p>
-              </div>
-            </div>
             
             <h3 className="text-xl font-header font-semibold mb-6 text-center">
               {language === 'nl' ? 'Contactgegevens' : 'Contact Information'}

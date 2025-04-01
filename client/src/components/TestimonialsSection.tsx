@@ -1,95 +1,139 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
 
-interface Testimonial {
-  quote: {
-    nl: string;
-    en: string;
-  };
-  name: string;
-  title: {
-    nl: string;
-    en: string;
-  };
-  company: string;
-}
+const AboutDamianSection = () => {
+  const { language } = useLanguage();
 
-const testimonials: Testimonial[] = [
-  {
-    quote: {
-      en: "Digimaatwerk transformed our customer service with their AI chatbot. It handles 80% of inquiries automatically and has significantly improved our response times.",
-      nl: "Digimaatwerk heeft onze klantenservice getransformeerd met hun AI chatbot. Het verwerkt automatisch 80% van de vragen en heeft onze responstijden aanzienlijk verbeterd."
-    },
-    name: "Joost van der Meer",
-    title: {
-      en: "CTO",
-      nl: "CTO"
-    },
-    company: "RetailTech Netherlands"
-  },
-  {
-    quote: {
-      en: "Their workflow automation solution reduced our document processing time by 87%. The team was professional and delivered exactly what we needed, on time and within budget.",
-      nl: "Hun workflowautomatiseringsoplossing heeft onze documentverwerkingstijd met 87% verminderd. Het team was professioneel en leverde precies wat we nodig hadden, op tijd en binnen budget."
-    },
-    name: "Sophia Bakker",
-    title: {
-      en: "Operations Director",
-      nl: "Operationeel Directeur"
-    },
-    company: "FinAssist BV"
-  }
-];
+  const title = language === 'nl' 
+    ? 'Over Damian Kessler: De Kracht achter Digimaatwerk' 
+    : 'About Damian Kessler: The Force Behind Digimaatwerk';
 
-const TestimonialsSection = () => {
-  const { language, t } = useLanguage();
+  const paragraph1 = language === 'nl'
+    ? 'Wat mij drijft is de mogelijkheid om bedrijven te helpen groeien door middel van digitale transformatie. Ik vind het belangrijk om mijn kennis op niveau te houden en ben altijd op zoek naar nieuwe manieren om mijn klanten te ondersteunen. Mijn persoonlijke aanpak en mijn vermogen om complexe technologieën begrijpelijk te maken, maken mij een betrouwbare partner voor uw digitale projecten.'
+    : 'What drives me is the opportunity to help businesses grow through digital transformation. I find it important to keep my knowledge up to date and I am always looking for new ways to support my clients. My personal approach and my ability to make complex technologies understandable make me a reliable partner for your digital projects.';
+
+  const paragraph2 = language === 'nl'
+    ? 'Naast mijn werk ben ik een trotse eigenaar van Elfie, mijn 11 maanden oude Australische herdershond. Elfie brengt me elke dag vreugde en leert me de waarde van geduld, toewijding en onvoorwaardelijke liefde. Deze lessen neem ik mee in mijn werk, waar ik met dezelfde toewijding en zorg uw digitale oplossingen ontwerp en implementeer.'
+    : 'Besides my work, I am a proud owner of Elfie, my 11-month-old Australian shepherd dog. Elfie brings me joy every day and teaches me the value of patience, dedication, and unconditional love. I take these lessons with me in my work, where I design and implement your digital solutions with the same dedication and care.';
+
+  const paragraph3 = language === 'nl'
+    ? 'Bij Digimaatwerk bied ik niet alleen technische expertise, maar ook een persoonlijke aanpak die gericht is op uw specifieke behoeften. Ik begeleid u van ontwerp tot lancering, zorg voor transparante prijzen en ben altijd bereid om over uw ideeën en wensen te praten. Mijn doel is om uw bedrijf te helpen groeien door middel van innovatieve, betaalbare en op maat gemaakte digitale oplossingen.'
+    : 'At Digimaatwerk, I offer not only technical expertise but also a personal approach that focuses on your specific needs. I guide you from design to launch, ensure transparent pricing, and am always willing to discuss your ideas and wishes. My goal is to help your business grow through innovative, affordable, and tailored digital solutions.';
+
+  const consultation = language === 'nl' ? 'Plan een gratis consult' : 'Schedule a free consultation';
+  const quote = language === 'nl' ? 'Vraag een offerte aan' : 'Request a quote';
+  const callToAction = language === 'nl' 
+    ? 'Wilt u weten hoe ik uw bedrijf digitaal kan versterken?' 
+    : 'Want to know how I can digitally strengthen your business?';
+
   return (
-    <section className="py-24 bg-gradient-to-b from-primary to-secondary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-gradient-to-b from-primary to-secondary relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 overflow-hidden z-0">
+        <div className="absolute -top-20 -right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-32 -left-20 w-80 h-80 bg-accent/5 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">
-            {t('testimonials.title')}
-          </h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto">
-            {t('testimonials.subtitle')}
-          </p>
+          <motion.h2 
+            className="text-3xl md:text-4xl font-header font-bold mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            {title}
+          </motion.h2>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div 
-              key={index}
-              className="bg-gradient-to-br from-secondary to-primary/80 rounded-2xl p-8 shadow-lg relative"
-              initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <div className="absolute top-6 right-8 text-6xl text-accent/20 z-0">"</div>
-              <div className="relative z-10">
-                <p className="text-foreground/90 mb-6 text-lg">
-                  {language === 'nl' ? testimonial.quote.nl : testimonial.quote.en}
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                    <img 
-                      src={`/images/${testimonial.name === "Joost van der Meer" ? "joost.jpg" : "sophia.jpg"}`} 
-                      alt={testimonial.name}
-                      className="w-full h-full object-cover" 
-                    />
-                  </div>
-                  <div>
-                    <div className="font-header font-medium">{testimonial.name}</div>
-                    <div className="text-foreground/60 text-sm">
-                      {language === 'nl' ? testimonial.title.nl : testimonial.title.en}, {testimonial.company}
-                    </div>
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          {/* Left column with text content */}
+          <motion.div 
+            className="lg:col-span-7 space-y-6"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-lg leading-relaxed text-foreground/90">{paragraph1}</p>
+            <p className="text-lg leading-relaxed text-foreground/90">{paragraph2}</p>
+            <p className="text-lg leading-relaxed text-foreground/90">{paragraph3}</p>
+            
+            <div className="pt-6">
+              <h3 className="text-xl font-header font-semibold mb-4 text-accent">{callToAction}</h3>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a 
+                  href="#contact" 
+                  className="inline-flex items-center justify-center px-6 py-3 bg-accent text-primary font-medium rounded-lg transition hover:bg-accent/90"
+                >
+                  {consultation}
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </a>
+                <a 
+                  href="#contact" 
+                  className="inline-flex items-center justify-center px-6 py-3 border border-accent/30 text-accent font-medium rounded-lg transition hover:bg-accent/10"
+                >
+                  {quote}
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Right column with photos */}
+          <motion.div 
+            className="lg:col-span-5 space-y-8"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            {/* Damian's profile photo */}
+            <div className="bg-secondary/40 rounded-2xl p-6 shadow-lg backdrop-blur-sm">
+              <div className="flex flex-col items-center">
+                <div className="w-40 h-40 rounded-full overflow-hidden mb-6 border-2 border-accent">
+                  <img 
+                    src="/images/profile.jpg" 
+                    alt="Damian Kessler"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className="text-xl font-header font-semibold mb-1">Damian Kessler</h3>
+                <p className="text-foreground/70 mb-4">{language === 'nl' ? 'Oprichter & CEO' : 'Founder & CEO'}</p>
+                
+                <div className="flex space-x-4">
+                  <a href="https://linkedin.com/in/damiankessler" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+                    <i className="ri-linkedin-fill text-accent"></i>
+                  </a>
+                  <a href="https://twitter.com/DigiMaatwerk" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+                    <i className="ri-twitter-fill text-accent"></i>
+                  </a>
                 </div>
               </div>
-            </motion.div>
-          ))}
+            </div>
+            
+            {/* Elfie's photo (placeholder) */}
+            <div className="bg-secondary/40 rounded-2xl p-6 shadow-lg backdrop-blur-sm">
+              <div className="flex flex-col items-center">
+                <div className="w-40 h-40 rounded-full overflow-hidden mb-6 border-2 border-accent/70">
+                  {/* Placeholder for dog photo */}
+                  <div className="w-full h-full bg-accent/20 flex items-center justify-center">
+                    <i className="ri-paw-print-fill text-4xl text-accent/50"></i>
+                  </div>
+                </div>
+                <h3 className="text-xl font-header font-semibold mb-1">Elfie</h3>
+                <p className="text-foreground/70">{language === 'nl' ? 'Australische Herder, 11 maanden' : 'Australian Shepherd, 11 months'}</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
         
+        {/* Google Reviews Badge */}
         <motion.div 
           className="mt-16 bg-secondary/30 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between"
           initial={{ opacity: 0, y: 30 }}
@@ -105,13 +149,12 @@ const TestimonialsSection = () => {
             <i className="ri-star-fill text-accent"></i>
             <i className="ri-star-fill text-accent"></i>
             <div className="mt-2 text-foreground/70">
-              <span className="font-medium">4.9/5</span> 
-              {t('testimonials.reviews')}
+              <span className="font-medium">4.9/5</span> {language === 'nl' ? 'uit 28 beoordelingen' : 'from 28 reviews'}
             </div>
           </div>
           <a href="#" className="inline-flex items-center text-accent group">
             <span className="group-hover:underline">
-              {t('testimonials.read')}
+              {language === 'nl' ? 'Lees alle beoordelingen' : 'Read all reviews'}
             </span>
             <i className="ri-external-link-line ml-2"></i>
           </a>
@@ -141,4 +184,4 @@ const TestimonialsSection = () => {
   );
 };
 
-export default TestimonialsSection;
+export default AboutDamianSection;
