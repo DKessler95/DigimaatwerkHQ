@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -137,10 +137,12 @@ const CaseStudyBackgroundAnimation: React.FC<CaseStudyBackgroundAnimationProps> 
 }) => {
   return (
     <div className={className}>
-      <Canvas camera={{ position: [0, 0, 25], fov: 60 }}>
-        <ambientLight intensity={0.2} />
-        <ParticlesAnimation category={category} />
-      </Canvas>
+      <Suspense fallback={<div className="w-full h-full bg-primary" />}>
+        <Canvas camera={{ position: [0, 0, 25], fov: 60 }}>
+          <ambientLight intensity={0.2} />
+          <ParticlesAnimation category={category} />
+        </Canvas>
+      </Suspense>
     </div>
   );
 };

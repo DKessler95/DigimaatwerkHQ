@@ -1,7 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 import { useFrame, Canvas } from '@react-three/fiber';
-import { Html, useTexture, OrbitControls, ContactShadows } from '@react-three/drei';
+import { Html, OrbitControls } from '@react-three/drei';
+
+// Simplified texture hook to avoid Replit-specific dependencies
+const useSimpleTexture = (url: string) => {
+  const texture = new THREE.TextureLoader().load(url);
+  return texture;
+};
 
 // Floating text component
 const FloatingText = ({ position, text, color = '#ffffff', scale = 1 }: { position: [number, number, number]; text: string; color?: string; scale?: number }) => {
@@ -86,7 +92,7 @@ const AutomationAnimation = () => {
 const WebDevAnimation = ({ logoUrl = '/digimaatwerkLOGO.png' }) => {
   const groupRef = useRef<THREE.Group>(null);
   const planeRef = useRef<THREE.Mesh>(null);
-  const texture = useTexture(logoUrl);
+  const texture = useSimpleTexture(logoUrl);
   
   useFrame(({ clock }) => {
     if (groupRef.current) {
@@ -192,13 +198,12 @@ const AnimationScene = ({ category }: { category: string }) => {
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} intensity={1} />
       <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2.5} maxPolarAngle={Math.PI / 2.5} />
-      <ContactShadows
-        position={[0, -1.5, 0]}
-        opacity={0.4}
-        scale={10}
-        blur={2}
-        far={5}
-      />
+      
+      {/* Simple shadow plane instead of ContactShadows */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
+        <planeGeometry args={[20, 20]} />
+        <shadowMaterial opacity={0.2} />
+      </mesh>
       
       {/* Choose animation based on category */}
       {category === 'Automatisering' || category === 'Automation' ? (
@@ -264,9 +269,15 @@ const CaseStudyThreeScene: React.FC<CaseStudyThreeSceneProps> = ({
 }) => {
   return (
     <div className={`${className} my-8 rounded-lg overflow-hidden`} style={{ height }}>
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-        <AnimationScene category={category} />
-      </Canvas>
+      <Suspense fallback={
+        <div className="w-full h-full flex items-center justify-center bg-secondary/30">
+          <div className="animate-spin w-8 h-8 border-4 border-accent border-t-transparent rounded-full" />
+        </div>
+      }>
+        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+          <AnimationScene category={category} />
+        </Canvas>
+      </Suspense>
     </div>
   );
 };
