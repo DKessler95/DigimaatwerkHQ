@@ -325,19 +325,7 @@ const CaseStudyPage = () => {
           <div className="col-span-1 md:col-span-3">
             {/* Case study content with scroll animations */}
             <div className="space-y-12">
-              {/* Case study content heading */}
-              <section>
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="prose prose-lg max-w-none"
-                >
-                  {/* Heading removed as requested */}
-                </motion.div>
-              </section>
-              
-              {/* Detailed implementation section with scroll animations */}
+              {/* Main content section with motion div moved up */}
               <section>
                 <motion.div 
                   initial={{ opacity: 0 }}
