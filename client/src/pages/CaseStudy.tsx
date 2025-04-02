@@ -324,8 +324,8 @@ const CaseStudyPage = () => {
           {/* Main content area */}
           <div className="col-span-1 md:col-span-3">
             {/* Case study content with scroll animations - removed space-y-12 class */}
-            <div>
-              {/* Main content section with motion div moved up */}
+            <div className="mt-[-1.5rem]">
+              {/* Main content section with motion div moved up and negative margin applied */}
               <section>
                 <motion.div 
                   initial={{ opacity: 0 }}
