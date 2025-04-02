@@ -323,8 +323,8 @@ const CaseStudyPage = () => {
           
           {/* Main content area */}
           <div className="col-span-1 md:col-span-3">
-            {/* Case study content with scroll animations */}
-            <div className="space-y-12">
+            {/* Case study content with scroll animations - removed space-y-12 class */}
+            <div>
               {/* Main content section with motion div moved up */}
               <section>
                 <motion.div 
