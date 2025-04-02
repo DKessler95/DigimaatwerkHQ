@@ -1,7 +1,7 @@
 ---
 slug: fast-taxi-automation
 title: Automatisering van het E-mailproces voor Fast Taxi Rotterdam
-featured_image: /images/portfolio/fasttaxi.png
+featured_image: /images/portfolio/fasttaxi_optimized.png
 category: Automatisering
 client: Fast Taxi Rotterdam
 industry: Vervoer / Taxi-diensten

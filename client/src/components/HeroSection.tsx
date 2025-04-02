@@ -5,7 +5,7 @@ const HeroSection = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="relative h-[90vh] overflow-hidden">
+    <section className="hero-section relative h-[90vh] overflow-hidden">
       {/* Background Animation */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-accent/30 blur-3xl animate-pulse"></div>
@@ -23,10 +23,10 @@ const HeroSection = () => {
             {t('hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#services" className="px-8 py-3 bg-accent text-primary font-header font-medium rounded-lg transition hover:bg-accent/90">
+            <a href="#services" className="px-8 py-3 bg-accent text-primary font-header font-medium rounded-lg shadow-lg transition-all duration-300 hover:bg-primary hover:text-accent hover:scale-105 hover:shadow-xl">
               {t('hero.cta')}
             </a>
-            <a href="#contact" className="px-8 py-3 bg-transparent border border-foreground/30 text-foreground font-header font-medium rounded-lg transition hover:bg-foreground/10">
+            <a href="#contact" className="px-8 py-3 bg-transparent border border-foreground/30 text-foreground font-header font-medium rounded-lg shadow-lg transition-all duration-300 hover:bg-accent hover:text-primary hover:border-accent hover:scale-105 hover:shadow-xl">
               {t('hero.contact')}
             </a>
           </div>

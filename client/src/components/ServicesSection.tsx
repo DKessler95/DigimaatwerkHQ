@@ -110,21 +110,21 @@ const ServicesSection = () => {
             return (
               <motion.div 
                 key={index}
-                className="relative bg-gradient-to-br from-secondary via-secondary/80 to-primary/80 p-8 rounded-2xl shadow-lg card-hover-effect overflow-hidden group"
+                className="relative bg-gradient-to-br from-secondary via-secondary/80 to-primary/80 p-8 rounded-2xl shadow-lg card-hover-effect overflow-hidden group h-[420px] flex flex-col"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col flex-grow">
                   <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-6">
                     <i className={`${service.icon} text-2xl text-accent`}></i>
                   </div>
                   <h3 className="text-xl font-header font-semibold mb-3">{t(service.titleKey)}</h3>
                   <p className="text-foreground/70 mb-4">{t(service.descriptionKey)}</p>
-                  <p className="text-accent font-mono text-sm">{t(service.techKey)}</p>
-                  <div className="mt-6">
+                  <div className="mt-auto">
+                    <p className="text-accent font-mono text-sm mb-4">{t(service.techKey)}</p>
                     <a 
                       href={categoryPaths[service.icon as keyof typeof categoryPaths]} 
                       className="inline-flex items-center text-accent group"
