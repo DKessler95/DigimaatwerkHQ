@@ -58,9 +58,9 @@
 
   /* This ensures sections have proper padding for smooth scrolling */
   section {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-    scroll-margin-top: 5rem; /* Offset for fixed header */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    scroll-margin-top: 4rem; /* Offset for fixed header */
   }
 
   h1, h2, h3, h4, h5, h6 {
