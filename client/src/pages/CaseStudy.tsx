@@ -333,9 +333,7 @@ const CaseStudyPage = () => {
                   transition={{ duration: 0.6 }}
                   className="prose prose-lg max-w-none"
                 >
-                  <h2 className="text-2xl md:text-3xl font-header font-bold text-accent mb-6 inline-block pb-2 border-b-2 border-accent/20">
-                    {language === 'nl' ? 'Gedetailleerde Uitwerking' : 'Detailed Implementation'}
-                  </h2>
+                  {/* Heading removed as requested */}
                 </motion.div>
               </section>
               
@@ -355,8 +353,8 @@ const CaseStudyPage = () => {
                     prose-a:text-accent prose-a:no-underline hover:prose-a:underline 
                     prose-code:text-accent prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded 
                     prose-code:before:content-none prose-code:after:content-none 
-                    prose-blockquote:border-l-4 prose-blockquote:border-l-orange-500 prose-blockquote:bg-orange-100/30 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:not-italic 
-                    prose-blockquote:text-orange-600 prose-blockquote:font-medium prose-blockquote:text-lg
+                    prose-blockquote:border-l-4 prose-blockquote:border-l-accent prose-blockquote:bg-accent/10 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:not-italic 
+                    prose-blockquote:text-foreground prose-blockquote:font-medium prose-blockquote:text-lg
                     prose-ul:pl-5 prose-ol:pl-5 prose-li:text-foreground prose-li:font-medium prose-li:marker:text-accent prose-li:my-1
                     
                     [&_.content-section]:mb-8 [&_.section-heading]:text-2xl [&_.section-heading]:mb-4 
@@ -391,7 +389,7 @@ const CaseStudyPage = () => {
           </p>
           <a 
             href="/#contact" 
-            className="inline-flex items-center px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/90 transition"
+            className="inline-flex items-center px-6 py-3 bg-accent text-primary rounded-lg hover:bg-accent/80 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
           >
             {language === 'nl' ? 'Neem Contact Op' : 'Contact Us'}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
