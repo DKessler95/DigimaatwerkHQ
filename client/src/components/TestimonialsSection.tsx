@@ -5,16 +5,16 @@ const AboutDamianSection = () => {
   const { language } = useLanguage();
 
   const title = language === 'nl' 
-    ? 'Over Damian Kessler: De Kracht achter Digimaatwerk' 
-    : 'About Damian Kessler: The Force Behind Digimaatwerk';
+    ? 'Damian Kessler: De Kracht achter Digimaatwerk' 
+    : 'Damian Kessler: The Force Behind Digimaatwerk';
 
   const paragraph1 = language === 'nl'
     ? 'Wat mij drijft is de mogelijkheid om bedrijven te helpen groeien door middel van digitale transformatie. Ik vind het belangrijk om mijn kennis op niveau te houden en ben altijd op zoek naar nieuwe manieren om mijn klanten te ondersteunen.'
     : 'What drives me is the opportunity to help businesses grow through digital transformation. I find it important to keep my knowledge up to date and I am always looking for new ways to support my clients.';
 
   const paragraph2 = language === 'nl'
-    ? 'Naast mijn werk ben ik een trotse eigenaar van Elfie. Zij brengt me elke dag vreugde en leert me de waarde van geduld, toewijding en onvoorwaardelijke liefde. Deze lessen neem ik mee in mijn werk, waar ik met dezelfde toewijding en zorg uw digitale oplossingen ontwerp en implementeer.'
-    : 'Besides my work, I am a proud owner of Elfie. She brings me joy every day and teaches me the value of patience, dedication, and unconditional love. I take these lessons with me in my work, where I design and implement your digital solutions with the same dedication and care.';
+    ? 'Naast mijn werk ben ik een trotse eigenaar van Elfie, mijn 11 maanden oude Australische herdershond. Elfie brengt me elke dag vreugde en leert me de waarde van geduld, toewijding en onvoorwaardelijke liefde. Deze lessen neem ik mee in mijn werk, waar ik met dezelfde toewijding en zorg uw digitale oplossingen ontwerp en implementeer.'
+    : 'Besides my work, I am a proud owner of Elfie, my 11-month-old Australian shepherd dog. Elfie brings me joy every day and teaches me the value of patience, dedication, and unconditional love. I take these lessons with me in my work, where I design and implement your digital solutions with the same dedication and care.';
 
   const paragraph3 = language === 'nl'
     ? 'Bij Digimaatwerk bied ik niet alleen technische expertise, maar ook een persoonlijke aanpak die gericht is op uw specifieke behoeften. Ik begeleid u van ontwerp tot lancering, zorg voor transparante prijzen en ben altijd bereid om over uw ideeën en wensen te praten. Mijn doel is om uw bedrijf te helpen groeien door middel van innovatieve, betaalbare en op maat gemaakte digitale oplossingen.'
