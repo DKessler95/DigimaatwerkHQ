@@ -29,34 +29,23 @@ Fast Taxi Rotterdam, a leading taxi company in the Rotterdam region, faced a cha
 
 ## The Challenge
 
-Fast Taxi Rotterdam received dozens of emails daily with booking requests and customer inquiries. The process was entirely manual, resulting in:
-- **Longer response times:** Customers sometimes had to wait hours for a response.
-- **Human errors:** Forgotten bookings or incorrect data entry.
-- **High workload:** The team spent a lot of time on routine tasks instead of focusing on strategic improvements.
-
-The goal was to develop an automated system that:
-1. Categorizes and prioritizes emails.
-2. Automatically generates responses to frequently asked questions.
-3. Processes booking requests and synchronizes with the schedule.
+Fast Taxi Rotterdam received dozens of emails daily with booking requests and customer inquiries. The process was entirely manual, resulting in longer response times, human errors, and high workload for the team. The goal was to develop an automated system that categorizes emails, generates automatic responses, and processes booking requests.
 
 ## Our Approach
 
 Digimaatwerk implemented a custom workflow automation solution using modern tools such as **Zapier**, **Google Workspace**, and **Twilio**. The system included the following features:
 
-### 1. **Email Categorization**
-- Using an AI-based filter, incoming emails were automatically categorized based on content (e.g., ride bookings, general questions, complaints).
-- Priorities were set to handle urgent requests more quickly.
+### **Email Categorization**
+Using an **AI-based filter**, incoming emails were automatically categorized based on content (e.g., ride bookings, general questions, complaints). This filter utilizes **Machine Learning (ML)** and **Natural Language Processing (NLP)** to analyze and classify email content. Priorities were set to handle urgent requests more quickly.
 
-### 2. **Automatic Responses**
-- A database of frequently asked questions was integrated into the system to automatically generate responses to standard questions like rates, availability, and payment methods.
-- Customers received a professional response within seconds.
+### **Automatic Responses**
+A database of frequently asked questions was integrated into the system to automatically generate responses to standard questions like rates, availability, and payment methods. Customers received a professional response within seconds.
 
-### 3. **Booking Processing**
-- Booking requests were automatically processed and added to a shared Google Calendar.
-- Confirmation emails with ride details were sent directly to customers.
+### **Booking Processing**
+Booking requests were automatically processed and added to a shared Google Calendar. Confirmation emails with ride details were sent directly to customers.
 
-### 4. **Notification System**
-- SMS reminders were sent to customers and drivers via Twilio to confirm scheduled rides.
+### **Notification System**
+SMS reminders were sent to customers and drivers via Twilio to confirm scheduled rides.
 
 ## The Technical Solution
 

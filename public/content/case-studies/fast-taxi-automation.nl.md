@@ -29,34 +29,23 @@ Fast Taxi Rotterdam, een toonaangevend taxibedrijf in de regio Rotterdam, stond 
 
 ## De Uitdaging
 
-Fast Taxi Rotterdam ontving dagelijks tientallen e-mails met boekingsaanvragen en klantvragen. Het proces was volledig handmatig, wat resulteerde in:
-- **Langere responstijden:** Klanten moesten soms uren wachten op een antwoord.
-- **Menselijke fouten:** Vergeten boekingen of foutieve gegevensinvoer.
-- **Hoge werkdruk:** Het team besteedde veel tijd aan routinetaken in plaats van zich te richten op strategische verbeteringen.
-
-**Het doel was om een geautomatiseerd systeem te ontwikkelen dat:**
-1. **E-mails categoriseert en prioriteert.**
-2. **Automatisch antwoorden genereert voor veelgestelde vragen.**
-3. **Boekingsaanvragen verwerkt en synchroniseert met de planning.**
+Fast Taxi Rotterdam ontving dagelijks tientallen e-mails met boekingsaanvragen en klantvragen. Het proces was volledig handmatig, wat resulteerde in langere responstijden, menselijke fouten en een hoge werkdruk voor het team. Het doel was om een geautomatiseerd systeem te ontwikkelen dat e-mails categoriseert, automatische antwoorden genereert en boekingsaanvragen verwerkt.
 
 ## Onze Aanpak
 
 Digimaatwerk implementeerde een op maat gemaakte workflow-automatiseringsoplossing die gebruik maakt van moderne tools zoals **Zapier**, **Google Workspace** en **Twilio**. Het systeem omvatte de volgende functies:
 
-### 1. **E-mailcategorisatie**
-- Met behulp van een AI-gebaseerd filter werden inkomende e-mails automatisch gecategoriseerd op basis van inhoud (bijv. ritboekingen, algemene vragen, klachten).
-- Prioriteiten werden ingesteld om urgente verzoeken sneller af te handelen.
+### **E-mailcategorisatie**
+Met behulp van een **AI-gebaseerd filter** werden inkomende e-mails automatisch gecategoriseerd op basis van inhoud (bijv. ritboekingen, algemene vragen, klachten). Dit filter maakt gebruik van **Machine Learning (ML)** en **Natural Language Processing (NLP)** om de inhoud van e-mails te analyseren en te classificeren. Prioriteiten werden ingesteld om urgente verzoeken sneller af te handelen.
 
-### 2. **Automatische antwoorden**
-- Een database met veelgestelde vragen werd geïntegreerd in het systeem om automatisch antwoorden te genereren voor standaardvragen zoals tarieven, beschikbaarheid en betalingsmethoden.
-- Klanten ontvingen binnen enkele seconden een professioneel antwoord.
+### **Automatische antwoorden**
+Een database met veelgestelde vragen werd geïntegreerd in het systeem om automatisch antwoorden te genereren voor standaardvragen zoals tarieven, beschikbaarheid en betalingsmethoden. Klanten ontvingen binnen enkele seconden een professioneel antwoord.
 
-### 3. **Boekingsverwerking**
-- Boekingsaanvragen werden automatisch verwerkt en toegevoegd aan een gedeelde Google Calendar.
-- Bevestigingsmails met ritdetails werden direct naar klanten gestuurd.
+### **Boekingsverwerking**
+Boekingsaanvragen werden automatisch verwerkt en toegevoegd aan een gedeelde Google Calendar. Bevestigingsmails met ritdetails werden direct naar klanten gestuurd.
 
-### 4. **Notificatiesysteem**
-- Via Twilio werden SMS-herinneringen gestuurd naar klanten en chauffeurs om geplande ritten te bevestigen.
+### **Notificatiesysteem**
+Via Twilio werden SMS-herinneringen gestuurd naar klanten en chauffeurs om geplande ritten te bevestigen.
 
 ## De Technische Oplossing
 
@@ -71,8 +60,8 @@ De technische implementatie bestond uit:
 
 1. Een klant stuurt een e-mail naar Fast Taxi Rotterdam (bijv. "Ik wil een taxi boeken voor morgen om 10:00 uur").
 2. Het systeem analyseert de inhoud van de e-mail:
-   - **Categoriseert deze als "Boekingsaanvraag".**
-   - **Controleert beschikbaarheid via de gedeelde Google Calendar.**
+   - Categoriseert deze als "Boekingsaanvraag".
+   - Controleert beschikbaarheid via de gedeelde Google Calendar.
 3. Een automatische bevestigingsmail wordt verzonden naar de klant met details over de rit.
 4. De boeking wordt toegevoegd aan de planning, inclusief een SMS-herinnering voor zowel de klant als de chauffeur.
 

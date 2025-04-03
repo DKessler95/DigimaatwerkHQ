@@ -81,7 +81,7 @@ const Header = () => {
               )}
             </div>
             <Link href="/portfolio" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</Link>
-            <a href="#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</a>
+            <Link href="/#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</Link>
             <Link href="/blogs" className="text-foreground/80 hover:text-accent transition font-body">{t('header.blogs')}</Link>
           </nav>
           

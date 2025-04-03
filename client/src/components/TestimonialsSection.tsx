@@ -13,8 +13,8 @@ const AboutDamianSection = () => {
     : 'What drives me is the opportunity to help businesses grow through digital transformation. I find it important to keep my knowledge up to date and I am always looking for new ways to support my clients.';
 
   const paragraph2 = language === 'nl'
-    ? 'Naast mijn werk ben ik een trotse eigenaar van Elfie, mijn 11 maanden oude Australische herdershond. Elfie brengt me elke dag vreugde en leert me de waarde van geduld, toewijding en onvoorwaardelijke liefde. Deze lessen neem ik mee in mijn werk, waar ik met dezelfde toewijding en zorg uw digitale oplossingen ontwerp en implementeer.'
-    : 'Besides my work, I am a proud owner of Elfie, my 11-month-old Australian shepherd dog. Elfie brings me joy every day and teaches me the value of patience, dedication, and unconditional love. I take these lessons with me in my work, where I design and implement your digital solutions with the same dedication and care.';
+    ? 'Naast mijn werk ben ik een trotse eigenaar van Elfie, mijn Australische herdershond. Elfie en ik brengen veel tijd door met activiteiten zoals wandelen, de bal apporteren en skateboarden'
+    : 'Besides my work, I am a proud owner of Elfie, my Australian shepherd dog. My Australian Shepherd, Elfie, and I spend a lot of time doing activities like walking, fetching the ball, and skateboarding. ';
 
   const paragraph3 = language === 'nl'
     ? 'Bij Digimaatwerk bied ik niet alleen technische expertise, maar ook een persoonlijke aanpak die gericht is op uw specifieke behoeften. Ik begeleid u van ontwerp tot lancering, zorg voor transparante prijzen en ben altijd bereid om over uw ideeën en wensen te praten. Mijn doel is om uw bedrijf te helpen groeien door middel van innovatieve, betaalbare en op maat gemaakte digitale oplossingen.'
@@ -65,7 +65,7 @@ const AboutDamianSection = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <a 
                   href="#contact" 
-                  className="inline-flex items-center justify-center px-6 py-3 bg-accent text-primary font-medium rounded-lg transition hover:bg-accent/90"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-accent text-primary font-medium rounded-lg transition-all duration-300 hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20 hover:-translate-y-1"
                 >
                   {consultation}
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,7 +74,7 @@ const AboutDamianSection = () => {
                 </a>
                 <a 
                   href="#contact" 
-                  className="inline-flex items-center justify-center px-6 py-3 border border-accent/30 text-accent font-medium rounded-lg transition hover:bg-accent/10"
+                  className="inline-flex items-center justify-center px-6 py-3 border border-accent/30 text-accent font-medium rounded-lg transition-all duration-300 hover:bg-accent/10 hover:border-accent hover:shadow-md hover:-translate-y-1"
                 >
                   {quote}
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,7 +107,7 @@ const AboutDamianSection = () => {
                 <p className="text-foreground/70 mb-4">{language === 'nl' ? 'Oprichter & CEO' : 'Founder & CEO'}</p>
                 
                 <div className="flex space-x-4">
-                  <a href="https://linkedin.com/in/damiankessler" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
+                  <a href="https://www.linkedin.com/in/damian-kessler/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
                     <i className="ri-linkedin-fill text-accent"></i>
                   </a>
                   <a href="https://twitter.com/DigiMaatwerk" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition">
@@ -121,10 +121,11 @@ const AboutDamianSection = () => {
             <div className="bg-secondary/40 rounded-2xl p-6 shadow-lg backdrop-blur-sm">
               <div className="flex flex-col items-center">
                 <div className="w-40 h-40 rounded-full overflow-hidden mb-6 border-2 border-accent/70">
-                  {/* Placeholder for dog photo */}
-                  <div className="w-full h-full bg-accent/20 flex items-center justify-center">
-                    <i className="ri-paw-print-fill text-4xl text-accent/50"></i>
-                  </div>
+                  <img 
+                    src="/images/elfie.jpg" 
+                    alt="Elfie - Australische Herder"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-header font-semibold mb-1">Elfie</h3>
                 <p className="text-foreground/70">{language === 'nl' ? 'Australische Herder' : 'Australian Shepherd'}</p>
