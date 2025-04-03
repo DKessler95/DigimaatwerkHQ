@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
 
-type ProjectType = 'chatbot' | 'automation' | 'web' | 'combined';
+type ProjectType = 'chatbot' | 'automation' | 'web' | 'webshop' | 'combined';
 type ProjectScale = 'basic' | 'advanced' | 'custom';
 type SupportPackage = 'none' | 'basic' | 'standard' | 'premium';
 type TimelinePriority = 1 | 2 | 3;
@@ -156,6 +156,58 @@ const ProjectCalculator = () => {
   ];
 
   // Gecombineerd Project features
+  // Webshop features
+  const webshopFeatures: Feature[] = [
+    { 
+      id: 'shop_feature1', 
+      nameNl: 'Productcatalogus', 
+      nameEn: 'Product catalog',
+      priceImpact: 300 
+    },
+    { 
+      id: 'shop_feature2', 
+      nameNl: 'Winkelwagen en checkout', 
+      nameEn: 'Shopping cart and checkout',
+      priceImpact: 350 
+    },
+    { 
+      id: 'shop_feature3', 
+      nameNl: 'Betalingsgateways (iDeal, PayPal, Creditcard)', 
+      nameEn: 'Payment gateways (iDeal, PayPal, Credit card)',
+      priceImpact: 400 
+    },
+    { 
+      id: 'shop_feature4', 
+      nameNl: 'Voorraad beheer', 
+      nameEn: 'Inventory management',
+      priceImpact: 250 
+    },
+    { 
+      id: 'shop_feature5', 
+      nameNl: 'Kortingscodes en acties', 
+      nameEn: 'Discount codes and promotions',
+      priceImpact: 200 
+    },
+    { 
+      id: 'shop_feature6', 
+      nameNl: 'Klantaccounts', 
+      nameEn: 'Customer accounts',
+      priceImpact: 300 
+    },
+    { 
+      id: 'shop_feature7', 
+      nameNl: 'Product varianten (maten, kleuren)', 
+      nameEn: 'Product variants (sizes, colors)',
+      priceImpact: 250 
+    },
+    { 
+      id: 'shop_feature8', 
+      nameNl: 'Verzending en belasting calculator', 
+      nameEn: 'Shipping and tax calculator',
+      priceImpact: 200 
+    },
+  ];
+
   const combinedFeatures: Feature[] = [
     { 
       id: 'comb_feature1', 
@@ -204,6 +256,8 @@ const ProjectCalculator = () => {
         return automationFeatures;
       case 'web':
         return webFeatures;
+      case 'webshop':
+        return webshopFeatures;
       case 'combined':
         return combinedFeatures;
       default:
@@ -264,11 +318,23 @@ const ProjectCalculator = () => {
       }
     }
     
+    // Webshop type prices
+    if (projectType === 'webshop') {
+      if (projectScale === 'basic') {
+        return 500; // Basis webshop: €500
+      } else if (projectScale === 'advanced') {
+        return 1500; // Geavanceerde webshop: €1500
+      } else if (projectScale === 'custom') {
+        return 3000; // Maatwerk webshop: €3000
+      }
+    }
+    
     // For other project types
     const typeMultiplier = {
       chatbot: 1.2,
       automation: 1.3,
       web: 1,
+      webshop: 1.5,
       combined: 2.5
     };
     
@@ -391,6 +457,7 @@ const ProjectCalculator = () => {
                     <option value="chatbot">{t('calculator.type.chatbot')}</option>
                     <option value="automation">{t('calculator.type.automation')}</option>
                     <option value="web">{t('calculator.type.web')}</option>
+                    <option value="webshop">{language === 'nl' ? 'Webshop' : 'Webshop'}</option>
                     <option value="combined">{t('calculator.type.combined')}</option>
                   </select>
                 </div>

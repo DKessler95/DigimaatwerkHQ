@@ -38,7 +38,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Hero
     'hero.title': 'Uw partner voor digitale transformatie',
-    'hero.subtitle': 'AI, Automatisering & Web Development',
+    'hero.subtitle': 'Web Development, AI & Automatisering',
     'hero.cta': 'Ontdek onze diensten',
     'hero.contact': 'Neem contact op',
     'hero.services.web.title': 'Maatwerk websites',
@@ -170,7 +170,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Hero
     'hero.title': 'Your Digital Transformation Partner',
-    'hero.subtitle': 'AI, Automation & Web Development',
+    'hero.subtitle': 'Web Development, AI & Automation',
     'hero.cta': 'Discover our services',
     'hero.contact': 'Contact us',
     'hero.services.web.title': 'Custom Websites',
