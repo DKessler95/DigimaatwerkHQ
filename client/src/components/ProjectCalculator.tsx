@@ -156,57 +156,7 @@ const ProjectCalculator = () => {
   ];
 
   // Gecombineerd Project features
-  // Webshop features
-  const webshopFeatures: Feature[] = [
-    { 
-      id: 'shop_feature1', 
-      nameNl: 'Productcatalogus', 
-      nameEn: 'Product catalog',
-      priceImpact: 200 
-    },
-    { 
-      id: 'shop_feature2', 
-      nameNl: 'Winkelwagen en checkout', 
-      nameEn: 'Shopping cart and checkout',
-      priceImpact: 250 
-    },
-    { 
-      id: 'shop_feature3', 
-      nameNl: 'Betalingsgateways (iDeal, PayPal)', 
-      nameEn: 'Payment gateways (iDeal, PayPal)',
-      priceImpact: 200 
-    },
-    { 
-      id: 'shop_feature4', 
-      nameNl: 'Voorraad beheer', 
-      nameEn: 'Inventory management',
-      priceImpact: 200 
-    },
-    { 
-      id: 'shop_feature5', 
-      nameNl: 'Kortingscodes en acties', 
-      nameEn: 'Discount codes and promotions',
-      priceImpact: 150 
-    },
-    { 
-      id: 'shop_feature6', 
-      nameNl: 'Klantaccounts', 
-      nameEn: 'Customer accounts',
-      priceImpact: 200 
-    },
-    { 
-      id: 'shop_feature7', 
-      nameNl: 'Product varianten (maten, kleuren)', 
-      nameEn: 'Product variants (sizes, colors)',
-      priceImpact: 150 
-    },
-    { 
-      id: 'shop_feature8', 
-      nameNl: 'Verzending en belasting calculator', 
-      nameEn: 'Shipping and tax calculator',
-      priceImpact: 150 
-    },
-  ];
+
 
   const combinedFeatures: Feature[] = [
     { 
@@ -247,9 +197,6 @@ const ProjectCalculator = () => {
     },
   ];
 
-  // State voor webshop optie binnen website type
-  const [isWebshop, setIsWebshop] = useState<boolean>(false);
-
   // Get the current features based on project type
   const getFeaturesByType = (): Feature[] => {
     switch(projectType) {
@@ -258,7 +205,7 @@ const ProjectCalculator = () => {
       case 'automation':
         return automationFeatures;
       case 'web':
-        return isWebshop ? [...webFeatures, ...webshopFeatures] : webFeatures;
+        return webFeatures;
       case 'combined':
         return combinedFeatures;
       default:
@@ -266,10 +213,9 @@ const ProjectCalculator = () => {
     }
   };
 
-  // Reset selected features and webshop option when changing project type
+  // Reset selected features when changing project type
   useEffect(() => {
     setSelectedFeatures([]);
-    setIsWebshop(false);
   }, [projectType]);
 
   const features = getFeaturesByType();
@@ -320,11 +266,6 @@ const ProjectCalculator = () => {
         basePrice = 1250; // Geavanceerde website: €1250
       } else if (projectScale === 'custom') {
         basePrice = 2500; // Maatwerk website: €2500
-      }
-      
-      // Voeg webshop prijs toe indien geselecteerd
-      if (isWebshop) {
-        basePrice += 500; // Webshop basis: €500
       }
       
       return basePrice;
@@ -491,28 +432,7 @@ const ProjectCalculator = () => {
                   </div>
                 </div>
                 
-                {projectType === 'web' && (
-                  <div className="mb-4">
-                    <label className="block text-foreground/80 mb-2">{language === 'nl' ? 'Website type' : 'Website type'}</label>
-                    <div className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        id="is_webshop"
-                        className="mr-2"
-                        checked={isWebshop}
-                        onChange={() => setIsWebshop(!isWebshop)}
-                      />
-                      <label htmlFor="is_webshop" className="text-accent font-medium">
-                        {language === 'nl' ? 'Webshop (+ €500)' : 'Webshop (+ €500)'}
-                      </label>
-                    </div>
-                    <p className="text-sm text-foreground/60 mt-1">
-                      {language === 'nl' 
-                        ? 'Selecteer deze optie om je website uit te breiden met webshop functionaliteit' 
-                        : 'Select this option to enhance your website with e-commerce functionality'}
-                    </p>
-                  </div>
-                )}
+
 
                 <div>
                   <label className="block text-foreground/80 mb-2">{t('calculator.features')}</label>
@@ -659,22 +579,7 @@ const ProjectCalculator = () => {
                     </>
                   )}
                   
-                  {/* Webshop optie */}
-                  {projectType === 'web' && isWebshop && (
-                    <>
-                      <li className="pt-2 pb-1">
-                        <span className="font-medium text-accent">
-                          {language === 'nl' ? 'Website functionaliteit:' : 'Website functionality:'}
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
-                        <span>
-                          {language === 'nl' ? 'Webshop functionaliteit' : 'E-commerce functionality'}
-                        </span>
-                      </li>
-                    </>
-                  )}
+
                   
                   {/* Support pakket */}
                   {supportPackage !== 'none' && (
