@@ -47,25 +47,25 @@ const ProjectCalculator = () => {
       id: 'web_feature3', 
       nameNl: 'Blog functionaliteit', 
       nameEn: 'Blog functionality', 
-      priceImpact: 350 
+      priceImpact: 250 
     },
     { 
       id: 'web_feature4', 
       nameNl: 'Gebruikersauthenticatie', 
       nameEn: 'User Authentication', 
-      priceImpact: 450 
+      priceImpact: 300 
     },
     { 
       id: 'web_feature5', 
-      nameNl: 'E-commerce functionaliteit', 
-      nameEn: 'E-commerce functionality', 
-      priceImpact: 850 
+      nameNl: 'Custom betalingsgateway', 
+      nameEn: 'Custom payment gateway', 
+      priceImpact: 250 
     },
     { 
       id: 'web_feature6', 
-      nameNl: 'CMS systeem', 
-      nameEn: 'CMS system', 
-      priceImpact: 550 
+      nameNl: 'Verbinding met CMS', 
+      nameEn: 'CMS integration', 
+      priceImpact: 300 
     },
     { 
       id: 'web_feature7', 
@@ -75,9 +75,9 @@ const ProjectCalculator = () => {
     },
     { 
       id: 'web_feature8', 
-      nameNl: '3D visualisaties (Start van €100)', 
-      nameEn: '3D visualizations (Starting at €100)', 
-      priceImpact: 100 
+      nameNl: 'Analytics integratie', 
+      nameEn: 'Analytics integration', 
+      priceImpact: 150 
     },
   ];
 
@@ -162,49 +162,49 @@ const ProjectCalculator = () => {
       id: 'shop_feature1', 
       nameNl: 'Productcatalogus', 
       nameEn: 'Product catalog',
-      priceImpact: 300 
+      priceImpact: 200 
     },
     { 
       id: 'shop_feature2', 
       nameNl: 'Winkelwagen en checkout', 
       nameEn: 'Shopping cart and checkout',
-      priceImpact: 350 
+      priceImpact: 250 
     },
     { 
       id: 'shop_feature3', 
-      nameNl: 'Betalingsgateways (iDeal, PayPal, Creditcard)', 
-      nameEn: 'Payment gateways (iDeal, PayPal, Credit card)',
-      priceImpact: 400 
+      nameNl: 'Betalingsgateways (iDeal, PayPal)', 
+      nameEn: 'Payment gateways (iDeal, PayPal)',
+      priceImpact: 200 
     },
     { 
       id: 'shop_feature4', 
       nameNl: 'Voorraad beheer', 
       nameEn: 'Inventory management',
-      priceImpact: 250 
+      priceImpact: 200 
     },
     { 
       id: 'shop_feature5', 
       nameNl: 'Kortingscodes en acties', 
       nameEn: 'Discount codes and promotions',
-      priceImpact: 200 
+      priceImpact: 150 
     },
     { 
       id: 'shop_feature6', 
       nameNl: 'Klantaccounts', 
       nameEn: 'Customer accounts',
-      priceImpact: 300 
+      priceImpact: 200 
     },
     { 
       id: 'shop_feature7', 
       nameNl: 'Product varianten (maten, kleuren)', 
       nameEn: 'Product variants (sizes, colors)',
-      priceImpact: 250 
+      priceImpact: 150 
     },
     { 
       id: 'shop_feature8', 
       nameNl: 'Verzending en belasting calculator', 
       nameEn: 'Shipping and tax calculator',
-      priceImpact: 200 
+      priceImpact: 150 
     },
   ];
 
@@ -576,7 +576,7 @@ const ProjectCalculator = () => {
                 {language === 'nl' ? 'Geschatte Resultaten' : 'Estimated Results'}
               </h3>
               
-              <div className="bg-primary/80 rounded-xl p-6 mb-6">
+              <div className="bg-primary/80 rounded-xl p-6 mb-4">
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-foreground/80">{t('calculator.result.budget')}</span>
                   <span className="text-2xl font-medium text-accent">€{priceRange.min.toLocaleString()} - €{priceRange.max.toLocaleString()}</span>
@@ -595,6 +595,12 @@ const ProjectCalculator = () => {
                     {timelineRange.min}-{timelineRange.max} {language === 'nl' ? 'weken' : 'weeks'}
                   </span>
                 </div>
+              </div>
+              
+              <div className="bg-primary/60 rounded-xl p-3 mb-4 text-center text-sm text-foreground/70">
+                {language === 'nl' 
+                  ? 'Disclaimer: Dit is een indicatieve prijsopgave. Het definitieve projectbedrag wordt vastgesteld na een persoonlijk gesprek.'
+                  : 'Disclaimer: This is an indicative price estimate. The final project amount will be determined after a personal consultation.'}
               </div>
               
               <div className="bg-primary/80 rounded-xl p-6 mb-8">
