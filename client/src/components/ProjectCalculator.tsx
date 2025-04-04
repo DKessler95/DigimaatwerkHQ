@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
 
-type ProjectType = 'chatbot' | 'automation' | 'web' | 'webshop' | 'combined';
+type ProjectType = 'chatbot' | 'automation' | 'web' | 'combined';
 type ProjectScale = 'basic' | 'advanced' | 'custom';
 type SupportPackage = 'none' | 'basic' | 'standard' | 'premium';
 type TimelinePriority = 1 | 2 | 3;
@@ -247,6 +247,9 @@ const ProjectCalculator = () => {
     },
   ];
 
+  // State voor webshop optie binnen website type
+  const [isWebshop, setIsWebshop] = useState<boolean>(false);
+
   // Get the current features based on project type
   const getFeaturesByType = (): Feature[] => {
     switch(projectType) {
@@ -255,9 +258,7 @@ const ProjectCalculator = () => {
       case 'automation':
         return automationFeatures;
       case 'web':
-        return webFeatures;
-      case 'webshop':
-        return webshopFeatures;
+        return isWebshop ? [...webFeatures, ...webshopFeatures] : webFeatures;
       case 'combined':
         return combinedFeatures;
       default:
@@ -265,9 +266,10 @@ const ProjectCalculator = () => {
     }
   };
 
-  // Reset selected features when changing project type
+  // Reset selected features and webshop option when changing project type
   useEffect(() => {
     setSelectedFeatures([]);
+    setIsWebshop(false);
   }, [projectType]);
 
   const features = getFeaturesByType();
@@ -309,24 +311,23 @@ const ProjectCalculator = () => {
   const getBasePrice = (): number => {
     // Website type prices based on the pricing section
     if (projectType === 'web') {
+      let basePrice = 0;
+      
+      // Basis prijs voor website
       if (projectScale === 'basic') {
-        return 650; // Basis website: €650
+        basePrice = 650; // Basis website: €650
       } else if (projectScale === 'advanced') {
-        return 1250; // Geavanceerde website: €1250
+        basePrice = 1250; // Geavanceerde website: €1250
       } else if (projectScale === 'custom') {
-        return 2500; // Maatwerk website: €2500
+        basePrice = 2500; // Maatwerk website: €2500
       }
-    }
-    
-    // Webshop type prices
-    if (projectType === 'webshop') {
-      if (projectScale === 'basic') {
-        return 500; // Basis webshop: €500
-      } else if (projectScale === 'advanced') {
-        return 1500; // Geavanceerde webshop: €1500
-      } else if (projectScale === 'custom') {
-        return 3000; // Maatwerk webshop: €3000
+      
+      // Voeg webshop prijs toe indien geselecteerd
+      if (isWebshop) {
+        basePrice += 500; // Webshop basis: €500
       }
+      
+      return basePrice;
     }
     
     // For other project types
@@ -334,7 +335,6 @@ const ProjectCalculator = () => {
       chatbot: 1.2,
       automation: 1.3,
       web: 1,
-      webshop: 1.5,
       combined: 2.5
     };
     
@@ -457,7 +457,6 @@ const ProjectCalculator = () => {
                     <option value="chatbot">{t('calculator.type.chatbot')}</option>
                     <option value="automation">{t('calculator.type.automation')}</option>
                     <option value="web">{t('calculator.type.web')}</option>
-                    <option value="webshop">{language === 'nl' ? 'Webshop' : 'Webshop'}</option>
                     <option value="combined">{t('calculator.type.combined')}</option>
                   </select>
                 </div>
@@ -492,6 +491,29 @@ const ProjectCalculator = () => {
                   </div>
                 </div>
                 
+                {projectType === 'web' && (
+                  <div className="mb-4">
+                    <label className="block text-foreground/80 mb-2">{language === 'nl' ? 'Website type' : 'Website type'}</label>
+                    <div className="flex items-center">
+                      <input 
+                        type="checkbox" 
+                        id="is_webshop"
+                        className="mr-2"
+                        checked={isWebshop}
+                        onChange={() => setIsWebshop(!isWebshop)}
+                      />
+                      <label htmlFor="is_webshop" className="text-accent font-medium">
+                        {language === 'nl' ? 'Webshop (+ €500)' : 'Webshop (+ €500)'}
+                      </label>
+                    </div>
+                    <p className="text-sm text-foreground/60 mt-1">
+                      {language === 'nl' 
+                        ? 'Selecteer deze optie om je website uit te breiden met webshop functionaliteit' 
+                        : 'Select this option to enhance your website with e-commerce functionality'}
+                    </p>
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-foreground/80 mb-2">{t('calculator.features')}</label>
                   <div className="space-y-2">
@@ -628,6 +650,23 @@ const ProjectCalculator = () => {
                           </li>
                         ))
                       }
+                    </>
+                  )}
+                  
+                  {/* Webshop optie */}
+                  {projectType === 'web' && isWebshop && (
+                    <>
+                      <li className="pt-2 pb-1">
+                        <span className="font-medium text-accent">
+                          {language === 'nl' ? 'Website functionaliteit:' : 'Website functionality:'}
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
+                        <span>
+                          {language === 'nl' ? 'Webshop functionaliteit' : 'E-commerce functionality'}
+                        </span>
+                      </li>
                     </>
                   )}
                   
