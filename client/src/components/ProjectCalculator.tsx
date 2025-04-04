@@ -156,7 +156,8 @@ const ProjectCalculator = () => {
   ];
 
   // Gecombineerd Project features
-
+  // State voor webshop optie binnen website type
+  const [isWebshop, setIsWebshop] = useState<boolean>(false);
 
   const combinedFeatures: Feature[] = [
     { 
@@ -213,9 +214,10 @@ const ProjectCalculator = () => {
     }
   };
 
-  // Reset selected features when changing project type
+  // Reset selected features and webshop option when changing project type
   useEffect(() => {
     setSelectedFeatures([]);
+    setIsWebshop(false);
   }, [projectType]);
 
   const features = getFeaturesByType();
@@ -310,10 +312,11 @@ const ProjectCalculator = () => {
   const calculatePrice = (): { min: number; max: number; monthlySupport: number } => {
     const basePrice = getBasePrice();
     const featuresCost = getFeaturesCost();
+    const webshopCost = (projectType === 'web' && isWebshop) ? 500 : 0; // Extra kosten voor webshop
     const rushMultiplier = getRushMultiplier();
     const supportCost = getSupportPackagePrice();
     
-    const total = (basePrice + featuresCost) * rushMultiplier;
+    const total = (basePrice + featuresCost + webshopCost) * rushMultiplier;
     
     return {
       min: Math.round(total * 0.95),
@@ -336,6 +339,9 @@ const ProjectCalculator = () => {
     
     const featureTime = Math.ceil(selectedFeatures.length / 2);
     
+    // Extra tijd voor webshop functionaliteit
+    const webshopTime = (projectType === 'web' && isWebshop) ? 1.5 : 0;
+    
     // Expedited reduces time by 20%, rush by 40%
     const timeMultiplier = {
       1: 1, // Standard
@@ -343,7 +349,7 @@ const ProjectCalculator = () => {
       3: 0.6 // Rush
     }[timelinePriority];
     
-    const totalTime = (baseTime + featureTime) * timeMultiplier;
+    const totalTime = (baseTime + featureTime + webshopTime) * timeMultiplier;
     
     return {
       min: Math.max(1, Math.floor(totalTime * 0.9)),
@@ -437,6 +443,21 @@ const ProjectCalculator = () => {
                 <div>
                   <label className="block text-foreground/80 mb-2">{t('calculator.features')}</label>
                   <div className="space-y-2">
+                    {/* Webshop optie alleen tonen bij 'web' projecttype */}
+                    {projectType === 'web' && (
+                      <div className="flex items-center mb-3 py-2 border-b border-primary">
+                        <input 
+                          type="checkbox" 
+                          id="webshop_option"
+                          className="mr-2"
+                          checked={isWebshop}
+                          onChange={() => setIsWebshop(!isWebshop)}
+                        />
+                        <label htmlFor="webshop_option" className="font-medium">
+                          {language === 'nl' ? 'Webshop functionaliteit (+€500)' : 'Webshop functionality (+€500)'}
+                        </label>
+                      </div>
+                    )}
                     {features.map((feature) => (
                       <div className="flex items-center" key={feature.id}>
                         <input 
@@ -560,13 +581,21 @@ const ProjectCalculator = () => {
                   </li>
                   
                   {/* Geselecteerde features */}
-                  {selectedFeatures.length > 0 && (
+                  {(selectedFeatures.length > 0 || (projectType === 'web' && isWebshop)) && (
                     <>
                       <li className="pt-2 pb-1">
                         <span className="font-medium text-accent">
                           {language === 'nl' ? 'Geselecteerde opties:' : 'Selected options:'}
                         </span>
                       </li>
+                      {/* Webshop optie */}
+                      {projectType === 'web' && isWebshop && (
+                        <li className="flex items-start">
+                          <i className="ri-check-line text-accent text-xl mr-2 flex-shrink-0"></i>
+                          <span>{language === 'nl' ? 'Webshop functionaliteit' : 'Webshop functionality'}</span>
+                        </li>
+                      )}
+                      {/* Andere features */}
                       {features
                         .filter(feature => selectedFeatures.includes(feature.id))
                         .map(feature => (
