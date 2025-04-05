@@ -62,6 +62,7 @@ interface PortfolioItem {
   websiteUrl: string;
   websiteScreenshot: string;
   category: 'web' | 'automation' | 'chatbot';
+  displayType?: 'default' | 'bubble' | 'minimal';
   order: number;
   featured: boolean;
   [key: string]: any;
@@ -1128,6 +1129,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Failed to fetch services"
+      });
+    }
+  });
+
+  // Get a single service by slug
+  app.get("/api/services/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const language = req.query.lang || 'nl';
+      const contentDir = path.join(process.cwd(), 'public/content/services');
+      
+      // Construct the expected filename
+      const filename = `${slug}.${language}.md`;
+      const filePath = path.join(contentDir, filename);
+      
+      // Check if file exists
+      try {
+        await fs.access(filePath);
+      } catch (err) {
+        return res.status(404).json({
+          success: false,
+          message: "Service not found"
+        });
+      }
+      
+      // Read and parse the file
+      const content = await fs.readFile(filePath, 'utf8');
+      const parsed = matter(content);
+      
+      // Return the service data
+      const service = {
+        slug,
+        ...parsed.data,
+        content: parsed.content.trim()
+      } as Service;
+      
+      res.json({
+        success: true,
+        data: service
+      });
+    } catch (error) {
+      console.error("Error fetching service:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch service"
       });
     }
   });

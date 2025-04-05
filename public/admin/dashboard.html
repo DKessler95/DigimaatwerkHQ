@@ -782,6 +782,15 @@
                 </select>
               </div>
               <div class="form-group">
+                <label for="portfolio-display-type">Weergave Type</label>
+                <select id="portfolio-display-type" name="displayType">
+                  <option value="default">Standaard</option>
+                  <option value="bubble">Bubble Effect</option>
+                  <option value="minimal">Minimaal</option>
+                </select>
+                <small>Het weergavetype bepaalt hoe dit item wordt getoond in het portfolio overzicht</small>
+              </div>
+              <div class="form-group">
                 <label for="portfolio-image">Afbeelding</label>
                 <input type="file" id="portfolio-image" name="imageUrl" accept="image/*">
                 <div id="portfolio-image-preview" class="image-upload-preview" style="display: none;">
@@ -3499,6 +3508,7 @@
         document.getElementById('portfolio-title').value = item.title;
         document.getElementById('portfolio-description').value = item.description;
         document.getElementById('portfolio-category').value = item.category;
+        document.getElementById('portfolio-display-type').value = item.displayType || 'default';
         document.getElementById('portfolio-website-url').value = item.websiteUrl || '';
         document.getElementById('portfolio-order').value = item.order || 1;
         document.getElementById('portfolio-featured').checked = item.featured;
@@ -3539,6 +3549,7 @@
             title: formData.get('title'),
             description: formData.get('description'),
             category: formData.get('category'),
+            displayType: formData.get('displayType'),
             websiteUrl: formData.get('websiteUrl'),
             order: parseInt(formData.get('order')) || 1,
             featured: formData.get('featured') === 'on'

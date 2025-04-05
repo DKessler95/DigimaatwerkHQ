@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
 import { Loader2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
+import BubblePortfolioAnimation from '@/components/BubblePortfolioAnimation';
 
 interface PortfolioItem {
   id: string;
@@ -12,6 +13,7 @@ interface PortfolioItem {
   websiteUrl: string;
   category: 'web' | 'automation' | 'chatbot';
   websiteScreenshot?: string;
+  displayType?: 'default' | 'bubble' | 'minimal';
 }
 
 // Portfolio data wordt geladen via de API in de Portfolio component
@@ -474,15 +476,89 @@ const Portfolio = () => {
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {portfolioData.map((item) => (
-            <PortfolioBlock 
-              key={item.id} 
-              item={item} 
-              onClick={() => handlePortfolioItemClick(item)} 
-              screenshotUrl={websiteScreenshots[item.id]}
-              isLoading={screenshotLoading[item.id]}
-            />
-          ))}
+          {portfolioData.map((item) => {
+            // Bepaal welk type weergave we moeten gebruiken
+            if (item.displayType === 'bubble') {
+              return (
+                <div key={item.id} className="rounded-xl overflow-hidden shadow-lg">
+                  <BubblePortfolioAnimation 
+                    category={item.category}
+                    className="h-48 w-full"
+                    onClick={() => handlePortfolioItemClick(item)}
+                  />
+                  <div className="p-4 bg-secondary">
+                    <h3 className="text-xl font-header font-bold mb-2">{item.title}</h3>
+                    <p className="text-foreground/80 line-clamp-2 mb-3">
+                      {item.description.split("\n\n")[0]}
+                    </p>
+                    <button 
+                      className="text-accent inline-flex items-center"
+                      onClick={() => handlePortfolioItemClick(item)}
+                    >
+                      Meer informatie
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              );
+            } else if (item.displayType === 'minimal') {
+              return (
+                <motion.div
+                  key={item.id}
+                  className="rounded-xl overflow-hidden bg-secondary/80 backdrop-blur-sm shadow-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  whileHover={{ scale: 1.03 }}
+                  onClick={() => handlePortfolioItemClick(item)}
+                >
+                  <div className="p-6">
+                    <div className="flex items-center mb-4">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mr-4 ${
+                        item.category === 'web' ? 'bg-blue-500/20' :
+                        item.category === 'automation' ? 'bg-amber-500/20' : 'bg-green-500/20'
+                      }`}>
+                        <span className="text-xl">
+                          {item.category === 'web' ? '🌐' : 
+                          item.category === 'automation' ? '⚙️' : '🤖'}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-header font-bold">{item.title}</h3>
+                    </div>
+                    <p className="text-foreground/80 line-clamp-4 mb-4">
+                      {item.description.split("\n\n")[0]}
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs px-2 py-1 rounded bg-primary/20">
+                        {item.category === 'web' ? 'Website' : 
+                        item.category === 'automation' ? 'Automatisering' : 'Chatbot'}
+                      </span>
+                      <span className="text-accent inline-flex items-center text-sm">
+                        Bekijken
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            } else {
+              // Standaard weergave
+              return (
+                <PortfolioBlock 
+                  key={item.id} 
+                  item={item} 
+                  onClick={() => handlePortfolioItemClick(item)} 
+                  screenshotUrl={websiteScreenshots[item.id]}
+                  isLoading={screenshotLoading[item.id]}
+                />
+              );
+            }
+          })}
         </div>
         
         <motion.div

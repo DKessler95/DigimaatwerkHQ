@@ -11,6 +11,7 @@ imageUrl: /images/portfolio/fasttaxi_optimized.png
 websiteUrl: https://www.fasttaxirotterdam.com
 websiteScreenshot: /images/portfolio/fasttaxi_optimized.png
 category: web
+displayType: bubble
 order: 1
 featured: true
 ---

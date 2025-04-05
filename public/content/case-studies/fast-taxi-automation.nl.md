@@ -59,9 +59,9 @@ De technische implementatie bestond uit:
 **Het systeem werkt als volgt:**
 
 1. Een klant stuurt een e-mail naar Fast Taxi Rotterdam (bijv. "Ik wil een taxi boeken voor morgen om 10:00 uur").
-2. Het systeem analyseert de inhoud van de e-mail:
-   - Categoriseert deze als "Boekingsaanvraag".
-   - Controleert beschikbaarheid via de gedeelde Google Calendar.
+2. Het systeem analyseert de inhoud van de e-mail en:
+   * Categoriseert deze als "Boekingsaanvraag"
+   * Controleert beschikbaarheid via de gedeelde Google Calendar
 3. Een automatische bevestigingsmail wordt verzonden naar de klant met details over de rit.
 4. De boeking wordt toegevoegd aan de planning, inclusief een SMS-herinnering voor zowel de klant als de chauffeur.
 

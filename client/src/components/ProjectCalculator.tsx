@@ -454,7 +454,7 @@ const ProjectCalculator = () => {
                           onChange={() => setIsWebshop(!isWebshop)}
                         />
                         <label htmlFor="webshop_option" className="font-medium">
-                          {language === 'nl' ? 'Webshop functionaliteit (+€500)' : 'Webshop functionality (+€500)'}
+                          {language === 'nl' ? 'Webshop functionaliteit' : 'Webshop functionality'}
                         </label>
                       </div>
                     )}
