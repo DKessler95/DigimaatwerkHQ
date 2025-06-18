@@ -137,11 +137,15 @@ const ChatbotWidget = () => {
         botMessage = data.text;
       } else if (data.output) {
         botMessage = data.output;
+      } else if (data.reply) {
+        botMessage = data.reply;
+      } else if (data.answer) {
+        botMessage = data.answer;
       } else {
-        // Fallback message
+        // Default response when n8n returns empty or unexpected format
         botMessage = language === 'nl' 
-          ? "Bedankt voor je bericht! Ik ben Maya en help je graag verder. Wat kan ik voor je doen?"
-          : "Thank you for your message! I'm Maya and I'm happy to help you. What can I do for you?";
+          ? "Bedankt voor uw bericht! Ik heb het ontvangen en zal u zo snel mogelijk van een antwoord voorzien."
+          : "Thank you for your message! I have received it and will provide you with an answer as soon as possible.";
       }
       
       // Add bot response
@@ -337,8 +341,16 @@ const ChatbotWidget = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-accent to-teal-500 flex items-center justify-center text-primary font-bold text-sm">
-                    M
+                  <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm p-1">
+                    {config.branding.logo ? (
+                      <img 
+                        src={config.branding.logo} 
+                        alt="Bot Avatar" 
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <span className="text-primary font-bold text-sm">D</span>
+                    )}
                   </div>
                   <div className="bg-white dark:bg-secondary rounded-2xl rounded-tl-sm p-3 shadow-sm border border-gray-200 dark:border-gray-600">
                     <div className="flex space-x-1">
