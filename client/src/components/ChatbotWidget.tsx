@@ -142,6 +142,13 @@ const ChatbotWidget = () => {
       
       const data = await response.json();
       
+      // Debug: Log the full response for troubleshooting
+      console.log('n8n webhook response:', {
+        status: response.status,
+        statusText: response.statusText,
+        data: data
+      });
+      
       // Handle n8n workflow errors as valid responses
       if (!response.ok && response.status === 500) {
         console.error(`n8n webhook error: ${response.status} - ${response.statusText}`, data);
@@ -154,23 +161,30 @@ const ChatbotWidget = () => {
       
       // Handle different response formats from n8n
       let botMessage = '';
-      if (typeof data === 'string') {
+      
+      // Check if this is an "Error in workflow" response
+      if (data && data.message === "Error in workflow") {
+        // n8n workflow has an error - provide debug info and fallback
+        console.warn('n8n workflow error detected. Check your workflow configuration.');
+        botMessage = "Sorry, er is een technische fout opgetreden. Probeer het opnieuw of neem contact op met support.";
+      } else if (typeof data === 'string') {
         botMessage = data;
-      } else if (data.response) {
+      } else if (data && data.response) {
         botMessage = data.response;
-      } else if (data.message && data.message !== "Error in workflow") {
+      } else if (data && data.message) {
         botMessage = data.message;
-      } else if (data.text) {
+      } else if (data && data.text) {
         botMessage = data.text;
-      } else if (data.output) {
+      } else if (data && data.output) {
         botMessage = data.output;
-      } else if (data.reply) {
+      } else if (data && data.reply) {
         botMessage = data.reply;
-      } else if (data.answer) {
+      } else if (data && data.answer) {
         botMessage = data.answer;
       } else {
-        // Default fallback if no recognizable response format
-        botMessage = "Sorry, ik kon je bericht niet verwerken. Probeer het opnieuw.";
+        // Log unexpected response format for debugging
+        console.warn('Unexpected n8n response format:', data);
+        botMessage = "Sorry, ik kon geen geldig antwoord ontvangen. Probeer het opnieuw.";
       }
       
       // Add bot response
