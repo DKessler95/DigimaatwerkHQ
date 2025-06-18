@@ -104,26 +104,36 @@ const ChatbotWidget = () => {
       // Send message to configured n8n webhook
       const response = await fetch(config.webhook.url, {
         method: 'POST',
-        mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
         body: JSON.stringify({
           message: userMessage,
-          sessionId: sessionId,
-          language: language,
-          timestamp: new Date().toISOString(),
-          source: 'website_widget'
+          sessionId: sessionId
         })
       });
       
+      const data = await response.json();
+      
+      // Handle both successful responses and n8n workflow errors
       if (!response.ok) {
-        console.error(`n8n webhook error: ${response.status} - ${response.statusText}`);
+        console.error(`n8n webhook error: ${response.status} - ${response.statusText}`, data);
+        // If n8n returns an error but still has a message, use it
+        if (data && (data.message || data.error)) {
+          const errorMsg = data.message || data.error;
+          if (errorMsg !== "Error in workflow") {
+            // Use the actual error message from n8n if it's meaningful
+            const botResponse: ChatMessage = {
+              sender: 'bot',
+              message: errorMsg,
+              timestamp: new Date()
+            };
+            setMessages(prev => [...prev, botResponse]);
+            return;
+          }
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
-      const data = await response.json();
       
       // Handle different response formats from n8n
       let botMessage = '';
@@ -160,39 +170,12 @@ const ChatbotWidget = () => {
     } catch (error) {
       console.error('Error sending message to chatbot:', error);
       
-      // Log detailed error information for debugging
-      console.error('Full error details:', {
-        error: error,
-        message: userMessage,
-        sessionId: sessionId,
-        timestamp: new Date().toISOString()
-      });
-      
-      // Provide intelligent fallback response based on user input
-      let fallbackMessage = '';
-      const lowerMessage = userMessage.toLowerCase();
-      
-      if (lowerMessage.includes('prijs') || lowerMessage.includes('kosten') || lowerMessage.includes('price') || lowerMessage.includes('cost')) {
-        fallbackMessage = language === 'nl' 
-          ? "Voor prijsinformatie kunt u onze projectcalculator gebruiken op de website, of direct contact opnemen via info@digimaatwerk.nl. Onze projecten starten vanaf €10.000 afhankelijk van de complexiteit."
-          : "For pricing information, you can use our project calculator on the website, or contact us directly at info@digimaatwerk.nl. Our projects start from €10,000 depending on complexity.";
-      } else if (lowerMessage.includes('afspraak') || lowerMessage.includes('meeting') || lowerMessage.includes('appointment')) {
-        fallbackMessage = language === 'nl' 
-          ? "Voor het inplannen van een afspraak kunt u direct contact opnemen via info@digimaatwerk.nl of +31 (0)20 123 4567. We plannen graag een gratis consultatie in om uw project te bespreken."
-          : "To schedule an appointment, please contact us directly at info@digimaatwerk.nl or +31 (0)20 123 4567. We'd be happy to schedule a free consultation to discuss your project.";
-      } else if (lowerMessage.includes('ai') || lowerMessage.includes('chatbot') || lowerMessage.includes('automation')) {
-        fallbackMessage = language === 'nl' 
-          ? "Wij zijn gespecialiseerd in AI-oplossingen, chatbots en automatisering. Voor meer informatie over onze AI-diensten kunt u contact opnemen via info@digimaatwerk.nl of bekijk onze case studies op de website."
-          : "We specialize in AI solutions, chatbots and automation. For more information about our AI services, please contact us at info@digimaatwerk.nl or check our case studies on the website.";
-      } else {
-        fallbackMessage = language === 'nl' 
-          ? "Bedankt voor uw bericht! Voor persoonlijke begeleiding kunt u direct contact opnemen via info@digimaatwerk.nl of +31 (0)20 123 4567. Een van onze specialisten helpt u graag verder."
-          : "Thank you for your message! For personal guidance, please contact us directly at info@digimaatwerk.nl or +31 (0)20 123 4567. One of our specialists will be happy to help you.";
-      }
-      
+      // Add a simple error message indicating temporary issue
       const errorMessage: ChatMessage = {
         sender: 'bot',
-        message: fallbackMessage,
+        message: language === 'nl' 
+          ? "Sorry, ik ondervind momenteel technische problemen. Probeer het over een paar minuten opnieuw."
+          : "Sorry, I'm experiencing technical issues right now. Please try again in a few minutes.",
         timestamp: new Date()
       };
       
