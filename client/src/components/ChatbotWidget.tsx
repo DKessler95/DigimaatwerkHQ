@@ -47,27 +47,54 @@ const ChatbotWidget = () => {
     language: language
   };
   
-  // Initial bot message when chat opens
+  // Trigger welcome message from n8n when chat opens
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      // Add a slight delay for a more natural feel
-      const timer = setTimeout(() => {
-        const welcomeMessage = language === 'nl' 
-          ? "👋 Hallo! Ik ben uw digitale assistent van Digimaatwerk.\n\nIk kan u helpen met:\n• Vragen over onze diensten\n• Het inplannen van afspraken\n• Prijsinformatie\n• Algemene vragen\n\nWaarmee kan ik u helpen?"
-          : "👋 Hello! I'm your digital assistant from Digimaatwerk.\n\nI can help you with:\n• Questions about our services\n• Scheduling appointments\n• Pricing information\n• General inquiries\n\nHow can I help you?";
-        
-        setMessages([
-          {
+      const timer = setTimeout(async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch(config.webhook.url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              message: "hallo",
+              sessionId: sessionId
+            })
+          });
+          
+          const data = await response.json();
+          let welcomeMessage = '';
+          
+          if (data.response) {
+            welcomeMessage = data.response;
+          } else if (data.message && data.message !== "Error in workflow") {
+            welcomeMessage = data.message;
+          } else {
+            welcomeMessage = "Hey! 👋\n\nMijn naam is Maatje, waar kan ik je mee helpen?";
+          }
+          
+          setMessages([{
             sender: 'bot',
             message: welcomeMessage,
             timestamp: new Date()
-          }
-        ]);
+          }]);
+        } catch (error) {
+          console.error('Error getting welcome message:', error);
+          setMessages([{
+            sender: 'bot',
+            message: "Hey! 👋\n\nMijn naam is Maatje, waar kan ik je mee helpen?",
+            timestamp: new Date()
+          }]);
+        } finally {
+          setIsLoading(false);
+        }
       }, 800);
       
       return () => clearTimeout(timer);
     }
-  }, [isOpen, messages.length, language]);
+  }, [isOpen, messages.length, config.webhook.url, sessionId]);
   
   // Auto-scroll to the bottom of the chat
   useEffect(() => {
@@ -115,23 +142,13 @@ const ChatbotWidget = () => {
       
       const data = await response.json();
       
-      // Handle both successful responses and n8n workflow errors
-      if (!response.ok) {
+      // Handle n8n workflow errors as valid responses
+      if (!response.ok && response.status === 500) {
         console.error(`n8n webhook error: ${response.status} - ${response.statusText}`, data);
-        // If n8n returns an error but still has a message, use it
-        if (data && (data.message || data.error)) {
-          const errorMsg = data.message || data.error;
-          if (errorMsg !== "Error in workflow") {
-            // Use the actual error message from n8n if it's meaningful
-            const botResponse: ChatMessage = {
-              sender: 'bot',
-              message: errorMsg,
-              timestamp: new Date()
-            };
-            setMessages(prev => [...prev, botResponse]);
-            return;
-          }
-        }
+        // n8n returns 500 but may still have valid response data
+        // Don't throw error, continue to process the response
+      } else if (!response.ok) {
+        console.error(`n8n webhook error: ${response.status} - ${response.statusText}`, data);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
@@ -141,7 +158,7 @@ const ChatbotWidget = () => {
         botMessage = data;
       } else if (data.response) {
         botMessage = data.response;
-      } else if (data.message) {
+      } else if (data.message && data.message !== "Error in workflow") {
         botMessage = data.message;
       } else if (data.text) {
         botMessage = data.text;
@@ -152,10 +169,8 @@ const ChatbotWidget = () => {
       } else if (data.answer) {
         botMessage = data.answer;
       } else {
-        // Default response when n8n returns empty or unexpected format
-        botMessage = language === 'nl' 
-          ? "Bedankt voor uw bericht! Ik heb het ontvangen en zal u zo snel mogelijk van een antwoord voorzien."
-          : "Thank you for your message! I have received it and will provide you with an answer as soon as possible.";
+        // Default fallback if no recognizable response format
+        botMessage = "Sorry, ik kon je bericht niet verwerken. Probeer het opnieuw.";
       }
       
       // Add bot response
@@ -300,9 +315,9 @@ const ChatbotWidget = () => {
                     </div>
                   )}
                   <div className={`group ${msg.sender === 'bot' 
-                    ? 'bg-white dark:bg-secondary rounded-2xl rounded-tl-sm shadow-sm border border-gray-200 dark:border-gray-600' 
+                    ? 'bg-gray-100 dark:bg-secondary rounded-2xl rounded-tl-sm shadow-sm border border-gray-200 dark:border-gray-600' 
                     : 'bg-gradient-to-r from-accent to-teal-500 text-white rounded-2xl rounded-tr-sm shadow-sm'} p-3 max-w-[80%] relative`}>
-                    <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.message}</div>
+                    <div className={`text-sm leading-relaxed whitespace-pre-wrap ${msg.sender === 'bot' ? 'text-gray-800 dark:text-gray-100' : 'text-white'}`}>{msg.message}</div>
                     {msg.timestamp && (
                       <span className={`text-xs mt-1 block ${msg.sender === 'bot' ? 'text-gray-500' : 'text-white/70'}`}>
                         {formatTimestamp(msg.timestamp)}
