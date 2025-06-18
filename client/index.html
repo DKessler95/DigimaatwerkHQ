@@ -12,6 +12,19 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      window.ChatWidgetConfig = {
+        webhook: {
+          url: "https://digimaatwerk.app.n8n.cloud/webhook/2261c842-887d-4a32-8ac7-ff81ae696e5f/chat"
+        },
+        branding: {
+          name: "Digimaatwerk Assistent",
+          color: "#0ea5e9",
+          logo: "/images/digimaatwerkLOGO.png"
+        },
+        language: "nl"
+      };
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

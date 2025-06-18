@@ -8,6 +8,24 @@ interface ChatMessage {
   timestamp?: Date;
 }
 
+interface ChatWidgetConfig {
+  webhook: {
+    url: string;
+  };
+  branding: {
+    name: string;
+    color: string;
+    logo?: string;
+  };
+  language: string;
+}
+
+declare global {
+  interface Window {
+    ChatWidgetConfig?: ChatWidgetConfig;
+  }
+}
+
 const ChatbotWidget = () => {
   const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -17,14 +35,26 @@ const ChatbotWidget = () => {
   const [sessionId] = useState(() => Math.random().toString(36).substr(2, 9));
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
+  // Get configuration from window object
+  const config = window.ChatWidgetConfig || {
+    webhook: {
+      url: 'https://digimaatwerk.app.n8n.cloud/webhook/2261c842-887d-4a32-8ac7-ff81ae696e5f/chat'
+    },
+    branding: {
+      name: 'Digimaatwerk Assistent',
+      color: '#0ea5e9'
+    },
+    language: language
+  };
+  
   // Initial bot message when chat opens
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       // Add a slight delay for a more natural feel
       const timer = setTimeout(() => {
         const welcomeMessage = language === 'nl' 
-          ? "👋 Hallo! Ik ben Maya, jouw AI-assistent van Digimaatwerk.\n\nIk kan je helpen met:\n• Vragen over onze diensten (AI, automatisering, webdevelopment)\n• Het inplannen van een gratis consultatie\n• Prijsinformatie en projectschattingen\n• Technische vragen over digitale transformatie\n\nWaarmee kan ik je vandaag helpen?"
-          : "👋 Hello! I'm Maya, your AI assistant from Digimaatwerk.\n\nI can help you with:\n• Questions about our services (AI, automation, web development)\n• Scheduling a free consultation\n• Pricing information and project estimates\n• Technical questions about digital transformation\n\nHow can I help you today?";
+          ? "👋 Hallo! Ik ben uw digitale assistent van Digimaatwerk.\n\nIk kan u helpen met:\n• Vragen over onze diensten\n• Het inplannen van afspraken\n• Prijsinformatie\n• Algemene vragen\n\nWaarmee kan ik u helpen?"
+          : "👋 Hello! I'm your digital assistant from Digimaatwerk.\n\nI can help you with:\n• Questions about our services\n• Scheduling appointments\n• Pricing information\n• General inquiries\n\nHow can I help you?";
         
         setMessages([
           {
@@ -71,8 +101,8 @@ const ChatbotWidget = () => {
     setMessages(prev => [...prev, newUserMessage]);
     
     try {
-      // Send message to n8n webhook
-      const response = await fetch('https://digimaatwerk.app.n8n.cloud/webhook/2261c842-887d-4a32-8ac7-ff81ae696e5f/chat', {
+      // Send message to configured n8n webhook
+      const response = await fetch(config.webhook.url, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -84,21 +114,13 @@ const ChatbotWidget = () => {
           sessionId: sessionId,
           language: language,
           timestamp: new Date().toISOString(),
-          source: 'website_widget',
-          userAgent: navigator.userAgent,
-          referrer: window.location.href
+          source: 'website_widget'
         })
       });
       
       if (!response.ok) {
-        // Log the specific error for debugging
         console.error(`n8n webhook error: ${response.status} - ${response.statusText}`);
-        
-        if (response.status === 404) {
-          throw new Error('Webhook not found - please check the n8n webhook URL');
-        } else {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       
       const data = await response.json();
@@ -239,13 +261,21 @@ const ChatbotWidget = () => {
             {/* Header with Digimaatwerk branding */}
             <div className="bg-gradient-to-r from-primary to-slate-800 p-4 flex items-center justify-between">
               <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center mr-3 shadow-lg">
-                  <span className="text-primary font-bold text-lg">M</span>
+                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3 shadow-lg p-1">
+                  {config.branding.logo ? (
+                    <img 
+                      src={config.branding.logo} 
+                      alt="Digimaatwerk Logo" 
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-primary font-bold text-lg">D</span>
+                  )}
                 </div>
                 <div>
-                  <h3 className="font-header font-semibold text-white text-lg">Maya</h3>
+                  <h3 className="font-header font-semibold text-white text-lg">{config.branding.name}</h3>
                   <p className="text-accent text-sm opacity-90">
-                    {language === 'nl' ? 'Digimaatwerk Assistent' : 'Digimaatwerk Assistant'}
+                    {language === 'nl' ? 'Digitale Assistent' : 'Digital Assistant'}
                   </p>
                 </div>
               </div>
@@ -270,8 +300,16 @@ const ChatbotWidget = () => {
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
                   {msg.sender === 'bot' && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-accent to-teal-500 flex items-center justify-center text-primary font-bold text-sm shadow-sm">
-                      M
+                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm p-1">
+                      {config.branding.logo ? (
+                        <img 
+                          src={config.branding.logo} 
+                          alt="Bot Avatar" 
+                          className="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <span className="text-primary font-bold text-sm">D</span>
+                      )}
                     </div>
                   )}
                   <div className={`group ${msg.sender === 'bot' 
