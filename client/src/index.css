@@ -2,153 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Digimaatwerk Chat Widget Theme Matching */
-:root {
-  /* Digimaatwerk brand colors */
-  --chat--color-primary: #0f172a; /* Midnight blue */
-  --chat--color-primary-shade-50: #1e293b;
-  --chat--color-primary-shade-100: #334155;
-  --chat--color-secondary: #0891b2; /* Teal accent */
-  --chat--color-secondary-shade-50: #0e7490;
-  --chat--color-white: #ffffff;
-  --chat--color-light: #f8fafc;
-  --chat--color-light-shade-50: #f1f5f9;
-  --chat--color-light-shade-100: #e2e8f0;
-  --chat--color-medium: #64748b;
-  --chat--color-dark: #0f172a;
-  --chat--color-disabled: #94a3b8;
-  --chat--color-typing: #475569;
-
-  /* Widget styling to match website */
-  --chat--spacing: 1rem;
-  --chat--border-radius: 0.5rem;
-  --chat--transition-duration: 0.2s;
-  --chat--window--width: 400px;
-  --chat--window--height: 600px;
-
-  /* Header styling */
-  --chat--header--background: var(--chat--color-dark);
-  --chat--header--color: var(--chat--color-white);
-  --chat--header--padding: 1.5rem 1rem;
-  --chat--header--border-bottom: none;
-  --chat--heading--font-size: 1.125rem;
-  --chat--subtitle--font-size: 0.875rem;
-
-  /* Message styling - improved scaling */
-  --chat--message--font-size: 0.8rem;
-  --chat--message--padding: 0.75rem 1rem;
-  --chat--message--border-radius: 0.75rem;
-  --chat--message--line-height: 1.4;
-  --chat--message--bot--background: var(--chat--color-light);
-  --chat--message--bot--color: var(--chat--color-dark);
-  --chat--message--bot--border: 1px solid var(--chat--color-light-shade-100);
-  --chat--message--user--background: var(--chat--color-secondary);
-  --chat--message--user--color: var(--chat--color-white);
-  --chat--message--user--border: none;
-
-  /* Toggle button */
-  --chat--toggle--background: var(--chat--color-secondary);
-  --chat--toggle--hover--background: var(--chat--color-secondary-shade-50);
-  --chat--toggle--active--background: var(--chat--color-primary);
-  --chat--toggle--color: var(--chat--color-white);
-  --chat--toggle--size: 64px;
-
-  /* Input area */
-  --chat--textarea--height: 50px;
-}
-
-/* Digimaatwerk branded chat widget styling */
-.n8n-chat,
-#n8n-chat {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-  border: none !important;
-  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15) !important;
-  border-radius: 0.75rem !important;
-  overflow: hidden !important;
-}
-
-/* Header with logo - minimal styling */
-.n8n-chat [class*="header"],
-.n8n-chat div[class*="header"] {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.5rem !important;
-}
-
+/* Logo in header */
 .n8n-chat [class*="header"]::before,
 .n8n-chat div[class*="header"]::before {
   content: '';
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   background-image: url('/digimaatwerkLOGO.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  flex-shrink: 0;
+  margin-right: 0.5rem;
+  display: inline-block;
 }
 
-.n8n-chat h1,
-.n8n-chat [class*="title"] {
-  font-weight: 600 !important;
-  font-size: 1.125rem !important;
-  color: #ffffff !important;
-  margin: 0 !important;
-  letter-spacing: -0.025em !important;
-}
-
-.n8n-chat p,
-.n8n-chat [class*="subtitle"] {
-  font-size: 0.875rem !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  margin: 0.25rem 0 0 0 !important;
-  line-height: 1.4 !important;
-}
-
-/* Professional toggle button */
-.n8n-chat [class*="toggle"] {
-  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
-  box-shadow: 0 8px 25px rgba(8, 145, 178, 0.3) !important;
-  border: none !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-.n8n-chat [class*="toggle"]:hover {
-  transform: translateY(-2px) scale(1.05) !important;
-  box-shadow: 0 12px 35px rgba(8, 145, 178, 0.4) !important;
-}
-
-/* Message styling - improved for longer responses */
-.n8n-chat [class*="message"] {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-  font-size: 0.8rem !important;
-  line-height: 1.4 !important;
-  border-radius: 0.75rem !important;
-  margin-bottom: 0.75rem !important;
-  max-width: 88% !important;
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
-}
-
-/* Bot messages - keep default styling with blue text */
+/* Bot message text blue */
 .n8n-chat [class*="message"]:not([class*="user"]) {
-  color: #0f172a !important;
-  font-size: 0.8rem !important;
-  line-height: 1.4 !important;
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
-  white-space: pre-wrap !important;
-}
-
-/* User messages - simple teal styling */
-.n8n-chat [class*="message"][class*="user"] {
-  background: #0891b2 !important;
-  color: #ffffff !important;
-}
-
-/* Minimal input focus styling */
-.n8n-chat input:focus,
-.n8n-chat textarea:focus {
-  border-color: #0891b2 !important;
+  color: #0891b2 !important;
 }
 
 @layer base {
