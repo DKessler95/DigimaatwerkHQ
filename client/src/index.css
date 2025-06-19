@@ -39,9 +39,9 @@
   --chat--message--padding: 0.75rem 1rem;
   --chat--message--border-radius: 0.75rem;
   --chat--message--line-height: 1.5;
-  --chat--message--bot--background: var(--chat--color-light);
-  --chat--message--bot--color: var(--chat--color-dark);
-  --chat--message--bot--border: 1px solid var(--chat--color-light-shade-100);
+  --chat--message--bot--background: var(--chat--color-dark);
+  --chat--message--bot--color: var(--chat--color-white);
+  --chat--message--bot--border: none;
   --chat--message--user--background: var(--chat--color-secondary);
   --chat--message--user--color: var(--chat--color-white);
   --chat--message--user--border: none;
@@ -126,12 +126,12 @@
   max-width: 85% !important;
 }
 
-/* Bot messages - white background with blue text */
+/* Bot messages - blue background with white text */
 .n8n-chat [class*="message"]:not([class*="user"]) {
-  background: #ffffff !important;
-  color: #0f172a !important;
+  background: #0f172a !important;
+  color: #ffffff !important;
   border: none !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: none !important;
 }
 
 /* User messages - keep standard styling */
