@@ -104,10 +104,25 @@
   line-height: 1.4 !important;
 }
 
-/* Simple toggle button */
+/* Simple toggle button - no hover effects */
 .n8n-chat [class*="toggle"] {
   background: #0891b2 !important;
   border: none !important;
+  transition: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.n8n-chat [class*="toggle"]:hover {
+  background: #0891b2 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  scale: 1 !important;
+}
+
+.n8n-chat button:hover {
+  transform: none !important;
+  scale: 1 !important;
 }
 
 /* Message styling - improved for longer responses */
