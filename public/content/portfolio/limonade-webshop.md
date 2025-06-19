@@ -2,9 +2,9 @@
 id: limonade-webshop
 title: Limonade Productwebshop
 description: Persoonlijke e-commerce webshop voor handgemaakte producten met focus op kwaliteit en persoonlijk contact
-imageUrl: https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80
+imageUrl: /images/portfolio/limonade.jpg
 websiteUrl: https://limonade.digimaatwerk.nl
-websiteScreenshot: https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80
+websiteScreenshot: /images/portfolio/limonade.jpg
 category: web
 displayType: default
 order: 2

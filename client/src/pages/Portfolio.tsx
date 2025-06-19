@@ -39,6 +39,9 @@ const PortfolioBlock = ({
     if (itemId === 'fast-taxi-rotterdam') {
       return 'from-amber-400 to-orange-600';
     }
+    if (itemId === 'houtbewerking-concept') {
+      return 'from-amber-700 to-yellow-600';
+    }
     
     // Fallback colors by category
     switch(category) {
