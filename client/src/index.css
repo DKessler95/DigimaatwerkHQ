@@ -2,23 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Logo in header */
-.n8n-chat [class*="header"]::before,
-.n8n-chat div[class*="header"]::before {
-  content: '';
-  width: 24px;
-  height: 24px;
-  background-image: url('/digimaatwerkLOGO.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-right: 0.5rem;
-  display: inline-block;
-}
-
-/* Bot message text blue */
+/* Only change bot message text color to blue */
 .n8n-chat [class*="message"]:not([class*="user"]) {
-  color: #0891b2 !important;
+  color: #0f172a !important;
 }
 
 @layer base {
