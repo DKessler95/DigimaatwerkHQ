@@ -31,7 +31,12 @@ const PortfolioBlock = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   
-  const getCategoryColors = (category: string) => {
+  const getCategoryColors = (category: string, itemId?: string) => {
+    // Special color for limonade webshop
+    if (itemId === 'limonade-webshop') {
+      return 'from-pink-400 to-rose-600';
+    }
+    
     switch(category) {
       case 'web':
         return 'from-blue-400 to-blue-700';
@@ -44,7 +49,12 @@ const PortfolioBlock = ({
     }
   };
   
-  const getCategoryIcon = (category: string) => {
+  const getCategoryIcon = (category: string, itemId?: string) => {
+    // Special icon for limonade webshop
+    if (itemId === 'limonade-webshop') {
+      return '🛍️';
+    }
+    
     switch(category) {
       case 'web':
         return '🌐';
@@ -59,7 +69,7 @@ const PortfolioBlock = ({
   
   return (
     <motion.div
-      className={`rounded-xl overflow-hidden bg-gradient-to-br ${getCategoryColors(item.category)} p-1 shadow-lg`}
+      className={`rounded-xl overflow-hidden bg-gradient-to-br ${getCategoryColors(item.category, item.id)} p-1 shadow-lg`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -113,7 +123,7 @@ const PortfolioBlock = ({
         <div className="p-6 flex-grow">
           {/* Animated background */}
           <div 
-            className={`absolute inset-0 bg-gradient-to-br ${getCategoryColors(item.category)} opacity-10 transition-opacity duration-500 ${isHovered ? 'opacity-20' : 'opacity-10'}`}
+            className={`absolute inset-0 bg-gradient-to-br ${getCategoryColors(item.category, item.id)} opacity-10 transition-opacity duration-500 ${isHovered ? 'opacity-20' : 'opacity-10'}`}
           />
           
           {/* Animated particles */}
@@ -136,7 +146,7 @@ const PortfolioBlock = ({
           <div className="relative z-10">
             <div className="flex items-center mb-4">
               <div className="w-10 h-10 rounded-full bg-primary/30 flex items-center justify-center mr-3 backdrop-blur-sm">
-                <span className="text-lg">{getCategoryIcon(item.category)}</span>
+                <span className="text-lg">{getCategoryIcon(item.category, item.id)}</span>
               </div>
               <h3 className="text-xl font-header font-bold">{item.title}</h3>
             </div>
