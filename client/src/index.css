@@ -24,6 +24,9 @@
 
   --chat--window--width: 400px;
   --chat--window--height: 600px;
+  
+  /* Round the entire chat widget */
+  --chat--border-radius: 1rem;
 
   --chat--header--background: #0f172a;
   --chat--header--color: #ffffff;
@@ -35,9 +38,9 @@
 
   --chat--message--font-size: 0.875rem;
   --chat--message--padding: 0.75rem 1rem;
-  --chat--message--border-radius: 1.25rem;
+  --chat--message--border-radius: 0.5rem;
   --chat--message--line-height: 1.5;
-  --chat--message--bot--background: #f8fafc;
+  --chat--message--bot--background: #ffffff;
   --chat--message--bot--color: #0f172a;
   --chat--message--bot--border: 1px solid #e2e8f0;
   --chat--message--user--background: var(--chat--color-secondary);
@@ -64,6 +67,15 @@
   background: #0f172a !important;
   background-color: #0f172a !important;
   border-radius: 1rem 1rem 0 0 !important;
+}
+
+/* Round the entire chat widget window */
+#n8n-chat,
+.n8n-chat,
+.n8n-chat-window {
+  border-radius: 1rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
 }
 
 .n8n-chat .chat-header::before,
@@ -132,7 +144,7 @@
   border-bottom: none !important;
 }
 
-/* Standard footer/input area with white background */
+/* Standard footer/input area with white background and rounded bottom */
 #n8n-chat [class*="footer"],
 #n8n-chat [class*="input"],
 #n8n-chat > div:last-child,
@@ -144,6 +156,7 @@
   background: #ffffff !important;
   background-color: #ffffff !important;
   border-top: 1px solid #e2e8f0 !important;
+  border-radius: 0 0 1rem 1rem !important;
 }
 
 /* White text in blue header area only */
@@ -178,25 +191,21 @@
   opacity: 0.9 !important;
 }
 
-/* Bot message styling with rounded bubbles */
+/* Bot message styling - white background with blue text */
 .n8n-chat div[class*="message"][class*="bot"],
 .n8n-chat div[class*="bot"][class*="message"],
 .n8n-chat [class*="message"]:not([class*="user"]) {
-  background: #f8fafc !important;
+  background: #ffffff !important;
   color: #0f172a !important;
   border: 1px solid #e2e8f0 !important;
-  border-radius: 1.25rem !important;
-  max-width: 80% !important;
 }
 
-/* User message styling with rounded bubbles */
+/* User message styling - keep teal background */
 .n8n-chat div[class*="message"][class*="user"],
 .n8n-chat div[class*="user"][class*="message"],
 .n8n-chat [class*="message"][class*="user"] {
   background: #0891b2 !important;
   color: #ffffff !important;
-  border-radius: 1.25rem !important;
-  max-width: 80% !important;
 }
 
 /* White background for message area only */
