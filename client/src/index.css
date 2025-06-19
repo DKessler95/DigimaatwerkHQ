@@ -129,7 +129,7 @@
   overflow-wrap: break-word !important;
 }
 
-/* Bot messages - keep default styling with blue text */
+/* Bot messages - blue text for readability */
 .n8n-chat [class*="message"]:not([class*="user"]) {
   color: #0f172a !important;
   font-size: 0.8rem !important;
@@ -137,6 +137,11 @@
   word-wrap: break-word !important;
   overflow-wrap: break-word !important;
   white-space: pre-wrap !important;
+}
+
+/* Force all text content in bot messages to be blue */
+.n8n-chat [class*="message"]:not([class*="user"]) * {
+  color: #0f172a !important;
 }
 
 /* User messages - simple teal styling */
