@@ -111,17 +111,28 @@ const ServicesSection = () => {
               {/* Maatje Mascot Display */}
               <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl overflow-hidden shadow-2xl h-[400px] flex flex-col items-center justify-center p-8">
                 <div className="text-center mb-6">
-                  <img 
-                    src={mascotImage} 
-                    alt="Maatje - Digimaatwerk Mascot" 
-                    className="w-48 h-48 mx-auto mb-4 object-contain"
-                  />
-                  <h4 className="text-2xl font-header font-bold text-foreground mb-2">
-                    Ontmoet Maatje!
-                  </h4>
-                  <p className="text-foreground/70 text-lg">
-                    Onze AI-assistent staat klaar om je te helpen
-                  </p>
+                  <div 
+                    className="cursor-pointer transform transition-transform hover:scale-105"
+                    onClick={() => {
+                      // Open the n8n chat widget
+                      const chatWidget = document.querySelector('.n8n-chat-toggle, [class*="toggle"]') as HTMLElement;
+                      if (chatWidget) {
+                        chatWidget.click();
+                      }
+                    }}
+                  >
+                    <img 
+                      src={mascotImage} 
+                      alt="Maatje - Digimaatwerk Mascot" 
+                      className="w-48 h-48 mx-auto mb-4 object-contain"
+                    />
+                    <h4 className="text-2xl font-header font-bold text-foreground mb-2">
+                      Ontmoet Maatje!
+                    </h4>
+                    <p className="text-foreground/70 text-lg">
+                      Klik om te chatten met onze AI-assistent
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
