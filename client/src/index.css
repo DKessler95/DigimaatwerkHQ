@@ -25,10 +25,10 @@
   --chat--window--width: 400px;
   --chat--window--height: 600px;
 
-  --chat--header--background: #ffffff;
-  --chat--header--color: #0f172a;
+  --chat--header--background: #0f172a;
+  --chat--header--color: #ffffff;
   --chat--header--padding: var(--chat--spacing);
-  --chat--header--border-bottom: 1px solid var(--chat--color-light-shade-100);
+  --chat--header--border-bottom: none;
   
   --chat--heading--font-size: 1.125rem;
   --chat--subtitle--font-size: 0.875rem;
@@ -84,7 +84,7 @@
 .n8n-chat-title {
   font-weight: 600 !important;
   font-size: 1.125rem !important;
-  color: #0f172a !important;
+  color: #ffffff !important;
   margin: 0 !important;
   text-shadow: none !important;
 }
@@ -93,9 +93,9 @@
 .n8n-chat p,
 .n8n-chat-subtitle {
   font-size: 0.875rem !important;
-  opacity: 0.8 !important;
+  opacity: 0.9 !important;
   margin: 0.25rem 0 0 0 !important;
-  color: #475569 !important;
+  color: #e2e8f0 !important;
   text-shadow: none !important;
 }
 
@@ -113,7 +113,7 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Force white header background and blue text - comprehensive targeting */
+/* Blue header and footer backgrounds */
 #n8n-chat [class*="header"],
 #n8n-chat div[class*="header"],
 #n8n-chat > div:first-child,
@@ -126,12 +126,26 @@
 .n8n-chat > div > div:first-child,
 .n8n-chat-window > div:first-child,
 .n8n-chat div:first-child {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  border-bottom: 1px solid #e2e8f0 !important;
+  background: #0f172a !important;
+  background-color: #0f172a !important;
+  border-bottom: none !important;
 }
 
-/* Ensure all text elements have proper contrast - blue text on white */
+/* Blue footer/input area */
+#n8n-chat [class*="footer"],
+#n8n-chat [class*="input"],
+#n8n-chat > div:last-child,
+#n8n-chat > div > div:last-child,
+.n8n-chat [class*="footer"],
+.n8n-chat [class*="input"],
+.n8n-chat > div:last-child,
+.n8n-chat > div > div:last-child {
+  background: #0f172a !important;
+  background-color: #0f172a !important;
+  border-top: none !important;
+}
+
+/* White text in blue header and footer areas */
 .n8n-chat div[class*="header"] h1,
 .n8n-chat div[class*="header"] p,
 .n8n-chat div[class*="header"] span,
@@ -140,8 +154,12 @@
 .n8n-chat div[class*="header"] *,
 .n8n-chat > div:first-child *,
 .n8n-chat > div > div:first-child *,
-.n8n-chat-window > div:first-child * {
-  color: #0f172a !important;
+.n8n-chat-window > div:first-child *,
+.n8n-chat [class*="footer"] *,
+.n8n-chat [class*="input"] *,
+.n8n-chat > div:last-child *,
+.n8n-chat > div > div:last-child * {
+  color: #ffffff !important;
   text-shadow: none !important;
 }
 
@@ -170,27 +188,35 @@
   color: #ffffff !important;
 }
 
-/* Clean white background for header elements */
-#n8n-chat div:first-child,
-.n8n-chat div:first-child,
-#n8n-chat > div,
-.n8n-chat > div {
+/* White background for message area only */
+#n8n-chat [class*="message"],
+#n8n-chat [class*="conversation"],
+#n8n-chat [class*="chat-body"],
+.n8n-chat [class*="message"],
+.n8n-chat [class*="conversation"],
+.n8n-chat [class*="chat-body"] {
   background: #ffffff !important;
   background-color: #ffffff !important;
 }
 
-/* Blue text for header elements */
-#n8n-chat div:first-child *,
-.n8n-chat div:first-child *,
-#n8n-chat h1,
-#n8n-chat h2,
-#n8n-chat h3,
-#n8n-chat p,
-.n8n-chat h1,
-.n8n-chat h2,
-.n8n-chat h3,
-.n8n-chat p {
-  color: #0f172a !important;
+/* Input styling for footer area */
+#n8n-chat input,
+#n8n-chat textarea,
+#n8n-chat button,
+.n8n-chat input,
+.n8n-chat textarea,
+.n8n-chat button {
+  background: transparent !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 0.5rem !important;
+}
+
+#n8n-chat input::placeholder,
+#n8n-chat textarea::placeholder,
+.n8n-chat input::placeholder,
+.n8n-chat textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 @layer base {
