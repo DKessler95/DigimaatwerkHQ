@@ -10,7 +10,7 @@
   --chat--color-secondary: #0891b2; /* Teal from theme */
   --chat--color-secondary-shade-50: #0e7490;
   --chat--color-white: #ffffff;
-  --chat--color-light: #f8fafc;
+  --chat--color-light: #ffffff;
   --chat--color-light-shade-50: #f1f5f9;
   --chat--color-light-shade-100: #e2e8f0;
   --chat--color-medium: #64748b;
@@ -25,8 +25,8 @@
   --chat--window--width: 400px;
   --chat--window--height: 600px;
 
-  --chat--header--background: var(--chat--color-dark);
-  --chat--header--color: var(--chat--color-white);
+  --chat--header--background: #0f172a;
+  --chat--header--color: #ffffff;
   --chat--header--padding: var(--chat--spacing);
   --chat--header--border-bottom: 1px solid var(--chat--color-light-shade-100);
   
@@ -56,10 +56,13 @@
 /* Custom styling for n8n chat header with Digimaatwerk logo */
 .n8n-chat .chat-header,
 .n8n-chat .chat-header-content,
-.n8n-chat-header {
+.n8n-chat-header,
+.n8n-chat > div > div:first-child {
   display: flex !important;
   align-items: center !important;
   gap: 0.75rem !important;
+  background: #0f172a !important;
+  background-color: #0f172a !important;
 }
 
 .n8n-chat .chat-header::before,
@@ -110,12 +113,33 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
+/* Force dark header background and white text - comprehensive targeting */
+#n8n-chat [class*="header"],
+#n8n-chat div[class*="header"],
+#n8n-chat > div:first-child,
+#n8n-chat > div > div:first-child,
+#n8n-chat .n8n-chat-window > div:first-child,
+#n8n-chat div:first-child,
+.n8n-chat [class*="header"],
+.n8n-chat div[class*="header"],
+.n8n-chat > div:first-child,
+.n8n-chat > div > div:first-child,
+.n8n-chat-window > div:first-child,
+.n8n-chat div:first-child {
+  background: #0f172a !important;
+  background-color: #0f172a !important;
+}
+
 /* Ensure all text elements have proper contrast */
 .n8n-chat div[class*="header"] h1,
 .n8n-chat div[class*="header"] p,
 .n8n-chat div[class*="header"] span,
 .n8n-chat [class*="title"],
-.n8n-chat [class*="subtitle"] {
+.n8n-chat [class*="subtitle"],
+.n8n-chat div[class*="header"] *,
+.n8n-chat > div:first-child *,
+.n8n-chat > div > div:first-child *,
+.n8n-chat-window > div:first-child * {
   color: #ffffff !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
@@ -142,6 +166,34 @@
 .n8n-chat div[class*="message"][class*="user"],
 .n8n-chat div[class*="user"][class*="message"] {
   background: #0891b2 !important;
+  color: #ffffff !important;
+}
+
+/* Ultimate override for any white background elements */
+#n8n-chat *,
+.n8n-chat * {
+  background: inherit !important;
+}
+
+#n8n-chat div:first-child,
+.n8n-chat div:first-child,
+#n8n-chat > div,
+.n8n-chat > div {
+  background: #0f172a !important;
+  background-color: #0f172a !important;
+}
+
+/* Text color override for header elements */
+#n8n-chat div:first-child *,
+.n8n-chat div:first-child *,
+#n8n-chat h1,
+#n8n-chat h2,
+#n8n-chat h3,
+#n8n-chat p,
+.n8n-chat h1,
+.n8n-chat h2,
+.n8n-chat h3,
+.n8n-chat p {
   color: #ffffff !important;
 }
 
