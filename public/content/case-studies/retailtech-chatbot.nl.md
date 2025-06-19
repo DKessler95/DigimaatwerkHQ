@@ -1,31 +1,54 @@
 ---
-slug: retailtech-chatbot
-title: E-commerce Klantenservice Chatbot
-featured_image: https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80
-category: AI & Chatbots
-client: RetailTech BV
-industry: E-commerce
+slug: houtbewerking-concept-website
+title: Houtbewerking Concept Website
+featured_image: /images/portfolio/houtbewerking.png
+category: Webontwikkeling
+client: Persoonlijk Project
+industry: Ambacht & Houtbewerking
 date: 2023-11-15
-description: Implementeerde een intelligente chatbot die de klantenservicekosten met 45% verminderde en tegelijkertijd de tevredenheidscijfers verbeterde.
-challenge: RetailTech had moeite om de groeiende hoeveelheid klantenserviceverzoeken bij te houden, wat leidde tot langere wachttijden en ontevredenheid bij klanten.
-solution: We ontwikkelden een op GPT-4 gebaseerde chatbot die 80% van de veelvoorkomende vragen kon beantwoorden en naadloos kon doorverwijzen naar menselijke agenten wanneer nodig.
-result: Binnen drie maanden handelde de chatbot 65% van alle klantenserviceverzoeken af, met een klanttevredenheidsscore van 4.8/5.
+description: Een persoonlijk concept website ontwikkeld voor mijn broertje die houtbewerker in opleiding is, met focus op ambachtelijke kwaliteit en natuurlijke uitstraling.
+challenge: Het creëren van een professionele online aanwezigheid voor een startende houtbewerker die zijn vaardigheden en projecten wil tonen aan potentiële klanten.
+solution: We ontwikkelden een warme, natuurlijke website die de ambachtelijke kwaliteit benadrukt met een portfolio sectie voor zijn beste werkstukken en moderne webtechnologie.
+result: Een professionele website die perfect aansluit bij de ambachtelijke sector en traditionele waarden combineert met moderne functionaliteit.
 metrics:
-  - label: ROI
-    value: 280%
-  - label: Kostenbesparing
-    value: 45%
-  - label: Klanttevredenheid
-    value: 4.8/5
-live_url: https://retailtech.nl
+  - label: Persoonlijk karakter
+    value: 100%
+  - label: Ambachtelijke uitstraling
+    value: Authentiek
+  - label: Portfolio presentatie
+    value: Professioneel
+live_url: https://houtbewerking.digimaatwerk.nl
 featured: true
 ---
 
-# E-commerce Klantenservice Chatbot
+# Houtbewerking Concept Website
 
 ## Project Overzicht
 
-RetailTech, een groeiende e-commerce speler in Nederland, stond voor een uitdaging: hun klantenserviceteam kon de toenemende vraag niet bijhouden. Klanten ervaarden langere wachttijden, wat leidde tot verminderde tevredenheid en potentieel verloren verkopen.
+Voor mijn broertje, die zich specialiseert in houtbewerking en momenteel in opleiding is, heb ik een concept website ontwikkeld die zijn ambachtelijke vaardigheden en projecten toont. De website combineert een warme, natuurlijke uitstraling met moderne functionaliteit.
+
+## Uitdaging
+
+Het creëren van een professionele online aanwezigheid voor een startende houtbewerker die zijn vaardigheden en projecten wil tonen aan potentiële klanten, terwijl de traditionele waarden van het ambacht behouden blijven.
+
+## Oplossing
+
+We ontwikkelden een website met:
+- **Warme, natuurlijke uitstraling** - Kleuren en typografie die aansluiten bij hout en natuur
+- **Portfolio sectie** - Overzichtelijke presentatie van zijn beste werkstukken
+- **Moderne functionaliteit** - Responsive design en snelle laadtijden
+- **Persoonlijke touch** - Verhaal achter de ambacht en de persoon
+
+## Technologie
+
+- React voor dynamische gebruikersinterface
+- Moderne CSS voor natuurlijke styling
+- Responsive design voor alle apparaten
+- Geoptimaliseerd voor zoekmachines
+
+## Resultaat
+
+Een professionele website die perfect aansluit bij de ambachtelijke sector en traditionele waarden combineert met moderne webtechnologie. Het project toont aan hoe we ook voor kleinere, persoonlijke projecten hoogwaardige oplossingen kunnen leveren.
 
 ## De Uitdaging
 
