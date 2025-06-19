@@ -2,173 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Digimaatwerk Chat Widget Theme Matching */
-:root {
-  /* Digimaatwerk brand colors */
-  --chat--color-primary: #0f172a; /* Midnight blue */
-  --chat--color-primary-shade-50: #1e293b;
-  --chat--color-primary-shade-100: #334155;
-  --chat--color-secondary: #0891b2; /* Teal accent */
-  --chat--color-secondary-shade-50: #0e7490;
-  --chat--color-white: #ffffff;
-  --chat--color-light: #f8fafc;
-  --chat--color-light-shade-50: #f1f5f9;
-  --chat--color-light-shade-100: #e2e8f0;
-  --chat--color-medium: #64748b;
-  --chat--color-dark: #0f172a;
-  --chat--color-disabled: #94a3b8;
-  --chat--color-typing: #475569;
-
-  /* Widget styling to match website */
-  --chat--spacing: 1rem;
-  --chat--border-radius: 0.5rem;
-  --chat--transition-duration: 0.2s;
-  --chat--window--width: 400px;
-  --chat--window--height: 600px;
-
-  /* Header styling */
-  --chat--header--background: var(--chat--color-dark);
-  --chat--header--color: var(--chat--color-white);
-  --chat--header--padding: 1.5rem 1rem;
-  --chat--header--border-bottom: none;
-  --chat--heading--font-size: 1.125rem;
-  --chat--subtitle--font-size: 0.875rem;
-
-  /* Message styling */
-  --chat--message--font-size: 0.875rem;
-  --chat--message--padding: 0.75rem 1rem;
-  --chat--message--border-radius: 0.75rem;
-  --chat--message--line-height: 1.5;
-  --chat--message--bot--background: var(--chat--color-dark);
-  --chat--message--bot--color: var(--chat--color-white);
-  --chat--message--bot--border: none;
-  --chat--message--user--background: var(--chat--color-secondary);
-  --chat--message--user--color: var(--chat--color-white);
-  --chat--message--user--border: none;
-
-  /* Toggle button */
-  --chat--toggle--background: var(--chat--color-secondary);
-  --chat--toggle--hover--background: var(--chat--color-secondary-shade-50);
-  --chat--toggle--active--background: var(--chat--color-primary);
-  --chat--toggle--color: var(--chat--color-white);
-  --chat--toggle--size: 64px;
-
-  /* Input area */
-  --chat--textarea--height: 50px;
-}
-
-/* Digimaatwerk branded chat widget styling */
-.n8n-chat,
-#n8n-chat {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-}
-
-/* Header with logo and professional styling */
-.n8n-chat [class*="header"],
-.n8n-chat div[class*="header"] {
-  background: #0f172a !important;
-  padding: 1rem !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.75rem !important;
-  border-bottom: 1px solid #e2e8f0 !important;
-}
-
+/* Simple logo and blue text only */
 .n8n-chat [class*="header"]::before,
 .n8n-chat div[class*="header"]::before {
   content: '';
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   background-image: url('/digimaatwerkLOGO.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  margin-right: 0.5rem;
+  display: inline-block;
   flex-shrink: 0;
 }
 
-.n8n-chat h1,
-.n8n-chat [class*="title"] {
-  font-weight: 600 !important;
-  font-size: 1.125rem !important;
-  color: #ffffff !important;
-  margin: 0 !important;
-  letter-spacing: -0.025em !important;
-}
-
-.n8n-chat p,
-.n8n-chat [class*="subtitle"] {
-  font-size: 0.875rem !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  margin: 0.25rem 0 0 0 !important;
-  line-height: 1.4 !important;
-}
-
-/* Professional toggle button */
-.n8n-chat [class*="toggle"] {
-  background: #0891b2 !important;
-  border: none !important;
-}
-
-.n8n-chat [class*="toggle"]:hover {
-  background: #0e7490 !important;
-}
-
-/* Message styling - only text bubbles blue */
-.n8n-chat [class*="message"] {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-  font-size: 0.875rem !important;
-  line-height: 1.5 !important;
-  border-radius: 0.75rem !important;
-  margin-bottom: 0.75rem !important;
-  max-width: 85% !important;
-}
-
-/* Bot messages - blue background with white text */
+/* Only make bot message text blue - keep default styling */
 .n8n-chat [class*="message"]:not([class*="user"]) {
-  background: #0f172a !important;
-  color: #ffffff !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* User messages - keep standard styling */
-.n8n-chat [class*="message"][class*="user"] {
-  background: #0891b2 !important;
-  color: #ffffff !important;
-  border: none !important;
-}
-
-/* Input area styling - simplified */
-.n8n-chat [class*="input"],
-.n8n-chat [class*="footer"] {
-  background: #ffffff !important;
-  border-top: 1px solid #e2e8f0 !important;
-}
-
-.n8n-chat input,
-.n8n-chat textarea {
-  font-family: inherit !important;
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 0.5rem !important;
   color: #0f172a !important;
-  font-size: 0.875rem !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.n8n-chat input:focus,
-.n8n-chat textarea:focus {
-  outline: none !important;
-  border-color: #0891b2 !important;
-}
-
-.n8n-chat input::placeholder,
-.n8n-chat textarea::placeholder {
-  color: #64748b !important;
 }
 
 @layer base {
