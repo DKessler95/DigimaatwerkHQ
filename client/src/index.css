@@ -104,17 +104,10 @@
   line-height: 1.4 !important;
 }
 
-/* Professional toggle button */
+/* Simple toggle button */
 .n8n-chat [class*="toggle"] {
-  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
-  box-shadow: 0 8px 25px rgba(8, 145, 178, 0.3) !important;
+  background: #0891b2 !important;
   border: none !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-.n8n-chat [class*="toggle"]:hover {
-  transform: translateY(-2px) scale(1.05) !important;
-  box-shadow: 0 12px 35px rgba(8, 145, 178, 0.4) !important;
 }
 
 /* Message styling - improved for longer responses */
