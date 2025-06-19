@@ -1,74 +1,59 @@
 ---
-slug: 3d-configurator
-title: 3D Product Configurator
+slug: limonade-productwebshop
+title: Limonade Productwebshop
 featured_image: https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80
 category: Webontwikkeling
-client: DesignMeubel
-industry: Retail / Meubels
-date: 2023-09-18
-description: Interactief 3D-productvisualisatieplatform dat het conversiepercentage verhoogt en retouren vermindert voor een meubelretailer.
-challenge: DesignMeubel worstelde met hoge retourpercentages en lage online conversies omdat klanten producten niet goed konden visualiseren voor aankoop.
-solution: We ontwikkelden een interactieve 3D-productconfigurator waarmee klanten meubels kunnen aanpassen, visualiseren en vanuit elke hoek bekijken voor aankoop.
-result: Het platform verhoogde de online conversie met 32%, verminderde retouren met 47% en verhoogde de gemiddelde orderwaarde met 24%.
+client: Digimaatwerk
+industry: E-commerce / Handgemaakte Producten
+date: 2023-11-15
+description: Persoonlijke productwebshop die handgemaakte producten verkoopt met focus op kwaliteit, originaliteit en persoonlijk contact.
+challenge: Online verkoop brengt uitdagingen met zich mee. Klanten willen graag zien wat ze kopen, maar foto's geven niet altijd een compleet beeld.
+solution: Een overzichtelijke, gebruiksvriendelijke webshop met duidelijke productfoto's, uitgebreide beschrijvingen en persoonlijke orderbevestiging.
+result: Groeiend aantal tevreden klanten en terugkerende bestellingen door persoonlijk contact, snelle service en unieke uitstraling van de producten.
 metrics:
-  - label: Conversie
-    value: +32%
-  - label: Retourvermindering
-    value: 47%
-  - label: Gem. Orderwaarde
-    value: +24%
-live_url: https://designmeubel.nl/configurator
+  - label: Klantentevredenheid
+    value: Hoog
+  - label: Terugkerende klanten
+    value: Groeiend
+  - label: Persoonlijk contact
+    value: 100%
+live_url: https://limonade.digimaatwerk.nl
 featured: true
 ---
 
-# 3D Product Configurator
+# Limonade Productwebshop
 
 ## Project Overzicht
 
-DesignMeubel, een Nederlandse meubelretailer met een groeiende online aanwezigheid, had te maken met twee uitdagingen: lage conversiepercentages op hun website en een hoog aantal retouren. Klanten hadden moeite om zich voor te stellen hoe meubels er in hun huis zouden uitzien, wat leidde tot aarzeling bij aankoop en teleurstelling na ontvangst.
+Op limonade.digimaatwerk.nl verkoop ik met trots mijn eigen, handgemaakte producten. Mijn doel is om klanten een inspirerende en toegankelijke online winkelervaring te bieden, waarbij kwaliteit, originaliteit en persoonlijk contact centraal staan. Elk product is uniek en met zorg samengesteld, zodat bezoekers altijd iets bijzonders vinden.
 
 ## De Uitdaging
 
-- Klanten konden producten niet goed visualiseren voor aankoop
-- Statische productfoto's toonden niet alle aspecten en aanpassingsmogelijkheden
-- Hoog retourpercentage van 28% op online aankopen
-- Lage online conversie van 1.7%
-- Behoefte aan het tonen van alle materiaalopties en configuraties
+Online verkoop brengt uitdagingen met zich mee. Klanten willen graag zien wat ze kopen, maar foto's geven niet altijd een compleet beeld. Daarom besteed ik veel aandacht aan duidelijke productfoto's, uitgebreide beschrijvingen en heldere informatie over materialen en afmetingen. Zo help ik klanten om met vertrouwen hun keuze te maken en teleurstellingen te voorkomen.
 
-## Onze Aanpak
+## Mijn Oplossing
 
-We ontwikkelden een geavanceerde 3D-productconfigurator die:
-
-1. **Realtime visualisatie** biedt van alle producten
-2. **Interactieve aanpassing** mogelijk maakt van materialen, kleuren en opties
-3. **360-graden rotatie** ondersteunt voor volledige productinspectie
-4. **Augmented Reality** integreert om producten in de eigen ruimte te plaatsen
-5. **Naadloos integreert** met het bestaande e-commerceplatform
+Ik heb limonade.digimaatwerk.nl ontwikkeld als een overzichtelijke, gebruiksvriendelijke webshop. Bezoekers kunnen eenvoudig door het assortiment bladeren, producten filteren op categorie en snel de gewenste artikelen vinden. De bestelprocedure is veilig en snel, met meerdere betaalopties en een persoonlijke orderbevestiging. Ook bied ik de mogelijkheid om rechtstreeks vragen te stellen, zodat klanten altijd snel antwoord krijgen.
 
 ## De Technische Oplossing
 
-De configurator is gebouwd met geavanceerde webtechnologieën:
+De webshop is gebouwd met moderne webtechnologieën:
 
-- **Three.js** voor hoogwaardige 3D-rendering in de browser
-- **WebGL** voor hardwareacceleratie en soepele prestaties
 - **React** voor een responsieve gebruikersinterface
-- **Geoptimaliseerde 3D-modellen** voor snelle laadtijden
-- **Progressive Web App (PWA)** voor optimale mobiele ervaring
-- **WebAR** voor AR-functionaliteit zonder app-installatie
+- **E-commerce integratie** voor veilige betalingen
+- **Responsive design** voor optimale mobiele ervaring
+- **SEO-optimalisatie** voor betere vindbaarheid
+- **Persoonlijke communicatie** tools voor directe klantenservice
+- **Social media integratie** voor grotere reach
 
 ## Resultaten
 
-De implementatie resulteerde in aanzienlijke verbeteringen:
+Sinds de lancering van limonade.digimaatwerk.nl zie ik een groeiend aantal tevreden klanten en terugkerende bestellingen. Klanten waarderen het persoonlijke contact, de snelle service en de unieke uitstraling van de producten. Door actief te zijn op social media en regelmatig nieuwe items toe te voegen, blijft de webshop aantrekkelijk en groeit het bereik verder.
 
-- **Conversiepercentage steeg** van 1.7% naar 2.25% (32% toename)
-- **Retourpercentage daalde** van 28% naar 15% (47% vermindering)
-- **Gemiddelde orderwaarde steeg** met 24%
-- **Tijdsbesteding op site verdubbelde**
-- **78% van de bezoekers** interacteert met de configurator
-- **Social sharing** van aangepaste ontwerpen genereerde nieuwe verkeer
+## Klantreacties
 
-## Klantfeedback
+Klanten geven aan dat ze het fijn vinden dat ze direct bij de maker bestellen en dat er altijd ruimte is voor vragen of speciale wensen. "Je merkt dat alles met liefde wordt gemaakt en verstuurd. Dat maakt het extra bijzonder om hier te bestellen," aldus een tevreden klant.
 
-> "De 3D-configurator heeft onze online verkoopstrategie getransformeerd. Klanten zijn nu veel zekerder over hun aankopen, wat resulteert in minder retouren en hogere klanttevredenheid. Het is een echte game-changer voor onze business." - Lisa Bos, E-commerce Manager bij DesignMeubel
+## Extra Voordeel
 
-Een onverwacht voordeel was dat de in-store verkoopmedewerkers de configurator ook zijn gaan gebruiken als verkooptool, wat de omnichannel ervaring heeft verbeterd en heeft geleid tot een 15% toename in in-store conversies.
+Naast de online verkoop gebruik ik limonade.digimaatwerk.nl ook als visitekaartje op markten en beurzen. Zo kunnen bezoekers eenvoudig het assortiment bekijken, direct bestellen of contact opnemen voor maatwerk. Dit zorgt voor meer interactie en versterkt de band met mijn klanten, zowel online als offline..
