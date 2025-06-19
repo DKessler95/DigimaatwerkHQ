@@ -1,7 +1,7 @@
 ---
 slug: limonade-productwebshop
 title: Limonade Productwebshop
-featured_image: https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80
+featured_image: /images/portfolio/limonade.jpg
 category: Webontwikkeling
 client: Digimaatwerk
 industry: E-commerce / Handgemaakte Producten

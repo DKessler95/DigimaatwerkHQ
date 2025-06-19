@@ -64,6 +64,9 @@ const PortfolioBlock = ({
     if (itemId === 'fast-taxi-rotterdam') {
       return '🚕';
     }
+    if (itemId === 'houtbewerking-concept') {
+      return '🪵';
+    }
     
     // Fallback icons by category
     switch(category) {
