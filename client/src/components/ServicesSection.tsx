@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
 import { useLanguage } from '@/lib/languageContext';
 
 interface Service {
@@ -7,12 +6,6 @@ interface Service {
   titleKey: string;
   descriptionKey: string;
   techKey: string;
-}
-
-interface ChatMessage {
-  sender: 'bot' | 'user';
-  messageKey: string;
-  message?: string;
 }
 
 const services: Service[] = [
@@ -38,57 +31,6 @@ const services: Service[] = [
 
 const ServicesSection = () => {
   const { t, language } = useLanguage();
-  
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    {
-      sender: 'bot',
-      messageKey: "services.chatbot.greeting"
-    },
-    {
-      sender: 'user',
-      messageKey: "services.chatbot.user1"
-    },
-    {
-      sender: 'bot',
-      messageKey: "services.chatbot.bot1"
-    }
-  ]);
-  
-  const [userInput, setUserInput] = useState('');
-
-  // Update messages when language changes
-  useEffect(() => {
-    // This effect will run when the language changes
-  }, [language]);
-
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInput(e.target.value);
-  };
-
-  const handleSendMessage = () => {
-    if (userInput.trim() === '') return;
-    
-    // Add user message
-    setChatMessages([...chatMessages, { sender: 'user', messageKey: '', message: userInput }]);
-    setUserInput('');
-    
-    // Simulate bot response after a delay
-    setTimeout(() => {
-      setChatMessages(prev => [
-        ...prev, 
-        { 
-          sender: 'bot', 
-          messageKey: "services.chatbot.bot2"
-        }
-      ]);
-    }, 1000);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
-  };
 
   return (
     <section id="services" className="py-24 bg-gradient-to-b from-primary to-secondary">
@@ -165,50 +107,20 @@ const ServicesSection = () => {
               </a>
             </div>
             <div className="col-span-12 lg:col-span-6 lg:col-start-7 mt-10 lg:mt-0">
-              {/* AI Chatbot Demo */}
-              <div className="bg-primary rounded-2xl overflow-hidden shadow-2xl h-[400px] flex flex-col">
-                <div className="bg-secondary p-4 flex items-center">
-                  <div className="flex space-x-2 mr-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  </div>
-                  <div className="text-sm text-center flex-grow">Digimaatwerk {language === 'nl' ? 'AI Assistent' : 'AI Assistant'}</div>
-                </div>
-                <div className="flex-grow p-4 overflow-y-auto space-y-4" id="chat-messages">
-                  {chatMessages.map((msg, index) => (
-                    <div key={index} className={`flex items-start gap-2 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
-                      {msg.sender === 'bot' && (
-                        <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-primary font-bold">D</div>
-                      )}
-                      <div className={`${msg.sender === 'bot' 
-                        ? 'bg-secondary rounded-lg rounded-tl-none' 
-                        : 'bg-accent/20 rounded-lg rounded-tr-none'} p-3 max-w-[80%]`}>
-                        <p>{msg.messageKey ? t(msg.messageKey) : msg.message}</p>
-                      </div>
-                      {msg.sender === 'user' && (
-                        <div className="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center text-foreground">U</div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <div className="p-4 border-t border-secondary">
-                  <div className="flex">
-                    <input 
-                      type="text" 
-                      placeholder={t('services.chatbot.placeholder')}
-                      className="w-full bg-primary border border-secondary/50 rounded-l-lg px-4 py-2 focus:outline-none focus:border-accent text-foreground"
-                      value={userInput}
-                      onChange={handleUserInput}
-                      onKeyPress={handleKeyPress}
-                    />
-                    <button 
-                      className="bg-accent text-primary px-4 rounded-r-lg"
-                      onClick={handleSendMessage}
-                    >
-                      <i className="ri-send-plane-fill"></i>
-                    </button>
-                  </div>
+              {/* Maatje Mascot Display */}
+              <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl overflow-hidden shadow-2xl h-[400px] flex flex-col items-center justify-center p-8">
+                <div className="text-center mb-6">
+                  <img 
+                    src="/attached_assets/mascot_1750294453535.png" 
+                    alt="Maatje - Digimaatwerk Mascot" 
+                    className="w-48 h-48 mx-auto mb-4 object-contain"
+                  />
+                  <h4 className="text-2xl font-header font-bold text-foreground mb-2">
+                    Ontmoet Maatje!
+                  </h4>
+                  <p className="text-foreground/70 text-lg">
+                    Onze AI-assistent staat klaar om je te helpen
+                  </p>
                 </div>
               </div>
             </div>
