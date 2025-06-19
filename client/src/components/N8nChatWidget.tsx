@@ -22,7 +22,7 @@ export function N8nChatWidget() {
       ],
       i18n: {
         en: {
-          title: 'Maatje - Digimaatwerk Assistant',
+          title: 'Digimaatwerk Assistent',
           subtitle: 'Ik help je graag met vragen over onze digitale diensten',
           footer: '',
           getStarted: 'Start gesprek',

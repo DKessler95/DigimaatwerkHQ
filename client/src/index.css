@@ -50,6 +50,61 @@
   --chat--textarea--height: 50px;
 }
 
+/* Custom styling for n8n chat header with Digimaatwerk logo */
+.n8n-chat .chat-header,
+.n8n-chat .chat-header-content,
+.n8n-chat-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+
+.n8n-chat .chat-header::before,
+.n8n-chat .chat-header-content::before,
+.n8n-chat-header::before {
+  content: '';
+  width: 28px;
+  height: 28px;
+  background-image: url('/digimaatwerkLOGO.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+}
+
+.n8n-chat h1,
+.n8n-chat .chat-title,
+.n8n-chat-title {
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  color: var(--chat--color-white) !important;
+  margin: 0 !important;
+}
+
+.n8n-chat .chat-subtitle,
+.n8n-chat p,
+.n8n-chat-subtitle {
+  font-size: 0.8rem !important;
+  opacity: 0.85 !important;
+  margin: 0.25rem 0 0 0 !important;
+  color: var(--chat--color-white) !important;
+}
+
+/* Style the chat toggle button */
+.n8n-chat .chat-toggle,
+.n8n-chat-toggle {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.n8n-chat .chat-toggle:hover,
+.n8n-chat-toggle:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
 @layer base {
   :root {
     /* Base colors */
