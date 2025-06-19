@@ -16,7 +16,7 @@ import TermsOfService from "@/pages/legal/TermsOfService";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileMenu from "@/components/MobileMenu";
-import ChatbotWidget from "@/components/ChatbotWidget";
+import { N8nChatWidget } from "@/components/N8nChatWidget";
 import CookieConsent from "@/components/CookieConsent";
 import CodeAnimationLoader from "@/components/CodeAnimationLoader";
 import { LanguageProvider } from "@/lib/languageContext";
@@ -79,7 +79,7 @@ function App() {
             <Router />
           </main>
           <Footer />
-          <ChatbotWidget />
+          <N8nChatWidget />
           <CookieConsent />
         </div>
         <Toaster />
