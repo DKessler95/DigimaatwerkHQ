@@ -17,17 +17,25 @@ export function N8nChatWidget() {
       showWelcomeScreen: false,
       defaultLanguage: 'en',
       initialMessages: [
-        'Hey! 👋',
-        'Mijn naam is Maatje, waar kan ik je mee helpen?'
+        'Welkom bij Digimaatwerk! 👋',
+        'Ik ben Maatje, uw digitale assistent. Hoe kan ik u vandaag helpen met uw digitale transformatie?'
       ],
       i18n: {
         en: {
-          title: 'Digimaatwerk Assistent',
-          subtitle: 'Ik help je graag met vragen over onze digitale diensten',
-          footer: '',
+          title: 'Digimaatwerk',
+          subtitle: 'Uw partner in digitale transformatie',
+          footer: 'Powered by Digimaatwerk',
           getStarted: 'Start gesprek',
-          inputPlaceholder: 'Typ je vraag hier...',
-          closeButtonTooltip: 'Sluiten',
+          inputPlaceholder: 'Stel uw vraag over onze diensten...',
+          closeButtonTooltip: 'Chat sluiten',
+        },
+        nl: {
+          title: 'Digimaatwerk',
+          subtitle: 'Uw partner in digitale transformatie',
+          footer: 'Powered by Digimaatwerk',
+          getStarted: 'Start gesprek',
+          inputPlaceholder: 'Stel uw vraag over onze diensten...',
+          closeButtonTooltip: 'Chat sluiten',
         },
       },
     });
