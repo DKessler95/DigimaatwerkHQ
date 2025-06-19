@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/languageContext';
+import mascotImage from '@assets/mascot_1750294453535.png';
 
 interface Service {
   icon: string;
@@ -111,7 +112,7 @@ const ServicesSection = () => {
               <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl overflow-hidden shadow-2xl h-[400px] flex flex-col items-center justify-center p-8">
                 <div className="text-center mb-6">
                   <img 
-                    src="/attached_assets/mascot_1750294453535.png" 
+                    src={mascotImage} 
                     alt="Maatje - Digimaatwerk Mascot" 
                     className="w-48 h-48 mx-auto mb-4 object-contain"
                   />
