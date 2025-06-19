@@ -2,9 +2,9 @@
 id: houtbewerking-concept
 title: Woodworking Concept Website
 description: A concept website made for my little brother who is training to become a woodworker
-imageUrl: /images/portfolio/houtbewerking.jpg
+imageUrl: /images/portfolio/houtbewerking.png
 websiteUrl: https://houtbewerking.digimaatwerk.nl
-websiteScreenshot: /images/portfolio/houtbewerking.jpg
+websiteScreenshot: /images/portfolio/houtbewerking.png
 category: web
 displayType: default
 order: 3
