@@ -2,241 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-/* n8n Chat Widget Digimaatwerk Branding */
+/* Minimal n8n Chat Widget customization - only logo and blue text */
 :root {
-  --chat--color-primary: #0f172a; /* Midnight blue from theme */
-  --chat--color-primary-shade-50: #1e293b;
-  --chat--color-primary-shade-100: #334155;
-  --chat--color-secondary: #0891b2; /* Teal from theme */
-  --chat--color-secondary-shade-50: #0e7490;
-  --chat--color-white: #ffffff;
-  --chat--color-light: #ffffff;
-  --chat--color-light-shade-50: #f1f5f9;
-  --chat--color-light-shade-100: #e2e8f0;
-  --chat--color-medium: #64748b;
-  --chat--color-dark: #0f172a;
-  --chat--color-disabled: #94a3b8;
-  --chat--color-typing: #475569;
-
-  --chat--spacing: 1rem;
-  --chat--border-radius: 0.5rem;
-  --chat--transition-duration: 0.2s;
-
-  --chat--window--width: 400px;
-  --chat--window--height: 600px;
-  
-  /* Round the entire chat widget */
-  --chat--border-radius: 1rem;
-
-  --chat--header--background: #0f172a;
-  --chat--header--color: #ffffff;
-  --chat--header--padding: var(--chat--spacing);
-  --chat--header--border-bottom: none;
-  
-  --chat--heading--font-size: 1.125rem;
-  --chat--subtitle--font-size: 0.875rem;
-
-  --chat--message--font-size: 0.875rem;
-  --chat--message--padding: 0.75rem 1rem;
-  --chat--message--border-radius: 0.5rem;
-  --chat--message--line-height: 1.5;
-  --chat--message--bot--background: #ffffff;
+  /* Keep default n8n colors but make bot text blue */
   --chat--message--bot--color: #0f172a;
-  --chat--message--bot--border: 1px solid #e2e8f0;
-  --chat--message--user--background: var(--chat--color-secondary);
-  --chat--message--user--color: #ffffff;
-  --chat--message--user--border: none;
-
-  --chat--toggle--background: var(--chat--color-secondary);
-  --chat--toggle--hover--background: var(--chat--color-secondary-shade-50);
-  --chat--toggle--active--background: var(--chat--color-primary);
-  --chat--toggle--color: var(--chat--color-white);
-  --chat--toggle--size: 60px;
-
-  --chat--textarea--height: 50px;
 }
 
-/* Custom styling for n8n chat header with Digimaatwerk logo */
-.n8n-chat .chat-header,
-.n8n-chat .chat-header-content,
-.n8n-chat-header,
-.n8n-chat > div > div:first-child {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.75rem !important;
-  background: #0f172a !important;
-  background-color: #0f172a !important;
-  border-radius: 1rem 1rem 0 0 !important;
-}
-
-/* Round the entire chat widget window */
-#n8n-chat,
-.n8n-chat,
-.n8n-chat-window {
-  border-radius: 1rem !important;
-  overflow: hidden !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
-}
-
+/* Simple logo and blue text customization only */
 .n8n-chat .chat-header::before,
 .n8n-chat .chat-header-content::before,
-.n8n-chat-header::before {
+.n8n-chat-header::before,
+.n8n-chat div[class*="header"]::before {
   content: '';
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   background-image: url('/digimaatwerkLOGO.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  flex-shrink: 0;
   margin-right: 0.5rem;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
-.n8n-chat h1,
-.n8n-chat .chat-title,
-.n8n-chat-title {
-  font-weight: 600 !important;
-  font-size: 1.125rem !important;
-  color: #ffffff !important;
-  margin: 0 !important;
-  text-shadow: none !important;
-}
-
-.n8n-chat .chat-subtitle,
-.n8n-chat p,
-.n8n-chat-subtitle {
-  font-size: 0.875rem !important;
-  opacity: 0.9 !important;
-  margin: 0.25rem 0 0 0 !important;
-  color: #e2e8f0 !important;
-  text-shadow: none !important;
-}
-
-/* Style the chat toggle button */
-.n8n-chat .chat-toggle,
-.n8n-chat-toggle {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-  border: none !important;
-  transition: all 0.3s ease !important;
-}
-
-.n8n-chat .chat-toggle:hover,
-.n8n-chat-toggle:hover {
-  transform: scale(1.05) !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
-}
-
-/* Blue header and footer backgrounds */
-#n8n-chat [class*="header"],
-#n8n-chat div[class*="header"],
-#n8n-chat > div:first-child,
-#n8n-chat > div > div:first-child,
-#n8n-chat .n8n-chat-window > div:first-child,
-#n8n-chat div:first-child,
-.n8n-chat [class*="header"],
-.n8n-chat div[class*="header"],
-.n8n-chat > div:first-child,
-.n8n-chat > div > div:first-child,
-.n8n-chat-window > div:first-child,
-.n8n-chat div:first-child {
-  background: #0f172a !important;
-  background-color: #0f172a !important;
-  border-bottom: none !important;
-}
-
-/* Standard footer/input area with white background and rounded bottom */
-#n8n-chat [class*="footer"],
-#n8n-chat [class*="input"],
-#n8n-chat > div:last-child,
-#n8n-chat > div > div:last-child,
-.n8n-chat [class*="footer"],
-.n8n-chat [class*="input"],
-.n8n-chat > div:last-child,
-.n8n-chat > div > div:last-child {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  border-top: 1px solid #e2e8f0 !important;
-  border-radius: 0 0 1rem 1rem !important;
-}
-
-/* White text in blue header area only */
-.n8n-chat div[class*="header"] h1,
-.n8n-chat div[class*="header"] p,
-.n8n-chat div[class*="header"] span,
-.n8n-chat [class*="title"],
-.n8n-chat [class*="subtitle"],
-.n8n-chat div[class*="header"] *,
-.n8n-chat > div:first-child *,
-.n8n-chat > div > div:first-child *,
-.n8n-chat-window > div:first-child * {
-  color: #ffffff !important;
-  text-shadow: none !important;
-}
-
-/* Blue text in footer/input area */
-.n8n-chat [class*="footer"] *,
-.n8n-chat [class*="input"] *,
-.n8n-chat > div:last-child *,
-.n8n-chat > div > div:last-child * {
-  color: #0f172a !important;
-}
-
-.n8n-chat div[class*="header"] h1 {
-  font-size: 1.125rem !important;
-  font-weight: 600 !important;
-}
-
-.n8n-chat div[class*="header"] p {
-  font-size: 0.875rem !important;
-  opacity: 0.9 !important;
-}
-
-/* Bot message styling - white background with blue text */
-.n8n-chat div[class*="message"][class*="bot"],
-.n8n-chat div[class*="bot"][class*="message"],
+/* Blue text for bot messages */
 .n8n-chat [class*="message"]:not([class*="user"]) {
-  background: #ffffff !important;
   color: #0f172a !important;
-  border: 1px solid #e2e8f0 !important;
-}
-
-/* User message styling - keep teal background */
-.n8n-chat div[class*="message"][class*="user"],
-.n8n-chat div[class*="user"][class*="message"],
-.n8n-chat [class*="message"][class*="user"] {
-  background: #0891b2 !important;
-  color: #ffffff !important;
-}
-
-/* White background for message area only */
-#n8n-chat [class*="message"],
-#n8n-chat [class*="conversation"],
-#n8n-chat [class*="chat-body"],
-.n8n-chat [class*="message"],
-.n8n-chat [class*="conversation"],
-.n8n-chat [class*="chat-body"] {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-}
-
-/* Input styling for footer area with blue text */
-#n8n-chat input,
-#n8n-chat textarea,
-#n8n-chat button,
-.n8n-chat input,
-.n8n-chat textarea,
-.n8n-chat button {
-  background: #ffffff !important;
-  color: #0f172a !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 0.5rem !important;
-}
-
-#n8n-chat input::placeholder,
-#n8n-chat textarea::placeholder,
-.n8n-chat input::placeholder,
-.n8n-chat textarea::placeholder {
-  color: #64748b !important;
 }
 
 @layer base {
