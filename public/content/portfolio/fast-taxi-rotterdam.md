@@ -11,7 +11,7 @@ imageUrl: https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0
 websiteUrl: https://www.fasttaxirotterdam.com
 websiteScreenshot: https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80
 category: web
-displayType: bubble
+displayType: default
 order: 1
 featured: true
 ---

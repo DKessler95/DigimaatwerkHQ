@@ -134,18 +134,18 @@ const PortfolioBlock = ({
             className={`absolute inset-0 bg-gradient-to-br ${getCategoryColors(item.category, item.id)} opacity-10 transition-opacity duration-500 ${isHovered ? 'opacity-20' : 'opacity-10'}`}
           />
           
-          {/* Animated particles */}
+          {/* Animated particles - enhanced for fast-taxi-rotterdam */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(10)].map((_, i) => (
+            {[...Array(item.id === 'fast-taxi-rotterdam' ? 15 : 10)].map((_, i) => (
               <div 
                 key={i}
-                className="absolute w-6 h-6 rounded-full bg-white opacity-20"
+                className={`absolute rounded-full bg-white ${item.id === 'fast-taxi-rotterdam' ? 'w-8 h-8' : 'w-6 h-6'}`}
                 style={{
                   top: `${Math.random() * 100}%`,
                   left: `${Math.random() * 100}%`,
                   animation: `float ${3 + Math.random() * 7}s infinite ease-in-out ${Math.random() * 5}s`,
                   transform: `scale(${0.5 + Math.random() * 0.5})`,
-                  opacity: isHovered ? 0.3 : 0.1
+                  opacity: isHovered ? (item.id === 'fast-taxi-rotterdam' ? 0.4 : 0.3) : (item.id === 'fast-taxi-rotterdam' ? 0.2 : 0.1)
                 }}
               />
             ))}
