@@ -32,11 +32,15 @@ const PortfolioBlock = ({
   const [isHovered, setIsHovered] = useState(false);
   
   const getCategoryColors = (category: string, itemId?: string) => {
-    // Special color for limonade webshop
+    // Specific colors for each portfolio item
     if (itemId === 'limonade-webshop') {
       return 'from-pink-400 to-rose-600';
     }
+    if (itemId === 'fast-taxi-rotterdam') {
+      return 'from-amber-400 to-orange-600';
+    }
     
+    // Fallback colors by category
     switch(category) {
       case 'web':
         return 'from-blue-400 to-blue-700';
@@ -50,11 +54,15 @@ const PortfolioBlock = ({
   };
   
   const getCategoryIcon = (category: string, itemId?: string) => {
-    // Special icon for limonade webshop
+    // Specific icons for each portfolio item
     if (itemId === 'limonade-webshop') {
       return '🛍️';
     }
+    if (itemId === 'fast-taxi-rotterdam') {
+      return '🚕';
+    }
     
+    // Fallback icons by category
     switch(category) {
       case 'web':
         return '🌐';
