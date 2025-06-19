@@ -29,16 +29,19 @@
   --chat--header--color: var(--chat--color-white);
   --chat--header--padding: var(--chat--spacing);
   --chat--header--border-bottom: 1px solid var(--chat--color-light-shade-100);
+  
+  --chat--heading--font-size: 1.125rem;
+  --chat--subtitle--font-size: 0.875rem;
 
   --chat--message--font-size: 0.875rem;
   --chat--message--padding: 0.75rem 1rem;
   --chat--message--border-radius: 1rem;
   --chat--message--line-height: 1.5;
-  --chat--message--bot--background: var(--chat--color-light);
-  --chat--message--bot--color: var(--chat--color-dark);
-  --chat--message--bot--border: 1px solid var(--chat--color-light-shade-100);
+  --chat--message--bot--background: #f8fafc;
+  --chat--message--bot--color: #0f172a;
+  --chat--message--bot--border: 1px solid #e2e8f0;
   --chat--message--user--background: var(--chat--color-secondary);
-  --chat--message--user--color: var(--chat--color-white);
+  --chat--message--user--color: #ffffff;
   --chat--message--user--border: none;
 
   --chat--toggle--background: var(--chat--color-secondary);
@@ -77,18 +80,20 @@
 .n8n-chat .chat-title,
 .n8n-chat-title {
   font-weight: 600 !important;
-  font-size: 1rem !important;
-  color: var(--chat--color-white) !important;
+  font-size: 1.125rem !important;
+  color: #ffffff !important;
   margin: 0 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
 
 .n8n-chat .chat-subtitle,
 .n8n-chat p,
 .n8n-chat-subtitle {
-  font-size: 0.8rem !important;
-  opacity: 0.85 !important;
+  font-size: 0.875rem !important;
+  opacity: 1 !important;
   margin: 0.25rem 0 0 0 !important;
-  color: var(--chat--color-white) !important;
+  color: #e2e8f0 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Style the chat toggle button */
@@ -103,6 +108,41 @@
 .n8n-chat-toggle:hover {
   transform: scale(1.05) !important;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Ensure all text elements have proper contrast */
+.n8n-chat div[class*="header"] h1,
+.n8n-chat div[class*="header"] p,
+.n8n-chat div[class*="header"] span,
+.n8n-chat [class*="title"],
+.n8n-chat [class*="subtitle"] {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.n8n-chat div[class*="header"] h1 {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+}
+
+.n8n-chat div[class*="header"] p {
+  font-size: 0.875rem !important;
+  opacity: 0.9 !important;
+}
+
+/* Bot message styling */
+.n8n-chat div[class*="message"][class*="bot"],
+.n8n-chat div[class*="bot"][class*="message"] {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* User message styling */
+.n8n-chat div[class*="message"][class*="user"],
+.n8n-chat div[class*="user"][class*="message"] {
+  background: #0891b2 !important;
+  color: #ffffff !important;
 }
 
 @layer base {
