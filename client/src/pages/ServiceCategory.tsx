@@ -48,13 +48,13 @@ const ServiceCategory = () => {
           Bespaar tijd, verminder fouten en laat uw team focussen op wat echt belangrijk is.`,
           features: [
             'Visuele workflow-ontwerpen zonder programmeerkennis',
-            'Integratie met meer dan 1000+ apps en diensten',
-            'Aangepaste rapportages en dashboards',
-            'Gecentraliseerd beheer van alle workflows',
-            'Realtime monitoring en foutafhandeling'
+            'Integratie met bestaande systemen en applicaties',
+            'Real-time monitoring en rapportage',
+            'Schaalbaarheid voor groeiende bedrijven',
+            'Aangepaste triggers en acties'
           ],
-          technicalDetails: `Onze oplossingen zijn gebouwd op robuuste platforms zoals n8n, Make (Integromat) en Zapier. 
-          We bieden ook maatwerk API-integraties voor specifieke behoeften.`
+          technicalDetails: `We bouwen automatiseringsoplossingen met tools zoals Zapier, Microsoft Power Automate en n8n. 
+          Onze workflows kunnen verbinding maken met honderden populaire applicaties en services.`
         };
       case 'web-development':
         return {
@@ -149,9 +149,11 @@ const ServiceCategory = () => {
                 <Link href="/#contact" className="px-6 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
                   Contact opnemen
                 </Link>
-                <Link href="#examples" className="px-6 py-3 bg-transparent text-accent font-medium rounded-lg border border-accent hover:bg-accent/10 transition">
-                  Voorbeelden bekijken
-                </Link>
+                {category !== 'microsoft-365' && (
+                  <Link href="#examples" className="px-6 py-3 bg-transparent text-accent font-medium rounded-lg border border-accent hover:bg-accent/10 transition">
+                    Voorbeelden bekijken
+                  </Link>
+                )}
               </div>
             </motion.div>
           </div>
@@ -203,11 +205,7 @@ const ServiceCategory = () => {
                     {/* Central cloud hub */}
                     <div className="relative w-40 h-40 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center animate-pulse-slow">
                       <svg className="w-16 h-16 text-white" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.5 19H16.5C15.1193 19 14 17.8807 14 16.5V7.5C14 6.11929 15.1193 5 16.5 5H17.5C18.8807 5 20 6.11929 20 7.5V16.5C20 17.8807 18.8807 19 17.5 19Z"/>
-                        <path d="M6.5 19H7.5C8.88071 19 10 17.8807 10 16.5V7.5C10 6.11929 8.88071 5 7.5 5H6.5C5.11929 5 4 6.11929 4 7.5V16.5C4 17.8807 5.11929 19 6.5 19Z"/>
-                        <path d="M14 8H10" strokeWidth="2"/>
-                        <path d="M14 12H10" strokeWidth="2"/>
-                        <path d="M14 16H10" strokeWidth="2"/>
+                        <path d="M6.5 4C4.567 4 3 5.567 3 7.5c0 .695.203 1.342.553 1.887C2.633 10.16 2 11.26 2 12.5A3.5 3.5 0 0 0 5.5 16h13a3.5 3.5 0 0 0 3.5-3.5c0-1.24-.633-2.34-1.553-3.113C20.797 8.842 21 8.195 21 7.5 21 5.567 19.433 4 17.5 4c-.695 0-1.342.203-1.887.553C14.84 3.633 13.74 3 12.5 3S10.16 3.633 9.387 4.553C8.842 4.203 8.195 4 7.5 4H6.5Z"/>
                       </svg>
                     </div>
                     
@@ -221,13 +219,6 @@ const ServiceCategory = () => {
                     <div className="absolute -bottom-8 -left-8 w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center animate-pulse-slow" style={{ animationDelay: '1.5s' }}>
                       <span className="text-white text-xs font-bold">Power</span>
                     </div>
-                    <div className="absolute -bottom-8 -right-8 w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center animate-pulse-slow" style={{ animationDelay: '2s' }}>
-                      <span className="text-white text-xs font-bold">Azure</span>
-                    </div>
-                    
-                    {/* Connection lines */}
-                    <div className="absolute top-1/2 left-1/2 w-32 h-32 border-2 border-blue-300 rounded-full opacity-30 animate-spin-slow transform -translate-x-1/2 -translate-y-1/2"></div>
-                    <div className="absolute top-1/2 left-1/2 w-24 h-24 border-2 border-blue-400 rounded-full opacity-50 animate-reverse-spin transform -translate-x-1/2 -translate-y-1/2"></div>
                   </div>
                 )}
                 
@@ -401,42 +392,38 @@ const ServiceCategory = () => {
             
             {/* Integration examples - exclude CRM/E-commerce for Microsoft 365 */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              {category !== 'microsoft-365' && (
-                <>
-                  <motion.div 
-                    className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <h3 className="font-semibold mb-2">CRM Integratie</h3>
-                    <p className="text-sm text-foreground/70">
-                      Naadloze verbinding met populaire CRM's zoals Salesforce, HubSpot en Microsoft Dynamics.
-                    </p>
-                  </motion.div>
-                  
-                  <motion.div 
-                    className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                  >
-                    <h3 className="font-semibold mb-2">E-commerce</h3>
-                    <p className="text-sm text-foreground/70">
-                      Integreer met Shopify, WooCommerce, en andere e-commerce platforms.
-                    </p>
-                  </motion.div>
-                </>
-              )}
+              <motion.div 
+                className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <h3 className="font-semibold mb-2">CRM Integratie</h3>
+                <p className="text-sm text-foreground/70">
+                  Naadloze verbinding met populaire CRM's zoals Salesforce, HubSpot en Microsoft Dynamics.
+                </p>
+              </motion.div>
               
               <motion.div 
                 className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: category === 'microsoft-365' ? 0 : 0.2 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <h3 className="font-semibold mb-2">E-commerce</h3>
+                <p className="text-sm text-foreground/70">
+                  Integreer met Shopify, WooCommerce, en andere e-commerce platforms.
+                </p>
+              </motion.div>
+              
+              <motion.div 
+                className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <h3 className="font-semibold mb-2">API Koppelingen</h3>
                 <p className="text-sm text-foreground/70">
@@ -444,26 +431,27 @@ const ServiceCategory = () => {
                 </p>
               </motion.div>
             </div>
-          
-          {/* CTA */}
-          <motion.div 
-            className="bg-accent/10 rounded-xl p-8 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-2xl md:text-3xl font-header font-bold mb-4">
-              Klaar om te beginnen met {details.title}?
-            </h2>
-            <p className="max-w-2xl mx-auto mb-6">
-              Neem contact met ons op voor een vrijblijvend gesprek over uw project.
-              We denken graag met u mee over de mogelijkheden!
-            </p>
-            <Link href="/#contact" className="inline-block px-8 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
-              Neem contact op
-            </Link>
-          </motion.div>
+            
+            {/* CTA */}
+            <motion.div 
+              className="bg-accent/10 rounded-xl p-8 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-2xl md:text-3xl font-header font-bold mb-4">
+                Klaar om te beginnen met {details.title}?
+              </h2>
+              <p className="max-w-2xl mx-auto mb-6">
+                Neem contact met ons op voor een vrijblijvend gesprek over uw project.
+                We denken graag met u mee over de mogelijkheden!
+              </p>
+              <Link href="/#contact" className="inline-block px-8 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
+                Neem contact op
+              </Link>
+            </motion.div>
+          </div>
         )}
         
         {/* Contact CTA for all services */}
