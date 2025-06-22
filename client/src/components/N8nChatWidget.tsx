@@ -41,140 +41,105 @@ export function N8nChatWidget() {
       },
     });
 
-    // Add custom CSS to override the bot avatar and logo with mascot image
+    // Add custom CSS to override chat widget elements with mascot image
     const style = document.createElement('style');
     style.textContent = `
-      /* Global override for ALL images in n8n chat */
-      #n8n-chat img:not([alt*="user"]):not([class*="user"]) {
-        content: url('${mascotImage}') !important;
-        width: 32px !important;
-        height: 32px !important;
-        object-fit: cover !important;
-        border-radius: 50% !important;
-      }
-      
-      /* Specific targeting for header logo/avatar */
-      #n8n-chat [class*="header"] img,
-      #n8n-chat [class*="title"] img,
-      #n8n-chat [class*="avatar"] img,
-      #n8n-chat [class*="brand"] img,
-      #n8n-chat [class*="logo"] img {
-        content: url('${mascotImage}') !important;
-        width: 48px !important;
-        height: 48px !important;
-        border-radius: 50% !important;
-        object-fit: cover !important;
-        border: 2px solid #ffffff !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-      }
-      
-      /* Override for chat toggle button */
-      [class*="toggle"] img,
-      [class*="chat-button"] img,
-      button[class*="chat"] img {
-        content: url('${mascotImage}') !important;
-        width: 48px !important;
-        height: 48px !important;
-        border-radius: 50% !important;
-        border: 2px solid #ffffff !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-      }
-      
-      /* Replace any background images that might be logos */
-      #n8n-chat [style*="background-image"] {
+      /* Replace chat toggle button (cloud icon) with mascot */
+      .n8n-chat button[class*="toggle"],
+      .n8n-chat [class*="toggle"] {
         background-image: url('${mascotImage}') !important;
         background-size: cover !important;
         background-position: center !important;
+        background-repeat: no-repeat !important;
+        border-radius: 50% !important;
+        width: 60px !important;
+        height: 60px !important;
+      }
+      
+      .n8n-chat button[class*="toggle"] svg,
+      .n8n-chat [class*="toggle"] svg,
+      .n8n-chat button[class*="toggle"] img,
+      .n8n-chat [class*="toggle"] img {
+        display: none !important;
+      }
+      
+      /* Replace bot avatar in messages */
+      .n8n-chat .chat-message-from-bot .chat-message-avatar,
+      .n8n-chat .bot-avatar,
+      .n8n-chat [class*="avatar"][class*="bot"],
+      .n8n-chat img[alt*="bot"],
+      .n8n-chat img[alt*="Bot"] {
+        background-image: url('${mascotImage}') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+      }
+      
+      .n8n-chat .chat-message-from-bot .chat-message-avatar img,
+      .n8n-chat .bot-avatar img,
+      .n8n-chat [class*="avatar"][class*="bot"] img {
+        opacity: 0 !important;
+      }
+      
+      /* Replace header logo/branding with mascot */
+      .n8n-chat .chat-header img,
+      .n8n-chat .header img,
+      .n8n-chat .branding img,
+      .n8n-chat .logo img,
+      .n8n-chat [class*="logo"] img,
+      .n8n-chat [class*="brand"] img,
+      .n8n-chat [class*="header"] img {
+        content: url('${mascotImage}') !important;
+        width: 40px !important;
+        height: 40px !important;
+        object-fit: cover !important;
+        border-radius: 50% !important;
+      }
+      
+      /* Target any image in the chat header area */
+      .n8n-chat div[class*="header"] img,
+      .n8n-chat div[class*="title"] img {
+        content: url('${mascotImage}') !important;
+        width: 40px !important;
+        height: 40px !important;
+        object-fit: cover !important;
+        border-radius: 50% !important;
       }
     `;
     document.head.appendChild(style);
 
-    // Add observer to replace logo when chat widget loads
+    // Add observer to replace elements when chat widget loads
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
-          // More aggressive approach - replace ALL images in the chat widget
+          // Replace toggle button background
+          const toggleButtons = document.querySelectorAll('.n8n-chat [class*="toggle"], .n8n-chat button[class*="chat"]');
+          toggleButtons.forEach((btn) => {
+            if (btn instanceof HTMLElement) {
+              btn.style.backgroundImage = `url('${mascotImage}')`;
+              btn.style.backgroundSize = 'cover';
+              btn.style.backgroundPosition = 'center';
+              btn.style.borderRadius = '50%';
+            }
+          });
+          
+          // Replace images in the chat widget
           const chatWidget = document.querySelector('#n8n-chat');
           if (chatWidget) {
-            // Wait a bit for the widget to fully load
-            setTimeout(() => {
-              const images = chatWidget.querySelectorAll('img');
-              console.log('Found images in chat widget:', images.length);
+            const images = chatWidget.querySelectorAll('img');
+            images.forEach((img) => {
+              // Check if image is in header or is a small logo-like image
+              const isInHeader = img.closest('[class*="header"]') || img.closest('[class*="title"]') || img.closest('[class*="brand"]');
+              const isSmallImage = img.naturalWidth <= 50 && img.naturalHeight <= 50;
+              const isLogo = img.src.includes('logo') || img.alt.toLowerCase().includes('logo');
               
-              images.forEach((img, index) => {
-                console.log(`Image ${index}:`, img.src, img.alt, img.className);
-                
-                // Replace all images except user avatars
-                if (!img.src.includes('user') && !img.alt.includes('user')) {
-                  const originalSrc = img.src;
-                  img.src = mascotImage;
-                  img.alt = 'Maatje';
-                  console.log(`Replaced image from ${originalSrc} to ${mascotImage}`);
-                }
-              });
-              
-              // Also try to find and replace any SVG icons
-              const svgs = chatWidget.querySelectorAll('svg');
-              svgs.forEach((svg) => {
-                // Replace SVG with img element only if parentNode exists
-                if (svg.parentNode) {
-                  const img = document.createElement('img');
-                  img.src = mascotImage;
-                  img.alt = 'Maatje';
-                  img.style.width = '24px';
-                  img.style.height = '24px';
-                  img.style.borderRadius = '50%';
-                  svg.parentNode.replaceChild(img, svg);
-                }
-              });
-              
-              // Look for chat toggle button and replace its content
-              const toggleSelectors = [
-                '[class*="toggle"]',
-                '[class*="chat-button"]', 
-                'button[class*="chat"]',
-                '.n8n-chat-toggle',
-                '[class*="fab"]',
-                '[class*="floating"]'
-              ];
-              
-              toggleSelectors.forEach(selector => {
-                const toggleButton = document.querySelector(selector);
-                if (toggleButton) {
-                  console.log('Found toggle button with selector:', selector, toggleButton);
-                  // Clear existing content and add mascot
-                  toggleButton.innerHTML = `<img src="${mascotImage}" alt="Maatje" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">`;
-                }
-              });
-              
-              // Also try to replace any remaining logos by checking all elements
-              const allElements = chatWidget.querySelectorAll('*');
-              allElements.forEach(el => {
-                const htmlEl = el as HTMLElement;
-                const style = window.getComputedStyle(el);
-                if (style.backgroundImage && style.backgroundImage.includes('digimaatwerk')) {
-                  if (htmlEl.style) {
-                    htmlEl.style.backgroundImage = `url('${mascotImage}')`;
-                    htmlEl.style.backgroundSize = 'cover';
-                    htmlEl.style.backgroundPosition = 'center';
-                  }
-                }
-              });
-              
-              // Specifically target the header avatar/logo area
-              const headerAvatars = chatWidget.querySelectorAll('[class*="header"] img, [class*="avatar"] img, [class*="title"] img');
-              headerAvatars.forEach((img) => {
-                const imgEl = img as HTMLImageElement;
-                imgEl.src = mascotImage;
-                imgEl.alt = 'Maatje';
-                imgEl.style.width = '48px';
-                imgEl.style.height = '48px';
-                imgEl.style.borderRadius = '50%';
-                imgEl.style.objectFit = 'cover';
-                imgEl.style.border = '2px solid #ffffff';
-                imgEl.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-              });
-            }, 500);
+              if (isInHeader || isSmallImage || isLogo) {
+                img.src = mascotImage;
+                img.alt = 'Maatje';
+                img.style.borderRadius = '50%';
+                img.style.objectFit = 'cover';
+              }
+            });
           }
         }
       });
