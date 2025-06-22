@@ -2,6 +2,21 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '@/lib/languageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Generate unique session ID
+const generateSessionId = () => {
+  return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+};
+
+// Get or create session ID
+const getSessionId = () => {
+  let sessionId = sessionStorage.getItem('digimaatwerk_session_id');
+  if (!sessionId) {
+    sessionId = generateSessionId();
+    sessionStorage.setItem('digimaatwerk_session_id', sessionId);
+  }
+  return sessionId;
+};
+
 interface CookiePreferences {
   necessary: boolean;
   analytics: boolean;

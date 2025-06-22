@@ -300,18 +300,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getCookieConsentStats(startDate?: Date, endDate?: Date): Promise<any> {
-    let query = db.select().from(cookieConsents);
-    
-    if (startDate && endDate) {
-      query = query.where(
-        and(
-          gte(cookieConsents.consentGivenAt, startDate),
-          lte(cookieConsents.consentGivenAt, endDate)
-        )
-      );
-    }
-    
-    const consents = await query;
+    const consents = await db.select().from(cookieConsents);
     
     const total = consents.length;
     const analytics = consents.filter(c => c.analytics).length;
@@ -345,11 +334,11 @@ export class DatabaseStorage implements IStorage {
 
   // Cookie analytics operations
   async createCookieAnalytics(analytics: InsertCookieAnalytics): Promise<CookieAnalytics> {
-    const [cookieAnalytics] = await db
+    const [cookieAnalyticsResult] = await db
       .insert(cookieAnalytics)
       .values(analytics)
       .returning();
-    return cookieAnalytics;
+    return cookieAnalyticsResult;
   }
 
   async getCookieAnalyticsBySession(sessionId: string): Promise<CookieAnalytics[]> {
@@ -361,18 +350,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getCookieAnalyticsStats(startDate?: Date, endDate?: Date): Promise<any> {
-    let query = db.select().from(cookieAnalytics);
-    
-    if (startDate && endDate) {
-      query = query.where(
-        and(
-          gte(cookieAnalytics.timestamp, startDate),
-          lte(cookieAnalytics.timestamp, endDate)
-        )
-      );
-    }
-    
-    const events = await query;
+    const events = await db.select().from(cookieAnalytics);
     
     const eventCounts = events.reduce((acc, event) => {
       acc[event.eventType] = (acc[event.eventType] || 0) + 1;
