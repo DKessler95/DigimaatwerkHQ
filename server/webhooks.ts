@@ -41,12 +41,97 @@ const validateWebhookRequest = (req: Request, res: Response, next: Function) => 
   next();
 };
 
+// Dynamic webhook dispatcher function
+async function dispatchWebhooks(eventType: string, data: any) {
+  try {
+    const webhooks = await storage.getWebhooksByEventType(eventType);
+    const activeWebhooks = webhooks.filter(w => w.isActive);
+    
+    if (activeWebhooks.length === 0) {
+      console.log(`[Webhook] No active webhooks found for event: ${eventType}`);
+      return;
+    }
+    
+    console.log(`[Webhook] Dispatching to ${activeWebhooks.length} webhooks for event: ${eventType}`);
+    
+    // Send to all active webhooks for this event type
+    const promises = activeWebhooks.map(async (webhook) => {
+      const startTime = Date.now();
+      
+      try {
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+          'User-Agent': 'Digimaatwerk-Webhook/1.0'
+        };
+        
+        if (webhook.secretToken) {
+          headers['X-Webhook-Token'] = webhook.secretToken;
+        }
+        
+        const payload = {
+          eventType,
+          timestamp: new Date().toISOString(),
+          data
+        };
+        
+        const response = await fetch(webhook.url, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(payload)
+        });
+        
+        const duration = Date.now() - startTime;
+        const responseText = await response.text();
+        
+        // Log successful webhook
+        await storage.createWebhookLog({
+          webhookId: webhook.id,
+          eventType,
+          payload,
+          responseStatus: response.status,
+          responseBody: responseText.substring(0, 1000),
+          duration
+        });
+        
+        // Update last triggered timestamp
+        await storage.updateWebhook(webhook.id, { 
+          lastTriggeredAt: new Date() 
+        });
+        
+        console.log(`[Webhook] Success: ${webhook.name} (${response.status}) in ${duration}ms`);
+        
+      } catch (error: any) {
+        const duration = Date.now() - startTime;
+        
+        // Log failed webhook
+        await storage.createWebhookLog({
+          webhookId: webhook.id,
+          eventType,
+          payload: { eventType, data },
+          error: error.message,
+          duration
+        });
+        
+        console.error(`[Webhook] Failed: ${webhook.name} - ${error.message}`);
+      }
+    });
+    
+    await Promise.allSettled(promises);
+    
+  } catch (error) {
+    console.error(`[Webhook] Dispatcher error for event ${eventType}:`, error);
+  }
+}
+
 export const setupWebhookRoutes = (app: Express) => {
-  // Make.com / n8n webhook endpoints
+  // Legacy endpoint for backwards compatibility
   app.post('/api/webhooks/contact-form', validateWebhookRequest, async (req: Request, res: Response) => {
     try {
       const validatedData = webhookContactSchema.parse(req.body);
       const submission = await storage.createContactSubmission(validatedData);
+      
+      // Dispatch to dynamic webhooks
+      await dispatchWebhooks('contact_form', submission);
       
       res.status(200).json({ 
         success: true, 
@@ -54,7 +139,6 @@ export const setupWebhookRoutes = (app: Express) => {
         message: 'Contact submission successfully processed' 
       });
       
-      // Log voor debugging
       console.log(`[Webhook] Contact submission processed: ${submission.id}`);
     } catch (error: any) {
       console.error('[Webhook Error] Contact form submission:', error);

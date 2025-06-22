@@ -1,6 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { insertWebhookSchema } from "@shared/schema";
 import { z } from "zod";
 import fs from "fs/promises";
 import path from "path";
@@ -118,6 +119,180 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Register API webhooks for Make and n8n integrations
   setupWebhookRoutes(app);
+  
+  // Webhook management API endpoints
+  app.get('/api/webhooks', async (req: Request, res: Response) => {
+    try {
+      const webhooks = await storage.getAllWebhooks();
+      res.json({ success: true, data: webhooks });
+    } catch (error) {
+      console.error('Error fetching webhooks:', error);
+      res.status(500).json({ success: false, message: 'Failed to fetch webhooks' });
+    }
+  });
+
+  app.get('/api/webhooks/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const webhook = await storage.getWebhook(id);
+      
+      if (!webhook) {
+        return res.status(404).json({ success: false, message: 'Webhook not found' });
+      }
+      
+      res.json({ success: true, data: webhook });
+    } catch (error) {
+      console.error('Error fetching webhook:', error);
+      res.status(500).json({ success: false, message: 'Failed to fetch webhook' });
+    }
+  });
+
+  app.post('/api/webhooks', async (req: Request, res: Response) => {
+    try {
+      const validatedData = insertWebhookSchema.parse(req.body);
+      const webhook = await storage.createWebhook(validatedData);
+      res.status(201).json({ success: true, data: webhook });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ success: false, message: 'Validation error', errors: error.errors });
+      } else {
+        console.error('Error creating webhook:', error);
+        res.status(500).json({ success: false, message: 'Failed to create webhook' });
+      }
+    }
+  });
+
+  app.put('/api/webhooks/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertWebhookSchema.parse(req.body);
+      const webhook = await storage.updateWebhook(id, validatedData);
+      res.json({ success: true, data: webhook });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ success: false, message: 'Validation error', errors: error.errors });
+      } else {
+        console.error('Error updating webhook:', error);
+        res.status(500).json({ success: false, message: 'Failed to update webhook' });
+      }
+    }
+  });
+
+  app.delete('/api/webhooks/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteWebhook(id);
+      res.json({ success: true, message: 'Webhook deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting webhook:', error);
+      res.status(500).json({ success: false, message: 'Failed to delete webhook' });
+    }
+  });
+
+  app.get('/api/webhooks/logs', async (req: Request, res: Response) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 50;
+      // Get logs for all webhooks
+      const webhooks = await storage.getAllWebhooks();
+      const allLogs = [];
+      
+      for (const webhook of webhooks) {
+        const logs = await storage.getWebhookLogs(webhook.id, Math.floor(limit / webhooks.length) || 1);
+        allLogs.push(...logs);
+      }
+      
+      // Sort by triggeredAt descending and limit
+      allLogs.sort((a, b) => new Date(b.triggeredAt).getTime() - new Date(a.triggeredAt).getTime());
+      const limitedLogs = allLogs.slice(0, limit);
+      
+      res.json({ success: true, data: limitedLogs });
+    } catch (error) {
+      console.error('Error fetching webhook logs:', error);
+      res.status(500).json({ success: false, message: 'Failed to fetch webhook logs' });
+    }
+  });
+
+  app.post('/api/webhooks/:id/test', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const webhook = await storage.getWebhook(id);
+      
+      if (!webhook) {
+        return res.status(404).json({ success: false, message: 'Webhook not found' });
+      }
+      
+      if (!webhook.isActive) {
+        return res.status(400).json({ success: false, message: 'Webhook is not active' });
+      }
+      
+      const testPayload = {
+        test: true,
+        eventType: webhook.eventType,
+        timestamp: new Date().toISOString(),
+        data: { message: 'Test webhook from Digimaatwerk CMS' }
+      };
+      
+      const startTime = Date.now();
+      
+      try {
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+          'User-Agent': 'Digimaatwerk-Webhook/1.0'
+        };
+        
+        if (webhook.secretToken) {
+          headers['X-Webhook-Token'] = webhook.secretToken;
+        }
+        
+        const response = await fetch(webhook.url, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(testPayload)
+        });
+        
+        const duration = Date.now() - startTime;
+        const responseText = await response.text();
+        
+        // Log the test
+        await storage.createWebhookLog({
+          webhookId: webhook.id,
+          eventType: 'test',
+          payload: testPayload,
+          responseStatus: response.status,
+          responseBody: responseText.substring(0, 1000), // Limit response body length
+          duration: duration
+        });
+        
+        res.json({ 
+          success: true, 
+          status: response.status, 
+          duration: duration,
+          message: 'Webhook test completed'
+        });
+        
+      } catch (fetchError: any) {
+        const duration = Date.now() - startTime;
+        
+        // Log the error
+        await storage.createWebhookLog({
+          webhookId: webhook.id,
+          eventType: 'test',
+          payload: testPayload,
+          error: fetchError.message,
+          duration: duration
+        });
+        
+        res.status(500).json({ 
+          success: false, 
+          message: 'Webhook test failed: ' + fetchError.message 
+        });
+      }
+      
+    } catch (error) {
+      console.error('Error testing webhook:', error);
+      res.status(500).json({ success: false, message: 'Failed to test webhook' });
+    }
+  });
   
   // API endpoint voor website screenshots met fallback naar lokale afbeeldingen
   app.get("/api/website-screenshot", async (req: Request, res: Response) => {

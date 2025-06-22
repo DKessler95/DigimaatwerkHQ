@@ -110,6 +110,15 @@ export const insertWebhookSchema = createInsertSchema(webhooks).pick({
   isActive: true,
 });
 
+export const updateWebhookSchema = createInsertSchema(webhooks).pick({
+  name: true,
+  url: true,
+  eventType: true,
+  secretToken: true,
+  isActive: true,
+  lastTriggeredAt: true,
+}).partial();
+
 // API Tokens table
 export const apiTokens = pgTable("api_tokens", {
   id: serial("id").primaryKey(),
