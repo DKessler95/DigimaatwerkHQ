@@ -413,7 +413,8 @@
   */
 
   /* Force all case study content to use proper text colors */
-  .case-study-content * {
+  .case-study-content,
+  .case-study-content *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(strong):not(b) {
     color: hsl(var(--foreground)) !important;
   }
   
@@ -438,12 +439,18 @@
     color: hsl(var(--accent)) !important;
   }
   
+  /* Override any inherited styles that might be causing invisibility */
   .case-study-content p {
     color: hsl(var(--foreground)) !important;
   }
   
-  .case-study-content h4 {
-    color: hsl(var(--accent)) !important;
+  .case-study-content div {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  /* Ensure text content is always visible */
+  .case-study-content *:not(strong):not(b):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+    color: hsl(var(--foreground)) !important;
   }
   
   /* Code Animation Loader Styles */
