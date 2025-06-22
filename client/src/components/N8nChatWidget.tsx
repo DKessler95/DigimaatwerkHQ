@@ -41,19 +41,39 @@ export function N8nChatWidget() {
       },
     });
 
-    // Add targeted CSS to hide only header logos, preserve toggle button
+    // Add CSS to replace all images with Maatje logo
     const style = document.createElement('style');
     style.textContent = `
-      /* Hide ONLY header images that are not Maatje logo */
-      .n8n-chat [class*="header"] img:not(.maatje-logo),
-      .n8n-chat .chat-header img:not(.maatje-logo),
-      .n8n-chat .header img:not(.maatje-logo) {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
+      /* Replace ALL images in chat widget with Maatje logo */
+      .n8n-chat img:not(.maatje-logo) {
+        content: url('${mascotImage}') !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
       }
       
-      /* Style the Maatje logo */
+      /* Replace toggle button with Maatje */
+      .n8n-chat button[class*="toggle"],
+      .n8n-chat [class*="toggle"] {
+        background-image: url('${mascotImage}') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        border-radius: 50% !important;
+        width: 60px !important;
+        height: 60px !important;
+      }
+      
+      /* Hide original toggle button content */
+      .n8n-chat button[class*="toggle"] svg,
+      .n8n-chat [class*="toggle"] svg,
+      .n8n-chat button[class*="toggle"] img,
+      .n8n-chat [class*="toggle"] img {
+        display: none !important;
+      }
+      
+      /* Style the custom Maatje logo */
       .n8n-chat .maatje-logo {
         width: 40px !important;
         height: 40px !important;
@@ -68,43 +88,31 @@ export function N8nChatWidget() {
     `;
     document.head.appendChild(style);
 
-    // Function to manage only header logos, preserve toggle button
+    // Function to replace all images with Maatje and style toggle button
     const manageChatLogos = () => {
       const chatWidget = document.querySelector('#n8n-chat');
       if (chatWidget) {
-        // Only target images in the header area, not the toggle button
-        const headerImages = chatWidget.querySelectorAll('[class*="header"] img, .chat-header img, .header img');
-        headerImages.forEach(img => {
-          if (!img.classList.contains('maatje-logo')) {
-            (img as HTMLImageElement).style.display = 'none';
-            (img as HTMLImageElement).style.visibility = 'hidden';
-            (img as HTMLImageElement).style.opacity = '0';
-          }
+        // Replace all images with Maatje logo
+        const allImages = chatWidget.querySelectorAll('img:not(.maatje-logo)');
+        allImages.forEach(img => {
+          (img as HTMLImageElement).src = mascotImage;
+          (img as HTMLImageElement).alt = 'Maatje';
+          (img as HTMLImageElement).style.borderRadius = '50%';
+          (img as HTMLImageElement).style.objectFit = 'cover';
+          (img as HTMLImageElement).style.width = '40px';
+          (img as HTMLImageElement).style.height = '40px';
         });
         
-        // Look for header and add Maatje logo if not present
-        const header = chatWidget.querySelector('[class*="header"], .chat-header, .header');
-        if (header && !header.querySelector('.maatje-logo')) {
-          // Create Maatje logo element
-          const logo = document.createElement('img');
-          logo.src = mascotImage;
-          logo.alt = 'Maatje';
-          logo.className = 'maatje-logo';
-          logo.style.cssText = `
-            width: 40px !important;
-            height: 40px !important;
-            border-radius: 50% !important;
-            object-fit: cover !important;
-            margin-right: 8px !important;
-            display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-            z-index: 1000 !important;
-          `;
-          
-          // Insert Maatje logo at the beginning of header
-          header.insertBefore(logo, header.firstChild);
-        }
+        // Style toggle button with Maatje background
+        const toggleButtons = chatWidget.querySelectorAll('button[class*="toggle"], [class*="toggle"]');
+        toggleButtons.forEach(btn => {
+          (btn as HTMLElement).style.backgroundImage = `url('${mascotImage}')`;
+          (btn as HTMLElement).style.backgroundSize = 'cover';
+          (btn as HTMLElement).style.backgroundPosition = 'center';
+          (btn as HTMLElement).style.borderRadius = '50%';
+          (btn as HTMLElement).style.width = '60px';
+          (btn as HTMLElement).style.height = '60px';
+        });
       }
     };
 
