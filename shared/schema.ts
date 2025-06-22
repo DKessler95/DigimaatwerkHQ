@@ -170,3 +170,88 @@ export type ApiToken = typeof apiTokens.$inferSelect;
 
 export type InsertWebhookLog = z.infer<typeof insertWebhookLogSchema>;
 export type WebhookLog = typeof webhookLogs.$inferSelect;
+
+// Cookie consent tracking
+export const cookieConsents = pgTable("cookie_consents", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  necessary: boolean("necessary").notNull().default(true),
+  analytics: boolean("analytics").notNull().default(false),
+  marketing: boolean("marketing").notNull().default(false),
+  preferences: boolean("preferences").notNull().default(false),
+  consentGivenAt: timestamp("consent_given_at").notNull(),
+  consentUpdatedAt: timestamp("consent_updated_at"),
+  language: text("language").default('nl'),
+  pageUrl: text("page_url"),
+  referrer: text("referrer"),
+});
+
+export const insertCookieConsentSchema = createInsertSchema(cookieConsents).pick({
+  sessionId: true,
+  ipAddress: true,
+  userAgent: true,
+  necessary: true,
+  analytics: true,
+  marketing: true,
+  preferences: true,
+  consentGivenAt: true,
+  language: true,
+  pageUrl: true,
+  referrer: true,
+});
+
+// Cookie analytics events
+export const cookieAnalytics = pgTable("cookie_analytics", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull(),
+  eventType: text("event_type").notNull(), // 'banner_shown', 'settings_opened', 'consent_given', 'consent_updated'
+  eventData: jsonb("event_data"), // Additional event details
+  timestamp: timestamp("timestamp").notNull(),
+  pageUrl: text("page_url"),
+  userAgent: text("user_agent"),
+});
+
+export const insertCookieAnalyticsSchema = createInsertSchema(cookieAnalytics).pick({
+  sessionId: true,
+  eventType: true,
+  eventData: true,
+  timestamp: true,
+  pageUrl: true,
+  userAgent: true,
+});
+
+// GDPR data requests
+export const gdprRequests = pgTable("gdpr_requests", {
+  id: serial("id").primaryKey(),
+  requestType: text("request_type").notNull(), // 'access', 'delete', 'portability', 'rectification'
+  email: text("email").notNull(),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  requestDetails: text("request_details"),
+  status: text("status").notNull().default('pending'), // 'pending', 'processing', 'completed', 'rejected'
+  submittedAt: timestamp("submitted_at").notNull(),
+  processedAt: timestamp("processed_at"),
+  processedBy: integer("processed_by"), // References users.id
+  responseNotes: text("response_notes"),
+  attachments: jsonb("attachments"), // File paths or metadata
+});
+
+export const insertGdprRequestSchema = createInsertSchema(gdprRequests).pick({
+  requestType: true,
+  email: true,
+  firstName: true,
+  lastName: true,
+  requestDetails: true,
+  submittedAt: true,
+});
+
+export type InsertCookieConsent = z.infer<typeof insertCookieConsentSchema>;
+export type CookieConsent = typeof cookieConsents.$inferSelect;
+
+export type InsertCookieAnalytics = z.infer<typeof insertCookieAnalyticsSchema>;
+export type CookieAnalytics = typeof cookieAnalytics.$inferSelect;
+
+export type InsertGdprRequest = z.infer<typeof insertGdprRequestSchema>;
+export type GdprRequest = typeof gdprRequests.$inferSelect;
