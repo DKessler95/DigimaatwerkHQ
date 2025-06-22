@@ -14,7 +14,7 @@ features:
   - name: 24/7 availability
     description: Continuous support without waiting times or office hour limitations.
 tech_stack:
-  - name: OpenAI GPT-4
+  - name: Custom AI Model
     description: State-of-the-art language model for natural and intelligent conversations.
   - name: Microsoft Azure Bot Service
     description: Scalable cloud infrastructure for reliable bot deployments.

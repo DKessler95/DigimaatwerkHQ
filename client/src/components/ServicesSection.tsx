@@ -37,7 +37,7 @@ const ServicesSection = () => {
     <section id="services" className="py-24 bg-gradient-to-b from-primary to-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">Onze digitale diensten</h2>
+          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">{t('services.title')}</h2>
           <p className="text-foreground/70 max-w-2xl mx-auto">{t('services.subtitle')}</p>
         </div>
         
@@ -62,7 +62,15 @@ const ServicesSection = () => {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
                 <div className="relative z-10 flex flex-col flex-grow">
                   <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-6">
-                    <i className={`${service.icon} text-2xl text-accent`}></i>
+                    {service.icon === "ri-robot-line" ? (
+                      <img 
+                        src={mascotImage} 
+                        alt="Maatje Mascot" 
+                        className="w-10 h-10 object-contain"
+                      />
+                    ) : (
+                      <i className={`${service.icon} text-2xl text-accent`}></i>
+                    )}
                   </div>
                   <h3 className="text-xl font-header font-semibold mb-3">{t(service.titleKey)}</h3>
                   <p className="text-foreground/70 mb-4">{t(service.descriptionKey)}</p>
