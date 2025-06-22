@@ -68,6 +68,20 @@ const PrivacyPolicy = () => {
                 <li>Uw toestemming in te trekken</li>
               </ul>
 
+              <h3 className="text-xl font-bold mt-6 mb-2">Cookies</h3>
+              <p>
+                Onze website gebruikt cookies om uw ervaring te verbeteren. Wij onderscheiden de volgende soorten cookies:
+              </p>
+              <ul className="list-disc pl-6 mb-4">
+                <li><strong>Noodzakelijke cookies:</strong> Essentieel voor het functioneren van de website</li>
+                <li><strong>Analytische cookies:</strong> Helpen ons begrijpen hoe bezoekers de website gebruiken</li>
+                <li><strong>Marketing cookies:</strong> Gebruikt voor het tonen van relevante advertenties</li>
+                <li><strong>Voorkeurscookies:</strong> Onthouden uw voorkeuren en instellingen</li>
+              </ul>
+              <p>
+                U kunt uw cookie-voorkeuren beheren via de cookie-instellingen die verschijnen bij uw eerste bezoek aan onze website.
+              </p>
+
               <p>
                 Voor vragen of verzoeken kunt u contact opnemen via{' '}
                 <a href="mailto:info@digimaatwerk.nl" className="text-accent hover:underline">
@@ -126,6 +140,20 @@ const PrivacyPolicy = () => {
                 <li>Object to processing</li>
                 <li>Withdraw your consent</li>
               </ul>
+
+              <h3 className="text-xl font-bold mt-6 mb-2">Cookies</h3>
+              <p>
+                Our website uses cookies to improve your experience. We distinguish between the following types of cookies:
+              </p>
+              <ul className="list-disc pl-6 mb-4">
+                <li><strong>Necessary cookies:</strong> Essential for the website to function</li>
+                <li><strong>Analytics cookies:</strong> Help us understand how visitors use the website</li>
+                <li><strong>Marketing cookies:</strong> Used to show relevant advertisements</li>
+                <li><strong>Preference cookies:</strong> Remember your preferences and settings</li>
+              </ul>
+              <p>
+                You can manage your cookie preferences through the cookie settings that appear when you first visit our website.
+              </p>
 
               <p>
                 For questions or requests, please contact us at{' '}
