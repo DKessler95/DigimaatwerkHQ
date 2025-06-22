@@ -44,14 +44,24 @@ export function N8nChatWidget() {
     // Add custom CSS to override chat widget header logo only
     const style = document.createElement('style');
     style.textContent = `
-      /* Replace header logo/branding with mascot - only in header area */
+      /* Replace header logo/branding with mascot - broader selectors */
+      .n8n-chat img[width="40"],
+      .n8n-chat img[height="40"],
+      .n8n-chat img[width="32"],
+      .n8n-chat img[height="32"],
+      .n8n-chat img[width="24"],
+      .n8n-chat img[height="24"],
       .n8n-chat .chat-header img,
       .n8n-chat .header img,
       .n8n-chat .branding img,
       .n8n-chat .logo img,
       .n8n-chat [class*="logo"] img,
       .n8n-chat [class*="brand"] img,
-      .n8n-chat [class*="header"] img {
+      .n8n-chat [class*="header"] img,
+      .n8n-chat [class*="title"] img,
+      .n8n-chat [data-testid*="logo"] img,
+      .n8n-chat [data-testid*="brand"] img,
+      .n8n-chat [data-testid*="header"] img {
         content: url('${mascotImage}') !important;
         width: 40px !important;
         height: 40px !important;
@@ -59,9 +69,22 @@ export function N8nChatWidget() {
         border-radius: 50% !important;
       }
       
-      /* Target any image in the chat header area specifically */
-      .n8n-chat div[class*="header"] img,
-      .n8n-chat div[class*="title"] img {
+      /* Try to target the first small image in the chat window */
+      .n8n-chat img:first-of-type {
+        content: url('${mascotImage}') !important;
+        width: 40px !important;
+        height: 40px !important;
+        object-fit: cover !important;
+        border-radius: 50% !important;
+      }
+      
+      /* Target images that are likely logos based on size */
+      .n8n-chat img[style*="width: 40px"],
+      .n8n-chat img[style*="width: 32px"],
+      .n8n-chat img[style*="width: 24px"],
+      .n8n-chat img[style*="height: 40px"],
+      .n8n-chat img[style*="height: 32px"],
+      .n8n-chat img[style*="height: 24px"] {
         content: url('${mascotImage}') !important;
         width: 40px !important;
         height: 40px !important;
@@ -71,31 +94,47 @@ export function N8nChatWidget() {
     `;
     document.head.appendChild(style);
 
-    // Add observer to replace header logo only when chat widget loads
+    // Function to add Maatje logo to header
+    const addMaatjeLogo = () => {
+      const chatWidget = document.querySelector('#n8n-chat');
+      if (chatWidget) {
+        // Look for header element and add logo if not already present
+        const header = chatWidget.querySelector('[class*="header"], .chat-header, .header');
+        if (header && !header.querySelector('.maatje-logo')) {
+          console.log('Adding Maatje logo to header');
+          
+          // Create logo image element
+          const logo = document.createElement('img');
+          logo.src = mascotImage;
+          logo.alt = 'Maatje';
+          logo.className = 'maatje-logo';
+          logo.style.cssText = `
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+            margin-right: 8px !important;
+          `;
+          
+          // Insert at the beginning of header
+          header.insertBefore(logo, header.firstChild);
+        }
+      }
+    };
+
+    // Add observer to add logo when chat widget loads
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
-          // Replace images only in the chat header
-          const chatWidget = document.querySelector('#n8n-chat');
-          if (chatWidget) {
-            const images = chatWidget.querySelectorAll('img');
-            images.forEach((img) => {
-              // Only replace images that are specifically in header areas
-              const isInHeader = img.closest('[class*="header"]') || img.closest('[class*="title"]') || img.closest('[class*="brand"]');
-              
-              if (isInHeader) {
-                img.src = mascotImage;
-                img.alt = 'Maatje';
-                img.style.borderRadius = '50%';
-                img.style.objectFit = 'cover';
-                img.style.width = '40px';
-                img.style.height = '40px';
-              }
-            });
-          }
+          addMaatjeLogo();
         }
       });
     });
+
+    // Check once after a delay to ensure widget is loaded
+    setTimeout(() => {
+      addMaatjeLogo();
+    }, 2000);
 
     // Start observing
     observer.observe(document.body, {
@@ -115,6 +154,8 @@ export function N8nChatWidget() {
       }
       // Disconnect the observer
       observer.disconnect();
+      // Clear the interval
+      clearInterval(intervalId);
     };
   }, []);
 
