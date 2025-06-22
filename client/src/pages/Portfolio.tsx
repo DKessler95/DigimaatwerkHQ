@@ -14,6 +14,7 @@ interface PortfolioItem {
   category: 'web' | 'automation' | 'chatbot';
   websiteScreenshot?: string;
   displayType?: 'default' | 'bubble' | 'minimal';
+  hoverColor?: string;
 }
 
 // Portfolio data wordt geladen via de API in de Portfolio component
@@ -31,22 +32,25 @@ const PortfolioBlock = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   
-  const getCategoryColors = (category: string, itemId?: string) => {
-    // Specific colors for each portfolio item
-    if (itemId === 'limonade-webshop') {
-      return 'from-pink-400 to-rose-600';
-    }
-    if (itemId === 'fast-taxi-rotterdam') {
-      return 'from-yellow-400 to-yellow-600';
-    }
-    if (itemId === 'houtbewerking-concept') {
-      return 'from-amber-700 to-yellow-600';
-    }
-    if (itemId === 'maatje-ai-chatbot') {
-      return 'from-purple-400 to-indigo-600';
+  const getCategoryColors = (category: string, itemId?: string, hoverColor?: string) => {
+    // Use CMS-defined hover color if available
+    if (hoverColor) {
+      const colorMap: Record<string, string> = {
+        'pink-rose': 'from-pink-400 to-rose-600',
+        'yellow-yellow': 'from-yellow-400 to-yellow-600',
+        'amber-yellow': 'from-amber-700 to-yellow-600',
+        'purple-indigo': 'from-purple-400 to-indigo-600',
+        'blue-blue': 'from-blue-400 to-blue-700',
+        'green-emerald': 'from-green-400 to-emerald-600',
+        'red-red': 'from-red-400 to-red-600',
+        'orange-orange': 'from-orange-400 to-orange-600',
+        'cyan-teal': 'from-cyan-400 to-teal-600',
+        'violet-purple': 'from-violet-400 to-purple-600'
+      };
+      return colorMap[hoverColor] || 'from-blue-400 to-blue-700';
     }
     
-    // Fallback colors by category
+    // Fallback colors by category if no hover color is defined
     switch(category) {
       case 'web':
         return 'from-blue-400 to-blue-700';
@@ -143,7 +147,7 @@ const PortfolioBlock = ({
         <div className="p-6 flex-grow">
           {/* Animated background */}
           <div 
-            className={`absolute inset-0 bg-gradient-to-br ${getCategoryColors(item.category, item.id)} opacity-10 transition-opacity duration-500 ${isHovered ? 'opacity-20' : 'opacity-10'}`}
+            className={`absolute inset-0 bg-gradient-to-br ${getCategoryColors(item.category, item.id, item.hoverColor)} opacity-10 transition-opacity duration-500 ${isHovered ? 'opacity-20' : 'opacity-10'}`}
           />
           
           {/* Animated particles - enhanced for fast-taxi-rotterdam */}

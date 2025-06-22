@@ -65,6 +65,7 @@ interface PortfolioItem {
   displayType?: 'default' | 'bubble' | 'minimal';
   order: number;
   featured: boolean;
+  hoverColor?: string;
   [key: string]: any;
 }
 

@@ -9,6 +9,7 @@ category: web
 displayType: default
 order: 2
 featured: true
+hoverColor: pink-rose
 ---
 
 A modern e-commerce platform built for a personal handmade products business, featuring a clean design and intuitive user experience. The webshop focuses on showcasing unique, handcrafted items with high-quality product photography and detailed descriptions that highlight the craftsmanship behind each piece.

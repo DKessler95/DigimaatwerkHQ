@@ -14,6 +14,7 @@ category: chatbot
 displayType: default
 order: 2
 featured: true
+hoverColor: purple-indigo
 ---
 
 # Maatje - Intelligent AI Chatbot
