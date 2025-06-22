@@ -410,11 +410,11 @@ const ProjectCalculator = () => {
                 
                 <div>
                   <label className="block text-foreground/80 mb-2">{t('calculator.scale')}</label>
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4">
                     <button 
                       className={`${projectScale === 'basic' 
                         ? 'bg-primary border border-accent text-accent' 
-                        : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
+                        : 'bg-primary border border-secondary hover:border-accent'} p-2 sm:p-3 rounded-lg transition-colors text-xs sm:text-sm`}
                       onClick={() => setProjectScale('basic')}
                     >
                       {language === 'nl' ? 'Basis' : 'Basic'}
@@ -422,7 +422,7 @@ const ProjectCalculator = () => {
                     <button 
                       className={`${projectScale === 'advanced' 
                         ? 'bg-primary border border-accent text-accent' 
-                        : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
+                        : 'bg-primary border border-secondary hover:border-accent'} p-2 sm:p-3 rounded-lg transition-colors text-xs sm:text-sm`}
                       onClick={() => setProjectScale('advanced')}
                     >
                       {language === 'nl' ? 'Geavanceerd' : 'Advanced'}
@@ -430,7 +430,7 @@ const ProjectCalculator = () => {
                     <button 
                       className={`${projectScale === 'custom' 
                         ? 'bg-primary border border-accent text-accent' 
-                        : 'bg-primary border border-secondary hover:border-accent'} p-3 rounded-lg transition-colors`}
+                        : 'bg-primary border border-secondary hover:border-accent'} p-2 sm:p-3 rounded-lg transition-colors text-xs sm:text-sm`}
                       onClick={() => setProjectScale('custom')}
                     >
                       {language === 'nl' ? 'Maatwerk' : 'Custom'}

@@ -40,14 +40,14 @@ const ServicesSection = () => {
   const { t, language } = useLanguage();
 
   return (
-    <section id="services" className="py-16 sm:py-24 pb-20 sm:pb-32 bg-gradient-to-b from-primary to-secondary">
+    <section id="services" className="py-16 sm:py-24 bg-gradient-to-b from-primary to-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-header font-bold mb-4 px-4">{t('services.title')}</h2>
           <p className="text-foreground/70 max-w-2xl mx-auto px-4">{t('services.subtitle')}</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 items-stretch mb-8 md:mb-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 items-stretch">
           {services.map((service, index) => {
             // Map icons to paths for each category
             const categoryPaths = {
