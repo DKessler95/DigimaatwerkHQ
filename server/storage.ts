@@ -166,6 +166,9 @@ export class DatabaseStorage implements IStorage {
   }
   
   async deleteWebhook(id: number): Promise<void> {
+    // First delete related webhook logs
+    await db.delete(webhookLogs).where(eq(webhookLogs.webhookId, id));
+    // Then delete the webhook
     await db.delete(webhooks).where(eq(webhooks.id, id));
   }
   
