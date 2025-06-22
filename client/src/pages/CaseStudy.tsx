@@ -143,14 +143,14 @@ const CaseStudyPage = () => {
           alt={caseStudy.title}
           className="absolute w-full h-full object-cover"
         />
-        <div className="relative z-20 container mx-auto px-4 h-full flex flex-col justify-end pb-12">
+        <div className="relative z-20 container mx-auto px-4 h-full flex flex-col justify-end pb-8 md:pb-12 pt-20 md:pt-0">
           <div className="inline-block px-3 py-1 text-accent text-sm font-semibold mb-4 bg-accent/10 rounded">
             {caseStudy.category}
           </div>
-          <h1 className="text-3xl md:text-5xl font-header font-bold mb-4 text-white">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-header font-bold mb-4 text-white leading-tight">
             {caseStudy.title}
           </h1>
-          <p className="text-white/80 max-w-3xl mb-6">
+          <p className="text-white/80 max-w-3xl mb-4 md:mb-6 text-sm md:text-base leading-relaxed">
             {caseStudy.description}
           </p>
           <div className="flex flex-wrap gap-4 text-sm text-white/70">

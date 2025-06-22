@@ -360,7 +360,7 @@ const PortfolioDetailModal = ({
                 </button>
                 
                 <a
-                  href={`/case-studies/${item.id === 'limonade-webshop' ? 'limonade-productwebshop' : item.id === 'houtbewerking-concept' ? 'houtbewerking-concept-website' : item.id}`}
+                  href={`/case-studies/${item.id === 'limonade-webshop' ? 'limonade-productwebshop' : item.id === 'houtbewerking-concept' ? 'houtbewerking-concept-website' : item.id === 'fast-taxi-rotterdam' ? 'fast-taxi-automation' : item.id}`}
                   className="px-6 py-3 bg-secondary text-foreground font-medium rounded-lg hover:bg-secondary/80 transition inline-flex items-center"
                   onClick={() => {
                     const audio = new Audio('/sounds/click.mp3');
