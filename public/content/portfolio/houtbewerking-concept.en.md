@@ -10,6 +10,7 @@ displayType: default
 order: 3
 featured: true
 hoverColor: amber-yellow
+hoverColor: amber-yellow
 ---
 
 A personal project where I developed a concept website for my little brother who specializes in woodworking and is currently in training. The website showcases his craftsmanship skills and projects with a warm, natural appearance that fits the woodworking profession.
