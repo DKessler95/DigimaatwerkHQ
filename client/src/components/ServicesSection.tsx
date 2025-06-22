@@ -40,14 +40,14 @@ const ServicesSection = () => {
   const { t, language } = useLanguage();
 
   return (
-    <section id="services" className="py-24 bg-gradient-to-b from-primary to-secondary">
+    <section id="services" className="py-16 sm:py-24 pb-20 sm:pb-32 bg-gradient-to-b from-primary to-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-header font-bold mb-4">{t('services.title')}</h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto">{t('services.subtitle')}</p>
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-header font-bold mb-4 px-4">{t('services.title')}</h2>
+          <p className="text-foreground/70 max-w-2xl mx-auto px-4">{t('services.subtitle')}</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 items-stretch">
           {services.map((service, index) => {
             // Map icons to paths for each category
             const categoryPaths = {
@@ -60,7 +60,7 @@ const ServicesSection = () => {
             return (
               <motion.div 
                 key={index}
-                className="relative bg-gradient-to-br from-secondary via-secondary/80 to-primary/80 p-6 rounded-2xl shadow-lg card-hover-effect overflow-hidden group h-full min-h-[380px] flex flex-col"
+                className="relative bg-gradient-to-br from-secondary via-secondary/80 to-primary/80 p-4 sm:p-6 rounded-2xl shadow-lg card-hover-effect overflow-hidden group h-full min-h-[320px] sm:min-h-[380px] flex flex-col"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -68,8 +68,8 @@ const ServicesSection = () => {
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
                 <div className="relative z-10 flex flex-col flex-grow">
-                  <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-6">
-                    <i className={`${service.icon} text-2xl text-accent`}></i>
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-4 sm:mb-6">
+                    <i className={`${service.icon} text-xl sm:text-2xl text-accent`}></i>
                   </div>
                   <h3 className="text-lg font-header font-semibold mb-3">{t(service.titleKey)}</h3>
                   <p className="text-foreground/70 mb-4 text-sm leading-relaxed">{t(service.descriptionKey)}</p>
