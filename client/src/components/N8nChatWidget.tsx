@@ -101,8 +101,6 @@ export function N8nChatWidget() {
         // Look for header element and add logo if not already present
         const header = chatWidget.querySelector('[class*="header"], .chat-header, .header');
         if (header && !header.querySelector('.maatje-logo')) {
-          console.log('Adding Maatje logo to header');
-          
           // Create logo image element
           const logo = document.createElement('img');
           logo.src = mascotImage;
@@ -154,8 +152,6 @@ export function N8nChatWidget() {
       }
       // Disconnect the observer
       observer.disconnect();
-      // Clear the interval
-      clearInterval(intervalId);
     };
   }, []);
 
