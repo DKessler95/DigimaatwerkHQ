@@ -41,14 +41,32 @@ export function N8nChatWidget() {
       },
     });
 
-    // Add custom CSS to hide existing logos and style the custom Maatje logo
+    // Add aggressive CSS to hide all n8n branding and logos
     const style = document.createElement('style');
     style.textContent = `
-      /* Hide ALL images in the chat widget except Maatje logo */
-      .n8n-chat img:not(.maatje-logo) {
+      /* Hide ALL images, SVGs, and background images in chat widget except Maatje */
+      .n8n-chat img:not(.maatje-logo),
+      .n8n-chat svg:not(.maatje-logo),
+      .n8n-chat [style*="background-image"]:not(.maatje-logo),
+      .n8n-chat .logo,
+      .n8n-chat .brand,
+      .n8n-chat .branding,
+      .n8n-chat [class*="logo"]:not(.maatje-logo),
+      .n8n-chat [class*="brand"]:not(.maatje-logo),
+      .n8n-chat [data-testid*="logo"]:not(.maatje-logo),
+      .n8n-chat [role="img"]:not(.maatje-logo) {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+      }
+      
+      /* Override any background images in header */
+      .n8n-chat [class*="header"] *:not(.maatje-logo),
+      .n8n-chat .chat-header *:not(.maatje-logo),
+      .n8n-chat .header *:not(.maatje-logo) {
+        background-image: none !important;
       }
       
       /* Style the Maatje logo */
@@ -61,25 +79,42 @@ export function N8nChatWidget() {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        z-index: 1000 !important;
       }
     `;
     document.head.appendChild(style);
 
-    // Function to manage chat widget logos
+    // Function to aggressively remove n8n branding and add Maatje logo
     const manageChatLogos = () => {
       const chatWidget = document.querySelector('#n8n-chat');
       if (chatWidget) {
-        // Remove all existing images by hiding them
-        const allImages = chatWidget.querySelectorAll('img');
-        allImages.forEach(img => {
-          if (!img.classList.contains('maatje-logo')) {
-            (img as HTMLImageElement).style.display = 'none';
-            (img as HTMLImageElement).style.visibility = 'hidden';
-            (img as HTMLImageElement).style.opacity = '0';
+        // Remove all visual elements that could be logos
+        const elementsToHide = chatWidget.querySelectorAll('img, svg, [style*="background-image"], .logo, .brand, .branding, [class*="logo"], [class*="brand"], [data-testid*="logo"], [role="img"]');
+        elementsToHide.forEach(element => {
+          if (!element.classList.contains('maatje-logo')) {
+            const el = element as HTMLElement;
+            el.style.display = 'none';
+            el.style.visibility = 'hidden';
+            el.style.opacity = '0';
+            el.style.width = '0';
+            el.style.height = '0';
+            el.style.backgroundImage = 'none';
+            // Also remove the element entirely from DOM
+            if (el.tagName === 'IMG' || el.tagName === 'SVG') {
+              el.remove();
+            }
           }
         });
         
-        // Look for header element and add Maatje logo if not already present
+        // Remove any elements with background images in header
+        const headerElements = chatWidget.querySelectorAll('[class*="header"] *, .chat-header *, .header *');
+        headerElements.forEach(element => {
+          if (!element.classList.contains('maatje-logo')) {
+            (element as HTMLElement).style.backgroundImage = 'none';
+          }
+        });
+        
+        // Look for header and add Maatje logo if not present
         const header = chatWidget.querySelector('[class*="header"], .chat-header, .header');
         if (header && !header.querySelector('.maatje-logo')) {
           // Create Maatje logo element
@@ -96,10 +131,29 @@ export function N8nChatWidget() {
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
+            z-index: 1000 !important;
           `;
           
-          // Insert at the beginning of header
+          // Clear header content first, then add Maatje logo
+          const headerChildren = Array.from(header.children);
+          headerChildren.forEach(child => {
+            if (!child.classList.contains('maatje-logo')) {
+              child.remove();
+            }
+          });
+          
+          // Insert Maatje logo at the beginning
           header.insertBefore(logo, header.firstChild);
+          
+          // Add title text after logo
+          const titleText = document.createElement('span');
+          titleText.textContent = 'Maatje';
+          titleText.style.cssText = `
+            font-weight: bold;
+            color: white;
+            margin-left: 8px;
+          `;
+          header.appendChild(titleText);
         }
       }
     };
