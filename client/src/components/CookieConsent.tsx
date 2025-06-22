@@ -48,11 +48,35 @@ export function CookieConsent() {
     }
     
     if (!hasConsent) {
-      // Show banner after a short delay
-      const timer = setTimeout(() => setShowBanner(true), 1000);
+      // Show banner after a short delay and track the event
+      const timer = setTimeout(() => {
+        setShowBanner(true);
+        trackAnalyticsEvent('banner_shown');
+      }, 1000);
       return () => clearTimeout(timer);
     }
   }, []);
+
+  const trackAnalyticsEvent = async (eventType: string, eventData?: any) => {
+    const sessionId = getSessionId();
+    
+    try {
+      await fetch('/api/cookie-analytics', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sessionId,
+          eventType,
+          eventData,
+          pageUrl: window.location.href
+        })
+      });
+    } catch (error) {
+      console.error('Failed to track analytics event:', error);
+    }
+  };
 
   const acceptAll = () => {
     const allAccepted = {
@@ -86,21 +110,44 @@ export function CookieConsent() {
     setShowSettings(false);
   };
 
-  const savePreferences = (prefs: CookiePreferences) => {
+  const savePreferences = async (prefs: CookiePreferences) => {
+    const sessionId = getSessionId();
+    
+    // Save to localStorage
     localStorage.setItem(COOKIE_CONSENT_KEY, 'true');
     localStorage.setItem(COOKIE_PREFERENCES_KEY, JSON.stringify(prefs));
     
-    // Initialize analytics if accepted
+    // Track consent in database
+    try {
+      await fetch('/api/cookie-consent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sessionId,
+          necessary: prefs.necessary,
+          analytics: prefs.analytics,
+          marketing: prefs.marketing,
+          preferences: prefs.preferences,
+          language,
+          pageUrl: window.location.href,
+          referrer: document.referrer
+        })
+      });
+    } catch (error) {
+      console.error('Failed to track cookie consent:', error);
+    }
+    
+    // Initialize services based on preferences
     if (prefs.analytics) {
       initializeAnalytics();
     }
     
-    // Initialize marketing cookies if accepted
     if (prefs.marketing) {
       initializeMarketing();
     }
     
-    // Save user preferences if accepted
     if (prefs.preferences) {
       initializePreferences();
     }
@@ -194,7 +241,10 @@ export function CookieConsent() {
               
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => setShowSettings(true)}
+                  onClick={() => {
+                    setShowSettings(true);
+                    trackAnalyticsEvent('settings_opened');
+                  }}
                   className="px-4 py-2 text-sm border border-accent/30 rounded-lg hover:bg-accent/10 transition"
                 >
                   {t.customize}

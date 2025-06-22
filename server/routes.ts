@@ -1893,6 +1893,105 @@ export async function registerRoutes(app: Express): Promise<Server> {
       .join('');
   }
 
+  // Cookie consent tracking endpoints
+  app.post('/api/cookie-consent', async (req: Request, res: Response) => {
+    try {
+      const consentData = {
+        ...req.body,
+        ipAddress: req.ip || req.connection.remoteAddress,
+        userAgent: req.get('User-Agent'),
+        consentGivenAt: new Date()
+      };
+
+      const consent = await storage.createCookieConsent(consentData);
+      
+      // Track analytics event
+      await storage.createCookieAnalytics({
+        sessionId: consentData.sessionId,
+        eventType: 'consent_given',
+        eventData: {
+          analytics: consentData.analytics,
+          marketing: consentData.marketing,
+          preferences: consentData.preferences
+        },
+        timestamp: new Date(),
+        pageUrl: consentData.pageUrl,
+        userAgent: consentData.userAgent
+      });
+
+      res.json({ success: true, data: consent });
+    } catch (error) {
+      console.error('Cookie consent error:', error);
+      res.status(500).json({ error: 'Failed to save cookie consent' });
+    }
+  });
+
+  app.post('/api/cookie-analytics', async (req: Request, res: Response) => {
+    try {
+      const analyticsData = {
+        ...req.body,
+        timestamp: new Date(),
+        userAgent: req.get('User-Agent')
+      };
+
+      const analytics = await storage.createCookieAnalytics(analyticsData);
+      res.json({ success: true, data: analytics });
+    } catch (error) {
+      console.error('Cookie analytics error:', error);
+      res.status(500).json({ error: 'Failed to save cookie analytics' });
+    }
+  });
+
+  // Admin endpoints for cookie tracking dashboard
+  app.get('/api/admin/cookie-stats', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { startDate, endDate } = req.query;
+      
+      const start = startDate ? new Date(startDate as string) : undefined;
+      const end = endDate ? new Date(endDate as string) : undefined;
+      
+      const stats = await storage.getCookieConsentStats(start, end);
+      const analyticsStats = await storage.getCookieAnalyticsStats(start, end);
+      
+      res.json({
+        success: true,
+        data: {
+          consent: stats,
+          analytics: analyticsStats
+        }
+      });
+    } catch (error) {
+      console.error('Cookie stats error:', error);
+      res.status(500).json({ error: 'Failed to get cookie statistics' });
+    }
+  });
+
+  // GDPR request endpoints
+  app.post('/api/gdpr-request', async (req: Request, res: Response) => {
+    try {
+      const requestData = {
+        ...req.body,
+        submittedAt: new Date()
+      };
+
+      const gdprRequest = await storage.createGdprRequest(requestData);
+      res.json({ success: true, data: gdprRequest });
+    } catch (error) {
+      console.error('GDPR request error:', error);
+      res.status(500).json({ error: 'Failed to submit GDPR request' });
+    }
+  });
+
+  app.get('/api/admin/gdpr-requests', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const requests = await storage.getAllGdprRequests();
+      res.json({ success: true, data: requests });
+    } catch (error) {
+      console.error('Get GDPR requests error:', error);
+      res.status(500).json({ error: 'Failed to get GDPR requests' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
