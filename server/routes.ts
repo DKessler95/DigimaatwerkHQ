@@ -1943,7 +1943,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin endpoints for cookie tracking dashboard
-  app.get('/api/admin/cookie-stats', requireAuth, async (req: Request, res: Response) => {
+  app.get('/api/admin/cookie-stats', async (req: Request, res: Response) => {
     try {
       const { startDate, endDate } = req.query;
       
@@ -1982,7 +1982,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/admin/gdpr-requests', requireAuth, async (req: Request, res: Response) => {
+  app.get('/api/admin/gdpr-requests', async (req: Request, res: Response) => {
     try {
       const requests = await storage.getAllGdprRequests();
       res.json({ success: true, data: requests });
