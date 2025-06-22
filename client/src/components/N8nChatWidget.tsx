@@ -41,55 +41,28 @@ export function N8nChatWidget() {
       },
     });
 
-    // Add custom CSS to override chat widget header logo only
+    // Add custom CSS to hide existing logos and style the custom Maatje logo
     const style = document.createElement('style');
     style.textContent = `
-      /* Replace header logo/branding with mascot - broader selectors */
-      .n8n-chat img[width="40"],
-      .n8n-chat img[height="40"],
-      .n8n-chat img[width="32"],
-      .n8n-chat img[height="32"],
-      .n8n-chat img[width="24"],
-      .n8n-chat img[height="24"],
-      .n8n-chat .chat-header img,
-      .n8n-chat .header img,
-      .n8n-chat .branding img,
-      .n8n-chat .logo img,
-      .n8n-chat [class*="logo"] img,
-      .n8n-chat [class*="brand"] img,
-      .n8n-chat [class*="header"] img,
-      .n8n-chat [class*="title"] img,
-      .n8n-chat [data-testid*="logo"] img,
-      .n8n-chat [data-testid*="brand"] img,
-      .n8n-chat [data-testid*="header"] img {
-        content: url('${mascotImage}') !important;
-        width: 40px !important;
-        height: 40px !important;
-        object-fit: cover !important;
-        border-radius: 50% !important;
+      /* Hide all existing logos and images in the header */
+      .n8n-chat .chat-header img:not(.maatje-logo),
+      .n8n-chat .header img:not(.maatje-logo),
+      .n8n-chat .branding img:not(.maatje-logo),
+      .n8n-chat .logo img:not(.maatje-logo),
+      .n8n-chat [class*="logo"] img:not(.maatje-logo),
+      .n8n-chat [class*="brand"] img:not(.maatje-logo),
+      .n8n-chat [class*="header"] img:not(.maatje-logo),
+      .n8n-chat [class*="title"] img:not(.maatje-logo) {
+        display: none !important;
       }
       
-      /* Try to target the first small image in the chat window */
-      .n8n-chat img:first-of-type {
-        content: url('${mascotImage}') !important;
+      /* Style the Maatje logo */
+      .n8n-chat .maatje-logo {
         width: 40px !important;
         height: 40px !important;
-        object-fit: cover !important;
         border-radius: 50% !important;
-      }
-      
-      /* Target images that are likely logos based on size */
-      .n8n-chat img[style*="width: 40px"],
-      .n8n-chat img[style*="width: 32px"],
-      .n8n-chat img[style*="width: 24px"],
-      .n8n-chat img[style*="height: 40px"],
-      .n8n-chat img[style*="height: 32px"],
-      .n8n-chat img[style*="height: 24px"] {
-        content: url('${mascotImage}') !important;
-        width: 40px !important;
-        height: 40px !important;
         object-fit: cover !important;
-        border-radius: 50% !important;
+        margin-right: 8px !important;
       }
     `;
     document.head.appendChild(style);
