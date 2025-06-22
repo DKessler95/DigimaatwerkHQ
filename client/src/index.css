@@ -438,6 +438,14 @@
     color: hsl(var(--accent)) !important;
   }
   
+  .case-study-content p {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  .case-study-content h4 {
+    color: hsl(var(--accent)) !important;
+  }
+  
   /* Code Animation Loader Styles */
   .typing-animation {
     display: inline-block;
