@@ -14,7 +14,7 @@ const HeroSection = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 h-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-0">
         <div className="text-center max-w-4xl">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-header font-bold mb-6 text-foreground">
             {t('hero.title')}
