@@ -53,6 +53,19 @@ export function N8nChatWidget() {
         border-radius: 50% !important;
       }
       
+      /* Specific targeting for header logo/avatar */
+      #n8n-chat [class*="header"] img,
+      #n8n-chat [class*="title"] img,
+      #n8n-chat [class*="avatar"] img,
+      #n8n-chat [class*="brand"] img,
+      #n8n-chat [class*="logo"] img {
+        content: url('${mascotImage}') !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+      }
+      
       /* Override for chat toggle button */
       [class*="toggle"] img,
       [class*="chat-button"] img,
@@ -63,20 +76,11 @@ export function N8nChatWidget() {
         border-radius: 50% !important;
       }
       
-      /* Override any SVG icons in chat widget */
-      #n8n-chat svg {
-        display: none !important;
-      }
-      
-      #n8n-chat svg::after {
-        content: "";
-        display: block;
-        width: 24px;
-        height: 24px;
-        background-image: url('${mascotImage}');
-        background-size: cover;
-        background-position: center;
-        border-radius: 50%;
+      /* Replace any background images that might be logos */
+      #n8n-chat [style*="background-image"] {
+        background-image: url('${mascotImage}') !important;
+        background-size: cover !important;
+        background-position: center !important;
       }
     `;
     document.head.appendChild(style);
@@ -108,14 +112,16 @@ export function N8nChatWidget() {
               // Also try to find and replace any SVG icons
               const svgs = chatWidget.querySelectorAll('svg');
               svgs.forEach((svg) => {
-                // Replace SVG with img element
-                const img = document.createElement('img');
-                img.src = mascotImage;
-                img.alt = 'Maatje';
-                img.style.width = '24px';
-                img.style.height = '24px';
-                img.style.borderRadius = '50%';
-                svg.parentNode?.replaceChild(img, svg);
+                // Replace SVG with img element only if parentNode exists
+                if (svg.parentNode) {
+                  const img = document.createElement('img');
+                  img.src = mascotImage;
+                  img.alt = 'Maatje';
+                  img.style.width = '24px';
+                  img.style.height = '24px';
+                  img.style.borderRadius = '50%';
+                  svg.parentNode.replaceChild(img, svg);
+                }
               });
               
               // Look for chat toggle button and replace its content
@@ -140,12 +146,27 @@ export function N8nChatWidget() {
               // Also try to replace any remaining logos by checking all elements
               const allElements = chatWidget.querySelectorAll('*');
               allElements.forEach(el => {
+                const htmlEl = el as HTMLElement;
                 const style = window.getComputedStyle(el);
                 if (style.backgroundImage && style.backgroundImage.includes('digimaatwerk')) {
-                  el.style.backgroundImage = `url('${mascotImage}')`;
-                  el.style.backgroundSize = 'cover';
-                  el.style.backgroundPosition = 'center';
+                  if (htmlEl.style) {
+                    htmlEl.style.backgroundImage = `url('${mascotImage}')`;
+                    htmlEl.style.backgroundSize = 'cover';
+                    htmlEl.style.backgroundPosition = 'center';
+                  }
                 }
+              });
+              
+              // Specifically target the header avatar/logo area
+              const headerAvatars = chatWidget.querySelectorAll('[class*="header"] img, [class*="avatar"] img, [class*="title"] img');
+              headerAvatars.forEach((img) => {
+                const imgEl = img as HTMLImageElement;
+                imgEl.src = mascotImage;
+                imgEl.alt = 'Maatje';
+                imgEl.style.width = '40px';
+                imgEl.style.height = '40px';
+                imgEl.style.borderRadius = '50%';
+                imgEl.style.objectFit = 'cover';
               });
             }, 500);
           }
