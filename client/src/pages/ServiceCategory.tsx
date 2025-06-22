@@ -72,6 +72,27 @@ const ServiceCategory = () => {
           technicalDetails: `We werken met moderne technologieën zoals React, Next.js en Node.js. 
           Voor e-commerce projecten gebruiken we Shopify of WooCommerce, afhankelijk van uw specifieke behoeften.`
         };
+      case 'microsoft-365':
+        return {
+          title: 'Microsoft 365 & Modern Workplace',
+          subtitle: 'Toekomstbestendige cloudoplossingen voor uw organisatie',
+          description: `Transformeer uw werkplek met Microsoft 365 en geavanceerde AI-integratie. 
+          Wij helpen organisaties bij het implementeren van moderne werkplekoplossingen die productiviteit verhogen, 
+          samenwerking verbeteren en enterprise-niveau beveiliging bieden. Van migratie tot optimalisatie, 
+          wij begeleiden uw digitale transformatie.`,
+          features: [
+            'Microsoft Copilot implementatie en training',
+            'Teams Phone en communicatie-oplossingen',
+            'Power Platform automatisering (Power Apps, Power Automate)',
+            'SharePoint en OneDrive optimalisatie',
+            'Advanced Security en Compliance configuratie',
+            'Intune device management en Mobile Device Management',
+            'Exchange Online migratie en beheer',
+            'Azure Active Directory configuratie en SSO'
+          ],
+          technicalDetails: `We zijn Microsoft Partners met gecertificeerde consultants in Microsoft 365, Azure en Power Platform. 
+          Onze aanpak omvat assessment, migratie planning, implementatie en continue optimalisatie van uw Microsoft 365 omgeving.`
+        };
       default:
         return {
           title: 'Digitale diensten',
@@ -177,7 +198,40 @@ const ServiceCategory = () => {
                   </div>
                 )}
                 
-                {!['ai-chatbots', 'workflow-automation', 'web-development'].includes(category || '') && (
+                {category === 'microsoft-365' && (
+                  <div className="relative animate-float">
+                    {/* Central cloud hub */}
+                    <div className="relative w-40 h-40 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center animate-pulse-slow">
+                      <svg className="w-16 h-16 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.5 19H16.5C15.1193 19 14 17.8807 14 16.5V7.5C14 6.11929 15.1193 5 16.5 5H17.5C18.8807 5 20 6.11929 20 7.5V16.5C20 17.8807 18.8807 19 17.5 19Z"/>
+                        <path d="M6.5 19H7.5C8.88071 19 10 17.8807 10 16.5V7.5C10 6.11929 8.88071 5 7.5 5H6.5C5.11929 5 4 6.11929 4 7.5V16.5C4 17.8807 5.11929 19 6.5 19Z"/>
+                        <path d="M14 8H10" strokeWidth="2"/>
+                        <path d="M14 12H10" strokeWidth="2"/>
+                        <path d="M14 16H10" strokeWidth="2"/>
+                      </svg>
+                    </div>
+                    
+                    {/* Surrounding service nodes */}
+                    <div className="absolute -top-8 -left-8 w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center animate-pulse-slow" style={{ animationDelay: '0.5s' }}>
+                      <span className="text-white text-xs font-bold">Teams</span>
+                    </div>
+                    <div className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center animate-pulse-slow" style={{ animationDelay: '1s' }}>
+                      <span className="text-white text-xs font-bold">Office</span>
+                    </div>
+                    <div className="absolute -bottom-8 -left-8 w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center animate-pulse-slow" style={{ animationDelay: '1.5s' }}>
+                      <span className="text-white text-xs font-bold">Power</span>
+                    </div>
+                    <div className="absolute -bottom-8 -right-8 w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center animate-pulse-slow" style={{ animationDelay: '2s' }}>
+                      <span className="text-white text-xs font-bold">Azure</span>
+                    </div>
+                    
+                    {/* Connection lines */}
+                    <div className="absolute top-1/2 left-1/2 w-32 h-32 border-2 border-blue-300 rounded-full opacity-30 animate-spin-slow transform -translate-x-1/2 -translate-y-1/2"></div>
+                    <div className="absolute top-1/2 left-1/2 w-24 h-24 border-2 border-blue-400 rounded-full opacity-50 animate-reverse-spin transform -translate-x-1/2 -translate-y-1/2"></div>
+                  </div>
+                )}
+                
+                {!['ai-chatbots', 'workflow-automation', 'web-development', 'microsoft-365'].includes(category || '') && (
                   <div className="flex items-center gap-8 animate-float">
                     <div className="w-32 h-32 rounded-full bg-gradient-to-br from-green-400 to-blue-500 animate-pulse-slow" />
                     <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 animate-pulse-slow" style={{ animationDelay: '0.5s' }} />
