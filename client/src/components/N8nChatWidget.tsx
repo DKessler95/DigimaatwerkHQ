@@ -17,7 +17,6 @@ export function N8nChatWidget() {
       mode: 'window',
       showWelcomeScreen: false,
       defaultLanguage: 'en',
-      chatBotAvatar: mascotImage,
       initialMessages: [
         'Welkom bij Digimaatwerk! 👋',
         'Ik ben Maatje, uw digitale assistent. Hoe kan ik u vandaag helpen met uw digitale transformatie?'
@@ -42,11 +41,37 @@ export function N8nChatWidget() {
       },
     });
 
+    // Add custom CSS to override the bot avatar with mascot image
+    const style = document.createElement('style');
+    style.textContent = `
+      .n8n-chat .chat-message-from-bot .chat-message-avatar,
+      .n8n-chat .bot-avatar,
+      .n8n-chat [class*="avatar"][class*="bot"],
+      .n8n-chat img[alt*="bot"],
+      .n8n-chat img[alt*="Bot"] {
+        background-image: url('${mascotImage}') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+      }
+      
+      .n8n-chat .chat-message-from-bot .chat-message-avatar img,
+      .n8n-chat .bot-avatar img,
+      .n8n-chat [class*="avatar"][class*="bot"] img {
+        opacity: 0 !important;
+      }
+    `;
+    document.head.appendChild(style);
+
     // Cleanup function
     return () => {
       const existingContainer = document.getElementById('n8n-chat');
       if (existingContainer) {
         existingContainer.remove();
+      }
+      // Remove the custom style element
+      if (style && style.parentNode) {
+        style.parentNode.removeChild(style);
       }
     };
   }, []);
