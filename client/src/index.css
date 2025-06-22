@@ -433,6 +433,11 @@
     color: hsl(var(--accent)) !important;
   }
   
+  .case-study-content ul li,
+  .case-study-content ol li {
+    color: hsl(var(--accent)) !important;
+  }
+  
   /* Code Animation Loader Styles */
   .typing-animation {
     display: inline-block;

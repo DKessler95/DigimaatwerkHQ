@@ -113,11 +113,7 @@ Gesprekken worden onthouden gedurende de hele sessie:
 - **Klant**: "En automation?"
 - **Maatje**: "Voor automatiseringsprojecten hanteren we andere tarieven..." (begrijpt dat klant doorvraagt)
 
-### Multilingual Support
-Maatje communiceert vloeiend in Nederlands en Engels, automatisch detecterend welke taal de klant prefereert.
 
-### Intelligente Escalatie
-Bij complexe vragen of wanneer menselijke tussenkomst vereist is, schakelt Maatje automatisch over naar het juiste teamlid.
 
 ## Meetbare Resultaten
 

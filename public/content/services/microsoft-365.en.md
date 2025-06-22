@@ -86,7 +86,7 @@ We work with the latest Microsoft cloud technologies:
 
 ## Why Choose Our Microsoft 365 Services?
 
-- **Proven Expertise**: Certified Microsoft partners with extensive experience
+- **Proven Expertise**: Microsoft Trained with extensive experience
 - **Holistic Approach**: Complete workplace transformation, not just technical implementation
 - **AI-Focus**: Maximum utilization of Microsoft 365 Copilot and AI capabilities
 - **Security-First**: Enterprise-grade security from day one

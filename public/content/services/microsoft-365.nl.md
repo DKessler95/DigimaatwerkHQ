@@ -86,7 +86,7 @@ We werken met de nieuwste Microsoft cloud-technologieën:
 
 ## Waarom Kiezen voor Onze Microsoft 365 Services?
 
-- **Bewezen Expertise**: Gecertificeerde Microsoft partners met uitgebreide ervaring
+- **Bewezen Expertise**: Microsoft Opgeleid met uitgebreide ervaring
 - **Holistische Aanpak**: Complete workplace transformatie, niet alleen technische implementatie
 - **AI-Focus**: Maximale benutting van Microsoft 365 Copilot en AI-capabilities
 - **Security-First**: Enterprise-grade beveiliging vanaf dag één
