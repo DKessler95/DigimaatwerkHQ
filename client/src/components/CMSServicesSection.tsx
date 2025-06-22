@@ -58,7 +58,7 @@ export function CMSServicesSection() {
         const data = await response.json();
         if (data.success) {
           const sortedServices = data.data.sort((a: Service, b: Service) => a.order - b.order);
-          console.log('Fetched services:', sortedServices.map(s => s.title));
+          console.log('Fetched services:', sortedServices.map((s: Service) => s.title));
           setServices(sortedServices);
           if (sortedServices.length > 0) {
             setActiveTab(sortedServices[0].slug);
