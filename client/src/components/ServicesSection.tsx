@@ -47,7 +47,7 @@ const ServicesSection = () => {
           <p className="text-foreground/70 max-w-2xl mx-auto">{t('services.subtitle')}</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
           {services.map((service, index) => {
             // Map icons to paths for each category
             const categoryPaths = {
@@ -60,7 +60,7 @@ const ServicesSection = () => {
             return (
               <motion.div 
                 key={index}
-                className="relative bg-gradient-to-br from-secondary via-secondary/80 to-primary/80 p-8 rounded-2xl shadow-lg card-hover-effect overflow-hidden group min-h-[480px] flex flex-col"
+                className="relative bg-gradient-to-br from-secondary via-secondary/80 to-primary/80 p-6 rounded-2xl shadow-lg card-hover-effect overflow-hidden group h-full min-h-[320px] flex flex-col"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -71,10 +71,10 @@ const ServicesSection = () => {
                   <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-6">
                     <i className={`${service.icon} text-2xl text-accent`}></i>
                   </div>
-                  <h3 className="text-xl font-header font-semibold mb-3">{t(service.titleKey)}</h3>
-                  <p className="text-foreground/70 mb-4">{t(service.descriptionKey)}</p>
+                  <h3 className="text-lg font-header font-semibold mb-3 line-clamp-2">{t(service.titleKey)}</h3>
+                  <p className="text-foreground/70 mb-4 text-sm leading-relaxed line-clamp-4">{t(service.descriptionKey)}</p>
                   <div className="mt-auto">
-                    <p className="text-accent font-mono text-sm mb-4">{t(service.techKey)}</p>
+                    <p className="text-accent font-mono text-xs mb-4 line-clamp-2">{t(service.techKey)}</p>
                     <a 
                       href={categoryPaths[service.icon as keyof typeof categoryPaths]} 
                       className="inline-flex items-center text-accent group"
