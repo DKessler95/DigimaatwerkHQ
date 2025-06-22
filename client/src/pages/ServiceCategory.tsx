@@ -90,8 +90,7 @@ const ServiceCategory = () => {
             'Exchange Online migratie en beheer',
             'Azure Active Directory configuratie en SSO'
           ],
-          technicalDetails: `We zijn Microsoft Partners met gecertificeerde consultants in Microsoft 365, Azure en Power Platform. 
-          Onze aanpak omvat assessment, migratie planning, implementatie en continue optimalisatie van uw Microsoft 365 omgeving.`
+          technicalDetails: `Met jarenlange ervaring in de ICT-sector en uitgebreide expertise in Microsoft enterprise werkomgevingen begeleiden wij organisaties bij elke stap van hun digitale transformatie. Onze aanpak bestaat uit een grondige analyse, doordachte migratieplanning, zorgvuldige implementatie en voortdurende optimalisatie van uw Microsoft 365 omgeving. Zo zorgen wij voor een toekomstbestendige, efficiënte en veilige digitale werkplek die aansluit bij uw bedrijfsdoelen.`
         };
       default:
         return {
@@ -399,16 +398,16 @@ const ServiceCategory = () => {
                     <div className="text-sm text-foreground/70">Jaar ervaring</div>
                   </div>
                   <div className="bg-accent/10 p-4 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-accent mb-1">100+</div>
-                    <div className="text-sm text-foreground/70">Projecten</div>
-                  </div>
-                  <div className="bg-accent/10 p-4 rounded-lg text-center">
                     <div className="text-2xl font-bold text-accent mb-1">24/7</div>
                     <div className="text-sm text-foreground/70">Ondersteuning</div>
                   </div>
                   <div className="bg-accent/10 p-4 rounded-lg text-center">
                     <div className="text-2xl font-bold text-accent mb-1">99%</div>
                     <div className="text-sm text-foreground/70">Uptime</div>
+                  </div>
+                  <div className="bg-accent/10 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-accent mb-1">Expert</div>
+                    <div className="text-sm text-foreground/70">Support</div>
                   </div>
                 </div>
               )}
@@ -531,28 +530,34 @@ const ServiceCategory = () => {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/#contact">
-                  <motion.button 
-                    className="px-10 py-4 bg-gradient-to-r from-accent to-blue-500 text-white font-header font-bold rounded-lg shadow-xl hover:shadow-2xl hover:shadow-accent/40 transition-all duration-300 text-lg"
-                    whileHover={{ scale: 1.05, y: -3 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Plan uw gratis consultatie
-                  </motion.button>
-                </Link>
+                <motion.button 
+                  className="px-10 py-4 bg-gradient-to-r from-accent to-blue-500 text-white font-header font-bold rounded-lg shadow-xl hover:shadow-2xl hover:shadow-accent/40 transition-all duration-300 text-lg"
+                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    const contactSection = document.querySelector('#contact');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      window.location.href = '/#contact';
+                    }
+                  }}
+                >
+                  Plan uw gratis consultatie
+                </motion.button>
                 
                 <motion.button 
                   className="px-10 py-4 bg-transparent border-2 border-accent text-accent font-header font-bold rounded-lg transition-all duration-300 hover:bg-accent hover:text-white hover:shadow-lg text-lg"
                   whileHover={{ scale: 1.05, y: -3 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => window.open('tel:+31123456789', '_self')}
+                  onClick={() => window.open('tel:06-37353483', '_self')}
                 >
-                  Bel direct: 085-1234567
+                  Bel direct: 06-37353483
                 </motion.button>
               </div>
               
               <p className="text-sm text-foreground/60 mt-6">
-                ✓ Geen verplichtingen  ✓ Ervaren Microsoft consultants  ✓ Bewezen resultaten
+                ✓ Geen verplichtingen  ✓ Bewezen resultaten
               </p>
             </motion.div>
           </div>
@@ -673,25 +678,7 @@ const ServiceCategory = () => {
               </motion.div>
             </div>
             
-            {/* CTA */}
-            <motion.div 
-              className="bg-accent/10 rounded-xl p-8 text-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="text-2xl md:text-3xl font-header font-bold mb-4">
-                Klaar om te beginnen met {details.title}?
-              </h2>
-              <p className="max-w-2xl mx-auto mb-6">
-                Neem contact met ons op voor een vrijblijvend gesprek over uw project.
-                We denken graag met u mee over de mogelijkheden!
-              </p>
-              <Link href="/#contact" className="inline-block px-8 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
-                Neem contact op
-              </Link>
-            </motion.div>
+
           </div>
         )}
         
