@@ -362,6 +362,27 @@
   prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 
   prose-blockquote:py-0.5 prose-blockquote:not-italic prose-li:marker:text-accent"
   */
+
+  /* Force all case study content to use proper text colors */
+  .case-study-content * {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  .case-study-content h1,
+  .case-study-content h2,
+  .case-study-content h3,
+  .case-study-content h4,
+  .case-study-content h5,
+  .case-study-content h6,
+  .case-study-content strong,
+  .case-study-content b {
+    color: hsl(var(--accent)) !important;
+  }
+  
+  .case-study-content ul li::marker,
+  .case-study-content ol li::marker {
+    color: hsl(var(--accent)) !important;
+  }
   
   /* Code Animation Loader Styles */
   .typing-animation {
