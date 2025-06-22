@@ -72,7 +72,7 @@ We hebben een geavanceerde AI-chatbot ontwikkeld die:
 
 De chatbot is gebouwd met behulp van:
 
-- **GPT-4 API** voor natuurlijke taalverwerking
+- **Custom AI model & RAG** voor natuurlijke taalverwerking
 - **Custom RAG (Retrieval Augmented Generation)** voor accurate productinformatie
 - **Integratie met ERP** voor realtime ordergegevens
 - **Sentiment analyse** om klantfrustratie te detecteren en proactief door te verwijzen

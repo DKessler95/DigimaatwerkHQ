@@ -18,7 +18,7 @@ tech_stack:
     description: State-of-the-art taalmodel voor natuurlijke en intelligente conversaties.
   - name: Microsoft Azure Bot Service
     description: Schaalbare cloud-infrastructuur voor betrouwbare bot-implementaties.
-  - name: Custom NLP-modellen
+  - name: Op maat
     description: Op maat gemaakte modellen getraind voor uw specifieke branche en use cases.
   - name: Node.js & Python
     description: Flexibele backend-technologieën voor optimale prestaties en integratie.

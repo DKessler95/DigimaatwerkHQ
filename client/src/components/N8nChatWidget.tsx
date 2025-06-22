@@ -22,17 +22,17 @@ export function N8nChatWidget() {
       ],
       i18n: {
         en: {
-          title: 'Digimaatwerk',
+          title: 'Maatje',
           subtitle: 'Uw partner in digitale transformatie',
-          footer: 'Powered by Digimaatwerk',
+          footer: 'Powered by Maatje',
           getStarted: 'Start gesprek',
           inputPlaceholder: 'Stel uw vraag over onze diensten...',
           closeButtonTooltip: 'Chat sluiten',
         },
         nl: {
-          title: 'Digimaatwerk',
+          title: 'Maatje',
           subtitle: 'Uw partner in digitale transformatie',
-          footer: 'Powered by Digimaatwerk',
+          footer: 'Powered by Maatje',
           getStarted: 'Start gesprek',
           inputPlaceholder: 'Stel uw vraag over onze diensten...',
           closeButtonTooltip: 'Chat sluiten',

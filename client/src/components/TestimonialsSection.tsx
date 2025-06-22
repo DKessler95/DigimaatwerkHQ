@@ -153,7 +153,7 @@ const AboutDamianSection = () => {
               <span className="font-medium">4.9/5</span> {language === 'nl' ? 'uit 28 beoordelingen' : 'from 28 reviews'}
             </div>
           </div>
-          <a href="#" className="inline-flex items-center text-accent group">
+          <a href="https://www.google.com/search?sca_esv=e2ac7e5363cb24f5&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-E3713MjyS1KhaYqNg0eXOBvuuRe8aT1gdFMBhJw2M9zHMCzewKtoi3na29h5VDMtrHcIXoArdM8R9PSzwae2Jy68-BdH&q=Digimaatwerk+Reviews&sa=X&ved=2ahUKEwjr8Y644YOOAxWG1QIHHSJ4FS4Q0bkNegQILhAD&biw=2133&bih=1012&dpr=0.9" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-accent group">
             <span className="group-hover:underline">
               {language === 'nl' ? 'Lees alle beoordelingen' : 'Read all reviews'}
             </span>

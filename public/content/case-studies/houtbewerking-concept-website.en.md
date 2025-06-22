@@ -62,7 +62,7 @@ A professional website that perfectly aligns with the artisanal sector and combi
 
 ### Technological Solution
 
-- **GPT-4 with RAG technology**: For enhanced context understanding and better responses
+- **Custom AI model & RAG**: For enhanced context understanding and better responses
 - **Multimodal processing**: Capable of handling both text and product images
 - **Real-time integration**: Connected to inventory and order management systems
 - **Multilingual support**: Dutch, English, German, and French
