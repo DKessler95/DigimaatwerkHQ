@@ -1,11 +1,7 @@
 ---
 id: limonade-webshop
 title: Limonade Product Webshop
-description: For Limonade, Digimaatwerk developed a fully customized e-commerce solution that perfectly captures the unique charm of handmade products. The webshop combines a warm, personal aesthetic with professional functionality and user-friendly navigation.
-
-The platform is optimized for conversion with an intuitive ordering process, secure payment processing, and responsive design that works perfectly on all devices. Customers can easily browse through the product catalog and maintain direct communication with the owner for a personalized shopping experience.
-
-This webshop demonstrates how small entrepreneurs with handmade products can compete with large retailers through a professional online presence that maintains their personal touch and promotes customer loyalty, resulting in higher sales figures and returning customers.
+description: "For Limonade, Digimaatwerk developed a fully customized e-commerce solution that perfectly captures the unique charm of handmade products. The webshop combines a warm, personal aesthetic with professional functionality and user-friendly navigation. The platform is optimized for conversion with an intuitive ordering process, secure payment processing, and responsive design that works perfectly on all devices. Customers can easily browse through the product catalog and maintain direct communication with the owner for a personalized shopping experience. This webshop demonstrates how small entrepreneurs with handmade products can compete with large retailers through a professional online presence that maintains their personal touch and promotes customer loyalty, resulting in higher sales figures and returning customers."
 imageUrl: /images/portfolio/limonade.jpg
 websiteUrl: https://limonade.digimaatwerk.nl
 websiteScreenshot: /images/portfolio/limonade.jpg

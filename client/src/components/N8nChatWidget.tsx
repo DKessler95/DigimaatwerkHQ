@@ -113,7 +113,7 @@ export function N8nChatWidget() {
           (img as HTMLImageElement).style.height = '40px';
         });
         
-        // Style toggle button with Maatje background and smooth transitions
+        // Style toggle button with Maatje background (no hover effects)
         const toggleButtons = chatWidget.querySelectorAll('button[class*="toggle"], [class*="toggle"]');
         toggleButtons.forEach(btn => {
           const button = btn as HTMLElement;
@@ -123,18 +123,6 @@ export function N8nChatWidget() {
           button.style.borderRadius = '50%';
           button.style.width = '60px';
           button.style.height = '60px';
-          button.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
-          
-          // Ensure hover effects work properly
-          button.addEventListener('mouseenter', () => {
-            button.style.transform = 'scale(1.05)';
-            button.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
-          });
-          
-          button.addEventListener('mouseleave', () => {
-            button.style.transform = 'scale(1)';
-            button.style.boxShadow = 'none';
-          });
         });
       }
     };
