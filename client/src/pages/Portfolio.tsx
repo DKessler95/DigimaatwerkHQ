@@ -37,10 +37,13 @@ const PortfolioBlock = ({
       return 'from-pink-400 to-rose-600';
     }
     if (itemId === 'fast-taxi-rotterdam') {
-      return 'from-amber-400 to-orange-600';
+      return 'from-yellow-400 to-yellow-600';
     }
     if (itemId === 'houtbewerking-concept') {
       return 'from-amber-700 to-yellow-600';
+    }
+    if (itemId === 'maatje-ai-chatbot') {
+      return 'from-purple-400 to-indigo-600';
     }
     
     // Fallback colors by category
@@ -66,6 +69,9 @@ const PortfolioBlock = ({
     }
     if (itemId === 'houtbewerking-concept') {
       return '🪵';
+    }
+    if (itemId === 'maatje-ai-chatbot') {
+      return '🤖';
     }
     
     // Fallback icons by category
