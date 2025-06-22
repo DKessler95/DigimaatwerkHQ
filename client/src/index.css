@@ -1,30 +1,201 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-@import 'https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Digimaatwerk Chat Widget Theme Matching */
+:root {
+  /* Digimaatwerk brand colors */
+  --chat--color-primary: #0f172a; /* Midnight blue */
+  --chat--color-primary-shade-50: #1e293b;
+  --chat--color-primary-shade-100: #334155;
+  --chat--color-secondary: #0891b2; /* Teal accent */
+  --chat--color-secondary-shade-50: #0e7490;
+  --chat--color-white: #ffffff;
+  --chat--color-light: #f8fafc;
+  --chat--color-light-shade-50: #f1f5f9;
+  --chat--color-light-shade-100: #e2e8f0;
+  --chat--color-medium: #64748b;
+  --chat--color-dark: #0f172a;
+  --chat--color-disabled: #94a3b8;
+  --chat--color-typing: #475569;
+
+  /* Widget styling to match website */
+  --chat--spacing: 1rem;
+  --chat--border-radius: 0.5rem;
+  --chat--transition-duration: 0.2s;
+  --chat--window--width: 400px;
+  --chat--window--height: 600px;
+
+  /* Header styling */
+  --chat--header--background: var(--chat--color-dark);
+  --chat--header--color: var(--chat--color-white);
+  --chat--header--padding: 1.5rem 1rem;
+  --chat--header--border-bottom: none;
+  --chat--heading--font-size: 1.125rem;
+  --chat--subtitle--font-size: 0.875rem;
+
+  /* Message styling - improved scaling */
+  --chat--message--font-size: 0.8rem;
+  --chat--message--padding: 0.75rem 1rem;
+  --chat--message--border-radius: 0.75rem;
+  --chat--message--line-height: 1.4;
+  --chat--message--bot--background: var(--chat--color-light);
+  --chat--message--bot--color: var(--chat--color-dark);
+  --chat--message--bot--border: 1px solid var(--chat--color-light-shade-100);
+  --chat--message--user--background: var(--chat--color-secondary);
+  --chat--message--user--color: var(--chat--color-white);
+  --chat--message--user--border: none;
+
+  /* Toggle button */
+  --chat--toggle--background: var(--chat--color-secondary);
+  --chat--toggle--hover--background: var(--chat--color-secondary-shade-50);
+  --chat--toggle--active--background: var(--chat--color-primary);
+  --chat--toggle--color: var(--chat--color-white);
+  --chat--toggle--size: 64px;
+
+  /* Input area */
+  --chat--textarea--height: 50px;
+}
+
+/* Digimaatwerk branded chat widget styling */
+.n8n-chat,
+#n8n-chat {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  border: none !important;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15) !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+}
+
+/* Header with logo - minimal styling */
+.n8n-chat [class*="header"],
+.n8n-chat div[class*="header"] {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+.n8n-chat [class*="header"]::before,
+.n8n-chat div[class*="header"]::before {
+  content: '';
+  width: 32px;
+  height: 32px;
+  background-image: url('/digimaatwerkLOGO.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.n8n-chat h1,
+.n8n-chat [class*="title"] {
+  font-weight: 600 !important;
+  font-size: 1.125rem !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+  letter-spacing: -0.025em !important;
+}
+
+.n8n-chat p,
+.n8n-chat [class*="subtitle"] {
+  font-size: 0.875rem !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin: 0.25rem 0 0 0 !important;
+  line-height: 1.4 !important;
+}
+
+/* Simple toggle button - no hover effects */
+.n8n-chat [class*="toggle"] {
+  background: #0891b2 !important;
+  border: none !important;
+  transition: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.n8n-chat [class*="toggle"]:hover {
+  background: #0891b2 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  scale: 1 !important;
+}
+
+.n8n-chat button:hover {
+  transform: none !important;
+  scale: 1 !important;
+}
+
+/* Message styling - improved for longer responses */
+.n8n-chat [class*="message"] {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 0.8rem !important;
+  line-height: 1.4 !important;
+  border-radius: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  max-width: 88% !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Bot messages - blue text for readability */
+.n8n-chat [class*="message"]:not([class*="user"]) {
+  color: #0f172a !important;
+  font-size: 0.8rem !important;
+  line-height: 1.4 !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: pre-wrap !important;
+}
+
+/* Force all text content in bot messages to be blue */
+.n8n-chat [class*="message"]:not([class*="user"]) * {
+  color: #0f172a !important;
+}
+
+/* User messages - simple teal styling */
+.n8n-chat [class*="message"][class*="user"] {
+  background: #0891b2 !important;
+  color: #ffffff !important;
+}
+
+/* Minimal input focus styling */
+.n8n-chat input:focus,
+.n8n-chat textarea:focus {
+  border-color: #0891b2 !important;
+}
+
 @layer base {
   :root {
-    --background: 220 15% 12%;
-    --foreground: 220 8% 95%;
-    --card: 220 15% 12%;
-    --card-foreground: 220 8% 95%;
-    --popover: 220 15% 12%;
-    --popover-foreground: 220 8% 95%;
-    --primary: 220 15% 12%;
-    --primary-foreground: 220 8% 95%;
-    --secondary: 220 12% 18%;
-    --secondary-foreground: 220 8% 95%;
-    --muted: 220 12% 18%;
-    --muted-foreground: 220 8% 65%;
-    --accent: 185 85% 55%;
-    --accent-foreground: 220 15% 12%;
+    /* Base colors */
+    --primary: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --accent: 198.6 93.2% 59.6%;
+    
+    /* Core UI colors */
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 210 40% 98%;
+    --card: 217.2 32.6% 17.5%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217.2 32.6% 17.5%;
+    --popover-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 198.6 93.2% 59.6%;
+
+    /* Component colors */
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 220 8% 95%;
-    --border: 220 12% 20%;
-    --input: 220 12% 20%;
-    --ring: 185 85% 55%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Chart colors */
+    --chart-1: 198.6 93.2% 59.6%;
+    --chart-2: 180 100% 50%;
+    --chart-3: 262 83.3% 57.8%;
+    --chart-4: 110 100% 50%;
+    --chart-5: 198.6 93.2% 59.6%;
+
+    /* Radius */
     --radius: 0.5rem;
   }
 }
@@ -33,37 +204,174 @@
   * {
     @apply border-border;
   }
+
+  html {
+    scroll-behavior: smooth;
+    height: 100%;
+    overflow-x: hidden;
+  }
+
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Space Grotesk', monospace;
+    @apply bg-primary text-foreground;
+    overflow-x: hidden;
+    min-height: 100%;
+  }
+
+  /* This ensures sections have proper padding for smooth scrolling */
+  section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    scroll-margin-top: 4rem; /* Offset for fixed header */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: normal;
   }
   
-  .font-header {
-    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  .hero-section h1 {
+    letter-spacing: normal;
   }
 }
 
 @layer components {
-  .asymmetric-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1.5rem;
-  }
-  
   .card-hover-effect {
-    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+    @apply transition-all duration-300 ease-in-out;
   }
   
-  .text-gradient {
-    @apply bg-gradient-to-r from-accent to-accent/70 bg-clip-text text-transparent;
+  .card-hover-effect:hover {
+    @apply transform -translate-y-2 shadow-xl;
+  }
+
+  .asymmetric-grid {
+    @apply grid grid-cols-12 gap-6;
+  }
+
+  .hero-canvas {
+    @apply absolute top-0 left-0 w-full h-full z-0;
   }
   
-  .btn-primary {
-    @apply bg-accent text-primary font-medium px-6 py-3 rounded-lg transition-colors hover:bg-accent/90;
+  /* Animations for service categories */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
   }
   
-  .btn-secondary {
-    @apply bg-secondary text-foreground font-medium px-6 py-3 rounded-lg transition-colors hover:bg-secondary/80;
+  .animate-pulse-slow {
+    animation: pulse 3s ease-in-out infinite;
+  }
+  
+  .rotate-animation {
+    animation: rotate 8s linear infinite;
+  }
+  
+  .counter-rotate-animation {
+    animation: counter-rotate 6s linear infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes counter-rotate {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+  
+  /* 
+  Case Study Content Styling now uses Tailwind typography prose plugin
+  See CaseStudy.tsx for the full styling class:
+  
+  className="prose prose-lg max-w-none prose-headings:text-accent 
+  prose-headings:font-header prose-headings:font-bold prose-p:text-foreground/90 
+  prose-strong:text-accent prose-strong:font-medium prose-a:text-accent 
+  prose-a:no-underline hover:prose-a:underline prose-code:text-accent 
+  prose-code:bg-accent/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded 
+  prose-code:before:content-none prose-code:after:content-none 
+  prose-blockquote:border-l-accent prose-blockquote:bg-secondary/20 
+  prose-blockquote:py-0.5 prose-blockquote:not-italic prose-li:marker:text-accent"
+  */
+  
+  /* Code Animation Loader Styles */
+  .typing-animation {
+    display: inline-block;
+    white-space: pre-wrap;
+    word-break: break-word;
+    animation: blink 1s step-end infinite;
+  }
+  
+  @keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  /* Syntax highlighting for the code animation */
+  .typing-animation {
+    color: #e6e6e6;
+  }
+  
+  .typing-animation .keyword {
+    color: #ff79c6;
+  }
+  
+  .typing-animation .string {
+    color: #f1fa8c;
+  }
+  
+  .typing-animation .comment {
+    color: #6272a4;
+  }
+  
+  .typing-animation .function {
+    color: #50fa7b;
+  }
+  
+  .typing-animation .variable {
+    color: #8be9fd;
   }
 }
-
