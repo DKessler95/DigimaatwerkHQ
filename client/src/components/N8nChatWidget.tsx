@@ -63,14 +63,13 @@ export function N8nChatWidget() {
         border-radius: 50% !important;
         width: 60px !important;
         height: 60px !important;
-        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
       }
       
-      /* Smooth hover effect for toggle button */
+      /* Remove hover effects for toggle button */
       .n8n-chat button[class*="toggle"]:hover,
       .n8n-chat [class*="toggle"]:hover {
-        transform: scale(1.05) !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        transform: none !important;
+        box-shadow: none !important;
         background-image: url('${mascotImage}') !important;
         background-size: cover !important;
         background-position: center !important;

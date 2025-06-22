@@ -1,7 +1,7 @@
 ---
 id: houtbewerking-concept
 title: Houtbewerking Concept Website
-description: Een concept website gemaakt voor mijn broertje die de opleiding houtbewerker aan het volgen is.
+description: "Voor dit persoonlijke project heeft Digimaatwerk een professionele concept website ontwikkeld die de vakmanschap en ambacht van houtbewerking perfect weergeeft. De website combineert moderne webtechnologie met een warme, natuurlijke uitstraling die aansluit bij de traditionele houtbewerkingssector. Het ontwerp benadrukt kwaliteit en handwerk door middel van een elegante portfolio sectie die vakmanschap en aandacht voor detail toont. De gebruiksvriendelijke interface maakt het gemakkelijk voor potentiële klanten om projecten te bekijken en contact op te nemen. Deze website demonstreert hoe ook kleinere, gespecialiseerde bedrijven kunnen profiteren van een professionele online aanwezigheid die hun expertise en betrouwbaarheid uitstraalt, wat leidt tot meer klantvertrouwen en zakelijke groei."
 imageUrl: /images/portfolio/houtbewerking.png
 websiteUrl: https://houtbewerking.digimaatwerk.nl
 websiteScreenshot: /images/portfolio/houtbewerking.png

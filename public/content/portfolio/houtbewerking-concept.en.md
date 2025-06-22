@@ -1,7 +1,11 @@
 ---
 id: houtbewerking-concept
 title: Woodworking Concept Website
-description: A concept website made for my little brother who is training to become a woodworker
+description: For this personal project, Digimaatwerk developed a professional concept website that perfectly represents the craftsmanship and artistry of woodworking. The website combines modern web technology with a warm, natural aesthetic that aligns with the traditional woodworking sector.
+
+The design emphasizes quality and handwork through an elegant portfolio section that showcases craftsmanship and attention to detail. The user-friendly interface makes it easy for potential clients to view projects and get in touch.
+
+This website demonstrates how smaller, specialized businesses can benefit from a professional online presence that radiates expertise and reliability, leading to increased client trust and business growth.
 imageUrl: /images/portfolio/houtbewerking.png
 websiteUrl: https://houtbewerking.digimaatwerk.nl
 websiteScreenshot: /images/portfolio/houtbewerking.png
