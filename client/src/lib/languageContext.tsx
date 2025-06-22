@@ -80,6 +80,20 @@ const translations: Record<Language, Record<string, string>> = {
     'services.chatbot.click_to_chat': 'Klik om te chatten met onze AI-assistent',
     'services.view_details': 'Bekijk details',
     
+    // Service Category Pages
+    'service.ai.title': 'AI Chatbots',
+    'service.ai.subtitle': 'Intelligente gesprekspartners voor uw klanten',
+    'service.ai.description': 'Onze AI-gestuurde chatbots bieden 24/7 ondersteuning voor uw klanten. Ze leren van elk gesprek, begrijpen complexe vragen en geven relevante antwoorden. Verhoog de klanttevredenheid en verminder de werkdruk van uw team met onze slimme chatbot-oplossingen.',
+    'service.automation.title': 'Workflow Automatisering',
+    'service.automation.subtitle': 'Efficiëntere processen, minder handwerk',
+    'service.automation.description': 'Transformeer uw bedrijfsprocessen met onze automatiseringsoplossingen. We identificeren repetitieve taken en stroomlijnen deze met slimme digitale workflows. Bespaar tijd, verminder fouten en laat uw team focussen op wat echt belangrijk is.',
+    'service.web.title': 'Webontwikkeling',
+    'service.web.subtitle': 'Moderne websites en webapplicaties',
+    'service.web.description': 'Van eenvoudige websites tot complexe webapplicaties - wij bouwen digitale ervaringen die uw doelgroep betrekken en converteren. Onze websites zijn snel, veilig en volledig geoptimaliseerd voor alle apparaten.',
+    'service.microsoft365.title': 'Microsoft 365 & Modern Workplace',
+    'service.microsoft365.subtitle': 'Toekomstbestendige cloudoplossingen voor uw organisatie',
+    'service.microsoft365.description': 'Transformeer uw werkplek met Microsoft 365 en geavanceerde AI-integratie. Wij helpen organisaties bij het implementeren van moderne werkplekoplossingen die productiviteit verhogen, samenwerking verbeteren en enterprise-niveau beveiliging bieden. Van migratie tot optimalisatie, wij begeleiden uw digitale transformatie.',
+    
     // Case Studies
     'cases.title': 'Projecten',
     'cases.subtitle': 'Ontdek hoe we bedrijven hebben geholpen',
@@ -219,6 +233,20 @@ const translations: Record<Language, Record<string, string>> = {
     'services.chatbot.meet_maatje': 'Meet Maatje!',
     'services.chatbot.click_to_chat': 'Click to chat with our AI assistant',
     'services.view_details': 'View details',
+    
+    // Service Category Pages
+    'service.ai.title': 'AI Chatbots',
+    'service.ai.subtitle': 'Intelligent conversation partners for your customers',
+    'service.ai.description': 'Our AI-powered chatbots provide 24/7 support for your customers. They learn from every conversation, understand complex questions and provide relevant answers. Increase customer satisfaction and reduce your team workload with our smart chatbot solutions.',
+    'service.automation.title': 'Workflow Automation',
+    'service.automation.subtitle': 'More efficient processes, less manual work',
+    'service.automation.description': 'Transform your business processes with our automation solutions. We identify repetitive tasks and streamline them with smart digital workflows. Save time, reduce errors and let your team focus on what really matters.',
+    'service.web.title': 'Web Development',
+    'service.web.subtitle': 'Modern websites and web applications',
+    'service.web.description': 'From simple websites to complex web applications - we build digital experiences that engage and convert your target audience. Our websites are fast, secure and fully optimized for all devices.',
+    'service.microsoft365.title': 'Microsoft 365 & Modern Workplace',
+    'service.microsoft365.subtitle': 'Future-proof cloud solutions for your organization',
+    'service.microsoft365.description': 'Transform your workplace with Microsoft 365 and advanced AI integration. We help organizations implement modern workplace solutions that increase productivity, improve collaboration and provide enterprise-level security. From migration to optimization, we guide your digital transformation.',
     
     // Case Studies
     'cases.title': 'Projects',

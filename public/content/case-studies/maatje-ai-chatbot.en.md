@@ -19,7 +19,7 @@ metrics:
     value: "< 2 sec"
   - label: "Customer satisfaction"
     value: "95%"
-live_url: "https://digimaatwerk.nl"
+live_url: "https://digimaatwerk.nl#chatbot"
 featured: true
 ---
 

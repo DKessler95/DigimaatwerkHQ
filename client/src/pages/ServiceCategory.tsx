@@ -24,11 +24,9 @@ const ServiceCategory = () => {
     switch (category) {
       case 'ai-chatbots':
         return {
-          title: 'AI Chatbots',
-          subtitle: 'Intelligente gesprekspartners voor uw klanten',
-          description: `Onze AI-gestuurde chatbots bieden 24/7 ondersteuning voor uw klanten. 
-          Ze leren van elk gesprek, begrijpen complexe vragen en geven relevante antwoorden. 
-          Verhoog de klanttevredenheid en verminder de werkdruk van uw team met onze slimme chatbot-oplossingen.`,
+          title: t('service.ai.title'),
+          subtitle: t('service.ai.subtitle'),
+          description: t('service.ai.description'),
           features: [
             'Integratie met uw huidige systemen en databases',
             'Meertalige ondersteuning voor internationale klanten',
@@ -41,11 +39,9 @@ const ServiceCategory = () => {
         };
       case 'workflow-automation':
         return {
-          title: 'Workflow Automatisering',
-          subtitle: 'Efficiëntere processen, minder handwerk',
-          description: `Transformeer uw bedrijfsprocessen met onze automatiseringsoplossingen. 
-          We identificeren repetitieve taken en stroomlijnen deze met slimme digitale workflows. 
-          Bespaar tijd, verminder fouten en laat uw team focussen op wat echt belangrijk is.`,
+          title: t('service.automation.title'),
+          subtitle: t('service.automation.subtitle'),
+          description: t('service.automation.description'),
           features: [
             'Visuele workflow-ontwerpen zonder programmeerkennis',
             'Integratie met bestaande systemen en applicaties',
