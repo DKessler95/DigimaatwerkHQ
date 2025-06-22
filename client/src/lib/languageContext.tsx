@@ -47,6 +47,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.services.automation.description': 'Stroomlijn uw bedrijfsprocessen en verhoog de efficiëntie met intelligente automatisering',
     'hero.services.chatbot.title': 'AI Chatbots',
     'hero.services.chatbot.description': 'Verbeter uw klantenservice met 24/7 intelligente ondersteuning via AI-chatbots',
+    'hero.services.microsoft365.title': 'Microsoft 365',
+    'hero.services.microsoft365.description': 'Moderne werkplek oplossingen met AI-integratie en enterprise beveiliging',
     
     // Services
     'services.title': 'Onze digitale diensten',
@@ -182,6 +184,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.services.automation.description': 'Streamline your business processes and increase efficiency with intelligent automation',
     'hero.services.chatbot.title': 'AI Chatbots',
     'hero.services.chatbot.description': 'Enhance your customer service with 24/7 intelligent support through AI chatbots',
+    'hero.services.microsoft365.title': 'Microsoft 365',
+    'hero.services.microsoft365.description': 'Modern workplace solutions with AI integration and enterprise security',
     
     // Services
     'services.title': 'Our Digital Services',

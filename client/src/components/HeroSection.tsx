@@ -32,7 +32,7 @@ const HeroSection = () => {
           </div>
           
           {/* Service Icons */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
             <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg">
                 <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,6 +70,20 @@ const HeroSection = () => {
               </div>
               <h3 className="text-xl font-medium mb-2">{t('hero.services.chatbot.title')}</h3>
               <p className="text-foreground/70 text-sm">{t('hero.services.chatbot.description')}</p>
+            </div>
+            
+            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg">
+                <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.5 19H16.5C15.1193 19 14 17.8807 14 16.5V7.5C14 6.11929 15.1193 5 16.5 5H17.5C18.8807 5 20 6.11929 20 7.5V16.5C20 17.8807 18.8807 19 17.5 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M6.5 19H7.5C8.88071 19 10 17.8807 10 16.5V7.5C10 6.11929 8.88071 5 7.5 5H6.5C5.11929 5 4 6.11929 4 7.5V16.5C4 17.8807 5.11929 19 6.5 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M14 8H10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M14 12H10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M14 16H10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-medium mb-2">{t('hero.services.microsoft365.title')}</h3>
+              <p className="text-foreground/70 text-sm">{t('hero.services.microsoft365.description')}</p>
             </div>
           </div>
         </div>
