@@ -41,9 +41,28 @@ export function N8nChatWidget() {
       },
     });
 
-    // Add custom CSS to override the bot avatar and logo with mascot image
+    // Add custom CSS to override chat widget elements with mascot image
     const style = document.createElement('style');
     style.textContent = `
+      /* Replace chat toggle button (cloud icon) with mascot */
+      .n8n-chat button[class*="toggle"],
+      .n8n-chat [class*="toggle"] {
+        background-image: url('${mascotImage}') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        border-radius: 50% !important;
+        width: 60px !important;
+        height: 60px !important;
+      }
+      
+      .n8n-chat button[class*="toggle"] svg,
+      .n8n-chat [class*="toggle"] svg,
+      .n8n-chat button[class*="toggle"] img,
+      .n8n-chat [class*="toggle"] img {
+        display: none !important;
+      }
+      
       /* Replace bot avatar in messages */
       .n8n-chat .chat-message-from-bot .chat-message-avatar,
       .n8n-chat .bot-avatar,
@@ -71,40 +90,54 @@ export function N8nChatWidget() {
       .n8n-chat [class*="brand"] img,
       .n8n-chat [class*="header"] img {
         content: url('${mascotImage}') !important;
-        width: 32px !important;
-        height: 32px !important;
+        width: 40px !important;
+        height: 40px !important;
         object-fit: cover !important;
+        border-radius: 50% !important;
       }
       
-      /* Alternative approach for logo replacement */
-      .n8n-chat img[src*="digimaatwerk"],
-      .n8n-chat img[src*="logo"],
-      .n8n-chat img[alt*="logo"],
-      .n8n-chat img[alt*="Logo"] {
+      /* Target any image in the chat header area */
+      .n8n-chat div[class*="header"] img,
+      .n8n-chat div[class*="title"] img {
         content: url('${mascotImage}') !important;
-        width: 32px !important;
-        height: 32px !important;
+        width: 40px !important;
+        height: 40px !important;
         object-fit: cover !important;
+        border-radius: 50% !important;
       }
     `;
     document.head.appendChild(style);
 
-    // Add observer to replace logo when chat widget loads
+    // Add observer to replace elements when chat widget loads
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
-          // Look for any images in the chat widget and replace if they appear to be logos
+          // Replace toggle button background
+          const toggleButtons = document.querySelectorAll('.n8n-chat [class*="toggle"], .n8n-chat button[class*="chat"]');
+          toggleButtons.forEach((btn) => {
+            if (btn instanceof HTMLElement) {
+              btn.style.backgroundImage = `url('${mascotImage}')`;
+              btn.style.backgroundSize = 'cover';
+              btn.style.backgroundPosition = 'center';
+              btn.style.borderRadius = '50%';
+            }
+          });
+          
+          // Replace images in the chat widget
           const chatWidget = document.querySelector('#n8n-chat');
           if (chatWidget) {
             const images = chatWidget.querySelectorAll('img');
             images.forEach((img) => {
-              // Check if image is likely a logo based on size or position in header
+              // Check if image is in header or is a small logo-like image
               const isInHeader = img.closest('[class*="header"]') || img.closest('[class*="title"]') || img.closest('[class*="brand"]');
-              const isSmallImage = img.width <= 50 && img.height <= 50;
+              const isSmallImage = img.naturalWidth <= 50 && img.naturalHeight <= 50;
+              const isLogo = img.src.includes('logo') || img.alt.toLowerCase().includes('logo');
               
-              if (isInHeader || isSmallImage) {
+              if (isInHeader || isSmallImage || isLogo) {
                 img.src = mascotImage;
                 img.alt = 'Maatje';
+                img.style.borderRadius = '50%';
+                img.style.objectFit = 'cover';
               }
             });
           }
