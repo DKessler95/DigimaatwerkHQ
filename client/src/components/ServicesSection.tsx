@@ -62,15 +62,7 @@ const ServicesSection = () => {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
                 <div className="relative z-10 flex flex-col flex-grow">
                   <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center mb-6">
-                    {service.icon === "ri-robot-line" ? (
-                      <img 
-                        src={mascotImage} 
-                        alt="Maatje Mascot" 
-                        className="w-10 h-10 object-contain"
-                      />
-                    ) : (
-                      <i className={`${service.icon} text-2xl text-accent`}></i>
-                    )}
+                    <i className={`${service.icon} text-2xl text-accent`}></i>
                   </div>
                   <h3 className="text-xl font-header font-semibold mb-3">{t(service.titleKey)}</h3>
                   <p className="text-foreground/70 mb-4">{t(service.descriptionKey)}</p>

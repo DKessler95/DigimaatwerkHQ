@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import '@n8n/chat/style.css';
 import { createChat } from '@n8n/chat';
+import mascotImage from '@assets/mascot_1750294453535.png';
 
 export function N8nChatWidget() {
   useEffect(() => {
@@ -16,6 +17,7 @@ export function N8nChatWidget() {
       mode: 'window',
       showWelcomeScreen: false,
       defaultLanguage: 'en',
+      chatBotAvatar: mascotImage,
       initialMessages: [
         'Welkom bij Digimaatwerk! 👋',
         'Ik ben Maatje, uw digitale assistent. Hoe kan ik u vandaag helpen met uw digitale transformatie?'
