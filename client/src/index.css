@@ -25,6 +25,32 @@
   }
 }
 
+@layer components {
+  .hero-section {
+    min-height: 80vh;
+  }
+  
+  /* Responsive height adjustments */
+  @media (max-width: 1024px) {
+    .hero-section {
+      min-height: 90vh;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-section {
+      min-height: 100vh;
+    }
+  }
+  
+  /* Specific fix for problematic 1022px breakpoint */
+  @media (min-width: 1020px) and (max-width: 1025px) {
+    .hero-section {
+      min-height: 95vh;
+    }
+  }
+}
+
 /* Digimaatwerk Chat Widget Theme Matching */
 :root {
   /* Digimaatwerk brand colors */

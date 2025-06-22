@@ -5,7 +5,7 @@ const HeroSection = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="hero-section relative min-h-[100vh] overflow-hidden">
+    <section className="hero-section relative overflow-hidden">
       {/* Background Animation */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-accent/30 blur-3xl animate-pulse"></div>
@@ -14,7 +14,7 @@ const HeroSection = () => {
       </div>
       
       {/* Content Container */}
-      <div className="relative z-10 min-h-[100vh] flex flex-col justify-start items-center px-4 sm:px-6 lg:px-8 pt-24 md:pt-32 pb-16">
+      <div className="relative z-10 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 py-24 md:py-32">
         {/* Main Content */}
         <div className="text-center max-w-4xl mb-16 md:mb-20">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-header font-bold mb-4 md:mb-6 text-foreground">
