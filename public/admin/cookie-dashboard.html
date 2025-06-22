@@ -298,6 +298,7 @@
         let currentStats = null;
 
         async function loadDashboard() {
+            console.log('Loading dashboard...');
             try {
                 const params = new URLSearchParams();
                 const startDate = document.getElementById('startDate').value;
@@ -306,14 +307,20 @@
                 if (startDate) params.append('startDate', startDate);
                 if (endDate) params.append('endDate', endDate);
 
+                console.log('Fetching cookie stats from:', `/api/admin/cookie-stats?${params}`);
                 const response = await fetch(`/api/admin/cookie-stats?${params}`);
+                console.log('Response status:', response.status);
+                
                 const data = await response.json();
+                console.log('Response data:', data);
 
                 if (!data.success) {
                     throw new Error(data.error || 'Failed to load data');
                 }
 
                 currentStats = data.data;
+                console.log('Stats loaded:', currentStats);
+                
                 updateStatsCards(currentStats.consent);
                 updateCharts(currentStats);
                 await loadGdprRequests();
@@ -321,6 +328,8 @@
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('error').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
+                
+                console.log('Dashboard loaded successfully');
             } catch (error) {
                 console.error('Dashboard error:', error);
                 document.getElementById('loading').style.display = 'none';
@@ -512,6 +521,8 @@
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing cookie dashboard...');
+            
             // Set default date range (last 30 days)
             const endDate = new Date();
             const startDate = new Date();
@@ -520,6 +531,7 @@
             document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
             document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
             
+            console.log('Date range set, loading dashboard...');
             loadDashboard();
         });
 

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Analytics Dashboard - Digimaatwerk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .stat-number {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .stat-percentage {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .section h2 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .event-list {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .event-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .event-name {
+            color: white;
+            font-weight: 500;
+        }
+        
+        .event-count {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 50px;
+        }
+        
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fecaca;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .controls input, .controls button {
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .controls button {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .controls button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/admin" class="back-link">← Terug naar Admin Dashboard</a>
+        
+        <div class="header">
+            <h1>🍪 Cookie Analytics Dashboard</h1>
+            <p>Real-time GDPR compliance tracking en cookie consent analytics</p>
+        </div>
+
+        <div class="controls">
+            <input type="date" id="startDate">
+            <input type="date" id="endDate">
+            <button onclick="applyDateFilter()">Filter toepassen</button>
+            <button onclick="resetDateFilter()">Reset</button>
+            <button onclick="loadDashboard()">Vernieuwen</button>
+        </div>
+
+        <div id="loading" class="loading">Analytics gegevens laden...</div>
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="dashboard" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Totaal Cookie Consents</h3>
+                    <div class="stat-number" id="totalConsents">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Analytics Toegestaan</h3>
+                    <div class="stat-number" id="analyticsConsents">0</div>
+                    <div class="stat-percentage" id="analyticsPercentage">0%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Marketing Toegestaan</h3>
+                    <div class="stat-number" id="marketingConsents">0</div>
+                    <div class="stat-percentage" id="marketingPercentage">0%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Voorkeuren Toegestaan</h3>
+                    <div class="stat-number" id="preferencesConsents">0</div>
+                    <div class="stat-percentage" id="preferencesPercentage">0%</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Cookie Events</h2>
+                <div id="eventsList" class="event-list">
+                    <!-- Events will be loaded here -->
+                </div>
+            </div>
+
+            <div class="section" id="gdprSection">
+                <h2>GDPR Verzoeken</h2>
+                <div id="gdprRequests">
+                    <!-- GDPR requests will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStats = null;
+
+        async function loadDashboard() {
+            const loadingDiv = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+            const dashboardDiv = document.getElementById('dashboard');
+            
+            loadingDiv.style.display = 'block';
+            errorDiv.style.display = 'none';
+            dashboardDiv.style.display = 'none';
+            
+            try {
+                const params = new URLSearchParams();
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                
+                if (startDate) params.append('startDate', startDate);
+                if (endDate) params.append('endDate', endDate);
+
+                const response = await fetch(`/api/admin/cookie-stats?${params}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to load data');
+                }
+
+                currentStats = data.data;
+                updateStatsCards(currentStats.consent);
+                updateEventsList(currentStats.analytics);
+                await loadGdprRequests();
+
+                loadingDiv.style.display = 'none';
+                dashboardDiv.style.display = 'block';
+                
+            } catch (error) {
+                console.error('Dashboard error:', error);
+                loadingDiv.style.display = 'none';
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = `Fout bij laden van data: ${error.message}`;
+            }
+        }
+
+        function updateStatsCards(consentStats) {
+            document.getElementById('totalConsents').textContent = consentStats.total || 0;
+            document.getElementById('analyticsConsents').textContent = consentStats.analytics?.count || 0;
+            document.getElementById('analyticsPercentage').textContent = 
+                `${Math.round(consentStats.analytics?.percentage || 0)}%`;
+            document.getElementById('marketingConsents').textContent = consentStats.marketing?.count || 0;
+            document.getElementById('marketingPercentage').textContent = 
+                `${Math.round(consentStats.marketing?.percentage || 0)}%`;
+            document.getElementById('preferencesConsents').textContent = consentStats.preferences?.count || 0;
+            document.getElementById('preferencesPercentage').textContent = 
+                `${Math.round(consentStats.preferences?.percentage || 0)}%`;
+        }
+
+        function updateEventsList(analyticsStats) {
+            const container = document.getElementById('eventsList');
+            const eventTypes = analyticsStats.eventTypes || {};
+            
+            const translations = {
+                'banner_shown': 'Banner Getoond',
+                'settings_opened': 'Instellingen Geopend',
+                'consent_given': 'Consent Gegeven',
+                'consent_updated': 'Consent Bijgewerkt'
+            };
+            
+            if (Object.keys(eventTypes).length === 0) {
+                container.innerHTML = '<p style="color: rgba(255, 255, 255, 0.7);">Geen events gevonden.</p>';
+                return;
+            }
+            
+            container.innerHTML = Object.entries(eventTypes).map(([type, count]) => `
+                <div class="event-item">
+                    <span class="event-name">${translations[type] || type}</span>
+                    <span class="event-count">${count}</span>
+                </div>
+            `).join('');
+        }
+
+        async function loadGdprRequests() {
+            try {
+                const response = await fetch('/api/admin/gdpr-requests');
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to load GDPR requests');
+                }
+
+                const container = document.getElementById('gdprRequests');
+                
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="color: rgba(255, 255, 255, 0.7);">Geen GDPR verzoeken gevonden.</p>';
+                    return;
+                }
+
+                const statusLabels = {
+                    'pending': 'In behandeling',
+                    'processing': 'Wordt verwerkt',
+                    'completed': 'Voltooid',
+                    'rejected': 'Afgewezen'
+                };
+
+                const typeLabels = {
+                    'access': 'Toegang',
+                    'delete': 'Verwijdering',
+                    'portability': 'Portabiliteit',
+                    'rectification': 'Rectificatie'
+                };
+
+                container.innerHTML = data.data.map(request => `
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: white; font-weight: 500;">${typeLabels[request.requestType] || request.requestType}</span>
+                            <span style="color: rgba(255, 255, 255, 0.8);">${statusLabels[request.status] || request.status}</span>
+                        </div>
+                        <div style="color: rgba(255, 255, 255, 0.8); font-size: 14px;">
+                            <strong>${request.firstName} ${request.lastName}</strong> (${request.email})<br>
+                            Ingediend: ${new Date(request.submittedAt).toLocaleDateString('nl-NL')}<br>
+                            ${request.requestDetails ? `Details: ${request.requestDetails}` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('GDPR requests error:', error);
+                document.getElementById('gdprRequests').innerHTML = 
+                    '<p style="color: #fecaca;">Fout bij laden van GDPR verzoeken.</p>';
+            }
+        }
+
+        function applyDateFilter() {
+            loadDashboard();
+        }
+
+        function resetDateFilter() {
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            loadDashboard();
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default date range (last 30 days)
+            const endDate = new Date();
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 30);
+            
+            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+            
+            loadDashboard();
+        });
+
+        // Auto-refresh every 5 minutes
+        setInterval(loadDashboard, 5 * 60 * 1000);
+    </script>
+</body>
+</html>
