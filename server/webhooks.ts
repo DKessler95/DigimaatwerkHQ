@@ -93,10 +93,10 @@ async function dispatchWebhooks(eventType: string, data: any) {
           duration
         });
         
-        // Update last triggered timestamp
+        // Update last triggered timestamp - direct database update
         await storage.updateWebhook(webhook.id, { 
           lastTriggeredAt: new Date() 
-        });
+        } as any);
         
         console.log(`[Webhook] Success: ${webhook.name} (${response.status}) in ${duration}ms`);
         
@@ -154,13 +154,15 @@ export const setupWebhookRoutes = (app: Express) => {
       const validatedData = webhookChatSchema.parse(req.body);
       const message = await storage.createChatMessage(validatedData);
       
+      // Dispatch to dynamic webhooks
+      await dispatchWebhooks('chat_message', message);
+      
       res.status(200).json({ 
         success: true, 
         data: message,
         message: 'Chat message successfully processed' 
       });
       
-      // Log voor debugging
       console.log(`[Webhook] Chat message processed: ${message.id}`);
     } catch (error: any) {
       console.error('[Webhook Error] Chat message:', error);
@@ -176,13 +178,15 @@ export const setupWebhookRoutes = (app: Express) => {
       const validatedData = webhookEstimateSchema.parse(req.body);
       const estimate = await storage.createProjectEstimate(validatedData);
       
+      // Dispatch to dynamic webhooks
+      await dispatchWebhooks('project_estimate', estimate);
+      
       res.status(200).json({ 
         success: true, 
         data: estimate,
         message: 'Project estimate successfully processed' 
       });
       
-      // Log voor debugging
       console.log(`[Webhook] Project estimate processed: ${estimate.id}`);
     } catch (error: any) {
       console.error('[Webhook Error] Project estimate:', error);

@@ -156,7 +156,7 @@ export class DatabaseStorage implements IStorage {
     return newWebhook;
   }
   
-  async updateWebhook(id: number, webhook: Partial<InsertWebhook>): Promise<Webhook> {
+  async updateWebhook(id: number, webhook: Partial<InsertWebhook & { lastTriggeredAt?: Date }>): Promise<Webhook> {
     const [updatedWebhook] = await db
       .update(webhooks)
       .set(webhook)

@@ -1,425 +1,393 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webhook Management - Digimaatwerk CMS</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <style>
-        .success { color: #10b981; }
-        .error { color: #ef4444; }
-        .warning { color: #f59e0b; }
-        
-        .status-active { 
-            background-color: #10b981; 
-            color: white; 
-            padding: 2px 8px; 
-            border-radius: 4px; 
-            font-size: 12px; 
+    <title>Webhook Management - Digimaatwerk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#F59E0B'
+                    }
+                }
+            }
         }
-        
-        .status-inactive { 
-            background-color: #6b7280; 
-            color: white; 
-            padding: 2px 8px; 
-            border-radius: 4px; 
-            font-size: 12px; 
-        }
-    </style>
+    </script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-50">
     <div class="min-h-screen">
         <!-- Header -->
-        <header class="bg-white shadow">
+        <header class="bg-white shadow-sm border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center py-6">
-                    <div class="flex items-center">
-                        <h1 class="text-3xl font-bold text-gray-900">Webhook Management</h1>
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <h1 class="text-2xl font-bold text-gray-900">Webhook Management</h1>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Admin Panel</span>
                     </div>
-                    <nav class="flex space-x-4">
-                        <a href="/admin/dashboard.html" class="text-gray-600 hover:text-gray-900">Dashboard</a>
-                        <a href="/admin/integrations.html" class="text-gray-600 hover:text-gray-900">Integraties</a>
-                        <a href="/admin/webhooks.html" class="text-blue-600 font-medium">Webhooks</a>
-                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <a href="/admin" class="text-gray-600 hover:text-gray-900">← Back to CMS</a>
+                        <button id="refreshBtn" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm">
+                            Refresh
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <!-- Quick Actions -->
-            <div class="bg-white overflow-hidden shadow rounded-lg mb-6">
-                <div class="px-4 py-5 sm:p-6">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Webhook Overzicht</h3>
-                        <button onclick="showCreateModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-                            Nieuwe Webhook
-                        </button>
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-blue-100 rounded-lg">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Total Webhooks</p>
+                            <p class="text-2xl font-bold text-gray-900" id="totalWebhooks">-</p>
+                        </div>
                     </div>
-                    <p class="mt-1 text-sm text-gray-500">
-                        Beheer je webhook integraties voor n8n, Make.com en andere diensten.
-                    </p>
                 </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-green-100 rounded-lg">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Active</p>
+                            <p class="text-2xl font-bold text-gray-900" id="activeWebhooks">-</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-yellow-100 rounded-lg">
+                            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 19c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Failed</p>
+                            <p class="text-2xl font-bold text-gray-900" id="failedWebhooks">-</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-purple-100 rounded-lg">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h4a1 1 0 011 1v2m0 0h4a2 2 0 012 2v2M7 4H3a2 2 0 00-2 2v2m14 0v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8m14 0V6a2 2 0 00-2-2h-4"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Event Types</p>
+                            <p class="text-2xl font-bold text-gray-900" id="eventTypes">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Webhook Button -->
+            <div class="mb-6">
+                <button id="addWebhookBtn" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">
+                    + Add New Webhook
+                </button>
             </div>
 
             <!-- Webhooks Table -->
-            <div class="bg-white shadow overflow-hidden sm:rounded-md">
-                <div class="px-4 py-5 sm:px-6">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Actieve Webhooks</h3>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-lg font-medium text-gray-900">Webhooks</h2>
                 </div>
-                <ul id="webhooksList" class="divide-y divide-gray-200">
-                    <!-- Webhooks will be loaded here -->
-                </ul>
-            </div>
-
-            <!-- Webhook Logs -->
-            <div class="bg-white shadow overflow-hidden sm:rounded-md mt-6">
-                <div class="px-4 py-5 sm:px-6">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Recente Webhook Logs</h3>
-                </div>
-                <div id="webhookLogs" class="overflow-x-auto">
-                    <!-- Logs will be loaded here -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">URL</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Type</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Triggered</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="webhooksTable" class="bg-white divide-y divide-gray-200">
+                            <!-- Webhooks will be loaded here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Create/Edit Webhook Modal -->
-    <div id="webhookModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="mt-3">
-                <h3 class="text-lg font-medium text-gray-900 mb-4" id="modalTitle">Nieuwe Webhook</h3>
-                <form id="webhookForm">
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Naam</label>
-                        <input type="text" id="webhookName" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border">
+    <!-- Add/Edit Webhook Modal -->
+    <div id="webhookModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900" id="modalTitle">Add New Webhook</h3>
+                </div>
+                <form id="webhookForm" class="p-6 space-y-4">
+                    <input type="hidden" id="webhookId" />
+                    
+                    <div>
+                        <label for="webhookName" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="webhookName" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">URL</label>
-                        <input type="url" id="webhookUrl" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border">
+                    <div>
+                        <label for="webhookUrl" class="block text-sm font-medium text-gray-700">URL</label>
+                        <input type="url" id="webhookUrl" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Event Type</label>
-                        <select id="webhookEventType" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border">
-                            <option value="">Selecteer event type</option>
-                            <option value="contact_form">Contact Formulier</option>
-                            <option value="chat_message">Chat Bericht</option>
-                            <option value="project_estimate">Project Schatting</option>
-                            <option value="content_sync">Content Synchronisatie</option>
-                            <option value="custom">Aangepast</option>
+                    <div>
+                        <label for="webhookEventType" class="block text-sm font-medium text-gray-700">Event Type</label>
+                        <select id="webhookEventType" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Select event type</option>
+                            <option value="contact_form">Contact Form Submission</option>
+                            <option value="chat_message">Chat Message</option>
+                            <option value="project_estimate">Project Estimate</option>
+                            <option value="content_update">Content Update</option>
                         </select>
                     </div>
                     
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Secret Token (optioneel)</label>
-                        <input type="text" id="webhookSecret" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border">
+                    <div>
+                        <label for="webhookSecretToken" class="block text-sm font-medium text-gray-700">Secret Token (Optional)</label>
+                        <input type="text" id="webhookSecretToken" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        <p class="mt-1 text-sm text-gray-500">Used for webhook verification</p>
                     </div>
                     
-                    <div class="mb-4">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="webhookActive" checked class="rounded border-gray-300">
-                            <span class="ml-2 text-sm text-gray-700">Actief</span>
-                        </label>
-                    </div>
-                    
-                    <div class="flex justify-end space-x-3">
-                        <button type="button" onclick="hideModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md text-sm">
-                            Annuleren
-                        </button>
-                        <button type="button" onclick="testWebhook()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm">
-                            Test
-                        </button>
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm">
-                            Opslaan
-                        </button>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="webhookIsActive" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="webhookIsActive" class="ml-2 block text-sm text-gray-900">Active</label>
                     </div>
                 </form>
+                <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                    <button id="cancelBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md">
+                        Cancel
+                    </button>
+                    <button id="saveBtn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+                        Save
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        let editingWebhookId = null;
+        class WebhookManager {
+            constructor() {
+                this.webhooks = [];
+                this.init();
+            }
 
-        // Load webhooks on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadWebhooks();
-            loadWebhookLogs();
-        });
+            init() {
+                this.loadWebhooks();
+                this.bindEvents();
+            }
 
-        async function loadWebhooks() {
-            try {
-                const response = await fetch('/api/webhooks');
-                const data = await response.json();
+            bindEvents() {
+                document.getElementById('addWebhookBtn').addEventListener('click', () => this.showModal());
+                document.getElementById('cancelBtn').addEventListener('click', () => this.hideModal());
+                document.getElementById('saveBtn').addEventListener('click', () => this.saveWebhook());
+                document.getElementById('refreshBtn').addEventListener('click', () => this.loadWebhooks());
                 
-                if (data.success) {
-                    displayWebhooks(data.data);
-                } else {
-                    console.error('Failed to load webhooks:', data.message);
+                // Close modal on backdrop click
+                document.getElementById('webhookModal').addEventListener('click', (e) => {
+                    if (e.target === e.currentTarget) this.hideModal();
+                });
+            }
+
+            async loadWebhooks() {
+                try {
+                    const response = await fetch('/api/webhooks');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.webhooks = data.data;
+                        this.renderWebhooks();
+                        this.updateStats();
+                    }
+                } catch (error) {
+                    console.error('Failed to load webhooks:', error);
                 }
-            } catch (error) {
-                console.error('Error loading webhooks:', error);
-            }
-        }
-
-        function displayWebhooks(webhooks) {
-            const list = document.getElementById('webhooksList');
-            
-            if (!webhooks || webhooks.length === 0) {
-                list.innerHTML = `
-                    <li class="px-4 py-4">
-                        <p class="text-sm text-gray-500">Geen webhooks gevonden. Maak je eerste webhook aan!</p>
-                    </li>
-                `;
-                return;
             }
 
-            list.innerHTML = webhooks.map(webhook => `
-                <li class="px-4 py-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <span class="${webhook.isActive ? 'status-active' : 'status-inactive'}">
-                                    ${webhook.isActive ? 'Actief' : 'Inactief'}
-                                </span>
-                            </div>
-                            <div class="ml-4">
-                                <div class="text-sm font-medium text-gray-900">${webhook.name}</div>
-                                <div class="text-sm text-gray-500">${webhook.eventType} → ${webhook.url}</div>
-                                ${webhook.lastTriggeredAt ? 
-                                    `<div class="text-xs text-gray-400">Laatst gebruikt: ${new Date(webhook.lastTriggeredAt).toLocaleString()}</div>` : 
-                                    '<div class="text-xs text-gray-400">Nog niet gebruikt</div>'
-                                }
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="testWebhookById(${webhook.id})" class="text-yellow-600 hover:text-yellow-900 text-sm">
-                                Test
-                            </button>
-                            <button onclick="editWebhook(${webhook.id})" class="text-blue-600 hover:text-blue-900 text-sm">
-                                Bewerken
-                            </button>
-                            <button onclick="deleteWebhook(${webhook.id})" class="text-red-600 hover:text-red-900 text-sm">
-                                Verwijderen
-                            </button>
-                        </div>
-                    </div>
-                </li>
-            `).join('');
-        }
+            renderWebhooks() {
+                const tbody = document.getElementById('webhooksTable');
+                tbody.innerHTML = '';
 
-        async function loadWebhookLogs() {
-            try {
-                const response = await fetch('/api/webhooks/logs?limit=10');
-                const data = await response.json();
-                
-                if (data.success && data.data.length > 0) {
-                    displayWebhookLogs(data.data);
-                } else {
-                    document.getElementById('webhookLogs').innerHTML = `
-                        <div class="px-4 py-4">
-                            <p class="text-sm text-gray-500">Geen recente logs gevonden.</p>
-                        </div>
+                this.webhooks.forEach(webhook => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${webhook.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 max-w-xs truncate">${webhook.url}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">${webhook.eventType}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${webhook.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                ${webhook.isActive ? 'Active' : 'Inactive'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            ${webhook.lastTriggeredAt ? new Date(webhook.lastTriggeredAt).toLocaleDateString() : 'Never'}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <button onclick="webhookManager.editWebhook(${webhook.id})" class="text-blue-600 hover:text-blue-900">Edit</button>
+                            <button onclick="webhookManager.testWebhook(${webhook.id})" class="text-green-600 hover:text-green-900">Test</button>
+                            <button onclick="webhookManager.deleteWebhook(${webhook.id})" class="text-red-600 hover:text-red-900">Delete</button>
+                        </td>
                     `;
-                }
-            } catch (error) {
-                console.error('Error loading webhook logs:', error);
-            }
-        }
-
-        function displayWebhookLogs(logs) {
-            const container = document.getElementById('webhookLogs');
-            
-            container.innerHTML = `
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timestamp</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duur</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        ${logs.map(log => `
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    ${new Date(log.triggeredAt).toLocaleString()}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${log.eventType}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="${log.responseStatus && log.responseStatus < 300 ? 'success' : 'error'} text-sm">
-                                        ${log.responseStatus || 'Error'}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    ${log.duration ? log.duration + 'ms' : '-'}
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        function showCreateModal() {
-            editingWebhookId = null;
-            document.getElementById('modalTitle').textContent = 'Nieuwe Webhook';
-            document.getElementById('webhookForm').reset();
-            document.getElementById('webhookActive').checked = true;
-            document.getElementById('webhookModal').classList.remove('hidden');
-        }
-
-        function hideModal() {
-            document.getElementById('webhookModal').classList.add('hidden');
-            editingWebhookId = null;
-        }
-
-        async function editWebhook(id) {
-            try {
-                const response = await fetch(`/api/webhooks/${id}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    const webhook = data.data;
-                    editingWebhookId = id;
-                    
-                    document.getElementById('modalTitle').textContent = 'Webhook Bewerken';
-                    document.getElementById('webhookName').value = webhook.name;
-                    document.getElementById('webhookUrl').value = webhook.url;
-                    document.getElementById('webhookEventType').value = webhook.eventType;
-                    document.getElementById('webhookSecret').value = webhook.secretToken || '';
-                    document.getElementById('webhookActive').checked = webhook.isActive;
-                    
-                    document.getElementById('webhookModal').classList.remove('hidden');
-                }
-            } catch (error) {
-                console.error('Error loading webhook:', error);
-                alert('Fout bij het laden van webhook gegevens');
-            }
-        }
-
-        document.getElementById('webhookForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('webhookName').value,
-                url: document.getElementById('webhookUrl').value,
-                eventType: document.getElementById('webhookEventType').value,
-                secretToken: document.getElementById('webhookSecret').value || null,
-                isActive: document.getElementById('webhookActive').checked
-            };
-
-            try {
-                const url = editingWebhookId ? `/api/webhooks/${editingWebhookId}` : '/api/webhooks';
-                const method = editingWebhookId ? 'PUT' : 'POST';
-                
-                const response = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
+                    tbody.appendChild(row);
                 });
+            }
 
-                const data = await response.json();
+            updateStats() {
+                const total = this.webhooks.length;
+                const active = this.webhooks.filter(w => w.isActive).length;
+                const failed = this.webhooks.filter(w => w.failureCount > 0).length;
+                const eventTypes = new Set(this.webhooks.map(w => w.eventType)).size;
+
+                document.getElementById('totalWebhooks').textContent = total;
+                document.getElementById('activeWebhooks').textContent = active;
+                document.getElementById('failedWebhooks').textContent = failed;
+                document.getElementById('eventTypes').textContent = eventTypes;
+            }
+
+            showModal(webhook = null) {
+                const modal = document.getElementById('webhookModal');
+                const title = document.getElementById('modalTitle');
                 
-                if (data.success) {
-                    hideModal();
-                    loadWebhooks();
-                    alert(editingWebhookId ? 'Webhook bijgewerkt!' : 'Webhook aangemaakt!');
+                if (webhook) {
+                    title.textContent = 'Edit Webhook';
+                    this.populateForm(webhook);
                 } else {
-                    alert('Fout: ' + data.message);
+                    title.textContent = 'Add New Webhook';
+                    this.clearForm();
                 }
-            } catch (error) {
-                console.error('Error saving webhook:', error);
-                alert('Fout bij het opslaan van webhook');
-            }
-        });
-
-        async function deleteWebhook(id) {
-            if (!confirm('Weet je zeker dat je deze webhook wilt verwijderen?')) {
-                return;
-            }
-
-            try {
-                const response = await fetch(`/api/webhooks/${id}`, {
-                    method: 'DELETE'
-                });
-
-                const data = await response.json();
                 
-                if (data.success) {
-                    loadWebhooks();
-                    alert('Webhook verwijderd!');
-                } else {
-                    alert('Fout: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Error deleting webhook:', error);
-                alert('Fout bij het verwijderen van webhook');
-            }
-        }
-
-        async function testWebhook() {
-            const url = document.getElementById('webhookUrl').value;
-            const eventType = document.getElementById('webhookEventType').value;
-            
-            if (!url || !eventType) {
-                alert('Vul eerst de URL en event type in');
-                return;
+                modal.classList.remove('hidden');
             }
 
-            await testWebhookUrl(url, eventType);
-        }
+            hideModal() {
+                document.getElementById('webhookModal').classList.add('hidden');
+            }
 
-        async function testWebhookById(id) {
-            try {
-                const response = await fetch(`/api/webhooks/${id}/test`, {
-                    method: 'POST'
-                });
+            populateForm(webhook) {
+                document.getElementById('webhookId').value = webhook.id;
+                document.getElementById('webhookName').value = webhook.name;
+                document.getElementById('webhookUrl').value = webhook.url;
+                document.getElementById('webhookEventType').value = webhook.eventType;
+                document.getElementById('webhookSecretToken').value = webhook.secretToken || '';
+                document.getElementById('webhookIsActive').checked = webhook.isActive;
+            }
 
-                const data = await response.json();
+            clearForm() {
+                document.getElementById('webhookId').value = '';
+                document.getElementById('webhookName').value = '';
+                document.getElementById('webhookUrl').value = '';
+                document.getElementById('webhookEventType').value = '';
+                document.getElementById('webhookSecretToken').value = '';
+                document.getElementById('webhookIsActive').checked = true;
+            }
+
+            async saveWebhook() {
+                const form = document.getElementById('webhookForm');
+                const formData = new FormData(form);
                 
-                if (data.success) {
-                    alert(`Webhook test succesvol! Status: ${data.status}, Tijd: ${data.duration}ms`);
-                } else {
-                    alert('Webhook test gefaald: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Error testing webhook:', error);
-                alert('Fout bij het testen van webhook');
-            }
-        }
-
-        async function testWebhookUrl(url, eventType) {
-            try {
-                const testPayload = {
-                    test: true,
-                    eventType: eventType,
-                    timestamp: new Date().toISOString(),
-                    data: { message: 'Dit is een test bericht van Digimaatwerk CMS' }
+                const webhookData = {
+                    name: document.getElementById('webhookName').value,
+                    url: document.getElementById('webhookUrl').value,
+                    eventType: document.getElementById('webhookEventType').value,
+                    secretToken: document.getElementById('webhookSecretToken').value || null,
+                    isActive: document.getElementById('webhookIsActive').checked
                 };
 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(testPayload)
-                });
+                const webhookId = document.getElementById('webhookId').value;
+                const isEdit = !!webhookId;
 
-                if (response.ok) {
-                    alert(`Webhook test succesvol! Status: ${response.status}`);
-                } else {
-                    alert(`Webhook test gefaald. Status: ${response.status}`);
+                try {
+                    const response = await fetch(isEdit ? `/api/webhooks/${webhookId}` : '/api/webhooks', {
+                        method: isEdit ? 'PUT' : 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(webhookData)
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.hideModal();
+                        this.loadWebhooks();
+                    } else {
+                        alert('Failed to save webhook: ' + result.message);
+                    }
+                } catch (error) {
+                    alert('Failed to save webhook: ' + error.message);
                 }
-            } catch (error) {
-                console.error('Error testing webhook:', error);
-                alert('Fout bij het testen van webhook: ' + error.message);
+            }
+
+            editWebhook(id) {
+                const webhook = this.webhooks.find(w => w.id === id);
+                if (webhook) {
+                    this.showModal(webhook);
+                }
+            }
+
+            async testWebhook(id) {
+                try {
+                    const response = await fetch(`/api/webhooks/${id}/test`, {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('Webhook test successful!');
+                    } else {
+                        alert('Webhook test failed: ' + result.message);
+                    }
+                } catch (error) {
+                    alert('Webhook test failed: ' + error.message);
+                }
+            }
+
+            async deleteWebhook(id) {
+                if (!confirm('Are you sure you want to delete this webhook?')) {
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/webhooks/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.loadWebhooks();
+                    } else {
+                        alert('Failed to delete webhook: ' + result.message);
+                    }
+                } catch (error) {
+                    alert('Failed to delete webhook: ' + error.message);
+                }
             }
         }
+
+        // Initialize the webhook manager
+        const webhookManager = new WebhookManager();
     </script>
 </body>
 </html>
