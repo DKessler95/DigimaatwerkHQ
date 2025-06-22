@@ -63,6 +63,17 @@ export function N8nChatWidget() {
         border-radius: 50% !important;
         width: 60px !important;
         height: 60px !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+      }
+      
+      /* Smooth hover effect for toggle button */
+      .n8n-chat button[class*="toggle"]:hover,
+      .n8n-chat [class*="toggle"]:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        background-image: url('${mascotImage}') !important;
+        background-size: cover !important;
+        background-position: center !important;
       }
       
       /* Hide original toggle button content */
@@ -103,15 +114,28 @@ export function N8nChatWidget() {
           (img as HTMLImageElement).style.height = '40px';
         });
         
-        // Style toggle button with Maatje background
+        // Style toggle button with Maatje background and smooth transitions
         const toggleButtons = chatWidget.querySelectorAll('button[class*="toggle"], [class*="toggle"]');
         toggleButtons.forEach(btn => {
-          (btn as HTMLElement).style.backgroundImage = `url('${mascotImage}')`;
-          (btn as HTMLElement).style.backgroundSize = 'cover';
-          (btn as HTMLElement).style.backgroundPosition = 'center';
-          (btn as HTMLElement).style.borderRadius = '50%';
-          (btn as HTMLElement).style.width = '60px';
-          (btn as HTMLElement).style.height = '60px';
+          const button = btn as HTMLElement;
+          button.style.backgroundImage = `url('${mascotImage}')`;
+          button.style.backgroundSize = 'cover';
+          button.style.backgroundPosition = 'center';
+          button.style.borderRadius = '50%';
+          button.style.width = '60px';
+          button.style.height = '60px';
+          button.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+          
+          // Ensure hover effects work properly
+          button.addEventListener('mouseenter', () => {
+            button.style.transform = 'scale(1.05)';
+            button.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+          });
+          
+          button.addEventListener('mouseleave', () => {
+            button.style.transform = 'scale(1)';
+            button.style.boxShadow = 'none';
+          });
         });
       }
     };
