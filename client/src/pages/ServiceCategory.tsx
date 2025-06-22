@@ -54,10 +54,9 @@ const ServiceCategory = () => {
         };
       case 'web-development':
         return {
-          title: 'Webontwikkeling',
-          subtitle: 'Moderne websites en applicaties',
-          description: `Van responsive websites tot complexe webapplicaties, wij bouwen digitale oplossingen die indruk maken. 
-          Met een focus op gebruikerservaring, performance en schaalbaarheid creëren we platforms die uw bedrijf helpen groeien.`,
+          title: t('service.web.title'),
+          subtitle: t('service.web.subtitle'),
+          description: t('service.web.description'),
           features: [
             'Mobiel-vriendelijk ontwerp voor alle apparaten',
             'Zoekmachinevriendelijke structuur (SEO)',
@@ -70,12 +69,9 @@ const ServiceCategory = () => {
         };
       case 'microsoft-365':
         return {
-          title: 'Microsoft 365 & Modern Workplace',
-          subtitle: 'Toekomstbestendige cloudoplossingen voor uw organisatie',
-          description: `Transformeer uw werkplek met Microsoft 365 en geavanceerde AI-integratie. 
-          Wij helpen organisaties bij het implementeren van moderne werkplekoplossingen die productiviteit verhogen, 
-          samenwerking verbeteren en enterprise-niveau beveiliging bieden. Van migratie tot optimalisatie, 
-          wij begeleiden uw digitale transformatie.`,
+          title: t('service.microsoft365.title'),
+          subtitle: t('service.microsoft365.subtitle'),
+          description: t('service.microsoft365.description'),
           features: [
             'Microsoft Copilot implementatie en training',
             'Teams Phone en communicatie-oplossingen',

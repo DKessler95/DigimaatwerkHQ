@@ -19,6 +19,7 @@ import MobileMenu from "@/components/MobileMenu";
 import { N8nChatWidget } from "@/components/N8nChatWidget";
 import { CookieConsent } from "@/components/CookieConsent";
 import CodeAnimationLoader from "@/components/CodeAnimationLoader";
+import ChatbotOpener from "@/components/ChatbotOpener";
 import { LanguageProvider } from "@/lib/languageContext";
 
 function Router() {
@@ -81,6 +82,7 @@ function App() {
           <Footer />
           <N8nChatWidget />
           <CookieConsent />
+          <ChatbotOpener />
         </div>
         <Toaster />
       </LanguageProvider>
