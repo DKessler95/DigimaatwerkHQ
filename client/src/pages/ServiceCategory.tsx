@@ -219,6 +219,9 @@ const ServiceCategory = () => {
                     <div className="absolute -bottom-8 -left-8 w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center animate-pulse-slow" style={{ animationDelay: '1.5s' }}>
                       <span className="text-white text-xs font-bold">Power</span>
                     </div>
+                    <div className="absolute -bottom-8 -right-8 w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center animate-pulse-slow" style={{ animationDelay: '2s' }}>
+                      <span className="text-white text-xs font-bold">Azure</span>
+                    </div>
                   </div>
                 )}
                 
