@@ -113,11 +113,7 @@ Conversations are remembered throughout the entire session:
 - **Customer**: "And automation?"
 - **Maatje**: "For automation projects we use different rates..." (understands customer is asking follow-up)
 
-### Multilingual Support
-Maatje communicates fluently in Dutch and English, automatically detecting which language the customer prefers.
 
-### Intelligent Escalation
-For complex questions or when human intervention is required, Maatje automatically switches to the appropriate team member.
 
 ## Measurable Results
 
