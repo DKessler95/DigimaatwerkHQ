@@ -5,7 +5,7 @@ const HeroSection = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="hero-section relative h-[90vh] overflow-hidden">
+    <section className="hero-section relative min-h-[90vh] pb-16 md:pb-8 overflow-hidden">
       {/* Background Animation */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-accent/30 blur-3xl animate-pulse"></div>
@@ -97,8 +97,8 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+      {/* Scroll Indicator - Hidden on mobile */}
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 hidden md:block">
         <a href="#services" className="flex flex-col items-center justify-center text-foreground/70 hover:text-accent transition">
           <span className="text-sm mb-2">{t('hero.cta')}</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
