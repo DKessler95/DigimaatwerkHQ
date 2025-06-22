@@ -76,6 +76,9 @@ const translations: Record<Language, Record<string, string>> = {
     'services.chatbot.bot1': 'Geweldig! We zijn gespecialiseerd in aangepaste AI-chatbots die kunnen helpen bij klantenservice, leadgeneratie en interne processen. Wat is uw belangrijkste doel voor deze chatbot?',
     'services.chatbot.bot2': 'Dat is een goede vraag! Ons team bespreekt dit graag in meer detail met u. Wilt u dat we contact met u opnemen voor een persoonlijke demo?',
     'services.chatbot.placeholder': 'Typ hier uw bericht...',
+    'services.chatbot.meet_maatje': 'Ontmoet Maatje!',
+    'services.chatbot.click_to_chat': 'Klik om te chatten met onze AI-assistent',
+    'services.view_details': 'Bekijk details',
     
     // Case Studies
     'cases.title': 'Projecten',
@@ -213,6 +216,9 @@ const translations: Record<Language, Record<string, string>> = {
     'services.chatbot.bot1': "Great! We specialize in custom AI chatbots that can help with customer service, lead generation, and internal processes. What's your main goal for this chatbot?",
     'services.chatbot.bot2': "That's a great question! Our team would be happy to discuss this in more detail. Would you like us to contact you for a personalized demo?",
     'services.chatbot.placeholder': 'Type your message here...',
+    'services.chatbot.meet_maatje': 'Meet Maatje!',
+    'services.chatbot.click_to_chat': 'Click to chat with our AI assistant',
+    'services.view_details': 'View details',
     
     // Case Studies
     'cases.title': 'Projects',

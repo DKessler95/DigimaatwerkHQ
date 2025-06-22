@@ -79,7 +79,7 @@ const ServicesSection = () => {
                       href={categoryPaths[service.icon as keyof typeof categoryPaths]} 
                       className="inline-flex items-center text-accent group"
                     >
-                      <span className="group-hover:underline">Bekijk details</span>
+                      <span className="group-hover:underline">{t('services.view_details')}</span>
                       <i className="ri-arrow-right-line ml-2 transition-transform group-hover:translate-x-1"></i>
                     </a>
                   </div>
@@ -134,10 +134,10 @@ const ServicesSection = () => {
                       className="w-48 h-48 mx-auto mb-4 object-contain"
                     />
                     <h4 className="text-2xl font-header font-bold text-foreground mb-2">
-                      Ontmoet Maatje!
+                      {t('services.chatbot.meet_maatje')}
                     </h4>
                     <p className="text-foreground/70 text-lg">
-                      Klik om te chatten met onze AI-assistent
+                      {t('services.chatbot.click_to_chat')}
                     </p>
                   </div>
                 </div>
