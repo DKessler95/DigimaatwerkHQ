@@ -86,6 +86,13 @@ const MobileMenu = () => {
               >
                 Webontwikkeling
               </Link>
+              <Link 
+                href="/services/microsoft-365" 
+                className="text-lg text-foreground/80 hover:text-accent transition font-body"
+                onClick={closeMobileMenu}
+              >
+                Microsoft 365
+              </Link>
             </div>
           )}
         </div>
@@ -98,7 +105,7 @@ const MobileMenu = () => {
           {t('header.cases')}
         </Link>
         <a 
-          href="#tech-stack" 
+          href="#testimonials" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
           onClick={handleNavClick}
         >

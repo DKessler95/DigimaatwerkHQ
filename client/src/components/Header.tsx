@@ -77,11 +77,14 @@ const Header = () => {
                   <Link href="/services/web-development" className="block px-4 py-2 text-sm text-foreground/80 hover:bg-accent/10 hover:text-accent">
                     Webontwikkeling
                   </Link>
+                  <Link href="/services/microsoft-365" className="block px-4 py-2 text-sm text-foreground/80 hover:bg-accent/10 hover:text-accent">
+                    Microsoft 365
+                  </Link>
                 </div>
               )}
             </div>
             <Link href="/portfolio" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</Link>
-            <Link href="/#tech-stack" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</Link>
+            <Link href="/#testimonials" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</Link>
             <Link href="/blogs" className="text-foreground/80 hover:text-accent transition font-body">{t('header.blogs')}</Link>
           </nav>
           

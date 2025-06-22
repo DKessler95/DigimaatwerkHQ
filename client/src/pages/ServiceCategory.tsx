@@ -326,119 +326,124 @@ const ServiceCategory = () => {
           </div>
         </div>
         
-        {/* Examples and CTA section */}
-        <div id="examples" className="mb-16">
-          <motion.h2 
-            className="text-3xl font-header font-bold mb-8 text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Voorbeelden & Integraties
-          </motion.h2>
-          
-          <div className="bg-primary/30 backdrop-blur-md p-8 rounded-xl mb-8">
-            <h3 className="text-2xl font-header font-semibold mb-4">Bekijk onze demo</h3>
-            <p className="mb-6">Ontdek hoe onze {details.title} werken in de praktijk. Probeer onze interactieve demo!</p>
-            
-            {/* Example integration showcase based on category */}
-            {category === 'ai-chatbots' && (
-              <div className="border border-accent/20 rounded-xl p-4 bg-secondary/20">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                    <span className="text-accent">🤖</span>
-                  </div>
-                  <h4 className="font-medium">Chatbot Demo</h4>
-                </div>
-                <p className="text-sm text-foreground/70 mb-4">
-                  Onze chatbot kan vragen beantwoorden over uw producten, openingstijden en meer. 
-                  Probeer het met vragen als "Wat zijn jullie diensten?" of "Kan ik een afspraak maken?"
-                </p>
-                <Link href="/#contact" className="text-accent hover:underline">
-                  Probeer onze volledige chatbot demo →
-                </Link>
-              </div>
-            )}
-            
-            {category === 'workflow-automation' && (
-              <div className="border border-accent/20 rounded-xl p-4 bg-secondary/20">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                    <span className="text-accent">⚙️</span>
-                  </div>
-                  <h4 className="font-medium">Automatisering Demo</h4>
-                </div>
-                <p className="text-sm text-foreground/70 mb-4">
-                  Ontdek hoe automatisering uw contactformulier kan verbinden met uw CRM, e-mailmarketing en meer.
-                  Vul ons contactformulier in om de automatisering in actie te zien.
-                </p>
-                <Link href="/#contact" className="text-accent hover:underline">
-                  Bekijk de workflow demo →
-                </Link>
-              </div>
-            )}
-            
-            {category === 'web-development' && (
-              <div className="border border-accent/20 rounded-xl p-4 bg-secondary/20">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                    <span className="text-accent">🌐</span>
-                  </div>
-                  <h4 className="font-medium">Website Demonstratie</h4>
-                </div>
-                <p className="text-sm text-foreground/70 mb-4">
-                  Bekijk onze portfolio van websites en webapplicaties. 
-                  Zie hoe we responsieve ontwerpen maken die er geweldig uitzien op elk apparaat.
-                </p>
-                <Link href="/portfolio" className="text-accent hover:underline">
-                  Bekijk ons portfolio →
-                </Link>
-              </div>
-            )}
-          </div>
-          
-          {/* Integration examples */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <motion.div 
-              className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+        {/* Examples and CTA section - only show for non-Microsoft 365 services */}
+        {category !== 'microsoft-365' && (
+          <div id="examples" className="mb-16">
+            <motion.h2 
+              className="text-3xl font-header font-bold mb-8 text-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="font-semibold mb-2">CRM Integratie</h3>
-              <p className="text-sm text-foreground/70">
-                Naadloze verbinding met populaire CRM's zoals Salesforce, HubSpot en Microsoft Dynamics.
-              </p>
-            </motion.div>
+              Voorbeelden & Integraties
+            </motion.h2>
             
-            <motion.div 
-              className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <h3 className="font-semibold mb-2">E-commerce</h3>
-              <p className="text-sm text-foreground/70">
-                Integreer met Shopify, WooCommerce, en andere e-commerce platforms.
-              </p>
-            </motion.div>
+            <div className="bg-primary/30 backdrop-blur-md p-8 rounded-xl mb-8">
+              <h3 className="text-2xl font-header font-semibold mb-4">Bekijk onze demo</h3>
+              <p className="mb-6">Ontdek hoe onze {details.title} werken in de praktijk. Probeer onze interactieve demo!</p>
+              
+              {/* Example integration showcase based on category */}
+              {category === 'ai-chatbots' && (
+                <div className="border border-accent/20 rounded-xl p-4 bg-secondary/20">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                      <span className="text-accent">🤖</span>
+                    </div>
+                    <h4 className="font-medium">Chatbot Demo</h4>
+                  </div>
+                  <p className="text-sm text-foreground/70 mb-4">
+                    Onze chatbot kan vragen beantwoorden over uw producten, openingstijden en meer. 
+                    Probeer het met vragen als "Wat zijn jullie diensten?" of "Kan ik een afspraak maken?"
+                  </p>
+                  <Link href="/#contact" className="text-accent hover:underline">
+                    Probeer onze volledige chatbot demo →
+                  </Link>
+                </div>
+              )}
+              
+              {category === 'workflow-automation' && (
+                <div className="border border-accent/20 rounded-xl p-4 bg-secondary/20">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                      <span className="text-accent">⚙️</span>
+                    </div>
+                    <h4 className="font-medium">Automatisering Demo</h4>
+                  </div>
+                  <p className="text-sm text-foreground/70 mb-4">
+                    Ontdek hoe automatisering uw contactformulier kan verbinden met uw CRM, e-mailmarketing en meer.
+                    Vul ons contactformulier in om de automatisering in actie te zien.
+                  </p>
+                  <Link href="/#contact" className="text-accent hover:underline">
+                    Bekijk de workflow demo →
+                  </Link>
+                </div>
+              )}
+              
+              {category === 'web-development' && (
+                <div className="border border-accent/20 rounded-xl p-4 bg-secondary/20">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                      <span className="text-accent">🌐</span>
+                    </div>
+                    <h4 className="font-medium">Website Demonstratie</h4>
+                  </div>
+                  <p className="text-sm text-foreground/70 mb-4">
+                    Bekijk onze portfolio van websites en webapplicaties. 
+                    Zie hoe we responsieve ontwerpen maken die er geweldig uitzien op elk apparaat.
+                  </p>
+                  <Link href="/portfolio" className="text-accent hover:underline">
+                    Bekijk ons portfolio →
+                  </Link>
+                </div>
+              )}
+            </div>
             
-            <motion.div 
-              className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <h3 className="font-semibold mb-2">API Koppelingen</h3>
-              <p className="text-sm text-foreground/70">
-                Aangepaste API-integraties voor specifieke systemen en applicaties.
-              </p>
-            </motion.div>
-          </div>
+            {/* Integration examples - exclude CRM/E-commerce for Microsoft 365 */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              {category !== 'microsoft-365' && (
+                <>
+                  <motion.div 
+                    className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <h3 className="font-semibold mb-2">CRM Integratie</h3>
+                    <p className="text-sm text-foreground/70">
+                      Naadloze verbinding met populaire CRM's zoals Salesforce, HubSpot en Microsoft Dynamics.
+                    </p>
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                  >
+                    <h3 className="font-semibold mb-2">E-commerce</h3>
+                    <p className="text-sm text-foreground/70">
+                      Integreer met Shopify, WooCommerce, en andere e-commerce platforms.
+                    </p>
+                  </motion.div>
+                </>
+              )}
+              
+              <motion.div 
+                className="bg-secondary/20 backdrop-blur-sm p-6 rounded-xl"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: category === 'microsoft-365' ? 0 : 0.2 }}
+              >
+                <h3 className="font-semibold mb-2">API Koppelingen</h3>
+                <p className="text-sm text-foreground/70">
+                  Aangepaste API-integraties voor specifieke systemen en applicaties.
+                </p>
+              </motion.div>
+            </div>
           
           {/* CTA */}
           <motion.div 
@@ -459,7 +464,27 @@ const ServiceCategory = () => {
               Neem contact op
             </Link>
           </motion.div>
-        </div>
+        )}
+        
+        {/* Contact CTA for all services */}
+        <motion.div 
+          className="bg-accent/10 rounded-xl p-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-2xl md:text-3xl font-header font-bold mb-4">
+            Klaar om te beginnen met {details.title}?
+          </h2>
+          <p className="max-w-2xl mx-auto mb-6">
+            Neem contact met ons op voor een vrijblijvend gesprek over uw project.
+            We denken graag met u mee over de mogelijkheden!
+          </p>
+          <Link href="/#contact" className="inline-block px-8 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
+            Neem contact op
+          </Link>
+        </motion.div>
       </div>
     </div>
   );
