@@ -28,14 +28,13 @@ const ServiceCategory = () => {
           subtitle: t('service.ai.subtitle'),
           description: t('service.ai.description'),
           features: [
-            'Integratie met uw huidige systemen en databases',
-            'Meertalige ondersteuning voor internationale klanten',
-            'Aanpasbare persoonlijkheid en huisstijl',
-            'Gedetailleerde rapportages en inzichten',
-            'Naadloze overdracht naar menselijke medewerkers indien nodig'
+            t('service.ai.features.1'),
+            t('service.ai.features.2'),
+            t('service.ai.features.3'),
+            t('service.ai.features.4'),
+            t('service.ai.features.5')
           ],
-          technicalDetails: `We gebruiken de nieuwste ontwikkelingen in natuurlijke taalverwerking (NLP) en machine learning. 
-          Onze chatbots worden gebouwd met GPT-technologie en kunnen worden geïntegreerd met uw CRM, helpdesk of website.`
+          technicalDetails: t('service.ai.technical')
         };
       case 'workflow-automation':
         return {
@@ -43,14 +42,13 @@ const ServiceCategory = () => {
           subtitle: t('service.automation.subtitle'),
           description: t('service.automation.description'),
           features: [
-            'Visuele workflow-ontwerpen zonder programmeerkennis',
-            'Integratie met bestaande systemen en applicaties',
-            'Real-time monitoring en rapportage',
-            'Schaalbaarheid voor groeiende bedrijven',
-            'Aangepaste triggers en acties'
+            t('service.automation.features.1'),
+            t('service.automation.features.2'),
+            t('service.automation.features.3'),
+            t('service.automation.features.4'),
+            t('service.automation.features.5')
           ],
-          technicalDetails: `We bouwen automatiseringsoplossingen met tools zoals Zapier, Microsoft Power Automate en n8n. 
-          Onze workflows kunnen verbinding maken met honderden populaire applicaties en services.`
+          technicalDetails: t('service.automation.technical')
         };
       case 'web-development':
         return {
@@ -58,14 +56,13 @@ const ServiceCategory = () => {
           subtitle: t('service.web.subtitle'),
           description: t('service.web.description'),
           features: [
-            'Mobiel-vriendelijk ontwerp voor alle apparaten',
-            'Zoekmachinevriendelijke structuur (SEO)',
-            'Snelle laadtijden en optimale performance',
-            'Gebruiksvriendelijk content management',
-            'Veilige betalingsintegraties indien nodig'
+            t('service.web.features.1'),
+            t('service.web.features.2'),
+            t('service.web.features.3'),
+            t('service.web.features.4'),
+            t('service.web.features.5')
           ],
-          technicalDetails: `We werken met moderne technologieën zoals React, Next.js en Node.js. 
-          Voor e-commerce projecten gebruiken we Shopify of WooCommerce, afhankelijk van uw specifieke behoeften.`
+          technicalDetails: t('service.web.technical')
         };
       case 'microsoft-365':
         return {
@@ -73,16 +70,16 @@ const ServiceCategory = () => {
           subtitle: t('service.microsoft365.subtitle'),
           description: t('service.microsoft365.description'),
           features: [
-            'Microsoft Copilot implementatie en training',
-            'Teams Phone en communicatie-oplossingen',
-            'Power Platform automatisering (Power Apps, Power Automate)',
-            'SharePoint en OneDrive optimalisatie',
-            'Advanced Security en Compliance configuratie',
-            'Intune device management en Mobile Device Management',
-            'Exchange Online migratie en beheer',
-            'Azure Active Directory configuratie en SSO'
+            t('service.microsoft365.features.1'),
+            t('service.microsoft365.features.2'),
+            t('service.microsoft365.features.3'),
+            t('service.microsoft365.features.4'),
+            t('service.microsoft365.features.5'),
+            t('service.microsoft365.features.6'),
+            t('service.microsoft365.features.7'),
+            t('service.microsoft365.features.8')
           ],
-          technicalDetails: `Met jarenlange ervaring in de ICT-sector en uitgebreide expertise in Microsoft enterprise werkomgevingen begeleiden wij organisaties bij elke stap van hun digitale transformatie. Onze aanpak bestaat uit een grondige analyse, doordachte migratieplanning, zorgvuldige implementatie en voortdurende optimalisatie van uw Microsoft 365 omgeving. Zo zorgen wij voor een toekomstbestendige, efficiënte en veilige digitale werkplek die aansluit bij uw bedrijfsdoelen.`
+          technicalDetails: t('service.microsoft365.technical')
         };
       default:
         return {

@@ -94,6 +94,38 @@ const translations: Record<Language, Record<string, string>> = {
     'service.microsoft365.subtitle': 'Toekomstbestendige cloudoplossingen voor uw organisatie',
     'service.microsoft365.description': 'Transformeer uw werkplek met Microsoft 365 en geavanceerde AI-integratie. Wij helpen organisaties bij het implementeren van moderne werkplekoplossingen die productiviteit verhogen, samenwerking verbeteren en enterprise-niveau beveiliging bieden. Van migratie tot optimalisatie, wij begeleiden uw digitale transformatie.',
     
+    // Service features and technical details
+    'service.ai.features.1': 'Integratie met uw huidige systemen en databases',
+    'service.ai.features.2': 'Meertalige ondersteuning voor internationale klanten',
+    'service.ai.features.3': 'Aanpasbare persoonlijkheid en huisstijl',
+    'service.ai.features.4': 'Gedetailleerde rapportages en inzichten',
+    'service.ai.features.5': 'Naadloze overdracht naar menselijke medewerkers indien nodig',
+    'service.ai.technical': 'We gebruiken de nieuwste ontwikkelingen in natuurlijke taalverwerking (NLP) en machine learning. Onze chatbots worden gebouwd met GPT-technologie en kunnen worden geïntegreerd met uw CRM, helpdesk of website.',
+    
+    'service.automation.features.1': 'Visuele workflow-ontwerpen zonder programmeerkennis',
+    'service.automation.features.2': 'Integratie met populaire applicaties en services',
+    'service.automation.features.3': 'Real-time monitoring en rapportage',
+    'service.automation.features.4': 'Schaalbaarheid voor groeiende bedrijven',
+    'service.automation.features.5': 'Veilige en betrouwbare uitvoering',
+    'service.automation.technical': 'We bouwen automatiseringsoplossingen met tools zoals Zapier, Microsoft Power Automate en n8n. Onze workflows kunnen verbinding maken met honderden populaire applicaties en services.',
+    
+    'service.web.features.1': 'Mobiel-vriendelijk ontwerp voor alle apparaten',
+    'service.web.features.2': 'Zoekmachinevriendelijke structuur (SEO)',
+    'service.web.features.3': 'Snelle laadtijden en optimale performance',
+    'service.web.features.4': 'Gebruiksvriendelijk content management',
+    'service.web.features.5': 'Veilige betalingsintegraties indien nodig',
+    'service.web.technical': 'We werken met moderne technologieën zoals React, Next.js en Node.js. Voor e-commerce projecten gebruiken we Shopify of WooCommerce, afhankelijk van uw specifieke behoeften.',
+    
+    'service.microsoft365.features.1': 'Microsoft Copilot implementatie en training',
+    'service.microsoft365.features.2': 'Teams Phone en communicatie-oplossingen',
+    'service.microsoft365.features.3': 'Power Platform automatisering (Power Apps, Power Automate)',
+    'service.microsoft365.features.4': 'SharePoint en OneDrive optimalisatie',
+    'service.microsoft365.features.5': 'Advanced Security en Compliance configuratie',
+    'service.microsoft365.features.6': 'Intune device management en Mobile Device Management',
+    'service.microsoft365.features.7': 'Exchange Online migratie en beheer',
+    'service.microsoft365.features.8': 'Azure Active Directory configuratie en SSO',
+    'service.microsoft365.technical': 'Met jarenlange ervaring in de ICT-sector en uitgebreide expertise in Microsoft enterprise werkomgevingen begeleiden wij organisaties bij elke stap van hun digitale transformatie. Onze aanpak bestaat uit een grondige analyse, doordachte migratieplanning, zorgvuldige implementatie en voortdurende optimalisatie van uw Microsoft 365 omgeving. Zo zorgen wij voor een toekomstbestendige, efficiënte en veilige digitale werkplek die aansluit bij uw bedrijfsdoelen.',
+    
     // Case Studies
     'cases.title': 'Projecten',
     'cases.subtitle': 'Ontdek hoe we bedrijven hebben geholpen',
@@ -247,6 +279,38 @@ const translations: Record<Language, Record<string, string>> = {
     'service.microsoft365.title': 'Microsoft 365 & Modern Workplace',
     'service.microsoft365.subtitle': 'Future-proof cloud solutions for your organization',
     'service.microsoft365.description': 'Transform your workplace with Microsoft 365 and advanced AI integration. We help organizations implement modern workplace solutions that increase productivity, improve collaboration and provide enterprise-level security. From migration to optimization, we guide your digital transformation.',
+    
+    // Service features and technical details
+    'service.ai.features.1': 'Integration with your current systems and databases',
+    'service.ai.features.2': 'Multilingual support for international customers',
+    'service.ai.features.3': 'Customizable personality and brand voice',
+    'service.ai.features.4': 'Detailed reporting and insights',
+    'service.ai.features.5': 'Seamless handover to human agents when needed',
+    'service.ai.technical': 'We use the latest developments in natural language processing (NLP) and machine learning. Our chatbots are built with GPT technology and can be integrated with your CRM, helpdesk or website.',
+    
+    'service.automation.features.1': 'Visual workflow design without programming knowledge',
+    'service.automation.features.2': 'Integration with popular applications and services',
+    'service.automation.features.3': 'Real-time monitoring and reporting',
+    'service.automation.features.4': 'Scalability for growing businesses',
+    'service.automation.features.5': 'Secure and reliable execution',
+    'service.automation.technical': 'We build automation solutions with tools like Zapier, Microsoft Power Automate and n8n. Our workflows can connect to hundreds of popular applications and services.',
+    
+    'service.web.features.1': 'Mobile-friendly design for all devices',
+    'service.web.features.2': 'Search engine friendly structure (SEO)',
+    'service.web.features.3': 'Fast loading times and optimal performance',
+    'service.web.features.4': 'User-friendly content management',
+    'service.web.features.5': 'Secure payment integrations when needed',
+    'service.web.technical': 'We work with modern technologies like React, Next.js and Node.js. For e-commerce projects we use Shopify or WooCommerce, depending on your specific needs.',
+    
+    'service.microsoft365.features.1': 'Microsoft Copilot implementation and training',
+    'service.microsoft365.features.2': 'Teams Phone and communication solutions',
+    'service.microsoft365.features.3': 'Power Platform automation (Power Apps, Power Automate)',
+    'service.microsoft365.features.4': 'SharePoint and OneDrive optimization',
+    'service.microsoft365.features.5': 'Advanced Security and Compliance configuration',
+    'service.microsoft365.features.6': 'Intune device management and Mobile Device Management',
+    'service.microsoft365.features.7': 'Exchange Online migration and management',
+    'service.microsoft365.features.8': 'Azure Active Directory configuration and SSO',
+    'service.microsoft365.technical': 'With years of experience in the ICT sector and extensive expertise in Microsoft enterprise environments, we guide organizations through every step of their digital transformation. Our approach consists of thorough analysis, thoughtful migration planning, careful implementation and continuous optimization of your Microsoft 365 environment. This ensures a future-proof, efficient and secure digital workplace that aligns with your business goals.',
     
     // Case Studies
     'cases.title': 'Projects',
