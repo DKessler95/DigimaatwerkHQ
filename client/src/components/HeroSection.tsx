@@ -97,8 +97,8 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Scroll Indicator - Hidden on mobile */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 hidden md:block">
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
         <a href="#services" className="flex flex-col items-center justify-center text-foreground/70 hover:text-accent transition">
           <span className="text-sm mb-2">{t('hero.cta')}</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
