@@ -41,27 +41,140 @@ export function N8nChatWidget() {
       },
     });
 
-    // Add custom CSS to override the bot avatar with mascot image
+    // Add comprehensive CSS to override all avatar images
     const style = document.createElement('style');
     style.textContent = `
-      .n8n-chat .chat-message-from-bot .chat-message-avatar,
-      .n8n-chat .bot-avatar,
-      .n8n-chat [class*="avatar"][class*="bot"],
-      .n8n-chat img[alt*="bot"],
-      .n8n-chat img[alt*="Bot"] {
+      /* Override all images in n8n chat with mascot */
+      #n8n-chat img,
+      #n8n-chat iframe,
+      div[id*="n8n"] img,
+      [class*="n8n"] img,
+      .n8n-chat img {
+        content: url('${mascotImage}') !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+      }
+      
+      /* Force replace using attribute selector */
+      img[src*="digimaatwerk"],
+      img[src*="logo"],
+      img[alt*="bot"],
+      img[alt*="Bot"],
+      img[alt*="avatar"] {
+        content: url('${mascotImage}') !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+      }
+      
+      /* Background image replacement for any avatar containers */
+      #n8n-chat [class*="avatar"],
+      #n8n-chat [class*="bot"],
+      div[id*="n8n"] [class*="avatar"] {
         background-image: url('${mascotImage}') !important;
-        background-size: cover !important;
+        background-size: 40px 40px !important;
         background-position: center !important;
         background-repeat: no-repeat !important;
       }
-      
-      .n8n-chat .chat-message-from-bot .chat-message-avatar img,
-      .n8n-chat .bot-avatar img,
-      .n8n-chat [class*="avatar"][class*="bot"] img {
-        opacity: 0 !important;
-      }
     `;
     document.head.appendChild(style);
+    
+    // Use MutationObserver to watch for chat widget elements and replace images
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === 1) { // Element node
+            const element = node as Element;
+            // Find all images in the chat widget
+            const images = element.querySelectorAll('img');
+            images.forEach((img) => {
+              if (img.src && !img.src.includes('mascot') && img.closest('#n8n-chat')) {
+                img.src = mascotImage;
+                img.style.width = '40px';
+                img.style.height = '40px';
+                img.style.borderRadius = '50%';
+                img.style.objectFit = 'cover';
+              }
+            });
+            
+            // Also check if the added node itself is an image
+            if (element.tagName === 'IMG' && element.closest('#n8n-chat')) {
+              const imgElement = element as HTMLImageElement;
+              if (!imgElement.src.includes('mascot')) {
+                imgElement.src = mascotImage;
+                imgElement.style.width = '40px';
+                imgElement.style.height = '40px';
+                imgElement.style.borderRadius = '50%';
+                imgElement.style.objectFit = 'cover';
+              }
+            }
+          }
+        });
+      });
+    });
+    
+    // Start observing
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // More aggressive avatar replacement approach
+    const aggressiveReplace = () => {
+      // Target all possible image elements
+      const allImages = document.querySelectorAll('img');
+      allImages.forEach((img) => {
+        // Check if this image is likely an avatar/logo based on src or context
+        const src = img.src || '';
+        const alt = img.alt || '';
+        const isInChatWidget = img.closest('#n8n-chat') || img.closest('[id*="n8n"]') || img.closest('[class*="n8n"]');
+        
+        if (isInChatWidget || src.includes('digimaatwerk') || src.includes('logo') || 
+            alt.includes('bot') || alt.includes('avatar') || alt.includes('digimaatwerk')) {
+          
+          // Store original dimensions if small (likely avatar)
+          const rect = img.getBoundingClientRect();
+          if (rect.width <= 50 && rect.height <= 50) {
+            img.src = mascotImage;
+            img.style.width = '40px';
+            img.style.height = '40px';
+            img.style.borderRadius = '50%';
+            img.style.objectFit = 'cover';
+          }
+        }
+      });
+
+      // Also use CSS injection for any missed elements
+      const existingMascotStyle = document.getElementById('mascot-override');
+      if (!existingMascotStyle) {
+        const mascotStyle = document.createElement('style');
+        mascotStyle.id = 'mascot-override';
+        mascotStyle.textContent = `
+          /* Target small images in chat contexts */
+          #n8n-chat img[width="40"],
+          #n8n-chat img[height="40"],
+          [id*="n8n"] img[width="40"],
+          [id*="n8n"] img[height="40"],
+          img[src*="digimaatwerk"][width="40"],
+          img[src*="logo"][width="40"] {
+            content: url('${mascotImage}') !important;
+            border-radius: 50% !important;
+          }
+        `;
+        document.head.appendChild(mascotStyle);
+      }
+    };
+
+    // Run replacement multiple times with different delays
+    setTimeout(aggressiveReplace, 1000);
+    setTimeout(aggressiveReplace, 3000);
+    setTimeout(aggressiveReplace, 5000);
+    
+    // Set up interval for ongoing replacement
+    const replaceInterval = setInterval(aggressiveReplace, 2000);
+    setTimeout(() => clearInterval(replaceInterval), 30000);
 
     // Cleanup function
     return () => {
@@ -73,6 +186,8 @@ export function N8nChatWidget() {
       if (style && style.parentNode) {
         style.parentNode.removeChild(style);
       }
+      // Disconnect the observer
+      observer.disconnect();
     };
   }, []);
 
