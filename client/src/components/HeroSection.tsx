@@ -33,7 +33,7 @@ const HeroSection = () => {
           
           {/* Service Icons */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto items-stretch">
-            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col text-center min-h-[200px] h-full">
+            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col text-center min-h-[280px] h-full">
               <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg mx-auto flex-shrink-0">
                 <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6C22 4.89543 21.1046 4 20 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -45,12 +45,12 @@ const HeroSection = () => {
                 </svg>
               </div>
               <div className="flex flex-col flex-grow">
-                <h3 className="text-lg font-medium mb-2 line-clamp-2">{t('hero.services.web.title')}</h3>
-                <p className="text-foreground/70 text-sm line-clamp-3">{t('hero.services.web.description')}</p>
+                <h3 className="text-lg font-medium mb-2">{t('hero.services.web.title')}</h3>
+                <p className="text-foreground/70 text-sm">{t('hero.services.web.description')}</p>
               </div>
             </div>
             
-            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col text-center min-h-[200px] h-full">
+            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col text-center min-h-[280px] h-full">
               <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg mx-auto flex-shrink-0">
                 <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -59,12 +59,12 @@ const HeroSection = () => {
                 </svg>
               </div>
               <div className="flex flex-col flex-grow">
-                <h3 className="text-lg font-medium mb-2 line-clamp-2">{t('hero.services.automation.title')}</h3>
-                <p className="text-foreground/70 text-sm line-clamp-3">{t('hero.services.automation.description')}</p>
+                <h3 className="text-lg font-medium mb-2">{t('hero.services.automation.title')}</h3>
+                <p className="text-foreground/70 text-sm">{t('hero.services.automation.description')}</p>
               </div>
             </div>
             
-            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col text-center min-h-[200px] h-full">
+            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col text-center min-h-[280px] h-full">
               <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg mx-auto flex-shrink-0">
                 <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M21 15C21 16.6569 19.6569 18 18 18H17.2829C17.1241 18 16.9716 18.0636 16.8672 18.1769L15.7205 19.4323C14.9289 20.3064 13.5943 20.3064 12.8026 19.4323L11.6559 18.1769C11.5515 18.0636 11.399 18 11.2402 18H6C4.34315 18 3 16.6569 3 15V7C3 5.34315 4.34315 4 6 4H18C19.6569 4 21 5.34315 21 7V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -73,12 +73,12 @@ const HeroSection = () => {
                 </svg>
               </div>
               <div className="flex flex-col flex-grow">
-                <h3 className="text-lg font-medium mb-2 line-clamp-2">{t('hero.services.chatbot.title')}</h3>
-                <p className="text-foreground/70 text-sm line-clamp-3">{t('hero.services.chatbot.description')}</p>
+                <h3 className="text-lg font-medium mb-2">{t('hero.services.chatbot.title')}</h3>
+                <p className="text-foreground/70 text-sm">{t('hero.services.chatbot.description')}</p>
               </div>
             </div>
             
-            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col text-center min-h-[200px] h-full">
+            <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-6 flex flex-col text-center min-h-[280px] h-full">
               <div className="w-16 h-16 mb-4 flex items-center justify-center bg-accent/20 rounded-lg mx-auto flex-shrink-0">
                 <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M17.5 19H16.5C15.1193 19 14 17.8807 14 16.5V7.5C14 6.11929 15.1193 5 16.5 5H17.5C18.8807 5 20 6.11929 20 7.5V16.5C20 17.8807 18.8807 19 17.5 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -89,8 +89,8 @@ const HeroSection = () => {
                 </svg>
               </div>
               <div className="flex flex-col flex-grow">
-                <h3 className="text-lg font-medium mb-2 line-clamp-2">{t('hero.services.microsoft365.title')}</h3>
-                <p className="text-foreground/70 text-sm line-clamp-3">{t('hero.services.microsoft365.description')}</p>
+                <h3 className="text-lg font-medium mb-2">{t('hero.services.microsoft365.title')}</h3>
+                <p className="text-foreground/70 text-sm">{t('hero.services.microsoft365.description')}</p>
               </div>
             </div>
           </div>
