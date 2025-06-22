@@ -286,7 +286,7 @@ const ServiceCategory = () => {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {details.features.map((feature, index) => {
-              // Get appropriate icon for Microsoft 365 features
+              // Get appropriate icon for all service categories
               const getFeatureIcon = (feature: string, index: number) => {
                 if (category === 'microsoft-365') {
                   if (feature.includes('Copilot')) {
@@ -339,9 +339,107 @@ const ServiceCategory = () => {
                       </svg>
                     );
                   }
+                } else if (category === 'ai-chatbots') {
+                  if (feature.includes('Integratie') || feature.includes('systemen')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('Meertalige') || feature.includes('ondersteuning')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('persoonlijkheid') || feature.includes('huisstijl')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('rapportages') || feature.includes('inzichten')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('overdracht') || feature.includes('medewerkers')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.85 0-1.54.68-1.54 1.53v1.47H14V8c0-.55.45-1 1-1h2.54c1.41 0 2.67.83 3.22 2.1L22 14v8h-2z"/>
+                      </svg>
+                    );
+                  }
+                } else if (category === 'workflow-automation') {
+                  if (feature.includes('Visuele') || feature.includes('workflow')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 5v4h2V7h2a2 2 0 0 1 2 2v2h2V9a4 4 0 0 0-4-4H9zM9 15v4h4a4 4 0 0 0 4-4v-2h-2v2a2 2 0 0 1-2 2h-2v-2H9z"/>
+                        <circle cx="6" cy="6" r="2"/>
+                        <circle cx="6" cy="18" r="2"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('Koppeling') || feature.includes('externe')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('24/7') || feature.includes('monitoring')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('Schaalbare') || feature.includes('groei')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('Compliance') || feature.includes('logging')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                      </svg>
+                    );
+                  }
+                } else if (category === 'web-development') {
+                  if (feature.includes('Mobiel') || feature.includes('responsive')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-5 20c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('SEO') || feature.includes('zoekmachinevriendelijke')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('performance') || feature.includes('snelle')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('content management') || feature.includes('CMS')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                      </svg>
+                    );
+                  } else if (feature.includes('betalingsintegraties') || feature.includes('veilige')) {
+                    return (
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                      </svg>
+                    );
+                  }
                 }
                 
-                // Default checkmark for other categories
+                // Default checkmark for unmatched features
                 return <span className="text-accent text-xl">✓</span>;
               };
 
@@ -682,25 +780,27 @@ const ServiceCategory = () => {
           </div>
         )}
         
-        {/* Contact CTA for all services */}
-        <motion.div 
-          className="bg-accent/10 rounded-xl p-8 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-2xl md:text-3xl font-header font-bold mb-4">
-            Klaar om te beginnen met {details.title}?
-          </h2>
-          <p className="max-w-2xl mx-auto mb-6">
-            Neem contact met ons op voor een vrijblijvend gesprek over uw project.
-            We denken graag met u mee over de mogelijkheden!
-          </p>
-          <Link href="/#contact" className="inline-block px-8 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
-            Neem contact op
-          </Link>
-        </motion.div>
+        {/* Contact CTA for non-Microsoft 365 services */}
+        {category !== 'microsoft-365' && (
+          <motion.div 
+            className="bg-accent/10 rounded-xl p-8 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-2xl md:text-3xl font-header font-bold mb-4">
+              Klaar om te beginnen met {details.title}?
+            </h2>
+            <p className="max-w-2xl mx-auto mb-6">
+              Neem contact met ons op voor een vrijblijvend gesprek over uw project.
+              We denken graag met u mee over de mogelijkheden!
+            </p>
+            <Link href="/#contact" className="inline-block px-8 py-3 bg-accent text-primary font-medium rounded-lg hover:bg-accent/90 transition">
+              Neem contact op
+            </Link>
+          </motion.div>
+        )}
       </div>
     </div>
   );
