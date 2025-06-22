@@ -14,12 +14,12 @@ const HeroSection = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-0">
+      <div className="relative z-10 h-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 pt-20 md:pt-24 lg:pt-0">
         <div className="text-center max-w-4xl">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-header font-bold mb-6 text-foreground">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-header font-bold mb-4 md:mb-6 text-foreground">
             {t('hero.title')}
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-foreground/80 mb-10 font-body max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-foreground/80 mb-6 md:mb-10 font-body max-w-2xl mx-auto">
             {t('hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -32,7 +32,7 @@ const HeroSection = () => {
           </div>
           
           {/* Service Icons */}
-          <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto items-stretch">
+          <div className="mt-20 md:mt-24 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto items-stretch">
             <div className="bg-secondary/50 backdrop-blur-md rounded-lg p-3 md:p-4 lg:p-6 flex flex-col text-center min-h-[180px] md:min-h-[220px] lg:min-h-[280px] h-full">
               <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 mb-2 md:mb-3 lg:mb-4 flex items-center justify-center bg-accent/20 rounded-lg mx-auto flex-shrink-0">
                 <svg className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
