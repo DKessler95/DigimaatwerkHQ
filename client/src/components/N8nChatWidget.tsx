@@ -60,10 +60,12 @@ export function N8nChatWidget() {
       #n8n-chat [class*="brand"] img,
       #n8n-chat [class*="logo"] img {
         content: url('${mascotImage}') !important;
-        width: 40px !important;
-        height: 40px !important;
+        width: 48px !important;
+        height: 48px !important;
         border-radius: 50% !important;
         object-fit: cover !important;
+        border: 2px solid #ffffff !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
       }
       
       /* Override for chat toggle button */
@@ -71,9 +73,11 @@ export function N8nChatWidget() {
       [class*="chat-button"] img,
       button[class*="chat"] img {
         content: url('${mascotImage}') !important;
-        width: 40px !important;
-        height: 40px !important;
+        width: 48px !important;
+        height: 48px !important;
         border-radius: 50% !important;
+        border: 2px solid #ffffff !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
       }
       
       /* Replace any background images that might be logos */
@@ -139,7 +143,7 @@ export function N8nChatWidget() {
                 if (toggleButton) {
                   console.log('Found toggle button with selector:', selector, toggleButton);
                   // Clear existing content and add mascot
-                  toggleButton.innerHTML = `<img src="${mascotImage}" alt="Maatje" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">`;
+                  toggleButton.innerHTML = `<img src="${mascotImage}" alt="Maatje" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">`;
                 }
               });
               
@@ -163,10 +167,12 @@ export function N8nChatWidget() {
                 const imgEl = img as HTMLImageElement;
                 imgEl.src = mascotImage;
                 imgEl.alt = 'Maatje';
-                imgEl.style.width = '40px';
-                imgEl.style.height = '40px';
+                imgEl.style.width = '48px';
+                imgEl.style.height = '48px';
                 imgEl.style.borderRadius = '50%';
                 imgEl.style.objectFit = 'cover';
+                imgEl.style.border = '2px solid #ffffff';
+                imgEl.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
               });
             }, 500);
           }
