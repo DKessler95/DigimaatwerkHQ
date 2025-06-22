@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
-import { ExternalLink, ArrowRight, Code, Server, Database, Cpu } from 'lucide-react';
+import { ExternalLink, ArrowRight, Code, Server, Database, Cpu, Cloud } from 'lucide-react';
 
 interface ServiceFeature {
   name: string;
@@ -37,6 +37,8 @@ const getIconComponent = (iconName: string) => {
       return <Code className="h-6 w-6" />;
     case 'automation':
       return <Server className="h-6 w-6" />;
+    case 'cloud':
+      return <Cloud className="h-6 w-6" />;
     default:
       return <Database className="h-6 w-6" />;
   }
@@ -51,10 +53,12 @@ export function CMSServicesSection() {
   useEffect(() => {
     async function fetchServices() {
       try {
-        const response = await fetch(`/api/services?lang=${language}`);
+        // Add timestamp to prevent caching
+        const response = await fetch(`/api/services?lang=${language}&t=${Date.now()}`);
         const data = await response.json();
         if (data.success) {
           const sortedServices = data.data.sort((a: Service, b: Service) => a.order - b.order);
+          console.log('Fetched services:', sortedServices.map(s => s.title));
           setServices(sortedServices);
           if (sortedServices.length > 0) {
             setActiveTab(sortedServices[0].slug);
