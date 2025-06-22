@@ -1,5 +1,5 @@
 import HeroSection from "@/components/HeroSection";
-import { CMSServicesSection } from "@/components/CMSServicesSection";
+import ServicesSection from "@/components/ServicesSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import TechStackSection from "@/components/TechStackSection";
 import PricingSection from "@/components/PricingSection";
@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <>
       <HeroSection />
-      <CMSServicesSection />
+      <ServicesSection />
       <CaseStudiesSection />
       <TechStackSection />
       <PricingSection />

@@ -27,6 +27,12 @@ const services: Service[] = [
     titleKey: "services.web.title",
     descriptionKey: "services.web.description",
     techKey: "services.web.tech"
+  },
+  {
+    icon: "ri-cloud-line",
+    titleKey: "services.microsoft365.title",
+    descriptionKey: "services.microsoft365.description",
+    techKey: "services.microsoft365.tech"
   }
 ];
 
@@ -41,13 +47,14 @@ const ServicesSection = () => {
           <p className="text-foreground/70 max-w-2xl mx-auto">{t('services.subtitle')}</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => {
             // Map icons to paths for each category
             const categoryPaths = {
               "ri-robot-line": "/services/ai-chatbots",
               "ri-settings-line": "/services/workflow-automation",
-              "ri-code-s-slash-line": "/services/web-development"
+              "ri-code-s-slash-line": "/services/web-development",
+              "ri-cloud-line": "/services/microsoft-365"
             };
             
             return (
