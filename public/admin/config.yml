@@ -116,5 +116,8 @@ collections:
       - {label: "Website URL", name: "websiteUrl", widget: "string", i18n: "duplicate"}
       - {label: "Website Screenshot", name: "websiteScreenshot", widget: "image", i18n: "duplicate"}
       - {label: "Category", name: "category", widget: "select", options: ["web", "automation", "chatbot"], i18n: "duplicate", default: "web"}
+      - {label: "Display Type", name: "displayType", widget: "select", options: ["default", "bubble", "minimal"], i18n: "duplicate", default: "default"}
       - {label: "Order", name: "order", widget: "number", i18n: "duplicate", default: 0}
       - {label: "Featured", name: "featured", widget: "boolean", i18n: "duplicate", default: false}
+      - {label: "Hover Color", name: "hoverColor", widget: "select", options: ["pink-rose", "yellow-yellow", "amber-yellow", "purple-indigo", "blue-blue", "green-emerald", "red-red", "orange-orange", "cyan-teal", "violet-purple"], i18n: "duplicate", default: "blue-blue"}
+      - {label: "Content", name: "body", widget: "markdown", i18n: true}

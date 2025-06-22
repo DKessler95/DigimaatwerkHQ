@@ -9,6 +9,7 @@ category: web
 displayType: default
 order: 2
 featured: true
+hoverColor: pink-rose
 ---
 
 # Limonade Productwebshop

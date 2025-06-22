@@ -14,4 +14,5 @@ category: web
 displayType: default
 order: 1
 featured: true
+hoverColor: yellow-yellow
 ---

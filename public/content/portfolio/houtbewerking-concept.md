@@ -9,6 +9,7 @@ category: web
 displayType: default
 order: 3
 featured: true
+hoverColor: amber-yellow
 ---
 
 Een persoonlijk project waarbij ik een concept website heb ontwikkeld voor mijn broertje die zich specialiseert in houtbewerking en momenteel in opleiding is. De website toont zijn vaardigheden en projecten met een warme, natuurlijke uitstraling die past bij het houtbewerkingsvak.
