@@ -623,6 +623,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Fix unintended nesting
           .replace(/<\/ul>\n<ul>/g, '')
           .replace(/<\/ol>\n<ol>/g, '')
+          // Convert images (must be before links)
+          .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />')
           // Convert links
           .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-accent hover:underline">$1</a>')
           // Convert blockquotes
