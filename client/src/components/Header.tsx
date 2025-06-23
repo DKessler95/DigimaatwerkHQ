@@ -44,6 +44,13 @@ const Header = () => {
     setServicesDropdownOpen(!servicesDropdownOpen);
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-primary/90 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,7 +91,12 @@ const Header = () => {
               )}
             </div>
             <Link href="/portfolio" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</Link>
-            <Link href="/#testimonials" className="text-foreground/80 hover:text-accent transition font-body">{t('header.about')}</Link>
+            <button 
+              onClick={() => scrollToSection('testimonials')} 
+              className="text-foreground/80 hover:text-accent transition font-body cursor-pointer"
+            >
+              {t('header.about')}
+            </button>
             <Link href="/blogs" className="text-foreground/80 hover:text-accent transition font-body">{t('header.blogs')}</Link>
           </nav>
           
