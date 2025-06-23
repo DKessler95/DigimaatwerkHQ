@@ -79,24 +79,39 @@ Alle bedrijfsinformatie werd gestructureerd en georganiseerd in Google Drive. We
 ![Automatische Kennisbank Updates](/uploads/updateKB.png)
 
 ### Fase 3: Vector Database Setup
-Met behulp van OpenAI's embedding API werden alle documenten omgezet naar vector representaties en opgeslagen in Pinecone. Dit maakt semantisch zoeken mogelijk.
+Met behulp van OpenAI's embedding API werden alle documenten omgezet naar vector representaties en opgeslagen in Pinecone. Dit maakt semantisch zoeken mogelijk - Maatje begrijpt nu de betekenis achter vragen in plaats van alleen exacte woordmatches.
 
-![Pinecone Dashboard](/uploads/pinecone.png)
+![Pinecone Vector Database Dashboard](/uploads/pinecone.png)
+*De Pinecone vector database waar alle bedrijfsinformatie wordt opgeslagen als semantische embeddings*
 
-### Fase 4: Workflow Ontwikkeling
-In n8n bouwden we de complete conversatie flow, inclusief:
-- Vraagherkenning en classificatie
+### Fase 4: Automatische Kennisbank Updates
+Een speciale n8n workflow zorgt ervoor dat de kennisbank automatisch bijgewerkt wordt wanneer er nieuwe content in Google Drive wordt toegevoegd. Dit betekent dat teamleden eenvoudig informatie kunnen toevoegen zonder technische kennis.
+
+![Automatische Kennisbank Update Workflow](/uploads/updateKB.png)
+*De n8n workflow die automatisch nieuwe documenten uit Google Drive verwerkt en toevoegt aan de vector database*
+
+### Fase 5: Workflow Ontwikkeling
+In n8n bouwden we de complete conversatie flow die alle aspecten van een klanteninteractie beheert:
+- Vraagherkenning en intelligente classificatie
 - Semantisch zoeken in de kennisbank
-- Context management voor gesprekken
-- Escalatie naar menselijke agents wanneer nodig
+- Context management voor natuurlijke gesprekken
+- Automatische escalatie naar menselijke agents wanneer nodig
+- Logging en analyse van alle interacties
 
-![N8N Workflow Template](/uploads/template.png)
+![N8N Hoofdworkflow Template](/uploads/template.png)
+*De hoofdworkflow in n8n die alle chatbot functionaliteiten orkestreert*
 
-### Fase 5: AI Model Integratie
-ChatGPT werd geïntegreerd om natuurlijke antwoorden te genereren op basis van de gevonden informatie, waarbij context en gesprekshistorie behouden blijven.
+### Fase 6: AI Model Integratie
+ChatGPT werd geïntegreerd om natuurlijke, contextbewuste antwoorden te genereren. Het model gebruikt de gevonden informatie uit de kennisbank om accurate en persoonlijke antwoorden te formuleren, waarbij gesprekshistorie behouden blijft.
 
-### Fase 6: Testing en Optimalisatie
-Uitgebreide testing met echte klantvragen om de accuraatheid en natuurlijkheid van antwoorden te verfijnen.
+### Fase 7: Interface Ontwikkeling
+De chatbot interface werd ontworpen met gebruiksvriendelijkheid als prioriteit. Een moderne, intuïtieve chat-interface die naadloos integreert met de website.
+
+![Maatje Chatbot Interface](/uploads/chatbox.png)
+*De gebruiksvriendelijke chatbot interface waar klanten 24/7 vragen kunnen stellen*
+
+### Fase 8: Testing en Optimalisatie
+Uitgebreide testing met echte klantvragen om de accuraatheid en natuurlijkheid van antwoorden te verfijnen. Continue verbetering op basis van gebruiksfeedback en prestatiemetrics.
 
 ## Geavanceerde Functies
 
