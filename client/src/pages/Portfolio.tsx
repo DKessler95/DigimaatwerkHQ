@@ -124,11 +124,11 @@ const PortfolioBlock = ({
               </div>
               
               {/* Browser content - full image without padding */}
-              <div className="aspect-video flex items-center justify-center overflow-hidden">
+              <div className="aspect-video flex items-center justify-center overflow-hidden bg-white">
                 <img 
                   src={screenshotUrl || item.websiteScreenshot || '/images/portfolio/fasttaxi.png'} 
                   alt={`${item.title} website`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
                   onError={(e) => {
                     console.error('Afbeelding kon niet worden geladen, fallback naar fasttaxi.png');
                     e.currentTarget.src = '/images/portfolio/fasttaxi.png';
@@ -407,7 +407,7 @@ const PortfolioDetailModal = ({
                     <img 
                       src={websiteScreenshot || item.websiteScreenshot || '/images/portfolio/fasttaxi.png'} 
                       alt={`${item.title} website screenshot`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-center"
                       onError={(e) => {
                         console.error('Afbeelding kon niet worden geladen in detail view, fallback naar fasttaxi.png');
                         e.currentTarget.src = '/images/portfolio/fasttaxi.png';
