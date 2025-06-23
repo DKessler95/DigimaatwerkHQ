@@ -344,6 +344,9 @@ const CaseStudyPage = () => {
                     prose-blockquote:border-l-4 prose-blockquote:border-l-accent prose-blockquote:bg-accent/10 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:not-italic 
                     prose-blockquote:text-foreground prose-blockquote:font-medium prose-blockquote:text-lg
                     prose-ul:pl-5 prose-ol:pl-5 prose-li:text-foreground prose-li:font-medium prose-li:marker:text-accent prose-li:my-1
+                    prose-img:rounded-lg prose-img:shadow-md prose-img:my-6 prose-img:mx-auto prose-img:max-w-full prose-img:h-auto
+                    [&_img]:rounded-lg [&_img]:shadow-md [&_img]:my-6 [&_img]:mx-auto [&_img]:max-w-full [&_img]:h-auto [&_img]:block
+                    [&_em]:text-foreground/70 [&_em]:text-sm [&_em]:italic [&_em]:text-center [&_em]:block [&_em]:mt-2
                     [&_ul_li]:text-foreground [&_ol_li]:text-foreground [&_li]:text-foreground 
                     [&_ul]:text-foreground [&_ol]:text-foreground 
                     [&_*:not(svg):not(path):not(g)]:text-foreground [&_.text-gray-500]:text-foreground 
