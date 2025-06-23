@@ -111,37 +111,6 @@ De chatbot interface werd ontworpen met gebruiksvriendelijkheid als prioriteit. 
 ### Fase 8: Testing en Optimalisatie
 Uitgebreide testing met echte klantvragen om de accuraatheid en natuurlijkheid van antwoorden te verfijnen. Continue verbetering op basis van gebruiksfeedback en prestatiemetrics.
 
-## Geavanceerde Functies
-
-### Semantisch Begrip
-Maatje begrijpt niet alleen letterlijke vragen maar ook de intentie erachter. Voorbeelden:
-- "Wat kost een website?" → Vindt prijsinformatie voor webontwikkeling
-- "Kunnen jullie mijn bedrijf helpen groeien?" → Koppelt aan groeistrategieën en diensten
-- "Ik heb een probleem met mijn site" → Leidt naar technische ondersteuning
-
-### Contextbehoud
-Gesprekken worden onthouden gedurende de hele sessie:
-- **Klant**: "Wat zijn jullie tarieven voor webdesign?"
-- **Maatje**: "Onze webdesign projecten starten vanaf €2.500..."
-- **Klant**: "En automation?"
-- **Maatje**: "Voor automatiseringsprojecten hanteren we andere tarieven..." (begrijpt dat klant doorvraagt)
-
-
-
-## Meetbare Resultaten
-
-### Operationele Verbeteringen
-- **24/7 Beschikbaarheid**: Klanten krijgen altijd directe ondersteuning
-- **80% Reductie**: In repetitieve vragen voor het klantenservice team
-- **< 2 seconden**: Gemiddelde responstijd voor standaard vragen
-- **95% Tevredenheid**: Klantentevredenheidsscore voor chatbot interacties
-
-### Bedrijfsimpact
-- **Kostenbesparing**: 60% reductie in klantenservice kosten
-- **Hogere Conversie**: 25% meer leads door betere beschikbaarheid
-- **Teamfocus**: Medewerkers kunnen zich richten op complexe, waardevolle taken
-- **Schaalbaarheid**: Systeem groeit automatisch mee met bedrijf
-
 ## Technische Innovaties
 
 ### Modulaire Architectuur

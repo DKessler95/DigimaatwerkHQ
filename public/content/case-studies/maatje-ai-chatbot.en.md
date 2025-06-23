@@ -98,37 +98,6 @@ ChatGPT was integrated to generate natural responses based on found information,
 ### Phase 6: Testing and Optimization
 Extensive testing with real customer questions to refine the accuracy and naturalness of responses.
 
-## Advanced Features
-
-### Semantic Understanding
-Maatje understands not only literal questions but also the intent behind them. Examples:
-- "What does a website cost?" → Finds pricing information for web development
-- "Can you help my business grow?" → Links to growth strategies and services
-- "I have a problem with my site" → Leads to technical support
-
-### Context Retention
-Conversations are remembered throughout the entire session:
-- **Customer**: "What are your rates for web design?"
-- **Maatje**: "Our web design projects start from €2,500..."
-- **Customer**: "And automation?"
-- **Maatje**: "For automation projects we use different rates..." (understands customer is asking follow-up)
-
-
-
-## Measurable Results
-
-### Operational Improvements
-- **24/7 Availability**: Customers always receive immediate support
-- **80% Reduction**: In repetitive questions for the customer service team
-- **< 2 seconds**: Average response time for standard questions
-- **95% Satisfaction**: Customer satisfaction score for chatbot interactions
-
-### Business Impact
-- **Cost Savings**: 60% reduction in customer service costs
-- **Higher Conversion**: 25% more leads through better availability
-- **Team Focus**: Employees can focus on complex, valuable tasks
-- **Scalability**: System automatically grows with the business
-
 ## Technical Innovations
 
 ### Modular Architecture

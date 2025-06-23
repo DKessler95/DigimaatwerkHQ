@@ -7,7 +7,7 @@ interface TechItem {
   descriptionKey: string;
 }
 
-const techStack: TechItem[] = [
+const getTechStack = (language: string): TechItem[] => [
   {
     icon: "ri-reactjs-line",
     name: "React",
@@ -25,7 +25,7 @@ const techStack: TechItem[] = [
   },
   {
     icon: "ri-robot-line",
-    name: "GPT-4",
+    name: language === 'nl' ? "Op maat" : "Custom",
     descriptionKey: "tech.gpt4"
   }
 ];
@@ -36,36 +36,40 @@ interface ComparisonItem {
   digimaatwerk: string;
 }
 
-const comparisonData: ComparisonItem[] = [
-  {
-    featureKey: "tech.compare.performance",
-    traditional: "70-80%",
-    digimaatwerk: "95%+"
-  },
-  {
-    featureKey: "tech.compare.3d",
-    traditional: "Limited",
-    digimaatwerk: "Advanced"
-  },
-  {
-    featureKey: "tech.compare.ai",
-    traditional: "Basic",
-    digimaatwerk: "Full GPT-4 & RAG"
-  },
-  {
-    featureKey: "tech.compare.scalability",
-    traditional: "Medium",
-    digimaatwerk: "Enterprise-grade"
-  },
-  {
-    featureKey: "tech.compare.timetomarket",
-    traditional: "3-6 months",
-    digimaatwerk: "4-8 weeks"
-  }
-];
+
 
 const TechStackSection = () => {
   const { t, language } = useLanguage();
+  
+  const techStack = getTechStack(language);
+  
+  const comparisonDataWithTranslation: ComparisonItem[] = [
+    {
+      featureKey: "tech.compare.performance",
+      traditional: "70-80%",
+      digimaatwerk: "95%+"
+    },
+    {
+      featureKey: "tech.compare.3d",
+      traditional: "Limited",
+      digimaatwerk: "Advanced"
+    },
+    {
+      featureKey: "tech.compare.ai",
+      traditional: "Basic",
+      digimaatwerk: language === 'nl' ? "Op maat & RAG" : "Custom & RAG"
+    },
+    {
+      featureKey: "tech.compare.scalability",
+      traditional: "Medium",
+      digimaatwerk: "Enterprise-grade"
+    },
+    {
+      featureKey: "tech.compare.timetomarket",
+      traditional: "3-6 months",
+      digimaatwerk: "4-8 weeks"
+    }
+  ];
   
   return (
     <section id="tech-stack" className="py-24 bg-gradient-to-b from-secondary to-primary">
@@ -83,7 +87,7 @@ const TechStackSection = () => {
           viewport={{ once: true }}
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {techStack.map((tech, index) => (
+            {techStack.map((tech: TechItem, index: number) => (
               <motion.div 
                 key={index}
                 className="flex flex-col items-center"
@@ -119,7 +123,7 @@ const TechStackSection = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {comparisonData.map((item, index) => (
+                  {comparisonDataWithTranslation.map((item: ComparisonItem, index: number) => (
                     <motion.tr 
                       key={index}
                       initial={{ opacity: 0, x: -20 }}
