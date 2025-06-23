@@ -27,7 +27,7 @@ const AboutDamianSection = () => {
     : 'Want to know how I can digitally strengthen your business?';
 
   return (
-    <section className="py-24 bg-gradient-to-b from-primary to-secondary relative overflow-hidden">
+    <section id="testimonials" className="py-24 bg-gradient-to-b from-primary to-secondary relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 overflow-hidden z-0">
         <div className="absolute -top-20 -right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
