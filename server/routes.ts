@@ -2015,7 +2015,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       await sendContactEmail({
         name: "Test User",
-        email: "dckessler95@gmail.nl",
+        email: "dckessler95@gmail.com",
         company: "Test Company",
         projectType: "Web Development",
         message: "Dit is een test e-mail om de Strato mailserver configuratie te verifiëren."

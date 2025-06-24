@@ -70,14 +70,16 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
       
       <div style="margin-top: 30px; padding: 20px; background-color: #2563eb; color: white; border-radius: 8px;">
         <h3 style="margin-top: 0; color: white;">Contact informatie</h3>
-        <p style="margin-bottom: 5px;">📧 info@digimaatwerk.nl</p>
-        <p style="margin-bottom: 5px;">🌐 www.digimaatwerk.nl</p>
+        <p style="margin-bottom: 5px;">📧 <a href="mailto:info@digimaatwerk.nl" style="color: #dbeafe; text-decoration: underline;">info@digimaatwerk.nl</a></p>
+        <p style="margin-bottom: 5px;">🌐 <a href="https://www.digimaatwerk.nl" style="color: #dbeafe; text-decoration: underline;">www.digimaatwerk.nl</a></p>
         <p style="margin-bottom: 0;">📍 Star Numanstraat 79a, 9714JL Groningen</p>
       </div>
       
       <div style="margin-top: 20px; padding: 15px; background-color: #f1f5f9; border-radius: 6px; text-align: center;">
         <p style="margin: 0; font-size: 14px; color: #64748b;">
-          Met vriendelijke groet,<br>
+          Met vriendelijke groet,<br><br>
+          <!-- Team foto zou hier komen: Elfie en Dennis -->
+          <img src="https://via.placeholder.com/200x100/2563eb/ffffff?text=Team+Digimaatwerk" alt="Team Digimaatwerk" style="border-radius: 8px; margin: 10px 0; max-width: 200px; height: auto;"><br>
           <strong>Team Digimaatwerk</strong>
         </p>
       </div>
@@ -165,7 +167,7 @@ Team Digimaatwerk
 export async function sendTestEmail(): Promise<void> {
   const testData: EmailData = {
     name: 'Test User',
-    email: 'test@example.com',
+    email: 'dckessler95@gmail.com',
     company: 'Test Company',
     projectType: 'Web Development',
     message: 'Dit is een test e-mail om de Strato mailserver configuratie te testen.'
