@@ -87,3 +87,4 @@ Preferred communication style: Simple, everyday language.
 
 Changelog:
 - June 23, 2025. Initial setup
+- June 24, 2025. Email configuration completed with Strato mailserver (smtp.strato.de:465) using info@digimaatwerk.nl. Contact form now sends notification emails to info@digimaatwerk.nl and confirmation emails to users. Email verification successful.

@@ -134,15 +134,27 @@ Team Digimaatwerk
       `.trim()
     };
 
+    console.log('Attempting to send emails...');
+    console.log('Admin email to:', adminMailOptions.to);
+    console.log('User email to:', userMailOptions.to);
+
     // Send both emails
-    await Promise.all([
+    const [adminResult, userResult] = await Promise.all([
       transporter.sendMail(adminMailOptions),
       transporter.sendMail(userMailOptions)
     ]);
 
+    console.log('Admin email result:', adminResult.messageId);
+    console.log('User email result:', userResult.messageId);
     console.log(`Emails sent successfully for contact from ${email}`);
   } catch (error) {
     console.error('Error sending email:', error);
+    console.error('Email error details:', {
+      name: error.name,
+      message: error.message,
+      code: error.code,
+      command: error.command
+    });
     throw new Error('Failed to send email');
   }
 }
@@ -165,6 +177,12 @@ export async function verifyEmailConfig(): Promise<boolean> {
   try {
     await transporter.verify();
     console.log('Email server is ready to take our messages');
+    console.log('SMTP Config:', {
+      host: 'smtp.strato.de',
+      port: 465,
+      secure: true,
+      user: 'info@digimaatwerk.nl'
+    });
     return true;
   } catch (error) {
     console.error('Email server configuration error:', error);
