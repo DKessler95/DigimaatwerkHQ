@@ -149,12 +149,14 @@ Team Digimaatwerk
     console.log(`Emails sent successfully for contact from ${email}`);
   } catch (error) {
     console.error('Error sending email:', error);
-    console.error('Email error details:', {
-      name: error.name,
-      message: error.message,
-      code: error.code,
-      command: error.command
-    });
+    if (error instanceof Error) {
+      console.error('Email error details:', {
+        name: error.name,
+        message: error.message,
+        code: (error as any).code,
+        command: (error as any).command
+      });
+    }
     throw new Error('Failed to send email');
   }
 }
