@@ -9,6 +9,7 @@ import matter from "gray-matter";
 import express from "express";
 import './types'; // Import session types
 import { setupWebhookRoutes } from "./webhooks";
+import { sendContactEmail, verifyEmailConfig } from "./email";
 
 // Define interfaces for CMS content
 interface CaseStudy {
@@ -346,6 +347,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: formData.message,
         submittedAt: new Date()
       });
+
+      // Send email notification
+      try {
+        await sendContactEmail({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          projectType: formData.projectType,
+          message: formData.message
+        });
+        console.log(`Email sent for contact submission ${submission.id}`);
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError);
+        // Continue execution - don't fail the request if email fails
+      }
       
       // Return success response
       res.status(201).json({
@@ -1991,6 +2007,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Get GDPR requests error:', error);
       res.status(500).json({ error: 'Failed to get GDPR requests' });
+    }
+  });
+
+  // Test email endpoint
+  app.post("/api/test-email", async (req, res) => {
+    try {
+      await sendContactEmail({
+        name: "Test User",
+        email: "test@example.com",
+        company: "Test Company",
+        projectType: "Web Development",
+        message: "Dit is een test e-mail om de Strato mailserver configuratie te verifiëren."
+      });
+      
+      res.json({
+        success: true,
+        message: "Test email sent successfully to info@digimaatwerk.nl"
+      });
+    } catch (error) {
+      console.error('Test email failed:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to send test email",
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Verify email configuration on startup
+  verifyEmailConfig().then(isWorking => {
+    if (isWorking) {
+      console.log('✅ Email server configuration verified successfully');
+    } else {
+      console.log('❌ Email server configuration failed - check EMAIL_PASSWORD environment variable');
     }
   });
 

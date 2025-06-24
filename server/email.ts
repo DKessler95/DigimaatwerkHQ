@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 // Strato SMTP configuration
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
   host: 'smtp.strato.de',
   port: 465,
   secure: true, // true for 465, false for other ports
@@ -22,7 +22,8 @@ export interface EmailData {
 export async function sendContactEmail(data: EmailData): Promise<void> {
   const { name, email, company, projectType, message } = data;
   
-  const htmlContent = `
+  // Email to Digimaatwerk
+  const adminHtmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
         Nieuw contact formulier bericht
@@ -49,13 +50,49 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
     </div>
   `;
 
-  const mailOptions = {
-    from: `"Digimaatwerk Contact Form" <info@digimaatwerk.nl>`,
-    to: 'info@digimaatwerk.nl',
-    replyTo: email,
-    subject: `Nieuw contact bericht van ${name}`,
-    html: htmlContent,
-    text: `
+  // Email to user (confirmation)
+  const userHtmlContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
+        Bedankt voor uw bericht!
+      </h2>
+      
+      <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <p>Beste ${name},</p>
+        <p>Dank je wel voor je bericht. We hebben je vraag ontvangen en zullen zo spoedig mogelijk contact met je opnemen.</p>
+        <p>Dit is een automatisch bevestigingsbericht. Je hoeft hier niet op te reageren.</p>
+      </div>
+      
+      <div style="background-color: #fff; padding: 20px; border-left: 4px solid #2563eb; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: #334155;">Jouw bericht:</h3>
+        <p style="line-height: 1.6; color: #475569;">${message.replace(/\n/g, '<br>')}</p>
+      </div>
+      
+      <div style="margin-top: 30px; padding: 20px; background-color: #2563eb; color: white; border-radius: 8px;">
+        <h3 style="margin-top: 0; color: white;">Contact informatie</h3>
+        <p style="margin-bottom: 5px;">📧 info@digimaatwerk.nl</p>
+        <p style="margin-bottom: 5px;">🌐 www.digimaatwerk.nl</p>
+        <p style="margin-bottom: 0;">📍 Star Numanstraat 79a, 9714JL Groningen</p>
+      </div>
+      
+      <div style="margin-top: 20px; padding: 15px; background-color: #f1f5f9; border-radius: 6px; text-align: center;">
+        <p style="margin: 0; font-size: 14px; color: #64748b;">
+          Met vriendelijke groet,<br>
+          <strong>Team Digimaatwerk</strong>
+        </p>
+      </div>
+    </div>
+  `;
+
+  try {
+    // Send email to Digimaatwerk
+    const adminMailOptions = {
+      from: `"Digimaatwerk Contact Form" <info@digimaatwerk.nl>`,
+      to: 'info@digimaatwerk.nl',
+      replyTo: email,
+      subject: `Nieuw contact bericht van ${name}`,
+      html: adminHtmlContent,
+      text: `
 Nieuw contact formulier bericht
 
 Naam: ${name}
@@ -68,12 +105,42 @@ ${message}
 
 ---
 Dit bericht is verzonden via het contact formulier op digimaatwerk.nl
-    `.trim()
-  };
+      `.trim()
+    };
 
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Email sent successfully for contact from ${email}`);
+    // Send confirmation email to user
+    const userMailOptions = {
+      from: `"Digimaatwerk" <info@digimaatwerk.nl>`,
+      to: email,
+      subject: 'Bevestiging: We hebben je bericht ontvangen',
+      html: userHtmlContent,
+      text: `
+Beste ${name},
+
+Dank je wel voor je bericht. We hebben je vraag ontvangen en zullen zo spoedig mogelijk contact met je opnemen.
+
+Dit is een automatisch bevestigingsbericht. Je hoeft hier niet op te reageren.
+
+Jouw bericht:
+${message}
+
+Contact informatie:
+Email: info@digimaatwerk.nl
+Website: www.digimaatwerk.nl
+Adres: Star Numanstraat 79a, 9714JL Groningen
+
+Met vriendelijke groet,
+Team Digimaatwerk
+      `.trim()
+    };
+
+    // Send both emails
+    await Promise.all([
+      transporter.sendMail(adminMailOptions),
+      transporter.sendMail(userMailOptions)
+    ]);
+
+    console.log(`Emails sent successfully for contact from ${email}`);
   } catch (error) {
     console.error('Error sending email:', error);
     throw new Error('Failed to send email');
