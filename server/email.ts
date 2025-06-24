@@ -92,6 +92,7 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
         <p style="margin: 0; font-size: 14px; color: #64748b;">
           Met vriendelijke groet,<br><br>
           Damian & Elfie<br>
+          <small>Oprichter & Trouwe hond</small><br>
           <strong>Team Digimaatwerk</strong>
         </p>
       </div>

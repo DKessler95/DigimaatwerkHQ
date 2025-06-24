@@ -88,4 +88,4 @@ Owner name: Damian (not Dennis)
 
 Changelog:
 - June 23, 2025. Initial setup
-- June 24, 2025. Email configuration completed with Strato mailserver (smtp.strato.de:465) using info@digimaatwerk.nl. Contact form now sends notification emails to info@digimaatwerk.nl and confirmation emails to users. Email verification successful and emails confirmed delivered.
+- June 24, 2025. Email configuration completed with Strato mailserver (smtp.strato.de:465) using info@digimaatwerk.nl. Contact form now sends notification emails to info@digimaatwerk.nl and confirmation emails to users. Email verification successful and emails confirmed delivered. Email template finalized with "Damian & Elfie - Oprichter & Trouwe hond" signature.
