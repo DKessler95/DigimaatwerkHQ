@@ -76,15 +76,9 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
         Bedankt voor uw bericht!
       </h2>
       
-      <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+      <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin: 15px 0;">
         <p>Beste ${name},</p>
-        <p>Dank je wel voor je bericht. We hebben je vraag ontvangen en zullen zo spoedig mogelijk contact met je opnemen.</p>
-        <p>Dit is een automatisch bevestigingsbericht. Je hoeft hier niet op te reageren.</p>
-      </div>
-      
-      <div style="background-color: #fff; padding: 20px; border-left: 4px solid #2563eb; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #334155;">Jouw bericht:</h3>
-        <p style="line-height: 1.6; color: #475569;">${message.replace(/\n/g, '<br>')}</p>
+        <p>Bedankt voor je bericht! We nemen zo snel mogelijk contact op.</p>
       </div>
       
       <div style="margin-top: 30px; padding: 20px; background-color: #2563eb; color: white; border-radius: 8px;">
@@ -97,20 +91,11 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
       <div style="margin-top: 20px; padding: 15px; background-color: #f1f5f9; border-radius: 6px; text-align: center;">
         <p style="margin: 0; font-size: 14px; color: #64748b;">
           Met vriendelijke groet,<br><br>
-          ${profileImageData && elfieImageData ? `
-          <table align="center" cellpadding="0" cellspacing="0" style="margin: 15px auto;">
-            <tr>
-              <td style="text-align: center; padding: 0 10px;">
-                <img src="${profileImageData}" alt="Dennis" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; border: 3px solid #2563eb; display: block; margin: 0 auto 5px;"><br>
-                <small style="color: #64748b; font-size: 12px;">Dennis</small>
-              </td>
-              <td style="text-align: center; padding: 0 10px;">
-                <img src="${elfieImageData}" alt="Elfie" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; border: 3px solid #2563eb; display: block; margin: 0 auto 5px;"><br>
-                <small style="color: #64748b; font-size: 12px;">Elfie</small>
-              </td>
-            </tr>
-          </table>
-          ` : ''}
+          <br>
+          <div style="text-align: center; margin: 10px 0;">
+            <strong style="color: #2563eb;">Dennis & Elfie</strong><br>
+            <small style="color: #64748b;">Oprichter & Mascotte</small>
+          </div>
           <strong>Team Digimaatwerk</strong>
         </p>
       </div>
