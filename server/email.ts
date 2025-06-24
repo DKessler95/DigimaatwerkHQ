@@ -69,33 +69,23 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
     </div>
   `;
 
-  // Email to user (confirmation)
+  // Email to user (confirmation) - Short version to prevent clipping
   const userHtmlContent = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
-        Bedankt voor uw bericht!
-      </h2>
+    <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto;">
+      <h2 style="color: #2563eb;">Bedankt ${name}!</h2>
+      <p>We hebben je bericht ontvangen en nemen zo snel mogelijk contact op.</p>
       
-      <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin: 15px 0;">
-        <p>Beste ${name},</p>
-        <p>Bedankt voor je bericht! We nemen zo snel mogelijk contact op.</p>
-      </div>
+      <p style="margin-top: 20px;">
+        📧 <a href="mailto:info@digimaatwerk.nl" style="color: #2563eb;">info@digimaatwerk.nl</a><br>
+        🌐 <a href="https://www.digimaatwerk.nl" style="color: #2563eb;">www.digimaatwerk.nl</a>
+      </p>
       
-      <div style="margin-top: 30px; padding: 20px; background-color: #2563eb; color: white; border-radius: 8px;">
-        <h3 style="margin-top: 0; color: white;">Contact informatie</h3>
-        <p style="margin-bottom: 5px;">📧 <a href="mailto:info@digimaatwerk.nl" style="color: #dbeafe; text-decoration: underline;">info@digimaatwerk.nl</a></p>
-        <p style="margin-bottom: 5px;">🌐 <a href="https://www.digimaatwerk.nl" style="color: #dbeafe; text-decoration: underline;">www.digimaatwerk.nl</a></p>
-        <p style="margin-bottom: 0;">📍 Star Numanstraat 79a, 9714JL Groningen</p>
-      </div>
-      
-      <div style="margin-top: 20px; padding: 15px; background-color: #f1f5f9; border-radius: 6px; text-align: center;">
-        <p style="margin: 0; font-size: 14px; color: #64748b;">
-          Met vriendelijke groet,<br><br>
-          Damian & Elfie<br>
-          <small>Oprichter & Trouwe hond</small><br>
-          <strong>Team Digimaatwerk</strong>
-        </p>
-      </div>
+      <p style="margin-top: 20px; text-align: center; color: #64748b;">
+        Met vriendelijke groet,<br>
+        Damian & Elfie<br>
+        <small>Oprichter & Trouwe hond</small><br>
+        <strong>Team Digimaatwerk</strong>
+      </p>
     </div>
   `;
 
