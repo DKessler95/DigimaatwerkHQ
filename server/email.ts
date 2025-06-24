@@ -78,8 +78,10 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
       <div style="margin-top: 20px; padding: 15px; background-color: #f1f5f9; border-radius: 6px; text-align: center;">
         <p style="margin: 0; font-size: 14px; color: #64748b;">
           Met vriendelijke groet,<br><br>
-          <!-- Team foto zou hier komen: Elfie en Dennis -->
-          <img src="https://via.placeholder.com/200x100/2563eb/ffffff?text=Team+Digimaatwerk" alt="Team Digimaatwerk" style="border-radius: 8px; margin: 10px 0; max-width: 200px; height: auto;"><br>
+          <div style="text-align: center; margin: 15px 0;">
+            <img src="https://digimaatwerk.nl/images/elfie.jpg" alt="Elfie van Team Digimaatwerk" style="border-radius: 50%; width: 80px; height: 80px; object-fit: cover; object-position: center top; border: 3px solid #2563eb; margin-bottom: 8px;"><br>
+            <small style="color: #64748b;">Elfie - Team Mascotte</small>
+          </div>
           <strong>Team Digimaatwerk</strong>
         </p>
       </div>
