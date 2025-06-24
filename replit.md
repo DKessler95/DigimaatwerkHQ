@@ -82,6 +82,7 @@ The application is configured for Replit's autoscale deployment with:
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Owner name: Damian (not Dennis)
 
 ## Changelog
 
