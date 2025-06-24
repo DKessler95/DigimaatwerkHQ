@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 // Strato SMTP configuration
 const transporter = nodemailer.createTransport({
@@ -21,6 +23,23 @@ export interface EmailData {
 
 export async function sendContactEmail(data: EmailData): Promise<void> {
   const { name, email, company, projectType, message } = data;
+
+  // Load and encode images as base64
+  let profileImageData = '';
+  let elfieImageData = '';
+  
+  try {
+    const profilePath = join(process.cwd(), 'client/public/images/profile.jpg');
+    const elfiePath = join(process.cwd(), 'public/images/elfie.jpg');
+    
+    const profileBuffer = readFileSync(profilePath);
+    const elfieBuffer = readFileSync(elfiePath);
+    
+    profileImageData = `data:image/jpeg;base64,${profileBuffer.toString('base64')}`;
+    elfieImageData = `data:image/jpeg;base64,${elfieBuffer.toString('base64')}`;
+  } catch (error) {
+    console.log('Could not load profile images for email:', error);
+  }
   
   // Email to Digimaatwerk
   const adminHtmlContent = `
@@ -78,10 +97,20 @@ export async function sendContactEmail(data: EmailData): Promise<void> {
       <div style="margin-top: 20px; padding: 15px; background-color: #f1f5f9; border-radius: 6px; text-align: center;">
         <p style="margin: 0; font-size: 14px; color: #64748b;">
           Met vriendelijke groet,<br><br>
-          <div style="text-align: center; margin: 15px 0;">
-            <img src="https://digimaatwerk.nl/images/elfie.jpg" alt="Elfie van Team Digimaatwerk" style="border-radius: 50%; width: 80px; height: 80px; object-fit: cover; object-position: center top; border: 3px solid #2563eb; margin-bottom: 8px;"><br>
-            <small style="color: #64748b;">Elfie - Team Mascotte</small>
-          </div>
+          ${profileImageData && elfieImageData ? `
+          <table align="center" cellpadding="0" cellspacing="0" style="margin: 15px auto;">
+            <tr>
+              <td style="text-align: center; padding: 0 10px;">
+                <img src="${profileImageData}" alt="Dennis" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; border: 3px solid #2563eb; display: block; margin: 0 auto 5px;"><br>
+                <small style="color: #64748b; font-size: 12px;">Dennis</small>
+              </td>
+              <td style="text-align: center; padding: 0 10px;">
+                <img src="${elfieImageData}" alt="Elfie" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; border: 3px solid #2563eb; display: block; margin: 0 auto 5px;"><br>
+                <small style="color: #64748b; font-size: 12px;">Elfie</small>
+              </td>
+            </tr>
+          </table>
+          ` : ''}
           <strong>Team Digimaatwerk</strong>
         </p>
       </div>
