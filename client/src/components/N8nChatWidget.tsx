@@ -81,9 +81,6 @@ export function N8nChatWidget() {
         .n8n-chat [class*="toggle"]:hover {
           transform: scale(1.1) !important;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
-          background-image: url('${mascotImage}') !important;
-          background-size: cover !important;
-          background-position: center !important;
         }
         
         /* Style the custom Maatje logo */
@@ -114,19 +111,6 @@ export function N8nChatWidget() {
             button.style.backgroundSize = 'cover';
             button.style.backgroundPosition = 'center';
             button.style.borderRadius = '50%';
-            button.style.transition = 'all 0.3s ease';
-            button.style.cursor = 'pointer';
-            
-            // Add hover effect listeners
-            button.addEventListener('mouseenter', () => {
-              button.style.transform = 'scale(1.1)';
-              button.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
-            });
-            
-            button.addEventListener('mouseleave', () => {
-              button.style.transform = 'scale(1)';
-              button.style.boxShadow = 'none';
-            });
           });
         }
       };
