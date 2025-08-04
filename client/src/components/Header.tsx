@@ -37,7 +37,13 @@ const Header = () => {
   const toggleMobileMenu = () => {
     const mobileMenu = document.getElementById('mobile-menu');
     if (mobileMenu) {
-      mobileMenu.classList.remove('translate-x-full');
+      if (mobileMenu.classList.contains('translate-x-full')) {
+        // Menu is closed, open it
+        mobileMenu.classList.remove('translate-x-full');
+      } else {
+        // Menu is open, close it
+        mobileMenu.classList.add('translate-x-full');
+      }
     }
   };
   
