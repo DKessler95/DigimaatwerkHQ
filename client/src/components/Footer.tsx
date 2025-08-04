@@ -82,7 +82,7 @@ const Footer = () => {
         
         <div className="border-t border-secondary pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 text-foreground/60 text-sm">
-            &copy; {currentYear} Digimaatwerk. {t('footer.copyright')}. KVK 12345678
+            &copy; {currentYear} Digimaatwerk. {t('footer.copyright')}. 
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
