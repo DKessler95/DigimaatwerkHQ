@@ -3,16 +3,18 @@ import { Link, useLocation } from 'wouter';
 import { useLanguage } from '@/lib/languageContext';
 import { X, ChevronDown, ChevronRight } from 'lucide-react';
 
-const MobileMenu = () => {
+interface MobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   const { t, language, setLanguage } = useLanguage();
   const [servicesSubMenuOpen, setServicesSubMenuOpen] = useState(false);
   const [location, navigate] = useLocation();
   
   const closeMobileMenu = () => {
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenu) {
-      mobileMenu.classList.add('translate-x-full');
-    }
+    onClose();
   };
 
   useEffect(() => {
@@ -68,7 +70,9 @@ const MobileMenu = () => {
   return (
     <div 
       id="mobile-menu" 
-      className="fixed inset-0 bg-primary z-40 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden"
+      className={`fixed inset-0 bg-primary z-40 transform transition-transform duration-300 ease-in-out md:hidden ${
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}
     >
       <div className="flex justify-end p-4">
         <button

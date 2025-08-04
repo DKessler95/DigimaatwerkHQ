@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'wouter';
 import { useLanguage } from '@/lib/languageContext';
 import LanguageSwitcher from './LanguageSwitcher';
+import MobileMenu from './MobileMenu';
 import { Menu, ChevronDown } from 'lucide-react';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
   const [location, navigate] = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -35,16 +37,7 @@ const Header = () => {
   }, [scrolled]);
 
   const toggleMobileMenu = () => {
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenu) {
-      if (mobileMenu.classList.contains('translate-x-full')) {
-        // Menu is closed, open it
-        mobileMenu.classList.remove('translate-x-full');
-      } else {
-        // Menu is open, close it
-        mobileMenu.classList.add('translate-x-full');
-      }
-    }
+    setMobileMenuOpen(!mobileMenuOpen);
   };
   
   const toggleServicesDropdown = () => {
@@ -147,6 +140,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
     </header>
   );
 };
