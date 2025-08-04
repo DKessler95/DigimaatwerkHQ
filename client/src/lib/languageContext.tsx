@@ -216,7 +216,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Header
     'header.services': 'Services',
-    'header.cases': 'Cases',
+    'header.cases': 'Projects',
     'header.about': 'About',
     'header.contact': 'Contact',
     'header.calculator': 'Price Calculator',
