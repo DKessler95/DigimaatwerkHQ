@@ -68,12 +68,24 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   };
 
   return (
-    <div 
-      id="mobile-menu" 
-      className={`fixed inset-0 bg-primary z-40 transform transition-transform duration-300 ease-in-out md:hidden ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}
-    >
+    <>
+      {/* Backdrop overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm md:hidden"
+          style={{ zIndex: 9998 }}
+          onClick={closeMobileMenu}
+        />
+      )}
+      
+      {/* Mobile menu */}
+      <div 
+        id="mobile-menu" 
+        className={`fixed inset-0 bg-primary transform transition-transform duration-300 ease-in-out md:hidden ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        style={{ zIndex: 9999 }}
+      >
       <div className="flex justify-end p-4">
         <button
           id="close-menu-button"
@@ -175,7 +187,8 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           {t('header.contact')}
         </button>
       </nav>
-    </div>
+      </div>
+    </>
   );
 };
 
