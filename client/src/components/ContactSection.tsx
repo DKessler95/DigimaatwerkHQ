@@ -53,8 +53,8 @@ const ContactSection = () => {
     try {
       setIsSubmitting(true);
       
-      // Submit the form data to the API
-      await apiRequest('POST', '/api/contact', formData);
+    // Tijdelijk voor debugging
+    await apiRequest('POST', '/api/debug-contact', formData);
       
       toast({
         title: language === 'nl' ? "Bericht verzonden!" : "Message sent!",
