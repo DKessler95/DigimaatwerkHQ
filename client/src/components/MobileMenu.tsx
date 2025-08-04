@@ -30,6 +30,28 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
     };
   }, []);
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    };
+  }, [isOpen]);
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     closeMobileMenu();
   };
@@ -72,8 +94,15 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
       {/* Backdrop overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm md:hidden"
-          style={{ zIndex: 9998 }}
+          className="fixed inset-0 bg-black/50 md:hidden"
+          style={{ 
+            zIndex: 9998,
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          }}
           onClick={closeMobileMenu}
         />
       )}
@@ -81,10 +110,19 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
       {/* Mobile menu */}
       <div 
         id="mobile-menu" 
-        className={`fixed inset-0 bg-primary transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed inset-0 bg-primary transform transition-transform duration-300 ease-in-out md:hidden overflow-y-auto ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
-        style={{ zIndex: 9999 }}
+        style={{ 
+          zIndex: 9999,
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: '100vh',
+          width: '100vw'
+        }}
       >
       <div className="flex justify-end p-4">
         <button
