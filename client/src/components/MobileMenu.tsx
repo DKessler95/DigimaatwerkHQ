@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { useLanguage } from '@/lib/languageContext';
 import { X, ChevronDown, ChevronRight } from 'lucide-react';
 
 const MobileMenu = () => {
   const { t, language, setLanguage } = useLanguage();
   const [servicesSubMenuOpen, setServicesSubMenuOpen] = useState(false);
+  const [location, navigate] = useLocation();
   
   const closeMobileMenu = () => {
     const mobileMenu = document.getElementById('mobile-menu');
@@ -33,6 +34,35 @@ const MobileMenu = () => {
   
   const toggleServicesSubMenu = () => {
     setServicesSubMenuOpen(!servicesSubMenuOpen);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    closeMobileMenu();
+    // If we're not on the homepage, navigate there first
+    if (location !== '/') {
+      navigate('/');
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // We're already on homepage, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleContactClick = () => {
+    scrollToSection('contact');
+  };
+
+  const handleAboutClick = () => {
+    scrollToSection('testimonials');
   };
 
   return (
@@ -104,13 +134,12 @@ const MobileMenu = () => {
         >
           {t('header.cases')}
         </Link>
-        <a 
-          href="#testimonials" 
+        <button 
+          onClick={handleAboutClick}
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
-          onClick={handleNavClick}
         >
           {t('header.about')}
-        </a>
+        </button>
         <Link 
           href="/blogs" 
           className="text-xl text-foreground/80 hover:text-accent transition font-body"
@@ -135,13 +164,12 @@ const MobileMenu = () => {
           </button>
         </div>
         
-        <a 
-          href="#contact" 
+        <button 
+          onClick={handleContactClick}
           className="mt-4 px-6 py-3 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90"
-          onClick={handleNavClick}
         >
           {t('header.contact')}
-        </a>
+        </button>
       </nav>
     </div>
   );

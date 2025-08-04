@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { useLanguage } from '@/lib/languageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Menu, ChevronDown } from 'lucide-react';
@@ -8,6 +8,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const { t } = useLanguage();
+  const [location, navigate] = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -45,10 +46,31 @@ const Header = () => {
   };
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    // If we're not on the homepage, navigate there first
+    if (location !== '/') {
+      navigate('/');
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // We're already on homepage, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
+  };
+
+  const handleContactClick = () => {
+    scrollToSection('contact');
+  };
+
+  const handleAboutClick = () => {
+    scrollToSection('testimonials');
   };
 
   return (
@@ -92,7 +114,7 @@ const Header = () => {
             </div>
             <Link href="/portfolio" className="text-foreground/80 hover:text-accent transition font-body">{t('header.cases')}</Link>
             <button 
-              onClick={() => scrollToSection('testimonials')} 
+              onClick={handleAboutClick} 
               className="text-foreground/80 hover:text-accent transition font-body cursor-pointer"
             >
               {t('header.about')}
@@ -102,9 +124,12 @@ const Header = () => {
           
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
-            <a href="#contact" className="hidden md:block px-5 py-2 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90">
+            <button 
+              onClick={handleContactClick}
+              className="hidden md:block px-5 py-2 rounded-lg bg-accent text-primary font-header font-medium transition hover:bg-accent/90"
+            >
               {t('header.contact')}
-            </a>
+            </button>
             <button
               className="md:hidden text-foreground"
               id="mobile-menu-button"

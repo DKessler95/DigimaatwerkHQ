@@ -357,7 +357,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           projectType: formData.projectType,
           message: formData.message
         });
-        console.log(`Email sent for contact submission ${submission.id}`);
+
       } catch (emailError) {
         console.error('Failed to send email notification:', emailError);
         // Continue execution - don't fail the request if email fails

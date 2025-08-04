@@ -139,9 +139,7 @@ Team Digimaatwerk
       `.trim()
     };
 
-    console.log('Attempting to send emails...');
-    console.log('Admin email to:', adminMailOptions.to);
-    console.log('User email to:', userMailOptions.to);
+
 
     // Send both emails
     const [adminResult, userResult] = await Promise.all([
@@ -149,9 +147,7 @@ Team Digimaatwerk
       transporter.sendMail(userMailOptions)
     ]);
 
-    console.log('Admin email result:', adminResult.messageId);
-    console.log('User email result:', userResult.messageId);
-    console.log(`Emails sent successfully for contact from ${email}`);
+
   } catch (error) {
     console.error('Error sending email:', error);
     if (error instanceof Error) {

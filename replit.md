@@ -89,3 +89,4 @@ Owner name: Damian (not Dennis)
 Changelog:
 - June 23, 2025. Initial setup
 - June 24, 2025. Email configuration completed with Strato mailserver (smtp.strato.de:465) using info@digimaatwerk.nl. Contact form now sends notification emails to info@digimaatwerk.nl and confirmation emails to users. Email verification successful and emails confirmed delivered. Email template finalized with "Damian & Elfie - Oprichter & Trouwe hond" signature.
+- August 4, 2025. Fixed navigation issues: "Over ons" and "Contact" buttons now properly navigate from all pages to homepage sections. Updated N8n chatbot with new webhook URL (https://dcwerk.app.n8n.cloud/webhook/2261c842-887d-4a32-8ac7-ff81ae696e5f/chat). Cleaned up console.log statements for production readiness. Both header and mobile menu navigation working correctly.
