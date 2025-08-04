@@ -5,8 +5,8 @@ import mascotImage from '@assets/mascot_1750294453535.png';
 
 export function N8nChatWidget() {
   useEffect(() => {
-    // TODO: Replace with new webhook URL when provided by user
-    const WEBHOOK_URL = ''; // USER NEEDS TO PROVIDE NEW URL
+    // New webhook URL provided by user
+    const WEBHOOK_URL = 'https://dcwerk.app.n8n.cloud/webhook/2261c842-887d-4a32-8ac7-ff81ae696e5f/chat';
     
     if (!WEBHOOK_URL) {
       console.log('N8n Chat Widget disabled - awaiting new webhook URL from user');
