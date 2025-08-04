@@ -12,7 +12,7 @@ export function N8nChatWidget() {
 
     // Initialize n8n chat widget
     createChat({
-      webhookUrl: 'https://digimaatwerk.app.n8n.cloud/webhook/2261c842-887d-4a32-8ac7-ff81ae696e5f/chat',
+      webhookUrl: 'https://dcwerk.app.n8n.cloud/webhook/2261c842-887d-4a32-8ac7-ff81ae696e5f/chat',
       target: '#n8n-chat',
       mode: 'window',
       showWelcomeScreen: false,
