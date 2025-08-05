@@ -77,7 +77,10 @@ const contactFormSchema = z.object({
   company: z.string().optional(),
   projectType: z.string().optional(),
   message: z.string().min(10),
-  consent: z.boolean().refine(val => val === true, {
+  consent: z.union([
+    z.boolean(),
+    z.string().transform(val => val === 'true' || val === 'on')
+  ]).refine(val => val === true, {
     message: "You must consent to the privacy policy"
   })
 });
@@ -332,9 +335,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(500).json({ error: 'Er is een fout opgetreden bij het ophalen van de screenshot' });
     }
   });
+
+  // Debug endpoint to test request parsing
+  app.post("/api/debug-contact", (req, res) => {
+    console.log('=== DEBUG CONTACT REQUEST ===');
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
+    console.log('Body type:', typeof req.body);
+    console.log('Body keys:', Object.keys(req.body || {}));
+    console.log('=============================');
+    res.json({ received: req.body });
+  });
+
+  // Test email configuration
+  app.post("/api/test-email", async (req, res) => {
+    try {
+      console.log('Testing email configuration...');
+      await sendContactEmail({
+        name: 'Test User',
+        email: 'test@example.com',
+        message: 'This is a test email to verify SMTP configuration'
+      });
+      console.log('Test email sent successfully');
+      res.json({ success: true, message: 'Test email sent successfully' });
+    } catch (error) {
+      console.error('Test email failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ 
+        success: false, 
+        message: 'Test email failed',
+        error: errorMessage 
+      });
+    }
+  });
+
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
     try {
+      // Log the incoming request body for debugging
+      console.log('Contact form request body:', JSON.stringify(req.body, null, 2));
+      
       // Validate the request body
       const formData = contactFormSchema.parse(req.body);
       
@@ -349,6 +389,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Send email notification
+      console.log('Attempting to send email notification...');
       try {
         await sendContactEmail({
           name: formData.name,
@@ -357,9 +398,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           projectType: formData.projectType,
           message: formData.message
         });
+        console.log('Email notification sent successfully');
 
       } catch (emailError) {
         console.error('Failed to send email notification:', emailError);
+        if (emailError instanceof Error) {
+          console.error('Email error details:', {
+            name: emailError.name,
+            message: emailError.message,
+            stack: emailError.stack
+          });
+        }
         // Continue execution - don't fail the request if email fails
       }
       
@@ -374,10 +423,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error('Contact form validation error:', error.errors);
         res.status(400).json({ 
           success: false,
           message: "Validation error",
-          errors: error.errors
+          errors: error.errors,
+          details: error.errors.map(err => `${err.path.join('.')}: ${err.message}`).join(', ')
         });
       } else {
         console.error("Contact form error:", error);
