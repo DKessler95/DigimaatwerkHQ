@@ -373,11 +373,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/contact", async (req, res) => {
     try {
       // Log the incoming request body for debugging
-      console.log('Contact form request body:', JSON.stringify(req.body, null, 2));
+      console.log('=== CONTACT FORM SUBMISSION ===');
+      console.log('Request body:', JSON.stringify(req.body, null, 2));
+      console.log('Time:', new Date().toISOString());
       
       // Validate the request body
       const formData = contactFormSchema.parse(req.body);
       
+      console.log('Storing contact submission in database...');
       // Store the contact submission
       const submission = await storage.createContactSubmission({
         name: formData.name,
@@ -387,6 +390,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: formData.message,
         submittedAt: new Date()
       });
+      console.log('Contact submission stored successfully with ID:', submission.id);
 
       // Send email notification
       console.log('Attempting to send email notification...');
