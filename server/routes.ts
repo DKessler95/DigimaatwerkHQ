@@ -10,6 +10,7 @@ import express from "express";
 import './types'; // Import session types
 import { setupWebhookRoutes } from "./webhooks";
 import { sendContactEmail, verifyEmailConfig } from "./email";
+import { sendContactEmailAlternative } from "./email-alternative";
 
 // Define interfaces for CMS content
 interface CaseStudy {
@@ -392,17 +393,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       console.log('Contact submission stored successfully with ID:', submission.id);
 
-      // Send email notification
-      console.log('Attempting to send email notification...');
+      // Send email notification using alternative service
+      console.log('Attempting to send email notification via alternative service...');
       try {
-        await sendContactEmail({
+        await sendContactEmailAlternative({
           name: formData.name,
           email: formData.email,
           company: formData.company,
           projectType: formData.projectType,
           message: formData.message
         });
-        console.log('Email notification sent successfully');
+        console.log('Email notification sent successfully via alternative service');
 
       } catch (emailError) {
         console.error('Failed to send email notification:', emailError);
@@ -413,7 +414,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             stack: emailError.stack
           });
         }
-        // Continue execution - don't fail the request if email fails
+        console.log('Email failed but form submission was saved to database');
       }
       
       // Return success response
