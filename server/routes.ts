@@ -11,6 +11,7 @@ import './types'; // Import session types
 import { setupWebhookRoutes } from "./webhooks";
 import { sendContactEmail, verifyEmailConfig } from "./email";
 import { sendContactEmailAlternative } from "./email-alternative";
+import { sendContactEmailViaResend } from "./email-resend";
 
 // Define interfaces for CMS content
 interface CaseStudy {
@@ -348,6 +349,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ received: req.body });
   });
 
+  // Test Resend email service
+  app.get("/api/test-resend", async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    
+    try {
+      console.log('=== TESTING RESEND EMAIL SERVICE ===');
+      
+      // Check if API key is available
+      if (!process.env.RESEND_API_KEY) {
+        throw new Error('RESEND_API_KEY not found in environment variables');
+      }
+      
+      console.log('RESEND_API_KEY found, testing email service...');
+      
+      // Test with actual contact form data
+      await sendContactEmailViaResend({
+        name: 'Damian Kessler',
+        email: 'dckessler95@gmail.com',
+        company: 'Digimaatwerk Test',
+        projectType: 'Resend Email Test',
+        message: 'Dit is een test om te controleren of Resend email service werkt. Deze test wordt uitgevoerd vanaf de Replit development omgeving.'
+      });
+      
+      console.log('=== RESEND EMAIL TEST COMPLETED SUCCESSFULLY ===');
+      res.json({ success: true, message: 'Resend email test completed successfully' });
+    } catch (error) {
+      console.error('=== RESEND EMAIL TEST FAILED ===');
+      console.error('Error details:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ success: false, error: errorMessage });
+    }
+  });
+
   // Test email configuration
   app.post("/api/test-email", async (req, res) => {
     try {
@@ -393,28 +427,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       console.log('Contact submission stored successfully with ID:', submission.id);
 
-      // Send email notification using alternative service
-      console.log('Attempting to send email notification via alternative service...');
+      // Send email notification using Resend service  
       try {
-        await sendContactEmailAlternative({
+        await sendContactEmailViaResend({
           name: formData.name,
           email: formData.email,
           company: formData.company,
           projectType: formData.projectType,
           message: formData.message
         });
-        console.log('Email notification sent successfully via alternative service');
-
+        console.log('📧 Email notification sent successfully via Resend');
       } catch (emailError) {
-        console.error('Failed to send email notification:', emailError);
-        if (emailError instanceof Error) {
-          console.error('Email error details:', {
-            name: emailError.name,
-            message: emailError.message,
-            stack: emailError.stack
-          });
-        }
-        console.log('Email failed but form submission was saved to database');
+        console.error('❌ Email notification failed:', emailError);
+        // Form data is still saved even if email fails
       }
       
       // Return success response
