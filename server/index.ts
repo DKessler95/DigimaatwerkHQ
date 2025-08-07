@@ -103,8 +103,33 @@ app.use((req, res, next) => {
       });
     }
 
+    // Initialize database tables if needed (for production deployment)
+    try {
+      console.log('Checking database schema...');
+      
+      // Create contact_submissions table if it doesn't exist (for production)
+      if (process.env.NODE_ENV === 'production') {
+        const { db } = await import('./db.js');
+        await db.execute(`
+          CREATE TABLE IF NOT EXISTS contact_submissions (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            company TEXT,
+            project_type TEXT,
+            message TEXT NOT NULL,
+            submitted_at TIMESTAMP NOT NULL,
+            is_processed BOOLEAN DEFAULT false
+          );
+        `);
+        console.log('✅ Database schema verified');
+      }
+    } catch (error) {
+      console.error('⚠️  Database schema check failed:', error);
+    }
+
     // Test Resend email service on startup
-    if (process.env.RESEND_API_KEY) {
+    if (process.env.RESEND_API_KEY && process.env.NODE_ENV === 'development') {
       console.log('Testing Resend email service...');
       try {
         await sendContactEmailViaResend({
@@ -118,7 +143,7 @@ app.use((req, res, next) => {
       } catch (error) {
         console.error('❌ Resend email test failed:', error);
       }
-    } else {
+    } else if (!process.env.RESEND_API_KEY) {
       console.log('⚠️  RESEND_API_KEY not found - skipping email test');
     }
   });
