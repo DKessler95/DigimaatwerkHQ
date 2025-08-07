@@ -6,6 +6,7 @@ import MemoryStore from "memorystore";
 import path from "path";
 import './types'; // Import session types
 import { startCMSProxy } from "./cms-proxy";
+import { sendContactEmailViaResend } from "./email-resend";
 
 // Create memory store for sessions
 const MemoryStoreSession = MemoryStore(session);
@@ -87,7 +88,7 @@ app.use((req, res, next) => {
     port,
     host: "0.0.0.0",
     reusePort: true,
-  }, () => {
+  }, async () => {
     log(`serving on port ${port}`);
     
     // Only start CMS proxy in development
@@ -100,6 +101,25 @@ app.use((req, res, next) => {
           cmsProxy.kill();
         }
       });
+    }
+
+    // Test Resend email service on startup
+    if (process.env.RESEND_API_KEY) {
+      console.log('Testing Resend email service...');
+      try {
+        await sendContactEmailViaResend({
+          name: 'Damian Kessler - Startup Test',
+          email: 'dckessler95@gmail.com',
+          company: 'Digimaatwerk',
+          projectType: 'Resend Email Test',
+          message: 'Dit is een automatische test van de Resend email service bij het opstarten van de server.'
+        });
+        console.log('✅ Resend email test successful!');
+      } catch (error) {
+        console.error('❌ Resend email test failed:', error);
+      }
+    } else {
+      console.log('⚠️  RESEND_API_KEY not found - skipping email test');
     }
   });
 })();
