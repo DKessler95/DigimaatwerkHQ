@@ -41,6 +41,34 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate required fields before submission
+    if (!formData.name.trim() || formData.name.length < 2) {
+      toast({
+        title: language === 'nl' ? "Naam vereist" : "Name required",
+        description: language === 'nl' ? "Voer een geldige naam in (minimaal 2 karakters)." : "Please enter a valid name (minimum 2 characters).",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.email.trim() || !formData.email.includes('@')) {
+      toast({
+        title: language === 'nl' ? "Email vereist" : "Email required",
+        description: language === 'nl' ? "Voer een geldig emailadres in." : "Please enter a valid email address.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.message.trim() || formData.message.length < 10) {
+      toast({
+        title: language === 'nl' ? "Bericht te kort" : "Message too short",
+        description: language === 'nl' ? "Je bericht moet minimaal 10 karakters bevatten." : "Your message must contain at least 10 characters.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (!formData.consent) {
       toast({
         title: language === 'nl' ? "Toestemming vereist" : "Consent required",
@@ -54,8 +82,9 @@ const ContactSection = () => {
       setIsSubmitting(true);
       
       // Submit the form data to the API  
-      console.log('Submitting form data:', formData);
-      await apiRequest('POST', '/api/contact', formData);
+      console.log('Submitting form data to /api/contact:', formData);
+      const response = await apiRequest('POST', '/api/contact', formData);
+      console.log('Contact form response:', response);
       
       toast({
         title: language === 'nl' ? "Bericht verzonden!" : "Message sent!",
@@ -174,15 +203,24 @@ const ContactSection = () => {
               </div>
               
               <div>
-                <label htmlFor="message" className="block text-foreground/80 mb-2">
-                  {language === 'nl' ? 'Bericht' : 'Message'}
-                </label>
+                <div className="flex justify-between items-center mb-2">
+                  <label htmlFor="message" className="block text-foreground/80">
+                    {language === 'nl' ? 'Bericht' : 'Message'}
+                  </label>
+                  <span className={`text-sm ${formData.message.length >= 10 ? 'text-green-400' : 'text-foreground/50'}`}>
+                    {formData.message.length}/10 {language === 'nl' ? 'min' : 'min'}
+                  </span>
+                </div>
                 <textarea 
                   id="message" 
                   name="message"
                   rows={4} 
-                  className="w-full bg-primary border border-secondary p-3 rounded-lg text-foreground focus:outline-none focus:border-accent" 
-                  placeholder={language === 'nl' ? 'Vertel ons over jouw project' : 'Tell us about your project'}
+                  className={`w-full bg-primary border p-3 rounded-lg text-foreground focus:outline-none transition-colors ${
+                    formData.message.length >= 10 
+                      ? 'border-green-400 focus:border-green-300' 
+                      : 'border-secondary focus:border-accent'
+                  }`}
+                  placeholder={language === 'nl' ? 'Vertel ons over jouw project (minimaal 10 karakters)' : 'Tell us about your project (minimum 10 characters)'}
                   value={formData.message}
                   onChange={handleChange}
                   required
