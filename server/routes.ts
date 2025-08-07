@@ -74,16 +74,16 @@ interface PortfolioItem {
 }
 
 const contactFormSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
+  name: z.string().min(2, "Naam moet minimaal 2 karakters bevatten"),
+  email: z.string().email("Ongeldig emailadres"),
   company: z.string().optional(),
   projectType: z.string().optional(),
-  message: z.string().min(10),
+  message: z.string().min(10, "Bericht moet minimaal 10 karakters bevatten"),
   consent: z.union([
     z.boolean(),
     z.string().transform(val => val === 'true' || val === 'on')
   ]).refine(val => val === true, {
-    message: "You must consent to the privacy policy"
+    message: "Je moet akkoord gaan met het privacybeleid"
   })
 });
 
