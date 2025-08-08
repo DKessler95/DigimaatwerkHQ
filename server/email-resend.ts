@@ -17,24 +17,26 @@ export async function sendContactEmailViaResend(data: EmailData): Promise<void> 
   try {
     // Send notification email to Digimaatwerk
     const adminEmail = await resend.emails.send({
-      from: 'Digimaatwerk Contact <onboarding@resend.dev>',
-      to: ['info@digimaatwerk.nl'], // Admin email
-      subject: `Nieuw contact formulier: ${name}`,
+      from: 'Website Contact <noreply@digimaatwerk.nl>',
+      to: ['info@digimaatwerk.nl'], // Admin email - domain is now verified!
+      subject: `🔔 Nieuw Contact Formulier van ${name}`,
       html: createAdminEmailHTML(data),
       replyTo: email, // Reply goes to the actual customer
     });
 
-    console.log('Admin notification sent:', adminEmail.data?.id);
+    console.log('Admin notification result:', adminEmail);
+    console.log('Admin notification sent:', adminEmail.data?.id || 'ERROR');
 
     // Send confirmation email to user
     const userEmail = await resend.emails.send({
-      from: 'Digimaatwerk <onboarding@resend.dev>',
+      from: 'Digimaatwerk <noreply@digimaatwerk.nl>',
       to: [email],
-      subject: 'Bedankt voor je bericht - Digimaatwerk',
+      subject: '✅ Bedankt voor je bericht - Digimaatwerk',
       html: createUserConfirmationHTML(data),
     });
 
-    console.log('User confirmation sent:', userEmail.data?.id);
+    console.log('User confirmation result:', userEmail);
+    console.log('User confirmation sent:', userEmail.data?.id || 'ERROR');
     console.log('✅ Emails sent successfully via Resend');
 
   } catch (error) {
@@ -123,7 +125,7 @@ function createUserConfirmationHTML(data: EmailData): string {
                     "${data.message}"
                 </div>
                 
-                <p>Heb je een urgente vraag? Bel ons direct op <strong>+31 (0)6 12345678</strong> of stuur een WhatsApp bericht.</p>
+                <p>Heb je een urgente vraag? Bel ons direct op <strong>+31 (0)6 37353483</strong> of stuur een WhatsApp bericht.</p>
                 
                 <div class="signature">
                     <p><strong>Met vriendelijke groet,</strong></p>
